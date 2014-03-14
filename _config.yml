@@ -2,8 +2,8 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://yoursite.com
-title: My Octopress Blog
+url: http://hanlray.github.io
+title: OSv Blog
 subtitle: A blogging framework for hackers.
 author: Your Name
 simple_search: https://www.google.com/search
@@ -98,3 +98,5 @@ google_analytics_tracking_id:
 
 # Facebook Like
 facebook_like: false
+
+main_site: http://osv.io

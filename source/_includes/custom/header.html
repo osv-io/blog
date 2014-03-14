@@ -1,0 +1,56 @@
+<div class="header"> <a class="logo" href="{{ site.main_site }}"><img src="{{ site.main_site }}/images/logo.jpg" /> </a>
+    <div class="topMenu">
+        <ul class="nav menu">
+            <li><a href="{{ site.main_site }}">Home</a></li>
+            <li><a href="{{ site.main_site }}/getting-started">Getting Started</a></li>
+            <li><a href="{{ site.main_site }}/learn-more">Learn More</a></li>
+            <li><a href="{{ site.main_site }}/community">Community</a></li>
+            <!--li class="current"><a href="{{ site.url }}">Blog</a></li-->
+        </ul>
+    </div>
+</div>
+<div class="mobile header">
+    <a class="logo" href="http://osv.io/">
+        <img src="{{ site.main_site }}/images/mobileLogo.jpg"/>
+    </a>
+
+    <div class="mobile-topMenu">
+        <a href="javascript:void(0)" class="mobileMenuLink">&nbsp;</a>
+        <div class="theMobileMenu">
+            <ul class="nav menu">
+                <li class="{% if page.url == '/index.html' %}current active{% endif %}"><a href="{{ site.baseurl }}" >Home</a></li>
+                <li class="deeper parent"><a href="/users" >Users</a>
+                    <ul class="nav-child unstyled small">
+                        {% for p in site.categories.users %}
+                        <li><a href="{{site.baseurl}}{{p.url}}">{{p.title}}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                <li class="deeper parent"><a href="/dev" >Development</a>
+                    <ul class="nav-child unstyled small">
+                        {% for p in site.categories.dev %}
+                        <li><a href="{{site.baseurl}}{{p.url}}">{{p.title}}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                <li class="deeper parent"><a href="/community" >Community</a>
+                    <ul class="nav-child unstyled small">
+                        {% for p in site.categories.community %}
+                        <li><a href="{{site.baseurl}}{{p.url}}">{{p.title}}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                <li><a href="{{ site.baseurl}}/contact/" >Contact</a></li>
+            </ul>
+        </div>
+        <script>
+            jQuery(document).ready(function(e) {
+                $('.mobileMenuLink').click(function(e) {
+                    $(this).toggleClass('active');
+                    $('.theMobileMenu').slideToggle();
+                });
+            });
+        </script>
+    </div>
+</div>
+<div class="mobile mobilePageTitle">{{ page.title }}</div>

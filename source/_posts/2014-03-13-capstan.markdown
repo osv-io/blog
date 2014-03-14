@@ -1,0 +1,18 @@
+---
+layout: post
+title: "Capstan"
+date: 2014-03-13 11:37:05 -0400
+comments: true
+categories:  capstan tools
+---
+Capstan is a tool for packing, shipping, and running applications in VMs Although at a very early phase, Capstan is already usable on Linux/KVM.
+
+We have many plans for Capstan, here are few of them:
+
+* Allow image manipulation, upload images to the repository
+* Support repository search
+* Port Capstan to Windows and Mac
+* Support more HV, like VirtualBox, VMWare and cloud providers like EC2 and GCE
+* Your idea here…
+
+Check out Capstan project on Github
