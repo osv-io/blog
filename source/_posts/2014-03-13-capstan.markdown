@@ -16,3 +16,4 @@ We have many plans for Capstan, here are few of them:
 * Your idea here…
 
 Check out Capstan project on Github
+<!-- more -->

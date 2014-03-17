@@ -134,3 +134,27 @@ body > .wrap > nav {
   a[rel=subscribe-email]{ @include mask-subscription-nav('email.png'); }
 }
 
+.topMenu {
+  .nav {
+    float: left;
+  }
+  ul.subscription {
+    float: left;
+  }
+  form {
+    float: right;
+    .search {
+      padding: .3em .5em 0;
+      @include border-radius(.5em);
+      border: 1px solid $nav-border;
+      &:focus {
+        color: #444;
+        border-color: #80b1df;
+        @include box-shadow(#80b1df 0 0 4px, #80b1df 0 0 3px inset);
+        background-color: #fff;
+        outline: none;
+      }
+    }
+  }
+}
+

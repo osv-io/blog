@@ -43,10 +43,16 @@ $header-padding-bottom: 1.5em !default;
   }
 }
 
+html {
+  height: 100%;
+}
 body {
   -webkit-text-size-adjust: none;
   position: relative;
   margin: 0 auto;
+  min-height: 100%;
+  position: relative;
+  padding-bottom: 140px;
   > header, > .wrap > nav, > footer, #content > article, #content > div > article, #content > div > section {
     @extend .group;
     padding-left: $pad-min;
@@ -85,6 +91,15 @@ body {
     font-size: $header-font-size;
     padding-top: $header-padding-top;
     padding-bottom: $header-padding-bottom;
+  }
+  > .wrap {
+    padding-bottom: 140px;
+  }
+  > .footer {
+    position:absolute;
+    bottom:0;
+    width:100%;
+    height:140px;   /* Height of the footer */
   }
 }
 
