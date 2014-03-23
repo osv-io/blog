@@ -2,10 +2,10 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://hanlray.github.io
+url: http://osv-io.github.io/
 title: OSv Blog
 subtitle: A blogging framework for hackers.
-author: Your Name
+author: Cloudius Systems
 simple_search: https://www.google.com/search
 description:
 
