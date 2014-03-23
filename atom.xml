@@ -2,12 +2,12 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[OSv Blog]]></title>
-  <link href="http://osv-io.github.io//github/atom.xml" rel="self"/>
-  <link href="http://osv-io.github.io//github/"/>
-  <updated>2014-03-23T11:36:35+02:00</updated>
-  <id>http://osv-io.github.io//github/</id>
+  <link href="http://osv-io.github.io//atom.xml" rel="self"/>
+  <link href="http://osv-io.github.io//"/>
+  <updated>2014-03-23T12:09:59+02:00</updated>
+  <id>http://osv-io.github.io//</id>
   <author>
-    <name><![CDATA[Your Name]]></name>
+    <name><![CDATA[Cloudius Systems]]></name>
     
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
