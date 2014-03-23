@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[OSv Blog]]></title>
-  <link href="http://osv-io.github.io//atom.xml" rel="self"/>
-  <link href="http://osv-io.github.io//"/>
-  <updated>2014-03-23T12:09:59+02:00</updated>
-  <id>http://osv-io.github.io//</id>
+  <link href="http://osv-io.github.io/blog//atom.xml" rel="self"/>
+  <link href="http://osv-io.github.io/blog//"/>
+  <updated>2014-03-23T12:12:45+02:00</updated>
+  <id>http://osv-io.github.io/blog//</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
     
