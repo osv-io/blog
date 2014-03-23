@@ -2,7 +2,7 @@
 #      Main Configs       #
 # ----------------------- #
 
-url: http://osv-io.github.io/blog/
+url: http://osv.io/blog/
 title: OSv Blog
 subtitle: A blogging framework for hackers.
 author: Cloudius Systems
