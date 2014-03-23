@@ -3,7 +3,8 @@ layout: post
 title: "test blog"
 date: 2014-03-13 23:54:23 -0400
 comments: true
-categories: 
+published: false
+categories: test
 ---
 Blog posts must be stored in the source/_posts directory and named according to Jekyll's naming conventions: YYYY-MM-DD-post-title.markdown. The name of the file will be used as the url slug, and the date helps with file distinction and determines the sorting order for post loops.
 

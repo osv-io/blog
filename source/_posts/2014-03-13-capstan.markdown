@@ -3,6 +3,7 @@ layout: post
 title: "Capstan"
 date: 2014-03-13 11:37:05 -0400
 comments: true
+published: false
 categories:  capstan tools
 ---
 Capstan is a tool for packing, shipping, and running applications in VMs Although at a very early phase, Capstan is already usable on Linux/KVM.
