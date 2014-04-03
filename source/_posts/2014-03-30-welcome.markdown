@@ -1,0 +1,16 @@
+---
+layout: post
+title: "New OSv blog"
+date: 2014-03-30 23:54:23 -0400
+comments: true
+published: true
+---
+Welcome to the OSv blog.
+
+A [feed](/atom.xml) is available, so please subscribe in your RSS reader for updates, or, if you prefer to use Twitter, you can follow [@CloudiusSystems](https://twitter.com/CloudiusSystems) there.
+
+We're running [Octopress](http://octopress.org/docs/blogging/) on [GitHub Pages](http://pages.github.com/), so that we can use the same easy Git contribution process for the blog as for our code.
+
+Watch for a simple introduction to the [Capstan](https://github.com/cloudius-systems/capstan) devops tool, coming this week.
+
+If you have any questions about the blog, you can post a comment here, or mail [Don Marti](mailto:dmarti@cloudius-systems.com).
