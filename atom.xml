@@ -4,7 +4,7 @@
   <title><![CDATA[OSv Blog]]></title>
   <link href="http://blog.osv.io//github/atom.xml" rel="self"/>
   <link href="http://blog.osv.io//github/"/>
-  <updated>2014-04-03T09:16:10-07:00</updated>
+  <updated>2014-04-03T09:18:30-07:00</updated>
   <id>http://blog.osv.io//github/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -33,8 +33,6 @@
 
 <!-- more -->
 
-
-<p><img src="http://blog.osv.io//github/images/capstan.jpg" title="A real capstan in use on a ship" alt="capstan" /></p>
 
 <p>Let&rsquo;s make a VM that does something useful, say, serve this article to the entire Internet.  Go ahead and <code>git clone</code> <a href="https://github.com/cloudius-systems/capstan">Capstan</a> and follow along.</p>
 
@@ -85,8 +83,6 @@
 <p>In an upcoming blog post, I&rsquo;ll cover the recently added VirtualBox support in Capstan (hint: trry <code>-p vbox</code>) and some other fun things you can do.</p>
 
 <p>If you have any Capstan questions, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list on Google Groups</a>.  You can get updates on new OSv and Capstan progress by subscribing to this blog or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
-
-<p>Capstan photo: <a href="https://commons.wikimedia.org/wiki/File:The_anchor_chain_slides_around_its_capstan_as_the_anchor_is_dropped_from_the_guided_missile_frigate_USS_Underwood_%28FFG_36%29_Aug._6,_2012,_as_the_ship_arrives_in_Cartagena,_Colombia,_for_a_scheduled_port_visit_120806-N-ZE938-028.jpg">public domain, from Wikimedia Commons</a></p>
 ]]></content>
   </entry>
   
