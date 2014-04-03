@@ -20,8 +20,6 @@ That's all there is to it.  Finger off the close button now?  Good.  Ready?
 
 <!-- more -->
 
-![capstan](/images/capstan.jpg "A real capstan in use on a ship")
-
 Let's make a VM that does something useful, say, serve this article to the entire Internet.  Go ahead and `git clone` [Capstan](https://github.com/cloudius-systems/capstan) and follow along.
 
 ## An easy example, plus Makefile work ##
@@ -73,5 +71,3 @@ In an upcoming blog post, I'll cover the recently added VirtualBox support in Ca
 
 If you have any Capstan questions, please join the [osv-dev mailing list on Google Groups](https://groups.google.com/forum/#!forum/osv-dev).  You can get updates on new OSv and Capstan progress by subscribing to this blog or folllowing [@CloudiusSystems](https://twitter.com/CloudiusSystems) on Twitter.
 
-
-Capstan photo: [public domain, from Wikimedia Commons](https://commons.wikimedia.org/wiki/File:The_anchor_chain_slides_around_its_capstan_as_the_anchor_is_dropped_from_the_guided_missile_frigate_USS_Underwood_%28FFG_36%29_Aug._6,_2012,_as_the_ship_arrives_in_Cartagena,_Colombia,_for_a_scheduled_port_visit_120806-N-ZE938-028.jpg)
