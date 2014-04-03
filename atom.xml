@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[OSv Blog]]></title>
+  <link href="http://blog.osv.io//github/atom.xml" rel="self"/>
+  <link href="http://blog.osv.io//github/"/>
+  <updated>2014-04-03T08:22:51-07:00</updated>
+  <id>http://blog.osv.io//github/</id>
+  <author>
+    <name><![CDATA[Cloudius Systems]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+</feed>
