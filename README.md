@@ -1,4 +1,0 @@
-blog
-====
-
-OSv Blog
