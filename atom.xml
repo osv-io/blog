@@ -4,7 +4,7 @@
   <title><![CDATA[OSv Blog]]></title>
   <link href="http://blog.osv.io//github/atom.xml" rel="self"/>
   <link href="http://blog.osv.io//github/"/>
-  <updated>2014-04-03T09:14:04-07:00</updated>
+  <updated>2014-04-03T09:16:10-07:00</updated>
   <id>http://blog.osv.io//github/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -14,27 +14,10 @@
 
   
   <entry>
-    <title type="html"><![CDATA[New OSv Blog]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/03/30/welcome/"/>
-    <updated>2014-03-30T20:54:23-07:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/03/30/welcome</id>
-    <content type="html"><![CDATA[<p>Welcome to the OSv blog.</p>
-
-<p>A <a href="http://blog.osv.io//github/atom.xml">feed</a> is available, so please subscribe in your RSS reader for updates, or, if you prefer to use Twitter, you can follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> there.</p>
-
-<p>We&rsquo;re running <a href="http://octopress.org/docs/blogging/">Octopress</a> on <a href="http://pages.github.com/">GitHub Pages</a>, so that we can use the same easy Git contribution process for the blog as for our code.</p>
-
-<p>Watch for a simple introduction to the <a href="https://github.com/cloudius-systems/capstan">Capstan</a> devops tool, coming this week.</p>
-
-<p>If you have any questions about the blog, you can post a comment here, or mail <a href="mailto:dmarti@cloudius-systems.com">Don Marti</a>.</p>
-]]></content>
-  </entry>
-  
-  <entry>
     <title type="html"><![CDATA[A Simple Capstan Example]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/03/26/capstan/"/>
-    <updated>2014-03-26T08:37:05-07:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/03/26/capstan</id>
+    <link href="http://blog.osv.io//github/blog/2014/04/03/capstan/"/>
+    <updated>2014-04-03T08:37:05-07:00</updated>
+    <id>http://blog.osv.io//github/blog/2014/04/03/capstan</id>
     <content type="html"><![CDATA[<p><a href="https://github.com/cloudius-systems/capstan">Capstan</a> is a new tool for building <a href="http://osv.io/">OSv</a> virtual machine images.  If you have worked with other tools for making VMs, you&rsquo;ll find that Capstan is really simple.  It&rsquo;s a lot like <a href="http://www.docker.io/">Docker</a> actually&mdash;only you get a complete VM out of it and not just a container.</p>
 
 <p>You&rsquo;re probably used to blogs from sneaky tech evangelists who claim that something is simple and then post some <a href="http://drusepth.net/how-to-speed-up-your-computer-using-google-drive-as-extra-ram/">complicated set of instructions</a>.  So just to keep your finger off the close button, here&rsquo;s all you need to do.</p>
@@ -104,6 +87,23 @@
 <p>If you have any Capstan questions, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list on Google Groups</a>.  You can get updates on new OSv and Capstan progress by subscribing to this blog or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
 
 <p>Capstan photo: <a href="https://commons.wikimedia.org/wiki/File:The_anchor_chain_slides_around_its_capstan_as_the_anchor_is_dropped_from_the_guided_missile_frigate_USS_Underwood_%28FFG_36%29_Aug._6,_2012,_as_the_ship_arrives_in_Cartagena,_Colombia,_for_a_scheduled_port_visit_120806-N-ZE938-028.jpg">public domain, from Wikimedia Commons</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[New OSv Blog]]></title>
+    <link href="http://blog.osv.io//github/blog/2014/03/30/welcome/"/>
+    <updated>2014-03-30T20:54:23-07:00</updated>
+    <id>http://blog.osv.io//github/blog/2014/03/30/welcome</id>
+    <content type="html"><![CDATA[<p>Welcome to the OSv blog.</p>
+
+<p>A <a href="http://blog.osv.io//github/atom.xml">feed</a> is available, so please subscribe in your RSS reader for updates, or, if you prefer to use Twitter, you can follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> there.</p>
+
+<p>We&rsquo;re running <a href="http://octopress.org/docs/blogging/">Octopress</a> on <a href="http://pages.github.com/">GitHub Pages</a>, so that we can use the same easy Git contribution process for the blog as for our code.</p>
+
+<p>Watch for a simple introduction to the <a href="https://github.com/cloudius-systems/capstan">Capstan</a> devops tool, coming this week.</p>
+
+<p>If you have any questions about the blog, you can post a comment here, or mail <a href="mailto:dmarti@cloudius-systems.com">Don Marti</a>.</p>
 ]]></content>
   </entry>
   

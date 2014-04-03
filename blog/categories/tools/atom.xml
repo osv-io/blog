@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | OSv Blog]]></title>
   <link href="http://blog.osv.io//github/blog/categories/tools/atom.xml" rel="self"/>
   <link href="http://blog.osv.io//github/"/>
-  <updated>2014-04-03T09:14:04-07:00</updated>
+  <updated>2014-04-03T09:16:10-07:00</updated>
   <id>http://blog.osv.io//github/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[A Simple Capstan Example]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/03/26/capstan/"/>
-    <updated>2014-03-26T08:37:05-07:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/03/26/capstan</id>
+    <link href="http://blog.osv.io//github/blog/2014/04/03/capstan/"/>
+    <updated>2014-04-03T08:37:05-07:00</updated>
+    <id>http://blog.osv.io//github/blog/2014/04/03/capstan</id>
     <content type="html"><![CDATA[<p><a href="https://github.com/cloudius-systems/capstan">Capstan</a> is a new tool for building <a href="http://osv.io/">OSv</a> virtual machine images.  If you have worked with other tools for making VMs, you&rsquo;ll find that Capstan is really simple.  It&rsquo;s a lot like <a href="http://www.docker.io/">Docker</a> actually&mdash;only you get a complete VM out of it and not just a container.</p>
 
 <p>You&rsquo;re probably used to blogs from sneaky tech evangelists who claim that something is simple and then post some <a href="http://drusepth.net/how-to-speed-up-your-computer-using-google-drive-as-extra-ram/">complicated set of instructions</a>.  So just to keep your finger off the close button, here&rsquo;s all you need to do.</p>
