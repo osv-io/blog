@@ -1,12 +1,11 @@
 ---
 layout: post
-title: "test blog"
+title: "test post"
 date: 2014-03-13 23:54:23 -0400
 comments: true
 published: false
 categories: test
 ---
-Blog posts must be stored in the source/_posts directory and named according to Jekyll's naming conventions: YYYY-MM-DD-post-title.markdown. The name of the file will be used as the url slug, and the date helps with file distinction and determines the sorting order for post loops.
+actual post will be here soon!
 
-Octopress provides a rake task to create new blog posts with the right naming conventions, with sensible yaml metadata.
 <!-- more -->
