@@ -3,7 +3,7 @@ layout: post
 title: "test post"
 date: 2014-03-13 23:54:23 -0400
 comments: true
-published: false
+published: true
 categories: test
 ---
 actual post will be here soon!
