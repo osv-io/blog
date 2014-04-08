@@ -33,5 +33,22 @@ bypass it with the following steps before you generate the site (step
 2. `git pull origin gh-pages`
 3. `cd ..`
 
+### Update the blog source
+The above process only update the **gh-pages** branch.
+Once publishing done, remember to commit your source update to the
+source branch!
+
+
+*With out this, you changes will be lost when someone else update the blog.*
+
+### Suggest updates without publishing
+
+1. Fork the blog 
+2. Execute steps 1-7 above
+3. Do a Pull Request to the source branch
+
 ### How to add a new post / update a post?
 http://octopress.org/docs/blogging/
+
+
+
