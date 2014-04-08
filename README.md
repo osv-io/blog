@@ -1,8 +1,8 @@
 OSv/blog
 ====
 
-This project holds the source for [[blog.osv.io]]
-blog.osv.io is base on [[octopress.org]]
+This project holds the source for [blog.osv.io](blog.osv.io)
+blog.osv.io is base on [Octopress](octopress.org)
 It deployed on Github [Project pages](http://octopress.org/docs/deploying/github/)
 This means: 
 * blog source are on branch **source**
@@ -17,7 +17,7 @@ This means:
      Repository url: https://github.com/osv-io/blog.git
 5. do the changes, additions (see below)
 6. rake generate   # Generates posts and pages into the public directory
-7. rake preview    # Watches, and mounts a webserver at [[http://localhost:4000]]
+7. rake preview    # Watches, and mounts a webserver at http://localhost:4000
 8. rake deploy     # upload the generated site to branch **gh-pages**
 
 
@@ -31,4 +31,4 @@ bypass it with the following steps before you generate the site (step
 3. cd ..
 
 ### How to add a new post / update a post?
-[[http://octopress.org/docs/blogging/]]
+http://octopress.org/docs/blogging/
