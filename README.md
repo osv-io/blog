@@ -4,8 +4,9 @@ OSv/blog
 This project holds the source for [blog.osv.io](blog.osv.io)
 
 
-blog.osv.io is base on [Octopress](octopress.org)
-It deployed on Github [Project pages](http://octopress.org/docs/deploying/github/)
+blog.osv.io is base on [Octopress](octopress.org) and deployed on Github [Project pages](http://octopress.org/docs/deploying/github/)
+
+
 This means: 
 * blog source are on branch **source**
 * blog generated HTML/CSS are under branch **gh-pages**
