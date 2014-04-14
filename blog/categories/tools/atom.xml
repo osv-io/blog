@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | OSv Blog]]></title>
   <link href="http://blog.osv.io//github/blog/categories/tools/atom.xml" rel="self"/>
   <link href="http://blog.osv.io//github/"/>
-  <updated>2014-04-03T09:18:30-07:00</updated>
+  <updated>2014-04-14T09:08:40-07:00</updated>
   <id>http://blog.osv.io//github/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -18,7 +18,9 @@
     <link href="http://blog.osv.io//github/blog/2014/04/03/capstan/"/>
     <updated>2014-04-03T08:37:05-07:00</updated>
     <id>http://blog.osv.io//github/blog/2014/04/03/capstan</id>
-    <content type="html"><![CDATA[<p><a href="https://github.com/cloudius-systems/capstan">Capstan</a> is a new tool for building <a href="http://osv.io/">OSv</a> virtual machine images.  If you have worked with other tools for making VMs, you&rsquo;ll find that Capstan is really simple.  It&rsquo;s a lot like <a href="http://www.docker.io/">Docker</a> actually&mdash;only you get a complete VM out of it and not just a container.</p>
+    <content type="html"><![CDATA[<p>(Updated 14 April 2014: Add new URL for osv-base image.)</p>
+
+<p><a href="https://github.com/cloudius-systems/capstan">Capstan</a> is a new tool for building <a href="http://osv.io/">OSv</a> virtual machine images.  If you have worked with other tools for making VMs, you&rsquo;ll find that Capstan is really simple.  It&rsquo;s a lot like <a href="http://www.docker.io/">Docker</a> actually&mdash;only you get a complete VM out of it and not just a container.</p>
 
 <p>You&rsquo;re probably used to blogs from sneaky tech evangelists who claim that something is simple and then post some <a href="http://drusepth.net/how-to-speed-up-your-computer-using-google-drive-as-extra-ram/">complicated set of instructions</a>.  So just to keep your finger off the close button, here&rsquo;s all you need to do.</p>
 
@@ -41,6 +43,8 @@
 <p>Just to keep it simple, let&rsquo;s borrow the short HTTP server example from <a href="http://libevent.org/">libevent</a>.  The libevent project is a wrapper for convenient event-driven programming, and the library is used in high-profile projects such as <a href="https://www.torproject.org/">Tor</a>, the anonymous communications system, and <a href="http://www.chromium.org/Home">Chromium</a>, the basis for the Google Chrome web browser.</p>
 
 <p>Best of all, libevent includes an easy-to-use HTTP implementation and sample code for using it.  So I&rsquo;ll copy their web server sample code, tweak it a little to make the web server I need, and set up a simple Makefile.</p>
+
+<p>Those steps are all done in the code for this article, which is at <a href="https://github.com/dmarti/http-server">dmarti/http-server</a>.</p>
 
 <p>You&rsquo;ll need the development package for libevent installed.  On my system, it&rsquo;s called <code>libevent-devel</code>.</p>
 
@@ -70,7 +74,7 @@ http-server.so : http-server.c</p>
 cmdline: /tools/http-server.so /www
 </code></p>
 
-<p>There&rsquo;s one more section in the Capstanfile: <code>base</code>.  That&rsquo;s a pre-built OSv image, currently hosted in Capstan author <a href="https://github.com/penberg">Pekka Enberg&rsquo;s GitHub account</a>.  (Yes, OSv is so streamlined that an entire VM image will fit in under the <a href="https://github.com/blog/1533-new-file-size-limits">GitHub file size limit</a>, with room to spare.)</p>
+<p>There&rsquo;s one more section in the Capstanfile: <code>base</code>.  That&rsquo;s a pre-built OSv image, which is available from Amazon S3.  Capstan will automatically download this for you.  It lives under <code>.capstan</code> in your home directory.</p>
 
 <h2>Putting it all together</h2>
 
@@ -82,7 +86,7 @@ cmdline: /tools/http-server.so /www
 
 <p>This is a QCOW2 image, ready to run under KVM or convert to your favorite format.  That&rsquo;s it.  Told you it was simple.  You can just do <code>capstan run</code> and point your browser to <a href="http://localhost:8080/">http://localhost:8080/</a> to see the site.</p>
 
-<p>In an upcoming blog post, I&rsquo;ll cover the recently added VirtualBox support in Capstan (hint: trry <code>-p vbox</code>) and some other fun things you can do.</p>
+<p>In an upcoming blog post, I&rsquo;ll cover the recently added VirtualBox support in Capstan (hint: try <code>-p vbox</code>) and some other fun things you can do.</p>
 
 <p>If you have any Capstan questions, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list on Google Groups</a>.  You can get updates on new OSv and Capstan progress by subscribing to this blog or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
 ]]></content>
