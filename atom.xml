@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[OSv Blog]]></title>
-  <link href="http://blog.osv.io//github/atom.xml" rel="self"/>
-  <link href="http://blog.osv.io//github/"/>
-  <updated>2014-04-14T09:11:55-07:00</updated>
-  <id>http://blog.osv.io//github/</id>
+  <link href="http://osv.io/blog/atom.xml" rel="self"/>
+  <link href="http://osv.io/blog/"/>
+  <updated>2014-04-19T10:52:46-07:00</updated>
+  <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
     
@@ -14,115 +14,10 @@
 
   
   <entry>
-    <title type="html"><![CDATA[OSv Alpha Release: 0.06]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/04/06/alpha/"/>
-    <updated>2014-04-06T21:00:00-07:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/04/06/alpha</id>
-    <content type="html"><![CDATA[<p>The OSv “Val Thorens” 0.06 release is the first of a series of alpha releases.  OSv is a new lightweight OS, designed from the ground up to run in a virtual cloud environment, with maximum performance, low latency, and simple management.</p>
-
-<p>The release notes are available on the OSv wiki: <a href="https://github.com/cloudius-systems/osv/wiki/OSv-release-0.06">OSv Release 0.06</a></p>
-
-<p>The major new features and improvements in this release are:</p>
-
-<h2>Cloud platform and hypervisor support</h2>
-
-<p>New with this release is experimental support for VirtualBox, VMWare, and Google Compute Engine.  OSv also support QEMU/KVM, Xen, and Amazon EC2.</p>
-
-<h2>Capstan</h2>
-
-<p>Capstan is a tool for rapidly building and running your application on OSv. Capstan is as simple and fast as using Docker for creating containers, but the result is a complete virtual machine image that will run on any hypervisor with OSv support. A typical Capstan image is very lightweight: only 12-20MB larger than your application itself!</p>
-
-<h2>REST API</h2>
-
-<p>The new REST API for OSv On a cloud environment of multiple instances, interacting with each instance via GUI or CLI is non efficient. Instead OS operations should allows easy automation. The new REST API for OSv will allow such remote automation.</p>
-
-<p>In this release we expose the first (small) set of REST APIs, with many more to follow.
-Swagger[1] is used to define the REST specification, allowing easy development of client applications and providing  interactive documentation.
-The REST API includes the following parts:
-Native HTTP server
-Built-in tool for Swagger API compilation
-UI page for interacting with the API
-For more on using the API, see [2]
-With the availability of the REST API and the Swagger-UI, we are deprecating the old JRuby base UI.</p>
-
-<p>[1] <a href="http://developers.helloreverb.com/swagger/">http://developers.helloreverb.com/swagger/</a>
-[2] <a href="https://github.com/cloudius-systems/mgmt/wiki/OSv-REST-API">https://github.com/cloudius-systems/mgmt/wiki/OSv-REST-API</a></p>
-
-<p>Hypervisor Enablement
-In this release, we are introducing an experimental support for three additional platforms:
-Google Compute Engine (GCE)
-OSv is now functional on GCE, including support for key-pair.
-For more on how to run OSv on GCE
-<a href="https://github.com/cloudius-systems/osv/wiki/Run-OSv-on-Google-Compute-Engine">https://github.com/cloudius-systems/osv/wiki/Run-OSv-on-Google-Compute-Engine</a>
-VIrtualBox
-OSv is now functional on VirtualBox, bringing OSv images for the first time to developers on Mac and WIndows machines.<br/>
-You can use either download as a ready to use OVF file, or even easier, use Capstan to run VirtualBox for you.
-For more on how to run OSv with VirtualBox <a href="https://github.com/cloudius-systems/osv/wiki/Run-OSv-on-VirtualBox">https://github.com/cloudius-systems/osv/wiki/Run-OSv-on-VirtualBox</a>
-VMWare
-OSv is now functional on VMWare Player/Workstation/Fusion and VMware ESXi
-For more information on running OSv on VMWare:
-<a href="https://github.com/cloudius-systems/osv/wiki/Running-OSv-on-VMware-">https://github.com/cloudius-systems/osv/wiki/Running-OSv-on-VMware-</a>(Player,-Workstation,-Fusion)
-<a href="https://github.com/cloudius-systems/osv/wiki/Running-OSv-on-VMware-ESXi">https://github.com/cloudius-systems/osv/wiki/Running-OSv-on-VMware-ESXi</a>
-EC2
-OSv is enabled on EC2 for some time now. In this release it became functional on a micro instance as well, making OSv available on ALL EC2 instance types.</p>
-
-<p>Porting to other architectures
-The AArch64 Port of OSv has been started, initially targeting the QEMU Mach-virt platform, running on the ARM Foundation Model v8.
-More on ARM port here
-<a href="https://github.com/cloudius-systems/osv/wiki/AArch64">https://github.com/cloudius-systems/osv/wiki/AArch64</a></p>
-
-<p>Driver Enablement
-We continue to add more driver alternatives to OSv.
-The latest additions are:
-Advanced Host Controller Interface (AHCI) SATA block driver
-VMW Virtual Network Adaptor (VMXNET3)</p>
-
-<p>For More infro on HD controller support: <a href="https://github.com/cloudius-systems/osv/wiki/Supported-Drivers">https://github.com/cloudius-systems/osv/wiki/Supported-Drivers</a></p>
-
-<p>Net Channels
-Envisioned by Van Jacobson in 2006, the net channels design radically changes the way an OS handles TCP/IP, in order to take advantage of modern multicore architectures.
-The idea, in short, is moving most of the packet processing logic from the kernel to the application context. A minimal packet classifier feeds packet directly to the application socket over “channels”.
-The net channel design reduces cache contention and lock contention. In the long term, we expect Net Channels to outperform general OS implementations.
-The original presention by Van Jacobson: <a href="http://www.lemis.com/grog/Documentation/vj/lca06vj.pdf">http://www.lemis.com/grog/Documentation/vj/lca06vj.pdf</a></p>
-
-<p>JVM Balloon
-One of the problem with working with the JVM, is that it forces you to set the heap size in advance.
-Choose too little and you are hurting your Java app performance.
-Choose too much and you are wasting OS resources.
-The JVM balloon solves this problem by dynamically exchanging memory between the JVM and OSv, eliminating the need for this manual tuning exercise.
-More on JVM Balloon [TBD]</p>
-
-<p>ZFS ARC
-Added support to allow read-only direct use of ARC buffers on memory mappings, thus avoiding duplication of file data. Write support to ARC buffers is planned. Therefore, writes on file-backed mappings still require the Copy-on-write (COW) approach.</p>
-
-<p>Appliances
-We are constantly looking to improve the usability and performance of OSv base appliances.
-In this release, we introduce a new, written from scratch, prototype implementation of memcached.
-Although still in early phase, and not fully functional yet, it already outperforms memcached on Linux by almost 100%!
-More on memcached prototype and benchmark
-<a href="https://github.com/cloudius-systems/osv/wiki/OSv-Case-Study:-Memcached">https://github.com/cloudius-systems/osv/wiki/OSv-Case-Study:-Memcached</a>
-Known issues
-For complete list of open issues see
-<a href="https://github.com/cloudius-systems/osv/search?q=state%3Aopen&amp;type=Issues">https://github.com/cloudius-systems/osv/search?q=state%3Aopen&amp;type=Issues</a></p>
-
-<p>Full list of contributions
-To be update on actual tag</p>
-
-<p>A <a href="http://blog.osv.io//github/atom.xml">feed</a> is available, so please subscribe in your RSS reader for updates, or, if you prefer to use Twitter, you can follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> there.</p>
-
-<p>We&rsquo;re running <a href="http://octopress.org/docs/blogging/">Octopress</a> on <a href="http://pages.github.com/">GitHub Pages</a>, so that we can use the same easy Git contribution process for the blog as for our code.</p>
-
-<p>Watch for a simple introduction to the <a href="https://github.com/cloudius-systems/capstan">Capstan</a> devops tool, coming this week.</p>
-
-<p>If you have any questions about the blog, you can post a comment here, or mail <a href="mailto:dmarti@cloudius-systems.com">Don Marti</a>.</p>
-]]></content>
-  </entry>
-  
-  <entry>
     <title type="html"><![CDATA[A Simple Capstan Example]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/04/03/capstan/"/>
+    <link href="http://osv.io/blog/blog/2014/04/03/capstan/"/>
     <updated>2014-04-03T08:37:05-07:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/04/03/capstan</id>
+    <id>http://osv.io/blog/blog/2014/04/03/capstan</id>
     <content type="html"><![CDATA[<p>(Updated 14 April 2014: Add new URL for osv-base image.)</p>
 
 <p><a href="https://github.com/cloudius-systems/capstan">Capstan</a> is a new tool for building <a href="http://osv.io/">OSv</a> virtual machine images.  If you have worked with other tools for making VMs, you&rsquo;ll find that Capstan is really simple.  It&rsquo;s a lot like <a href="http://www.docker.io/">Docker</a> actually&mdash;only you get a complete VM out of it and not just a container.</p>
@@ -197,12 +92,12 @@ To be update on actual tag</p>
   
   <entry>
     <title type="html"><![CDATA[New OSv Blog]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/03/30/welcome/"/>
+    <link href="http://osv.io/blog/blog/2014/03/30/welcome/"/>
     <updated>2014-03-30T20:54:23-07:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/03/30/welcome</id>
+    <id>http://osv.io/blog/blog/2014/03/30/welcome</id>
     <content type="html"><![CDATA[<p>Welcome to the OSv blog.</p>
 
-<p>A <a href="http://blog.osv.io//github/atom.xml">feed</a> is available, so please subscribe in your RSS reader for updates, or, if you prefer to use Twitter, you can follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> there.</p>
+<p>A <a href="http://osv.io/blog/atom.xml">feed</a> is available, so please subscribe in your RSS reader for updates, or, if you prefer to use Twitter, you can follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> there.</p>
 
 <p>We&rsquo;re running <a href="http://octopress.org/docs/blogging/">Octopress</a> on <a href="http://pages.github.com/">GitHub Pages</a>, so that we can use the same easy Git contribution process for the blog as for our code.</p>
 
