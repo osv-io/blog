@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[OSv Blog]]></title>
-  <link href="http://osv.io/blog/atom.xml" rel="self"/>
-  <link href="http://osv.io/blog/"/>
-  <updated>2014-04-21T07:57:32-07:00</updated>
-  <id>http://osv.io/blog/</id>
+  <link href="http://blog.osv.io/blog/atom.xml" rel="self"/>
+  <link href="http://blog.osv.io/blog/"/>
+  <updated>2014-04-21T08:18:55-07:00</updated>
+  <id>http://blog.osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[A Simple Capstan Example]]></title>
-    <link href="http://osv.io/blog/blog/2014/04/03/capstan/"/>
+    <link href="http://blog.osv.io/blog/blog/2014/04/03/capstan/"/>
     <updated>2014-04-03T08:37:05-07:00</updated>
-    <id>http://osv.io/blog/blog/2014/04/03/capstan</id>
+    <id>http://blog.osv.io/blog/blog/2014/04/03/capstan</id>
     <content type="html"><![CDATA[<p>(Updated 14 April 2014: Add new URL for osv-base image.)</p>
 
 <p><a href="https://github.com/cloudius-systems/capstan">Capstan</a> is a new tool for building <a href="http://osv.io/">OSv</a> virtual machine images.  If you have worked with other tools for making VMs, you&rsquo;ll find that Capstan is really simple.  It&rsquo;s a lot like <a href="http://www.docker.io/">Docker</a> actually&mdash;only you get a complete VM out of it and not just a container.</p>
@@ -92,12 +92,12 @@
   
   <entry>
     <title type="html"><![CDATA[New OSv Blog]]></title>
-    <link href="http://osv.io/blog/blog/2014/03/30/welcome/"/>
+    <link href="http://blog.osv.io/blog/blog/2014/03/30/welcome/"/>
     <updated>2014-03-30T20:54:23-07:00</updated>
-    <id>http://osv.io/blog/blog/2014/03/30/welcome</id>
+    <id>http://blog.osv.io/blog/blog/2014/03/30/welcome</id>
     <content type="html"><![CDATA[<p>Welcome to the OSv blog.</p>
 
-<p>A <a href="http://osv.io/blog/atom.xml">feed</a> is available, so please subscribe in your RSS reader for updates, or, if you prefer to use Twitter, you can follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> there.</p>
+<p>A <a href="http://blog.osv.io/blog/atom.xml">feed</a> is available, so please subscribe in your RSS reader for updates, or, if you prefer to use Twitter, you can follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> there.</p>
 
 <p>We&rsquo;re running <a href="http://octopress.org/docs/blogging/">Octopress</a> on <a href="http://pages.github.com/">GitHub Pages</a>, so that we can use the same easy Git contribution process for the blog as for our code.</p>
 

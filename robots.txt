@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: http://osv.io/blog/sitemap.xml 
+Sitemap: http://blog.osv.io/blog/sitemap.xml 
