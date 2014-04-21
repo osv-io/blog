@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>New OSv Blog - OSv Blog</title>
+  <title>Spinlock-free OS Design for Virtualization - OSv Blog</title>
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="Welcome to the OSv blog. A feed is available, so please subscribe in your RSS reader for updates, or, if you prefer to use Twitter, you can follow @ &hellip;">
+  <meta name="description" content="Designing an OS to run specifically as a cloud guest doesn’t just mean stripping out features. There are some other important problems with running &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.osv.io/blog/blog/2014/03/30/welcome">
+  <link rel="canonical" href="http://blog.osv.io/blog/blog/2014/04/19/spinlock-free">
   <link href="/blog/favicon.ico" rel="icon">
   <link href="/blog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
@@ -97,7 +97,7 @@
         </script>
     </div>
 </div>
-<div class="mobile mobilePageTitle">New OSv blog</div>
+<div class="mobile mobilePageTitle">Spinlock-free OS design for virtualization</div>
 
 
   <div id="main">
@@ -107,7 +107,7 @@
   
   <header>
     
-      <h1 class="entry-title">New OSv Blog</h1>
+      <h1 class="entry-title">Spinlock-free OS Design for Virtualization</h1>
     
     
       <p class="meta">
@@ -123,22 +123,36 @@
   
 
 
-<time datetime="2014-03-30T20:54:23-07:00" pubdate data-updated="true">Mar 30<span>th</span>, 2014</time>
+<time datetime="2014-04-19T09:00:00-07:00" pubdate data-updated="true">Apr 19<span>th</span>, 2014</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>Welcome to the OSv blog.</p>
+<div class="entry-content"><p>Designing an OS to run specifically as a cloud guest doesn’t just mean stripping out features. There are some other important problems with running virtualized that a conventional guest OS doesn’t address.  In this post we&rsquo;ll cover one of them.</p>
 
-<p>A <a href="/blog/atom.xml">feed</a> is available, so please subscribe in your RSS reader for updates, or, if you prefer to use Twitter, you can follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> there.</p>
+<h2>Little spinlocks, big problem</h2>
 
-<p>We&rsquo;re running <a href="http://octopress.org/docs/blogging/">Octopress</a> on <a href="http://pages.github.com/">GitHub Pages</a>, so that we can use the same easy Git contribution process for the blog as for our code.</p>
+<p>In any situation where code running on multiple CPUs might read or write the  same data, typical SMP operating systems use spinlocks. One CPU acquires the lock using an atomic test-and-set operation, and other CPUs that need the data must execute a busy-loop until they can acquire the lock themselves. Can I have the data? No. Can I have the data? No. Can I have the data? No. When an OS runs on bare hardware, a spinlock might just waste a little electricity. OS developers often use other more sophisticated locking techniques where they can, and try to reserve spinlocks for short-term locking of critical items.</p>
 
-<p>Watch for a simple introduction to the <a href="https://github.com/cloudius-systems/capstan">Capstan</a> devops tool, coming this week.</p>
+<p><img src="/blog/images/apachecon.jpg" alt="OSv hacking at Apachecon 2014" /> <i>Getting some high-performance web applications running on OSv at ApacheCON 2014</i></p>
 
-<p>If you have any questions about the blog, you can post a comment here, or mail <a href="mailto:dmarti@cloudius-systems.com">Don Marti</a>.</p>
+<p>The problem comes in when you add virtualization. A physical CPU that holds a spinlock is actually working. The other CPUs in the system, “spinning” away waiting for the lock, are at least waiting for something that’s actually in progress. On a well-designed OS, the lock holder will be done quickly. When the OS is running under virtualization, though, it’s another story. The hypervisor might pause a virtual CPU at times when the guest OS can’t predict. As <a href="http://www.betriebssysteme.org/Aktivitaeten/Treffen/2008-Garching/Programm/docs/Abstract_Friebel.pdf">Thomas Friebel and Sebastian Biemueller described</a> (PDF) in “How to Deal with Lock Holder Preemption”,</p>
+
+<blockquote><p>Lock holder preemption describes the situation when a VCPU is preempted inside the guest kernel while holding a spinlock. As this lock stays acquired during the preemption any other VCPUs of the same guest trying to acquire this lock will have to wait until the VCPU is executed again and releases the lock. Lock holder preemption is possible if two or more VCPUs run on a single CPU concurrently. And the more VCPUs of a guest are running in parallel the more VCPUs have to wait if trying to acquire a preempted lock. And as spinlocks imply active waiting the CPU time of waiting VCPUs is simply wasted.</p></blockquote>
+
+<p>If the hypervisor pauses a virtual CPU while that VCPU holds a spinlock, you get into the bad situation where other virtual CPUs on your guest are just spinning, and it’s possible that no useful work is getting done in that guest&mdash;just electricity wasting. Friebel and Biemueller describe a solution to the problem involving a hypercall to complain about the wait. But the OSv solution to the problem is to remove spinlocks from the guest OS entirely.</p>
+
+<h2>Why going spinlock-free matters</h2>
+
+<p>As a first step, OSv does almost all of its kernel-level work in threads. Threads, which are allowed to sleep, can use lock-based algorithms. They use mutexes, not spinlocks, to protect shared data. The <a href="https://github.com/cloudius-systems/osv/blob/master/include/lockfree/mutex.hh">mutex implementation itself</a>, however, has to use a lock-free algorithm. OSv’s <a href="https://github.com/cloudius-systems/osv/blob/master/include/lockfree/mutex.hh">mutex implementation</a> is based on a lock-free design by Gidenstam &amp; Papatriantafilou, covered in <a href="http://domino.mpi-inf.mpg.de/internet/reports.nsf/c125634c000710d0c12560400034f45a/77c097efde9fa63fc125736800444203/$FILE/MPI-I-2007-1-003.pdf">LFTHREADS: A lock-free thread library.</a> (PDF).</p>
+
+<p>One other place that can’t run as a thread, because it has to handle the low-level switching among threads, is the scheduler. The scheduler uses per-cpu run queues, so that almost all scheduling operations do not require coordination among CPUs, and lock-free algorithms when a thread must be moved from one CPU to another.</p>
+
+<p>Lock-free design is just one example of the kind of thing that we mean when talking about how OSv is “designed for the cloud”.  Because we can’t assume that a CPU is always running or available to run, the low-level design of the OS needs to be cloud-aware to prevent performance degradation and resource waste.</p>
+
+<p>We’ve been posting benchmarks that show sizeable performance increases running memcached and other programs. If you’re curious about whether OSv can make your application faster, please try it out from the <a href="http://osv.io/">OSv home page</a> or join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.</p>
 </div>
 
 
@@ -161,7 +175,7 @@
   
 
 
-<time datetime="2014-03-30T20:54:23-07:00" pubdate data-updated="true">Mar 30<span>th</span>, 2014</time>
+<time datetime="2014-04-19T09:00:00-07:00" pubdate data-updated="true">Apr 19<span>th</span>, 2014</time>
       
 
 
@@ -190,8 +204,8 @@
     
     <p class="meta">
       
+        <a class="basic-alignment left" href="/blog/blog/2014/04/03/capstan/" title="Previous Post: A simple Capstan example">&laquo; A simple Capstan example</a>
       
-        <a class="basic-alignment right" href="/blog/blog/2014/04/03/capstan/" title="Next Post: A simple Capstan example">A simple Capstan example &raquo;</a>
       
     </p>
   </footer>
@@ -266,8 +280,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://blog.osv.io/blog/blog/2014/03/30/welcome/';
-        var disqus_url = 'http://blog.osv.io/blog/blog/2014/03/30/welcome/';
+        var disqus_identifier = 'http://blog.osv.io/blog/blog/2014/04/19/spinlock-free/';
+        var disqus_url = 'http://blog.osv.io/blog/blog/2014/04/19/spinlock-free/';
         var disqus_script = 'embed.js';
       
     (function () {
