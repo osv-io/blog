@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[OSv Blog]]></title>
-  <link href="http://blog.osv.io/blog/atom.xml" rel="self"/>
-  <link href="http://blog.osv.io/blog/"/>
-  <updated>2014-04-21T08:22:24-07:00</updated>
-  <id>http://blog.osv.io/blog/</id>
+  <link href="http://osv.io/blog/atom.xml" rel="self"/>
+  <link href="http://osv.io/blog/"/>
+  <updated>2014-04-22T12:15:23-07:00</updated>
+  <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
     
@@ -14,17 +14,156 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Riemann - a Clojure Application on OSv]]></title>
+    <link href="http://osv.io/blog/blog/2014/04/22/riemann-on-osv/"/>
+    <updated>2014-04-22T09:00:00-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/04/22/riemann-on-osv</id>
+    <content type="html"><![CDATA[<p><strong>By Tzach Livyatan</strong></p>
+
+<p>Clojure applications run on the JVM, so they&rsquo;re usually simple to run on OSv.  We have <a href="https://github.com/tzach/capstan-example-clojure">hello world in Clojure</a> running, but this time I wanted to port a real, non-toy, Clojure application. I chose <a href="http://riemann.io">Riemann</a>, a widely-used application for aggregating system events (and more).</p>
+
+<p>I used <a href="http://osv.io/capstan/">Capstan</a>, a tool for building and running applications on OSv.  Jump to the end <a href="https://github.com/tzach/riemann">result</a>, or follow the steps I took:</p>
+
+<!-- more -->
+
+
+<p>Following the Capstan guideline, I added a <a href="https://github.com/tzach/riemann/blob/master/Capstanfile">Capstanfile</a> to the project.  Here are the parts of Capstanfile you need to know about:</p>
+
+<ul>
+<li>Set the base image. In this case I chose a base image with Java (open-jdk)</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>base: cloudius/osv-openjdk</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Build the jar file, taking advantage of the <code>lein uberjar</code> command, which packages the application with all dependencies into one jar file.</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>build: lein uberjar</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Copy the build artifacts to the base image, producing a new image:</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>files:
+</span><span class='line'>  /riemann.jar: ./target/riemann-0.2.5-SNAPSHOT-standalone.jar
+</span><span class='line'>  /riemann.config: ./riemann.config</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I also copy the config file, which Riemann will look for.</p>
+
+<ul>
+<li>The run command for the VM is executed when the VM starts.</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cmdline: /java.so -jar /riemann.jar</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That&rsquo;s it. Done with the Capstanfile.</p>
+
+<p><strong>Let&rsquo;s test it!</strong></p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;capstan run
+</span><span class='line'>WARN [2014-04-13 14:11:22,029] Thread-9 - riemann.core - instrumentation service caught
+</span><span class='line'>java.io.IOException: Cannot run program "hostname": error=0, vfork failed
+</span><span class='line'>  at java.lang.ProcessBuilder.start(ProcessBuilder.java:1041)
+</span><span class='line'>  at java.lang.Runtime.exec(Runtime.java:617)
+</span><span class='line'>  at clojure.java.shell$sh.doInvoke(shell.clj:116)
+</span><span class='line'>  at clojure.lang.RestFn.invoke(RestFn.java:408)</span></code></pre></td></tr></table></div></figure>
+
+
+<p>No luck.  It turns out that Riemann is using</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(sh "hostname")</span></code></pre></td></tr></table></div></figure>
+
+
+<p>which uses vfork to run a child process. On any OS its not very efficient to fork just to get the hostname, and on current OSv it simply won&rsquo;t work. To bypass the problem, I replace this call with:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(.getHostName (java.net.InetAddress/getLocalHost))</span></code></pre></td></tr></table></div></figure>
+
+
+<p>which uses a Java <code>getHostName</code>.</p>
+
+<p><strong>Let&rsquo;s try again</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>&gt;capstan run
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This time it works, but how do I test it and connect to it?</p>
+
+<p><strong>Let&rsquo;s use Capstan port forwarding</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>capstan run -f 5555:5555 -f 5556:5556
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+This will  forward host ports 5555 and 5556 to the corresponding ports on the OSv VM.</p>
+
+<p><strong>Success :)</strong></p>
+
+<p>Now we can switch to another terminal and run:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>riemann-health
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+to generate traffic for Riemann
+and</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>riemann-dash
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>to launch a Riemann web GUI.  Here is how it looks:</p>
+
+<p><img src="http://osv.io/blog/images/riemann_on_osv.png" alt="&quot;Riemann GUI" /> <i>riemann-dash</i></p>
+
+<p>Now we&rsquo;re ready to do further stress testing.  If you do find any problem, or have any question, you&rsquo;re invited to join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev list</a> and ask, or post an issue to the <a href="https://github.com/tzach/riemann">GitHub repository</a>.</p>
+
+<p>&mdash; <a href="https://twitter.com/TzachL">Tzach Livyatan</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Spinlock-free OS Design for Virtualization]]></title>
-    <link href="http://blog.osv.io/blog/blog/2014/04/19/spinlock-free/"/>
+    <link href="http://osv.io/blog/blog/2014/04/19/spinlock-free/"/>
     <updated>2014-04-19T09:00:00-07:00</updated>
-    <id>http://blog.osv.io/blog/blog/2014/04/19/spinlock-free</id>
+    <id>http://osv.io/blog/blog/2014/04/19/spinlock-free</id>
     <content type="html"><![CDATA[<p>Designing an OS to run specifically as a cloud guest doesn’t just mean stripping out features. There are some other important problems with running virtualized that a conventional guest OS doesn’t address.  In this post we&rsquo;ll cover one of them.</p>
 
 <h2>Little spinlocks, big problem</h2>
 
 <p>In any situation where code running on multiple CPUs might read or write the  same data, typical SMP operating systems use spinlocks. One CPU acquires the lock using an atomic test-and-set operation, and other CPUs that need the data must execute a busy-loop until they can acquire the lock themselves. Can I have the data? No. Can I have the data? No. Can I have the data? No. When an OS runs on bare hardware, a spinlock might just waste a little electricity. OS developers often use other more sophisticated locking techniques where they can, and try to reserve spinlocks for short-term locking of critical items.</p>
 
-<p><img src="http://blog.osv.io/blog/images/apachecon.jpg" alt="OSv hacking at Apachecon 2014" /> <i>Getting some high-performance web applications running on OSv at ApacheCON 2014</i></p>
+<p><img src="http://osv.io/blog/images/apachecon.jpg" alt="OSv hacking at Apachecon 2014" /> <i>Getting some high-performance web applications running on OSv at ApacheCON 2014</i></p>
 
 <p>The problem comes in when you add virtualization. A physical CPU that holds a spinlock is actually working. The other CPUs in the system, “spinning” away waiting for the lock, are at least waiting for something that’s actually in progress. On a well-designed OS, the lock holder will be done quickly. When the OS is running under virtualization, though, it’s another story. The hypervisor might pause a virtual CPU at times when the guest OS can’t predict. As <a href="http://www.betriebssysteme.org/Aktivitaeten/Treffen/2008-Garching/Programm/docs/Abstract_Friebel.pdf">Thomas Friebel and Sebastian Biemueller described</a> (PDF) in “How to Deal with Lock Holder Preemption”,</p>
 
@@ -46,9 +185,9 @@
   
   <entry>
     <title type="html"><![CDATA[A Simple Capstan Example]]></title>
-    <link href="http://blog.osv.io/blog/blog/2014/04/03/capstan/"/>
+    <link href="http://osv.io/blog/blog/2014/04/03/capstan/"/>
     <updated>2014-04-03T08:37:05-07:00</updated>
-    <id>http://blog.osv.io/blog/blog/2014/04/03/capstan</id>
+    <id>http://osv.io/blog/blog/2014/04/03/capstan</id>
     <content type="html"><![CDATA[<p>(Updated 14 April 2014: Add new URL for osv-base image.)</p>
 
 <p><a href="https://github.com/cloudius-systems/capstan">Capstan</a> is a new tool for building <a href="http://osv.io/">OSv</a> virtual machine images.  If you have worked with other tools for making VMs, you&rsquo;ll find that Capstan is really simple.  It&rsquo;s a lot like <a href="http://www.docker.io/">Docker</a> actually&mdash;only you get a complete VM out of it and not just a container.</p>
@@ -123,12 +262,12 @@
   
   <entry>
     <title type="html"><![CDATA[New OSv Blog]]></title>
-    <link href="http://blog.osv.io/blog/blog/2014/03/30/welcome/"/>
+    <link href="http://osv.io/blog/blog/2014/03/30/welcome/"/>
     <updated>2014-03-30T20:54:23-07:00</updated>
-    <id>http://blog.osv.io/blog/blog/2014/03/30/welcome</id>
+    <id>http://osv.io/blog/blog/2014/03/30/welcome</id>
     <content type="html"><![CDATA[<p>Welcome to the OSv blog.</p>
 
-<p>A <a href="http://blog.osv.io/blog/atom.xml">feed</a> is available, so please subscribe in your RSS reader for updates, or, if you prefer to use Twitter, you can follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> there.</p>
+<p>A <a href="http://osv.io/blog/atom.xml">feed</a> is available, so please subscribe in your RSS reader for updates, or, if you prefer to use Twitter, you can follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> there.</p>
 
 <p>We&rsquo;re running <a href="http://octopress.org/docs/blogging/">Octopress</a> on <a href="http://pages.github.com/">GitHub Pages</a>, so that we can use the same easy Git contribution process for the blog as for our code.</p>
 

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Examples | OSv Blog]]></title>
+  <link href="http://osv.io/blog/blog/categories/examples/atom.xml" rel="self"/>
+  <link href="http://osv.io/blog/"/>
+  <updated>2014-04-22T12:15:23-07:00</updated>
+  <id>http://osv.io/blog/</id>
+  <author>
+    <name><![CDATA[Cloudius Systems]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Riemann - a Clojure Application on OSv]]></title>
+    <link href="http://osv.io/blog/blog/2014/04/22/riemann-on-osv/"/>
+    <updated>2014-04-22T09:00:00-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/04/22/riemann-on-osv</id>
+    <content type="html"><![CDATA[<p><strong>By Tzach Livyatan</strong></p>
+
+<p>Clojure applications run on the JVM, so they&rsquo;re usually simple to run on OSv.  We have <a href="https://github.com/tzach/capstan-example-clojure">hello world in Clojure</a> running, but this time I wanted to port a real, non-toy, Clojure application. I chose <a href="http://riemann.io">Riemann</a>, a widely-used application for aggregating system events (and more).</p>
+
+<p>I used <a href="http://osv.io/capstan/">Capstan</a>, a tool for building and running applications on OSv.  Jump to the end <a href="https://github.com/tzach/riemann">result</a>, or follow the steps I took:</p>
+
+<!-- more -->
+
+
+<p>Following the Capstan guideline, I added a <a href="https://github.com/tzach/riemann/blob/master/Capstanfile">Capstanfile</a> to the project.  Here are the parts of Capstanfile you need to know about:</p>
+
+<ul>
+<li><p>Set the base image. In this case I chose a base image with Java (open-jdk)
+<code>
+base: cloudius/osv-openjdk
+</code></p></li>
+<li><p>Build the jar file, taking advantage of the <code>lein uberjar</code> command, which packages the application with all dependencies into one jar file.</p></li>
+</ul>
+
+
+<p>```</p>
+
+<pre><code>build: lein uberjar
+</code></pre>
+
+<p><code>
+  * Copy the build artifacts to the base image, producing a new image:
+</code>
+files:
+  /riemann.jar: ./target/riemann-0.2.5-SNAPSHOT-standalone.jar
+  /riemann.config: ./riemann.config
+```</p>
+
+<p>I also copy the config file, which Riemann will look for.</p>
+
+<ul>
+<li>The run command for the VM is executed when the VM starts.
+<code>
+cmdline: /java.so -jar /riemann.jar
+</code></li>
+</ul>
+
+
+<p>That&rsquo;s it. Done with the Capstanfile.</p>
+
+<p><strong>Let&rsquo;s test it!</strong>
+```</p>
+
+<blockquote><p>capstan run
+WARN [2014-04-13 14:11:22,029] Thread-9 &ndash; riemann.core &ndash; instrumentation service caught
+java.io.IOException: Cannot run program &ldquo;hostname&rdquo;: error=0, vfork failed</p>
+
+<pre><code>at java.lang.ProcessBuilder.start(ProcessBuilder.java:1041)
+at java.lang.Runtime.exec(Runtime.java:617)
+at clojure.java.shell$sh.doInvoke(shell.clj:116)
+at clojure.lang.RestFn.invoke(RestFn.java:408)
+</code></pre>
+
+<p><code>
+No luck.  It turns out that Riemann is using
+</code>
+(sh &ldquo;hostname&rdquo;)
+```</p></blockquote>
+
+<p>which uses vfork to run a child process. On any OS its not very efficient to fork just to get the hostname, and on current OSv it simply won&rsquo;t work. To bypass the problem, I replace this call with:</p>
+
+<p><code>
+(.getHostName (java.net.InetAddress/getLocalHost))
+</code>
+which uses a Java <code>getHostName</code>.</p>
+
+<p><strong>Let&rsquo;s try again</strong>
+```sh</p>
+
+<blockquote><p>capstan run
+```
+This time it works, but how do I test it and connect to it?</p></blockquote>
+
+<p><strong>Let&rsquo;s use Capstan port forwarding</strong>
+<code>sh
+capstan run -f 5555:5555 -f 5556:5556
+</code>
+This will  forward host ports 5555 and 5556 to the corresponding ports on the OSv VM.</p>
+
+<p><strong>Success :)</strong></p>
+
+<p>Now we can switch to another terminal and run:
+<code>sh
+riemann-health
+</code>
+to generate traffic for Riemann
+and
+<code>sh
+riemann-dash
+</code>
+to launch a Riemann web GUI.  Here is how it looks:</p>
+
+<p><img src="/images/riemann_on_osv.png" alt="&quot;Riemann GUI" /> <i>riemann-dash</i></p>
+
+<p>Now we&rsquo;re ready to do further stress testing.  If you do find any problem, or have any question, you&rsquo;re invited to join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev list</a> and ask, or post an issue to the <a href="https://github.com/tzach/riemann">GitHub repository</a>.</p>
+
+<p>&mdash; <a href="https://twitter.com/TzachL">Tzach Livyatan</a></p>
+]]></content>
+  </entry>
+  
+</feed>

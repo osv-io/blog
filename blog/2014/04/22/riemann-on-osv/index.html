@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>A Simple Capstan Example - OSv Blog</title>
+  <title>Riemann - a Clojure Application on OSv - OSv Blog</title>
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="(Updated 14 April 2014: Add new URL for osv-base image.) Capstan is a new tool for building OSv virtual machine images. If you have worked with other &hellip;">
+  <meta name="description" content="By Tzach Livyatan Clojure applications run on the JVM, so they&rsquo;re usually simple to run on OSv. We have hello world in Clojure running, but &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://osv.io/blog/blog/2014/04/03/capstan">
+  <link rel="canonical" href="http://osv.io/blog/blog/2014/04/22/riemann-on-osv">
   <link href="/blog/favicon.ico" rel="icon">
   <link href="/blog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
@@ -97,7 +97,7 @@
         </script>
     </div>
 </div>
-<div class="mobile mobilePageTitle">A simple Capstan example</div>
+<div class="mobile mobilePageTitle">Riemann - a Clojure application on OSv</div>
 
 
   <div id="main">
@@ -107,7 +107,7 @@
   
   <header>
     
-      <h1 class="entry-title">A Simple Capstan Example</h1>
+      <h1 class="entry-title">Riemann - a Clojure Application on OSv</h1>
     
     
       <p class="meta">
@@ -123,82 +123,144 @@
   
 
 
-<time datetime="2014-04-03T08:37:05-07:00" pubdate data-updated="true">Apr 3<span>rd</span>, 2014</time>
+<time datetime="2014-04-22T09:00:00-07:00" pubdate data-updated="true">Apr 22<span>nd</span>, 2014</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>(Updated 14 April 2014: Add new URL for osv-base image.)</p>
+<div class="entry-content"><p><strong>By Tzach Livyatan</strong></p>
 
-<p><a href="https://github.com/cloudius-systems/capstan">Capstan</a> is a new tool for building <a href="http://osv.io/">OSv</a> virtual machine images.  If you have worked with other tools for making VMs, you&rsquo;ll find that Capstan is really simple.  It&rsquo;s a lot like <a href="http://www.docker.io/">Docker</a> actually&mdash;only you get a complete VM out of it and not just a container.</p>
+<p>Clojure applications run on the JVM, so they&rsquo;re usually simple to run on OSv.  We have <a href="https://github.com/tzach/capstan-example-clojure">hello world in Clojure</a> running, but this time I wanted to port a real, non-toy, Clojure application. I chose <a href="http://riemann.io">Riemann</a>, a widely-used application for aggregating system events (and more).</p>
 
-<p>You&rsquo;re probably used to blogs from sneaky tech evangelists who claim that something is simple and then post some <a href="http://drusepth.net/how-to-speed-up-your-computer-using-google-drive-as-extra-ram/">complicated set of instructions</a>.  So just to keep your finger off the close button, here&rsquo;s all you need to do.</p>
-
-<ul>
-<li><p>Add a Make target to build your application as a shared object.</p></li>
-<li><p>Write a short Capstanfile.  (8 lines not counting comments).</p></li>
-<li><p>Run Capstan.</p></li>
-</ul>
-
-
-<p>That&rsquo;s all there is to it.  Finger off the close button now?  Good.  Ready?</p>
+<p>I used <a href="http://osv.io/capstan/">Capstan</a>, a tool for building and running applications on OSv.  Jump to the end <a href="https://github.com/tzach/riemann">result</a>, or follow the steps I took:</p>
 
 <!-- more -->
 
 
-<p>Let&rsquo;s make a VM that does something useful, say, serve this article to the entire Internet.  Go ahead and <code>git clone</code> <a href="https://github.com/cloudius-systems/capstan">Capstan</a> and follow along.</p>
+<p>Following the Capstan guideline, I added a <a href="https://github.com/tzach/riemann/blob/master/Capstanfile">Capstanfile</a> to the project.  Here are the parts of Capstanfile you need to know about:</p>
 
-<h2>An easy example, plus Makefile work</h2>
+<ul>
+<li>Set the base image. In this case I chose a base image with Java (open-jdk)</li>
+</ul>
 
-<p>Just to keep it simple, let&rsquo;s borrow the short HTTP server example from <a href="http://libevent.org/">libevent</a>.  The libevent project is a wrapper for convenient event-driven programming, and the library is used in high-profile projects such as <a href="https://www.torproject.org/">Tor</a>, the anonymous communications system, and <a href="http://www.chromium.org/Home">Chromium</a>, the basis for the Google Chrome web browser.</p>
 
-<p>Best of all, libevent includes an easy-to-use HTTP implementation and sample code for using it.  So I&rsquo;ll copy their web server sample code, tweak it a little to make the web server I need, and set up a simple Makefile.</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>base: cloudius/osv-openjdk</span></code></pre></td></tr></table></div></figure>
 
-<p>Those steps are all done in the code for this article, which is at <a href="https://github.com/dmarti/http-server">dmarti/http-server</a>.</p>
 
-<p>You&rsquo;ll need the development package for libevent installed.  On my system, it&rsquo;s called <code>libevent-devel</code>.</p>
+<ul>
+<li>Build the jar file, taking advantage of the <code>lein uberjar</code> command, which packages the application with all dependencies into one jar file.</li>
+</ul>
 
-<p>Here&rsquo;s the target to pay attention to:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>build: lein uberjar</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Copy the build artifacts to the base image, producing a new image:</li>
+</ul>
+
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>http-server.so : http-server.c
-</span><span class='line'>        $(CC) -o $@ -std=gnu99 -fPIC -shared -levent $``</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>files:
+</span><span class='line'>  /riemann.jar: ./target/riemann-0.2.5-SNAPSHOT-standalone.jar
+</span><span class='line'>  /riemann.config: ./riemann.config</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Yes, that&rsquo;s right, we&rsquo;re using <code>-fPIC</code> (position independent code) and <code>-shared</code> (passed to the linker, make it build a shared library).  And <code>http-server.c</code> has a function called <code>main</code>.  What&rsquo;s going on?  This is because of the way OSv works.  Your application on OSv isn&rsquo;t a conventional ELF executable, but a .so file.</p>
+<p>I also copy the config file, which Riemann will look for.</p>
 
-<p>Besides building the actual HTTP server, I&rsquo;ll also put in a Make target to create the HTML version of this article from the README, <a href="https://lwn.net/Articles/589196/">because I can</a>.  So I type <code>make</code> to build the web content and the web server.</p>
+<ul>
+<li>The run command for the VM is executed when the VM starts.</li>
+</ul>
 
-<p>Of course you can expand on this to build as complicated of an application and data set as you want.  This is just an example to show you Capstan for now.</p>
-
-<h2>Step two: Add a Capstanfile</h2>
-
-<p>Now it&rsquo;s time to tell Capstan how to create the virtual machine image.  Building it is easy&mdash;just run <code>make</code>&mdash;so there&rsquo;s the <code>build</code> section right there.  Now we need to tell Capstan what files go into the image, so we populate the <code>files</code> section with the name of our web server (http-server.so) the libevent shared library, and some web content&mdash;just the HTML version of this article, plus a favicon.ico file.  (For now I&rsquo;m just copying my development systems&rsquo;s copy of libevent into the image.  For real use, I&rsquo;ll come up with a more consistent way to keep track of build artifacts like this, probably borrowing them from some helpful Linux distribution.  Yes, OSv can use libraries built on and for your 64-bit Linux box.)</p>
-
-<p>Easy so far.  Now for the <code>cmdline</code> option, which is like <a href="http://docs.docker.io/en/v0.6.3/use/builder/#cmd">Docker&rsquo;s CMD</a>: the command that gets run when the image starts.  The HTTP server just takes its DocumentRoot entry from the command line, so the command comes out as:</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cmdline: /tools/http-server.so /www</span></code></pre></td></tr></table></div></figure>
+</pre></td><td class='code'><pre><code class=''><span class='line'>cmdline: /java.so -jar /riemann.jar</span></code></pre></td></tr></table></div></figure>
 
 
-<p>There&rsquo;s one more section in the Capstanfile: <code>base</code>.  That&rsquo;s a pre-built OSv image, which is available from Amazon S3.  Capstan will automatically download this for you.  It lives under <code>.capstan</code> in your home directory.</p>
+<p>That&rsquo;s it. Done with the Capstanfile.</p>
 
-<h2>Putting it all together</h2>
-
-<p>Now, when we type <code>capstan build</code>, Capstan invokes <code>make</code>, then creates the VM image.  It lives under <code>.capstan</code> in your home directory, at:</p>
+<p><strong>Let&rsquo;s test it!</strong></p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>.capstan/repository/http-server/http-server.qemu</span></code></pre></td></tr></table></div></figure>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;capstan run
+</span><span class='line'>WARN [2014-04-13 14:11:22,029] Thread-9 - riemann.core - instrumentation service caught
+</span><span class='line'>java.io.IOException: Cannot run program "hostname": error=0, vfork failed
+</span><span class='line'>  at java.lang.ProcessBuilder.start(ProcessBuilder.java:1041)
+</span><span class='line'>  at java.lang.Runtime.exec(Runtime.java:617)
+</span><span class='line'>  at clojure.java.shell$sh.doInvoke(shell.clj:116)
+</span><span class='line'>  at clojure.lang.RestFn.invoke(RestFn.java:408)</span></code></pre></td></tr></table></div></figure>
 
 
-<p>This is a QCOW2 image, ready to run under KVM or convert to your favorite format.  That&rsquo;s it.  Told you it was simple.  You can just do <code>capstan run</code> and point your browser to <a href="http://localhost:8080/">http://localhost:8080/</a> to see the site.</p>
+<p>No luck.  It turns out that Riemann is using</p>
 
-<p>In an upcoming blog post, I&rsquo;ll cover the recently added VirtualBox support in Capstan (hint: try <code>-p vbox</code>) and some other fun things you can do.</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(sh "hostname")</span></code></pre></td></tr></table></div></figure>
 
-<p>If you have any Capstan questions, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list on Google Groups</a>.  You can get updates on new OSv and Capstan progress by subscribing to this blog or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+
+<p>which uses vfork to run a child process. On any OS its not very efficient to fork just to get the hostname, and on current OSv it simply won&rsquo;t work. To bypass the problem, I replace this call with:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>(.getHostName (java.net.InetAddress/getLocalHost))</span></code></pre></td></tr></table></div></figure>
+
+
+<p>which uses a Java <code>getHostName</code>.</p>
+
+<p><strong>Let&rsquo;s try again</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>&gt;capstan run
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This time it works, but how do I test it and connect to it?</p>
+
+<p><strong>Let&rsquo;s use Capstan port forwarding</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>capstan run -f 5555:5555 -f 5556:5556
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+This will  forward host ports 5555 and 5556 to the corresponding ports on the OSv VM.</p>
+
+<p><strong>Success :)</strong></p>
+
+<p>Now we can switch to another terminal and run:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>riemann-health
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+to generate traffic for Riemann
+and</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'>riemann-dash
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>to launch a Riemann web GUI.  Here is how it looks:</p>
+
+<p><img src="/blog/images/riemann_on_osv.png" alt="&quot;Riemann GUI" /> <i>riemann-dash</i></p>
+
+<p>Now we&rsquo;re ready to do further stress testing.  If you do find any problem, or have any question, you&rsquo;re invited to join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev list</a> and ask, or post an issue to the <a href="https://github.com/tzach/riemann">GitHub repository</a>.</p>
+
+<p>&mdash; <a href="https://twitter.com/TzachL">Tzach Livyatan</a></p>
 </div>
 
 
@@ -221,12 +283,12 @@
   
 
 
-<time datetime="2014-04-03T08:37:05-07:00" pubdate data-updated="true">Apr 3<span>rd</span>, 2014</time>
+<time datetime="2014-04-22T09:00:00-07:00" pubdate data-updated="true">Apr 22<span>nd</span>, 2014</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/blog/categories/capstan/'>capstan</a>, <a class='category' href='/blog/blog/categories/tools/'>tools</a>
+    <a class='category' href='/blog/blog/categories/capstan/'>capstan</a>, <a class='category' href='/blog/blog/categories/clojure/'>clojure</a>, <a class='category' href='/blog/blog/categories/examples/'>examples</a>, <a class='category' href='/blog/blog/categories/tools/'>tools</a>
   
 </span>
 
@@ -256,10 +318,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/blog/2014/03/30/welcome/" title="Previous Post: New OSv blog">&laquo; New OSv blog</a>
+        <a class="basic-alignment left" href="/blog/blog/2014/04/19/spinlock-free/" title="Previous Post: Spinlock-free OS design for virtualization">&laquo; Spinlock-free OS design for virtualization</a>
       
-      
-        <a class="basic-alignment right" href="/blog/blog/2014/04/19/spinlock-free/" title="Next Post: Spinlock-free OS design for virtualization">Spinlock-free OS design for virtualization &raquo;</a>
       
     </p>
   </footer>
@@ -338,8 +398,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://osv.io/blog/blog/2014/04/03/capstan/';
-        var disqus_url = 'http://osv.io/blog/blog/2014/04/03/capstan/';
+        var disqus_identifier = 'http://osv.io/blog/blog/2014/04/22/riemann-on-osv/';
+        var disqus_url = 'http://osv.io/blog/blog/2014/04/22/riemann-on-osv/';
         var disqus_script = 'embed.js';
       
     (function () {
