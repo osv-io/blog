@@ -1,0 +1,20 @@
+---
+layout: post
+title: "New OSv Meetup group"
+date: 2014-04-25 11:54:23 -0400
+comments: true
+published: true
+---
+
+**By Don Marti**
+
+We held the first meeting of the OSv [Meetup group](http://www.meetup.com/OSv-Developer-Meetup/) in San Francisco this week, and got 14 participants from the Apache, Big Data, and OSv communities, as well as a few meetup.com users interested in cloud computing who just came along serendipitously.
+
+![attendees](blog/images/meetup.jpg)
+
+Thanks to our hosts at [OhmData](http://ohmdata.com/) who made their groovy South of Market office space available, and thanks to our attendees for coming in to try out OSv.  Looking forward to seeing the results of your initial experiments.
+
+(For the users of VirtualBox on Mac OS who ran into the ["assertion failed" problem](https://groups.google.com/forum/#!topic/osv-dev/yobHBsusLN8), we're discussing that on the [osv-dev mailing list](https://groups.google.com/forum/#!forum/osv-dev) now, so watch the list for an update.)
+
+To get advance notice of future events&mdash;both the free-form hands-on sessions like this one and an upcoming tech talk series&mdash;please join the [Meetup group](http://www.meetup.com/OSv-Developer-Meetup/) or follow [@CloudiusSystems](https://twitter.com/CloudiusSystems) on Twitter.
+
