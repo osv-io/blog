@@ -10,7 +10,7 @@ published: true
 
 We held the first meeting of the OSv [Meetup group](http://www.meetup.com/OSv-Developer-Meetup/) in San Francisco this week, and got 14 participants from the Apache, Big Data, and OSv communities, as well as a few meetup.com users interested in cloud computing who just came along serendipitously.
 
-![attendees](blog/images/meetup.jpg)
+![attendees](images/meetup.jpg)
 
 Thanks to our hosts at [OhmData](http://ohmdata.com/) who made their groovy South of Market office space available, and thanks to our attendees for coming in to try out OSv.  Looking forward to seeing the results of your initial experiments.
 
