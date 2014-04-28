@@ -4,7 +4,7 @@
   <title><![CDATA[OSv Blog]]></title>
   <link href="http://osv.io/blog/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2014-04-28T07:41:36-07:00</updated>
+  <updated>2014-04-28T07:44:03-07:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -22,7 +22,7 @@
 
 <p>We held the first meeting of the OSv <a href="http://www.meetup.com/OSv-Developer-Meetup/">Meetup group</a> in San Francisco this week, and got 14 participants from the Apache, Big Data, and OSv communities, as well as a few meetup.com users interested in cloud computing who just came along serendipitously.</p>
 
-<p><img src="images/meetup.jpg" alt="attendees" /></p>
+<p><img src="http://osv.io/blog/images/meetup.jpg" alt="attendees" /></p>
 
 <p>Thanks to our hosts at <a href="http://ohmdata.com/">OhmData</a> who made their groovy South of Market office space available, and thanks to our attendees for coming in to try out OSv.  Looking forward to seeing the results of your initial experiments.</p>
 
