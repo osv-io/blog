@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: Examples - OSv Blog</title>
+  <title>Bridged Networking With Capstan - OSv Blog</title>
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="Category: examples">
+  <meta name="description" content="By Don Marti New versions of Capstan are making it simpler to run OSv virtual machines in a production configuration, by adding more control of &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://osv.io/blogblog/categories/examples">
+  <link rel="canonical" href="http://osv.io/blog/blog/2014/05/07/capstan-bridge">
   <link href="/blog/favicon.ico" rel="icon">
   <link href="/blog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
@@ -97,42 +97,137 @@
         </script>
     </div>
 </div>
-<div class="mobile mobilePageTitle">Category: examples</div>
+<div class="mobile mobilePageTitle">Bridged networking with Capstan</div>
 
 
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Examples</h1>
+    
+      <h1 class="entry-title">Bridged Networking With Capstan</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-07T08:37:05-07:00" pubdate data-updated="true">May 7<span>th</span>, 2014</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p><strong>By Don Marti</strong></p>
 
-  
-  <h2>2014</h2>
+<p>New versions of <a href="https://github.com/cloudius-systems/capstan">Capstan</a> are making it simpler to run OSv virtual machines in a production configuration, by adding more control of network options.  A useful new feature, which helps deal with the <a href="https://github.com/cloudius-systems/osv/wiki/Running-OSv-image-under-KVM-QEMU">details of bringing up networking</a>, is the <code>-n</code> option.</p>
 
-<article>
-  
-<h1><a href="/blog/blog/2014/04/22/riemann-on-osv/">Riemann - a Clojure Application on OSv</a></h1>
-<time datetime="2014-04-22T09:00:00-07:00" pubdate><span class='month'>Apr</span> <span class='day'>22</span> <span class='year'>2014</span></time>
+<p>By default, Capstan starts up KVM/QEMU with user networking:</p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/blog/categories/capstan/'>capstan</a>, <a class='category' href='/blog/blog/categories/clojure/'>clojure</a>, <a class='category' href='/blog/blog/categories/examples/'>examples</a>, <a class='category' href='/blog/blog/categories/tools/'>tools</a></span>
-</footer>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> -netdev user,id=un0,net=192.168.122.0/24,host=192.168.122.1</span></code></pre></td></tr></table></div></figure>
 
 
-</article>
+<p>(That&rsquo;s from <code>ps ax | grep qemu</code>, which you can run
+to see the qemu-system-x86_64 command that Capstan
+is executing for you.)</p>
 
+<p>But there are many more <a href="http://www.linux-kvm.org/page/Networking">networking options</a> for QEMU/KVM.  The basic user networking, which does not require root access to start up, is good for development and simple tasks.  But for production use, where you need to get your VM on a network where it&rsquo;s available from other VMs or from the outside, you&rsquo;ll need bridged networking.  (See your Linux distribution or hypervisor documentation for the details of creating a virtual or public bridge device.)</p>
+
+<p>If you invoke <code>capstan run</code> with the <code>-n bridge</code> option, you&rsquo;ll get QEMU running with:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-netdev bridge,id=hn0,br=virbr0,helper=/usr/libexec/qemu-bridge-helper</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you have a specific bridge device to connect to, you can use the <code>-b</code> option with the name of the bridge device.  The default is <code>virbr0</code>, but you can also set up a public bridge, usually <code>br0</code>, that&rsquo;s bridged to a physical network interface on the host.</p>
+
+<h1>Other hypervisors</h1>
+
+<p>Don&rsquo;t feel left out if you have a different hypervisor.  Capstan also handles bridged networking on VirtualBox, with the rest of the supported hypervisors coming soon.   The fact that the syntax is the same is going to be a big time-saver for those of us who have to do testing and demos on multiple systems&mdash;no more dealing with arcane commands that are different from system to system.</p>
+
+<p>For more on Capstan and networking, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list on Google Groups</a>.  You can get updates by subscribing to this blog&rsquo;s feed, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Cloudius Systems</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-07T08:37:05-07:00" pubdate data-updated="true">May 7<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/blog/categories/capstan/'>capstan</a>, <a class='category' href='/blog/blog/categories/network/'>network</a>, <a class='category' href='/blog/blog/categories/tools/'>tools</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+    <div class="addthis_toolbox addthis_default_style ">
+        
+        <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+        
+        
+        <a class="addthis_button_tweet"></a>
+        
+        
+        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+        
+        
+        <a class="addthis_counter addthis_pill_style"></a>
+        
+    </div>
+    
+    <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-5343e81a2e0c9bfa"></script>
+    
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/blog/2014/04/25/meetup/" title="Previous Post: New OSv Meetup group">&laquo; New OSv Meetup group</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -204,7 +299,10 @@
       var disqus_shortname = 'osvblog';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://osv.io/blog/blog/2014/05/07/capstan-bridge/';
+        var disqus_url = 'http://osv.io/blog/blog/2014/05/07/capstan-bridge/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

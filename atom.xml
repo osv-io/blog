@@ -4,7 +4,7 @@
   <title><![CDATA[OSv Blog]]></title>
   <link href="http://osv.io/blog/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2014-04-28T07:44:03-07:00</updated>
+  <updated>2014-05-07T18:12:05-07:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -12,6 +12,43 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Bridged Networking With Capstan]]></title>
+    <link href="http://osv.io/blog/blog/2014/05/07/capstan-bridge/"/>
+    <updated>2014-05-07T08:37:05-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/05/07/capstan-bridge</id>
+    <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
+
+<p>New versions of <a href="https://github.com/cloudius-systems/capstan">Capstan</a> are making it simpler to run OSv virtual machines in a production configuration, by adding more control of network options.  A useful new feature, which helps deal with the <a href="https://github.com/cloudius-systems/osv/wiki/Running-OSv-image-under-KVM-QEMU">details of bringing up networking</a>, is the <code>-n</code> option.</p>
+
+<p>By default, Capstan starts up KVM/QEMU with user networking:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'> -netdev user,id=un0,net=192.168.122.0/24,host=192.168.122.1</span></code></pre></td></tr></table></div></figure>
+
+
+<p>(That&rsquo;s from <code>ps ax | grep qemu</code>, which you can run
+to see the qemu-system-x86_64 command that Capstan
+is executing for you.)</p>
+
+<p>But there are many more <a href="http://www.linux-kvm.org/page/Networking">networking options</a> for QEMU/KVM.  The basic user networking, which does not require root access to start up, is good for development and simple tasks.  But for production use, where you need to get your VM on a network where it&rsquo;s available from other VMs or from the outside, you&rsquo;ll need bridged networking.  (See your Linux distribution or hypervisor documentation for the details of creating a virtual or public bridge device.)</p>
+
+<p>If you invoke <code>capstan run</code> with the <code>-n bridge</code> option, you&rsquo;ll get QEMU running with:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>-netdev bridge,id=hn0,br=virbr0,helper=/usr/libexec/qemu-bridge-helper</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you have a specific bridge device to connect to, you can use the <code>-b</code> option with the name of the bridge device.  The default is <code>virbr0</code>, but you can also set up a public bridge, usually <code>br0</code>, that&rsquo;s bridged to a physical network interface on the host.</p>
+
+<h1>Other hypervisors</h1>
+
+<p>Don&rsquo;t feel left out if you have a different hypervisor.  Capstan also handles bridged networking on VirtualBox, with the rest of the supported hypervisors coming soon.   The fact that the syntax is the same is going to be a big time-saver for those of us who have to do testing and demos on multiple systems&mdash;no more dealing with arcane commands that are different from system to system.</p>
+
+<p>For more on Capstan and networking, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list on Google Groups</a>.  You can get updates by subscribing to this blog&rsquo;s feed, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[New OSv Meetup Group]]></title>
