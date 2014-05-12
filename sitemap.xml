@@ -25,8 +25,12 @@
         <lastmod>2014-05-07T18:12:05-07:00</lastmod>
     </url>
     <url>
+        <loc>http://osv.io/blog/blog/2014/05/12/osv-on-64-bit-arm/</loc>
+        <lastmod>2014-05-12T07:14:21-07:00</lastmod>
+    </url>
+    <url>
         <loc>http://osv.io/blog/blog/archives/</loc>
-        <lastmod>2014-05-07T18:12:05-07:00</lastmod>
+        <lastmod>2014-05-12T07:14:21-07:00</lastmod>
     </url>
     <url>
         <loc>http://osv.io/blog/robots.txt</loc>
@@ -34,6 +38,6 @@
     </url>
     <url>
         <loc>http://osv.io/blog/</loc>
-        <lastmod>2014-05-07T18:12:05-07:00</lastmod>
+        <lastmod>2014-05-12T07:14:21-07:00</lastmod>
     </url>
 </urlset>
