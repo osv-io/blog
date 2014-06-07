@@ -4,7 +4,7 @@
   <title><![CDATA[OSv Blog]]></title>
   <link href="http://osv.io/blog/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2014-05-23T14:31:00-07:00</updated>
+  <updated>2014-06-06T19:39:24-07:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -12,6 +12,35 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Using Capstan With Local OSv Images]]></title>
+    <link href="http://osv.io/blog/blog/2014/06/06/capstan-push/"/>
+    <updated>2014-06-06T08:54:23-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/06/06/capstan-push</id>
+    <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
+
+<p>If you&rsquo;re building OSv from source, you can use the <code>capstan push</code> command to temporarily use a local build in place of a base image from a network repository.  This is handy when you&rsquo;re trying your application with a patched version of OSv.   Just run <code>capstan push</code> after the OSv build to push your newly built image into your local Capstan repository.</p>
+
+<p>For example, if your Capstanfile uses the <code>cloudius/osv-base</code> base image:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>make 
+</span><span class='line'>capstan push cloudius/osv-base  build/release/usr.img</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When you&rsquo;re ready to go back to using the image from the network, you can run</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>capstan pull cloudius/osv-base</span></code></pre></td></tr></table></div></figure>
+
+
+<p>to replace the image in your local repository with the image from the network repository.</p>
+
+<p>For more tips and updates, please follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems on Twitter</a>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[OSv Paper Coming to USENIX in June]]></title>

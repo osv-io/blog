@@ -9,8 +9,7 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="By Don Marti We&rsquo;re going to the USENIX Annual Technical Conference
-in Philadelphia! Our paper, &ldquo;OSv—Optimizing the Operating System for &hellip;">
+  <meta name="description" content="By Don Marti If you&rsquo;re building OSv from source, you can use the capstan push command to temporarily use a local build in place of a base image &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -105,6 +104,62 @@ in Philadelphia! Our paper, &ldquo;OSv—Optimizing the Operating System for &he
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/blog/2014/06/06/capstan-push/">Using Capstan With Local OSv Images</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-06T08:54:23-07:00" pubdate data-updated="true">Jun 6<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>By Don Marti</strong></p>
+
+<p>If you&rsquo;re building OSv from source, you can use the <code>capstan push</code> command to temporarily use a local build in place of a base image from a network repository.  This is handy when you&rsquo;re trying your application with a patched version of OSv.   Just run <code>capstan push</code> after the OSv build to push your newly built image into your local Capstan repository.</p>
+
+<p>For example, if your Capstanfile uses the <code>cloudius/osv-base</code> base image:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>make 
+</span><span class='line'>capstan push cloudius/osv-base  build/release/usr.img</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When you&rsquo;re ready to go back to using the image from the network, you can run</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>capstan pull cloudius/osv-base</span></code></pre></td></tr></table></div></figure>
+
+
+<p>to replace the image in your local repository with the image from the network repository.</p>
+
+<p>For more tips and updates, please follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems on Twitter</a>.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -593,6 +648,10 @@ is executing for you.)</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/blog/2014/06/06/capstan-push/">Using Capstan With Local OSv Images</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/blog/2014/05/19/usenix-atc/">OSv Paper Coming to USENIX in June</a>
       </li>
     
@@ -606,10 +665,6 @@ is executing for you.)</p>
     
       <li class="post">
         <a href="/blog/blog/2014/04/25/meetup/">New OSv Meetup Group</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/blog/2014/04/22/riemann-on-osv/">Riemann - a Clojure Application on OSv</a>
       </li>
     
   </ul>
