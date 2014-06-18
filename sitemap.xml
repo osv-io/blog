@@ -37,8 +37,12 @@
         <lastmod>2014-06-06T19:39:24-07:00</lastmod>
     </url>
     <url>
+        <loc>http://osv.io/blog/blog/2014/06/18/usenix-atc/</loc>
+        <lastmod>2014-06-18T15:04:29-07:00</lastmod>
+    </url>
+    <url>
         <loc>http://osv.io/blog/blog/archives/</loc>
-        <lastmod>2014-06-06T19:39:24-07:00</lastmod>
+        <lastmod>2014-06-18T15:04:29-07:00</lastmod>
     </url>
     <url>
         <loc>http://osv.io/blog/robots.txt</loc>
@@ -46,6 +50,6 @@
     </url>
     <url>
         <loc>http://osv.io/blog/</loc>
-        <lastmod>2014-06-06T19:39:24-07:00</lastmod>
+        <lastmod>2014-06-18T15:04:29-07:00</lastmod>
     </url>
 </urlset>
