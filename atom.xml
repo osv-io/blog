@@ -4,7 +4,7 @@
   <title><![CDATA[OSv Blog]]></title>
   <link href="http://osv.io/blog/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2014-06-18T15:04:29-07:00</updated>
+  <updated>2014-06-18T17:20:45-07:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -23,7 +23,7 @@
 <p>If you&rsquo;re attending the USENIX Annual Technical Conference, be sure not to miss
 <a href="https://www.usenix.org/conference/atc14/technical-sessions/presentation/kivity">&ldquo;OSv—Optimizing the Operating System for Virtual Machines&rdquo; </a>. Nadav Har&#8217;El will be presenting tomorrow at 10:40 AM.</p>
 
-<p>Here&rsquo;s a quick preview of some of the performance results that Nadav will</p>
+<p>Here&rsquo;s a quick preview of some of the performance results that Nadav will show:</p>
 
 <p><img src="http://osv.io/blog/images/usenix-paper.png" alt="table from upcoming paper" /></p>
 
