@@ -1,12 +1,12 @@
 ---
 layout: post
-title: "Hypervisors are dead, long live the hypervisor"
+title: "Hypervisors are dead, long live the hypervisor (part 1)"
 date: 2014-06-19 12:00:00 -0800
 comments: true
 published: false
 ---
 
-**By Dor Laor**
+**By Dor Laor and Avi Kivity**
 
 The hypervisor is the basic building block of cloud computing; hypervisors drive the software-defined data center revolution, and two-thirds of all new servers are virtualized today. Hypervisors for commodity hardware have been the key enabler for the software revolution we have been experiencing. 
  
@@ -42,7 +42,7 @@ Virtualization didn’t make it to commodity systems until the [release of VMwar
 
 Later on, the open source Xen hypervisor project coined the term paravirtualization (PV). PV guests, which have to be specially modified to run on a PV host, do not execute privileged instructions themselves but ask the hypervisor to do it on their behalf.
 
-![Xen logo](/images/vmware-logo.png)
+![Xen logo](/images/xen-logo.png)
 
 Eventually, Intel, AMD and ARM implemented support for virtualization extensions. A special host mode allows running guest code on the bare CPU, getting near 100% of bare metal throughput for CPU-intensive workloads. In parallel, the memory management and the IO path received attention as well with technologies such as nested paging (virtual memory), virtual interrupt controllers, single-root I/O virtualization (SRIOV) and other optimizations.
 
@@ -50,7 +50,7 @@ Eventually, Intel, AMD and ARM implemented support for virtualization extensions
 
 Hypervisor enablement continues to be a priority for hardware manufacturers. [Glauber Costa wrote](https://plus.google.com/+OsvIo/posts/fgzsepcScTa), “the silicon keeps getting better and better at taking complexity away from software and hiding somewhere else.”
 
-[According to a paper from Red Hat Software](http://www.redhat.com/rhecm/rest-rhecm/jcr/repository/collaboration/jcr:system/jcr:versionStorage/5e7884ed7f00000102c317385572f1b1/1/jcr:frozenNode/rh:pdfFile.pdf)
+[According to a paper from Red Hat Software](http://www.redhat.com/rhecm/rest-rhecm/jcr/repository/collaboration/jcr:system/jcr:versionStorage/5e7884ed7f00000102c317385572f1b1/1/jcr:frozenNode/rh:pdfFile.pdf),
 
 > Both Intel and AMD continue to add new features to hardware to improve performance for virtualization. In so doing, they offload more features from the hypervisor into “the silicon” to provide improved performance and a more robust platform....These features allow virtual machines to achieve the same I/O performance as bare metal systems.
 Old-school hypervisors
@@ -61,9 +61,7 @@ Hypervisors are a mature technology with a rich set of tools and features rangin
 
 However, in order to virtualize your workload, one must deploy a full fledged guest operating system onto every VM instance. This new layer is a burden in terms of management and in terms of performance overhead. We’ll look at one of the other approaches to compartmentalization next time: containers.
 
-## Part 2 coming soon
+**This is part 1 of a 3-part series.** Please subscribe to our [feed](/atom.xml) or follow [@CloudiusSystems](https://twitter.com/CloudiusSystems) to get a notification when part 2 is available.
 
-Please subscribe to our [feed](/atom.xml) or follow [@CloudiusSystems](https://twitter.com/CloudiusSystems) to get a notification when part 2 is available.
-
-IBM 360: [Dave Mills for Wikimedia Commons](http://commons.wikimedia.org/wiki/File:IBM360-67AtUmichWithMikeAlexander.jpg)
+Photo credit, IBM 360: [Dave Mills for Wikimedia Commons](http://commons.wikimedia.org/wiki/File:IBM360-67AtUmichWithMikeAlexander.jpg)
 
