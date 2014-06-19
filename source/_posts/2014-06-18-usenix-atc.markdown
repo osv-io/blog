@@ -11,7 +11,7 @@ published: true
 If you're attending the USENIX Annual Technical Conference, be sure not to miss
 ["OSv—Optimizing the Operating System for Virtual Machines" ](https://www.usenix.org/conference/atc14/technical-sessions/presentation/kivity). Nadav Har'El will be presenting tomorrow at 10:40 AM.
 
-Here's a quick preview of some of the performance results that Nadav will 
+Here's a quick preview of some of the performance results that Nadav will show:
 
 ![table from upcoming paper](/images/usenix-paper.png)
 
