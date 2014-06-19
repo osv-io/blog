@@ -3,7 +3,7 @@ layout: post
 title: "Hypervisors are dead, long live the hypervisor (part 1)"
 date: 2014-06-19 12:00:00 -0800
 comments: true
-published: false
+published: true
 ---
 
 **By Dor Laor and Avi Kivity**
