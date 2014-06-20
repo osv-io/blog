@@ -3,10 +3,12 @@ layout: post
 title: "Hypervisors are dead, long live the hypervisor (part 2)"
 date: 2014-06-19 12:00:00 -0800
 comments: true
-published: false
+published: true
 ---
 
 **By Dor Laor and Avi Kivity**
+
+# Linux containers
 
 (This is part 2 of a 3-part series. [Part 1 was published yesterday.](http://osv.io/blog/blog/2014/06/19/containers-hypervisors-part-1/))
 
