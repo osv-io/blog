@@ -43,7 +43,7 @@ OSv's image is your app and our kernel. Sometimes it means an image size of 10MB
 
 ##OSv management: some questions for devops
 
-ow many configuration files does your OS have? **OSv has zero.**
+How many configuration files does your OS have? **OSv has zero.**
 
 How many times have you had to perform string manipulation on UNIX-like config files? **OSv is built for automation and uses a RESTful API instead.**
 
