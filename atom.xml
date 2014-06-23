@@ -4,7 +4,7 @@
   <title><![CDATA[OSv Blog]]></title>
   <link href="http://osv.io/blog/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2014-06-23T10:25:42-07:00</updated>
+  <updated>2014-06-23T11:51:42-07:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -54,7 +54,7 @@
 
 <h2>OSv management: some questions for devops</h2>
 
-<p>ow many configuration files does your OS have? <strong>OSv has zero.</strong></p>
+<p>How many configuration files does your OS have? <strong>OSv has zero.</strong></p>
 
 <p>How many times have you had to perform string manipulation on UNIX-like config files? <strong>OSv is built for automation and uses a RESTful API instead.</strong></p>
 
