@@ -53,7 +53,9 @@ Hypervisor enablement continues to be a priority for hardware manufacturers. [Gl
 [According to a paper from Red Hat Software](http://www.redhat.com/rhecm/rest-rhecm/jcr/repository/collaboration/jcr:system/jcr:versionStorage/5e7884ed7f00000102c317385572f1b1/1/jcr:frozenNode/rh:pdfFile.pdf),
 
 > Both Intel and AMD continue to add new features to hardware to improve performance for virtualization. In so doing, they offload more features from the hypervisor into “the silicon” to provide improved performance and a more robust platform....These features allow virtual machines to achieve the same I/O performance as bare metal systems.
-Old-school hypervisors
+
+
+## Old-school hypervisors
 
 Hypervisors are one of the main pillars of the IT market (try making your way through downtown San Francisco during VMworld) and solve an important piece of the problem. Today the hypervisor layer is commoditized, users can choose any hypervisor they wish when they deploy Open Stack or similar solutions.
 
@@ -61,7 +63,7 @@ Hypervisors are a mature technology with a rich set of tools and features rangin
 
 However, in order to virtualize your workload, one must deploy a full fledged guest operating system onto every VM instance. This new layer is a burden in terms of management and in terms of performance overhead. We’ll look at one of the other approaches to compartmentalization next time: containers.
 
-**This is part 1 of a 3-part series.** Please subscribe to our [feed](/atom.xml) or follow [@CloudiusSystems](https://twitter.com/CloudiusSystems) to get a notification when part 2 is available.
+**This is part 1 of a 3-part series.**  [Part 2 is now available](http://osv.io/blog/blog/2014/06/19/containers-hypervisors-part-2/).  Please subscribe to our [feed](/atom.xml) or follow [@CloudiusSystems](https://twitter.com/CloudiusSystems) to get a notification of future posts.
 
 Photo credit, IBM 360: [Dave Mills for Wikimedia Commons](http://commons.wikimedia.org/wiki/File:IBM360-67AtUmichWithMikeAlexander.jpg)
 
