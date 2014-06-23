@@ -18,7 +18,7 @@ What if there were one technology that could give us the simplicity and reduced 
 
 ## Best of both worlds? 
 
-Glauber Costa, in a speech at Linuxcon called "The failure of Operating Systems, and how we can fix it". pointed out that the existence of hypervisors is evidence that Operating Systems alone cannot meet some of the demands of real workloads. Through OSv, we have the opportunity to work together with the hypervisor to create a superior solution to what can be done with the OS alone: combining the resource efficiency of containers with the processor-aided advantages of hardware virtualization.
+Glauber Costa, in a speech at Linuxcon called ["The failure of Operating Systems, and how we can fix it"](https://events.linuxfoundation.org/images/stories/pdf/lceu2012_costa.odp), pointed out that the existence of hypervisors is evidence that Operating Systems alone cannot meet some of the demands of real workloads. Through OSv, we have the opportunity to work together with the hypervisor to create a superior solution to what can be done with the OS alone: combining the resource efficiency of containers with the processor-aided advantages of hardware virtualization.
 
 In the eight years since the release of Intel VMX, the silicon has kept getting better and better at moving the costs of virtualization into hardware. Enterprise customers have been demanding lower virtualization overhead for as long as hypervisors have been a thing, and the best minds of the CPU industry are working on it. With nested page tables and other features coming “for free” on the processor, virtualization overhead is being squeezed closer and closer to parity with bare metal.
 
@@ -53,7 +53,7 @@ With an hypervisor below, you get the features such as live migration, perfect S
 
 ## Capstan – or what we have learned from Docker
 
-We do love Docker with regard to development. The neat public image repository and the dead-simple-single execution won our hearts. We wanted to have the same for VMs, so we created the Capstan project. Capstan has a public image repository, and by executing 'capstan run cloudius/osv-cassandra' a virtual machine image will be either downloaded to your laptop (Mac OS X, Microsoft Windows, or Linux) or be executed on your cloud of choice. Capstan also allows you to build images including an app and a base OSv image. It takes about three seconds. On Capstan's roadmap, we plan to support the Docker file format, run Java apps directly without a config file, and form a simple PaaS for developers to load their favorite app directly to a running VM.
+We do love Docker with regard to development. The neat public image repository and the dead-simple-single execution won our hearts. We wanted to have the same for VMs, so we created the [Capstan](http://osv.io/capstan/) project. Capstan has a public image repository, and by executing 'capstan run cloudius/osv-cassandra' a virtual machine image will be either downloaded to your laptop (Mac OS X, Microsoft Windows, or Linux) or be executed on your cloud of choice. Capstan also allows you to build images including an app and a base OSv image. It takes about three seconds. On Capstan's roadmap, we plan to support the Docker file format, run Java apps directly without a config file, and form a simple PaaS for developers to load their favorite app directly to a running VM.
 
 ## Pick a cloud, any cloud 
 
