@@ -49,8 +49,12 @@
         <lastmod>2014-06-20T11:31:06-07:00</lastmod>
     </url>
     <url>
+        <loc>http://osv.io/blog/blog/2014/06/23/containers-hypervisors-part-3/</loc>
+        <lastmod>2014-06-23T10:25:42-07:00</lastmod>
+    </url>
+    <url>
         <loc>http://osv.io/blog/blog/archives/</loc>
-        <lastmod>2014-06-23T07:59:28-07:00</lastmod>
+        <lastmod>2014-06-23T10:25:42-07:00</lastmod>
     </url>
     <url>
         <loc>http://osv.io/blog/robots.txt</loc>
@@ -58,6 +62,6 @@
     </url>
     <url>
         <loc>http://osv.io/blog/</loc>
-        <lastmod>2014-06-23T07:59:28-07:00</lastmod>
+        <lastmod>2014-06-23T10:25:42-07:00</lastmod>
     </url>
 </urlset>
