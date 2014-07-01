@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | OSv Blog]]></title>
   <link href="http://osv.io/blog/blog/categories/tools/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2014-06-23T14:07:19-07:00</updated>
+  <updated>2014-07-01T14:16:03-07:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -12,6 +12,46 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[What Is the Most Popular OSv Virtual Appliance?]]></title>
+    <link href="http://osv.io/blog/blog/2014/07/01/s3stat/"/>
+    <updated>2014-07-01T00:00:00-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/07/01/s3stat</id>
+    <content type="html"><![CDATA[<p><strong>By Tzach Livyatan</strong></p>
+
+<p>(Spoiler: It&rsquo;s Apache Tomcat.)</p>
+
+<p><a href="https://github.com/cloudius-systems/capstan">Capstan</a> is a tool for rapidly building and running applications on OSv.
+As with Docker, Capstan users can download and run images from a public repository.
+We chose to implement our public Capstan repository using <a href="http://aws.amazon.com/s3/">Amazon S3</a>.</p>
+
+<p>Amazon S3  gives us the flexibility and security we need, but by default it&rsquo;s missing a critical feature: download statistics.
+This statistics are very interesting to us, to evaluate which of the Capstan virtual appliances are more popular.  Fortunately, there is an easy way to gather the stats we need.</p>
+
+<p>After a short tools survey, we choose <a href="http://www.s3stat.com/">s3stat</a>.</p>
+
+<p><a href="http://www.s3stat.com/">s3stat</a> is a cloud-based service which can follow an S3 bucket, and visualize download statistics, by file, country, browser day, or otherwise.
+The price makes sense, and it is super easy to enable.</p>
+
+<p><img src="/images/s3stat_chart.png" alt="s3stat chart" /></p>
+
+<p>So what are the results? (drum roll&hellip;.)</p>
+
+<!-- more -->
+
+
+<p><img src="/images/s3stat_files.png" alt="s3stat files" /></p>
+
+<p>Omitting Capstan download of capstan index.yaml files, which Capstan does for every repository search, the most popular images are the base images for OSv and OSv + Java.
+That make sense because these two images will be used by anyone who wants to build a local OSv application, running a native or Java application.</p>
+
+<p>Virtual appliances comes right after, with (drums again&hellip;.) <strong>Tomcat</strong>, <strong>Cassandra</strong>, <strong>Memcached</strong> on the podium (Tomcat wins the Gold).
+These are all very early results, but we will keep using s3stat to follow Capstan image downloads.</p>
+
+<p><img src="/images/s3stat_map.png" alt="s3stat map" /></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Bridged Networking With Capstan]]></title>
