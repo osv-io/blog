@@ -3,40 +3,37 @@ layout: post
 title: "What is the most popular OSv virtual appliance?"
 date: 2014-07-01
 comments: true
-published: false
+published: true
 categories:  capstan tools
 ---
 
-[Spoiler: Its Tomcat]
+**By Tzach Livyatan**
+
+(Spoiler: It's Apache Tomcat.)
 
 [Capstan](https://github.com/cloudius-systems/capstan) is a tool for rapidly building and running applications on OSv.
-Similar to Docker, Capstan users can download and run images from a public repository.
-We chose to implemented Capstan repository using AWS S3
+As with Docker, Capstan users can download and run images from a public repository.
+We chose to implement our public Capstan repository using [Amazon S3](http://aws.amazon.com/s3/).
 
-
-AWS S3  give us the flexibility and security needed, but by default missing a critical feature: download statistics.
-This statistics are very interesting to us, to evaluate which of Capstan virtual appliances are more popular.
-
+Amazon S3  gives us the flexibility and security we need, but by default it's missing a critical feature: download statistics.
+This statistics are very interesting to us, to evaluate which of the Capstan virtual appliances are more popular.  Fortunately, there is an easy way to gather the stats we need.
 
 After a short tools survey, we choose [s3stat](http://www.s3stat.com/).
 
-
-[s3stat](http://www.s3stat.com/) is a cloud base service which can follow you s3 bucket, and visualize download statistics, by file, country, browser day etc.
-The price make sense, and it is super easy to enable.
+[s3stat](http://www.s3stat.com/) is a cloud-based service which can follow an S3 bucket, and visualize download statistics, by file, country, browser day, or otherwise.
+The price makes sense, and it is super easy to enable.
 
 
 ![s3stat chart](/images/s3stat_chart.png)
 
-So what are the results? (drums....) 
+So what are the results? (drum roll....) 
 <!-- more -->
 ![s3stat files](/images/s3stat_files.png)
 
-Omitting Capstan download of capstan index.yaml files, which Capstan do for every repository search, the most popular images are the base images for OSv and OSv + Java.
-That make sense because these two images will be used by anyone who want to build a local OSv application, running native or Java base app.
+Omitting Capstan download of capstan index.yaml files, which Capstan does for every repository search, the most popular images are the base images for OSv and OSv + Java.
+That make sense because these two images will be used by anyone who wants to build a local OSv application, running a native or Java application.
 
-
-Virtual appliances comes right after, with (drums again....) **Tomcat**, **Cassandra**, **Memcached** on the podium (Tomcat is Gold).
-These are all very early results, and probably does not mean much.
-We will keep using s3stat to follow Capstan images downloads.
+Virtual appliances comes right after, with (drums again....) **Tomcat**, **Cassandra**, **Memcached** on the podium (Tomcat wins the Gold).
+These are all very early results, but we will keep using s3stat to follow Capstan image downloads.
 
 ![s3stat map](/images/s3stat_map.png)
