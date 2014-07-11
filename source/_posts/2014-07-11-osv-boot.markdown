@@ -1,0 +1,25 @@
+---
+layout: post
+title: "Inside the OSv boot process"
+date: 2014-07-11 11:37:05 -0400
+comments: true
+published: true
+categories: internals
+---
+
+What happens in that critical fraction of a second between when a virtual x86_64 system "powers up" and when it begins running operating system code written in a high-level language?
+
+For a helpful walk-through, there's a new article on the OSv wiki, originally written by Elazar Leibovich.
+
+![IBM PC power switch](/images/pc-power.jpeg)
+
+**The boot process for a modern VM traces its history back to the
+original IBM PC.**
+
+While some of the intricate startup steps are historic, the end result is an OSv boot time that's less than a second&mdash;an order of magnitude faster than a conventional multi-user OS.  To read (or contribute!) details, 
+<a href="http://github.com/cloudius-systems/osv/wiki/OSv-early-boot-(MBR)">the "OSv early boot" article on the wiki.</a>
+
+(photo: [Hans Haase for Wikimedia Commons](http://commons.wikimedia.org/wiki/File:XT-PC-Power-Supply-PCB-IMG_0436.JPG). Available under the Creative Commons Attribution-Share Alike 3.0 Unported license.)
+
+If you have any questions on OSv internals, or porting your application, please join the [osv-dev mailing list](https://groups.google.com/forum/#!forum/osv-dev).  You can get general updates by subscribing to this blog's feed, or folllowing [@CloudiusSystems](https://twitter.com/CloudiusSystems) on Twitter.
+
