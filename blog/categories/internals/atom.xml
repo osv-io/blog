@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Internals | OSv Blog]]></title>
+  <link href="http://osv.io/blog/blog/categories/internals/atom.xml" rel="self"/>
+  <link href="http://osv.io/blog/"/>
+  <updated>2014-07-11T10:26:17-07:00</updated>
+  <id>http://osv.io/blog/</id>
+  <author>
+    <name><![CDATA[Cloudius Systems]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Inside the OSv Boot Process]]></title>
+    <link href="http://osv.io/blog/blog/2014/07/11/osv-boot/"/>
+    <updated>2014-07-11T08:37:05-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/07/11/osv-boot</id>
+    <content type="html"><![CDATA[<p>What happens in that critical fraction of a second between when a virtual x86_64 system &ldquo;powers up&rdquo; and when it begins running operating system code written in a high-level language?</p>
+
+<p>For a helpful walk-through, there&rsquo;s a new article on the OSv wiki, originally written by Elazar Leibovich.</p>
+
+<p><img src="/images/pc-power.jpeg" alt="IBM PC power switch" /></p>
+
+<p><strong>The boot process for a modern VM traces its history back to the
+original IBM PC.</strong></p>
+
+<p>While some of the intricate startup steps are historic, the end result is an OSv boot time that&rsquo;s less than a second&mdash;an order of magnitude faster than a conventional multi-user OS.  To read (or contribute!) details,
+<a href="http://github.com/cloudius-systems/osv/wiki/OSv-early-boot-(MBR)">the &ldquo;OSv early boot&rdquo; article on the wiki.</a></p>
+
+<p>(photo: <a href="http://commons.wikimedia.org/wiki/File:XT-PC-Power-Supply-PCB-IMG_0436.JPG">Hans Haase for Wikimedia Commons</a>. Available under the Creative Commons Attribution-Share Alike 3.0 Unported license.)</p>
+
+<p>If you have any questions on OSv internals, or porting your application, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get general updates by subscribing to this blog&rsquo;s feed, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+]]></content>
+  </entry>
+  
+</feed>

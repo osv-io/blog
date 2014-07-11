@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: Examples - OSv Blog</title>
+  <title>Inside the OSv Boot Process - OSv Blog</title>
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="Category: examples">
+  <meta name="description" content="What happens in that critical fraction of a second between when a virtual x86_64 system &ldquo;powers up&rdquo; and when it begins running operating &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://osv.io/blogblog/categories/examples">
+  <link rel="canonical" href="http://osv.io/blog/blog/2014/07/11/osv-boot">
   <link href="/blog/favicon.ico" rel="icon">
   <link href="/blog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
@@ -97,42 +97,123 @@
         </script>
     </div>
 </div>
-<div class="mobile mobilePageTitle">Category: examples</div>
+<div class="mobile mobilePageTitle">Inside the OSv boot process</div>
 
 
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Examples</h1>
+    
+      <h1 class="entry-title">Inside the OSv Boot Process</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-11T08:37:05-07:00" pubdate data-updated="true">Jul 11<span>th</span>, 2014</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p>What happens in that critical fraction of a second between when a virtual x86_64 system &ldquo;powers up&rdquo; and when it begins running operating system code written in a high-level language?</p>
 
-  
-  <h2>2014</h2>
+<p>For a helpful walk-through, there&rsquo;s a new article on the OSv wiki, originally written by Elazar Leibovich.</p>
 
-<article>
-  
-<h1><a href="/blog/blog/2014/04/22/riemann-on-osv/">Riemann - a Clojure Application on OSv</a></h1>
-<time datetime="2014-04-22T09:00:00-07:00" pubdate><span class='month'>Apr</span> <span class='day'>22</span> <span class='year'>2014</span></time>
+<p><img src="/blog/images/pc-power.jpeg" alt="IBM PC power switch" /></p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/blog/categories/capstan/'>capstan</a>, <a class='category' href='/blog/blog/categories/clojure/'>clojure</a>, <a class='category' href='/blog/blog/categories/examples/'>examples</a>, <a class='category' href='/blog/blog/categories/tools/'>tools</a></span>
-</footer>
+<p><strong>The boot process for a modern VM traces its history back to the
+original IBM PC.</strong></p>
 
+<p>While some of the intricate startup steps are historic, the end result is an OSv boot time that&rsquo;s less than a second&mdash;an order of magnitude faster than a conventional multi-user OS.  To read (or contribute!) details,
+<a href="http://github.com/cloudius-systems/osv/wiki/OSv-early-boot-(MBR)">the &ldquo;OSv early boot&rdquo; article on the wiki.</a></p>
 
-</article>
+<p>(photo: <a href="http://commons.wikimedia.org/wiki/File:XT-PC-Power-Supply-PCB-IMG_0436.JPG">Hans Haase for Wikimedia Commons</a>. Available under the Creative Commons Attribution-Share Alike 3.0 Unported license.)</p>
 
+<p>If you have any questions on OSv internals, or porting your application, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get general updates by subscribing to this blog&rsquo;s feed, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Cloudius Systems</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-11T08:37:05-07:00" pubdate data-updated="true">Jul 11<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/blog/categories/internals/'>internals</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+    <div class="addthis_toolbox addthis_default_style ">
+        
+        <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+        
+        
+        <a class="addthis_button_tweet"></a>
+        
+        
+        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+        
+        
+        <a class="addthis_counter addthis_pill_style"></a>
+        
+    </div>
+    
+    <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-5343e81a2e0c9bfa"></script>
+    
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/blog/2014/07/01/s3stat/" title="Previous Post: What is the most popular OSv virtual appliance?">&laquo; What is the most popular OSv virtual appliance?</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -204,7 +285,10 @@
       var disqus_shortname = 'osvblog';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://osv.io/blog/blog/2014/07/11/osv-boot/';
+        var disqus_url = 'http://osv.io/blog/blog/2014/07/11/osv-boot/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
