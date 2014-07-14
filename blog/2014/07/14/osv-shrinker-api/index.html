@@ -1,0 +1,478 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Getting Started With the OSv Shrinker API - OSv Blog</title>
+  <meta name="author" content="Cloudius Systems">
+
+  
+  <meta name="description" content="By Don Marti If you&rsquo;re writing a program that keeps a cache in memory, you&rsquo;re probably expecting users to have to set the cache size, &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://osv.io/blog/blog/2014/07/14/osv-shrinker-api">
+  <link href="/blog/favicon.ico" rel="icon">
+  <link href="/blog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
+  <script src="/blog/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/blog/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+<!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="http://osv.io/js/cycle.js"></script>
+<script src="http://osv.io/js/js.js" language="javascript"></script-->
+
+  
+
+</head>
+
+<body   >
+  <div class="wrap">
+  <div class="header"> <a class="logo" href="http://osv.io"><img src="http://osv.io/images/logo.jpg" /> </a>
+    <div class="topMenu">
+        <ul class="nav menu">
+            <li><a href="http://osv.io">Home</a></li>
+            <li class=""><a href="/blog/">Blog</a></li>
+            <li class=""><a href="/blog/blog/archives">Archives</a></li>
+        </ul>
+        <ul class="subscription" data-subscription="rss">
+            <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+            
+        </ul>
+        
+        <form action="https://www.google.com/search" method="get">
+            <fieldset role="search">
+                <input type="hidden" name="q" value="site:osv.io/blog" />
+                <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+            </fieldset>
+        </form>
+        
+    </div>
+</div>
+<div class="mobile header">
+    <a class="logo" href="http://osv.io/">
+        <img src="http://osv.io/images/mobileLogo.jpg"/>
+    </a>
+
+    <div class="mobile-topMenu">
+        <a href="javascript:void(0)" class="mobileMenuLink">&nbsp;</a>
+        <div class="theMobileMenu">
+            <ul class="nav menu">
+                <li class=""><a href="" >Home</a></li>
+                <li class="deeper parent"><a href="/users" >Users</a>
+                    <ul class="nav-child unstyled small">
+                        
+                    </ul>
+                </li>
+                <li class="deeper parent"><a href="/dev" >Development</a>
+                    <ul class="nav-child unstyled small">
+                        
+                    </ul>
+                </li>
+                <li class="deeper parent"><a href="/community" >Community</a>
+                    <ul class="nav-child unstyled small">
+                        
+                    </ul>
+                </li>
+                <li><a href="/contact/" >Contact</a></li>
+            </ul>
+        </div>
+        <script>
+            jQuery(document).ready(function(e) {
+                $('.mobileMenuLink').click(function(e) {
+                    $(this).toggleClass('active');
+                    $('.theMobileMenu').slideToggle();
+                });
+            });
+        </script>
+    </div>
+</div>
+<div class="mobile mobilePageTitle">Getting started with the OSv Shrinker API</div>
+
+
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Getting Started With the OSv Shrinker API</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-14T08:37:05-07:00" pubdate data-updated="true">Jul 14<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><strong>By Don Marti</strong></p>
+
+<p>If you&rsquo;re writing a program that keeps a cache in memory, you&rsquo;re probably expecting users to have to set the cache size, which means a configuration setting or command-line argument.  And every configuration setting or command-line argument is something that you have to document, or explain to users when they get it wrong.</p>
+
+<p>Thankfully, there&rsquo;s an easier way.</p>
+
+<!-- more -->
+
+
+<p>With OSv, you can ask the OS to let your program know when memory is tight, so that you can manage the cache size on the fly.  Less time spent tweaking settings, more items kept in cache, what&rsquo;s not to like?  Just set up a shrinker callback and register it.  (There is a <a href="https://www.kernel.org/doc/Documentation/cgroups/memory.txt">mechanism for memory pressure notifications</a> on Linux, but it&rsquo;s somewhat complex. With OSv it&rsquo;s just one function to write.)</p>
+
+<h2>Defining a shrinker function</h2>
+
+<p>OSv notifies your program of a low memory situation by
+calling a shrinker callback.</p>
+
+<p>A shrinker function takes two arguments:</p>
+
+<ul>
+<li><p>target amount of memory to free (size_t)</p></li>
+<li><p>A boolean &ldquo;hard&rdquo; argument.  This is false if the function is being called for preemptive freeing of memory, and true if the system is under severe pressure.</p></li>
+</ul>
+
+
+<p>In most invocations, the argument <code>hard</code> will be set by OSv to false. This indicates that the system is acting preemptively, and memory pressure is starting to build up. The application is free to defer the freeing of objects to a later stage. Having your shrinker callback called with <code>hard</code> set to true, however, means that OSv is under severe memory pressure, and may be unable to serve allocations. If not enough memory is freed, the system may be forced to abort.</p>
+
+<h2>Registering</h2>
+
+<p>Now that the shrinker function is defined, you need to register it.</p>
+
+<p>To register a shrinker function involves calling <code>osv_register_shrinker</code>:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>void *osv_register_shrinker(const char *name,
+</span><span class='line'>                            size_t (*func)(size_t target, bool hard));</span></code></pre></td></tr></table></div></figure>
+
+
+<p>For example, an application in C can just do:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>extern void *osv_register_shrinker(const char *name,
+</span><span class='line'>                            size_t (*func)(size_t target, bool hard));
+</span><span class='line'>
+</span><span class='line'>int main () {
+</span><span class='line'>  ...
+</span><span class='line'>  osv_register_shrinker("Example Shrinker", shrinker_function);
+</span><span class='line'>  ...
+</span><span class='line'>  return 0;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>An extremely basic example of a program that uses the OSv shrinker API is <a href="https://github.com/dmarti/memory-hog">memory-hog</a>.  To try it, install <a href="https://github.com/cloudius-systems/capstan">Capstan</a>, clone the Git repository, and build an OSv image to run it.  Currently memory-hog requires at least 2GB of memory.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ git clone git@github.com:dmarti/memory-hog.git
+</span><span class='line'>Cloning into 'memory-hog'...
+</span><span class='line'>remote: Reusing existing pack: 76, done.
+</span><span class='line'>remote: Total 76 (delta 0), reused 0 (delta 0)
+</span><span class='line'>Receiving objects: 100% (76/76), 12.84 KiB | 0 bytes/s, done.
+</span><span class='line'>Resolving deltas: 100% (39/39), done.
+</span><span class='line'>Checking connectivity... done.
+</span><span class='line'>$ cd memory-hog
+</span><span class='line'>$ capstan run -m 2G
+</span><span class='line'>Building memory-hog...
+</span><span class='line'>Created instance: memory-hog
+</span><span class='line'>OSv v0.09
+</span><span class='line'>eth0: 192.168.122.15
+</span><span class='line'>I'm a memory hog!
+</span><span class='line'>program:  Oink!
+</span><span class='line'>program:  Oink!
+</span><span class='line'>program:  Oink!
+</span><span class='line'>
+</span><span class='line'>...many "Oink!"s later...
+</span><span class='line'>
+</span><span class='line'>program:  Oink!
+</span><span class='line'>shrinker: Soft pressure, all done.
+</span><span class='line'>program:  Oink!
+</span><span class='line'>shrinker: Soft pressure, all done.
+</span><span class='line'>program:  Oink!
+</span><span class='line'>shrinker: Soft pressure, all done.
+</span><span class='line'>program:  Oink!
+</span><span class='line'>shrinker: Soft pressure, all done.
+</span><span class='line'>program:  Oink!
+</span><span class='line'>shrinker: Soft pressure, all done.
+</span><span class='line'>program:  Oink!
+</span><span class='line'>shrinker: Soft pressure, all done.
+</span><span class='line'>shrinker: processing request to free 166062080 bytes.
+</span><span class='line'>shrinker: starting with 64 things.
+</span><span class='line'>shrinker: finishing with 58 things.
+</span><span class='line'>      192534576 bytes of memory were freed!
+</span><span class='line'>program:  Oink!
+</span><span class='line'>shrinker: Soft pressure, all done.</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Concurrency</h2>
+
+<p>Shrinker callbacks conceptually work like asynchronous signal handlers,
+They handle specific events and may be called at any time, from your program&rsquo;s point of view.</p>
+
+<p>Each cache in your program that the shrinker can release data from,
+must have its own lock to prevent concurrency issues.</p>
+
+<p>The memory-hog sample program uses a mutex to handle concurrency.  To handle soft memory pressure, where your shrinker is called with <code>hard</code> set to false, you can keep a global <code>free_memory_please</code> global variable, and set it in the shrinker callback.  Then check it in the main loop, and free memory if necessary.  However, hard memory pressure must be handled immediately, or the system may hang.</p>
+
+<h2>Handling soft pressure</h2>
+
+<p>If possible, you should have your shrinker try to release some memory when called with <code>hard</code> set to false.  This will reduce the number of times you have to handle shrinking, and improve performance by making more free memory available to OSv for system tasks.  The memory-hog example currently ignores soft pressure.</p>
+
+<p>For more info on memory management and other OSv subjects, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get updates on by subscribing to the <a href="http://osv.io/blog/atom.xml">OSv blog RSS feed</a> or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Cloudius Systems</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-14T08:37:05-07:00" pubdate data-updated="true">Jul 14<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/blog/categories/c/'>c</a>, <a class='category' href='/blog/blog/categories/memory/'>memory</a>, <a class='category' href='/blog/blog/categories/shrinker/'>shrinker</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+    <div class="addthis_toolbox addthis_default_style ">
+        
+        <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+        
+        
+        <a class="addthis_button_tweet"></a>
+        
+        
+        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+        
+        
+        <a class="addthis_counter addthis_pill_style"></a>
+        
+    </div>
+    
+    <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-5343e81a2e0c9bfa"></script>
+    
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/blog/2014/07/11/osv-boot/" title="Previous Post: Inside the OSv boot process">&laquo; Inside the OSv boot process</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/blog/2014/07/14/osv-shrinker-api/">Getting Started With the OSv Shrinker API</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/blog/2014/07/11/osv-boot/">Inside the OSv Boot Process</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/blog/2014/07/01/s3stat/">What Is the Most Popular OSv Virtual Appliance?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/blog/2014/06/23/containers-hypervisors-part-3/">Hypervisors Are Dead, Long Live the Hypervisor (Part 3)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/blog/2014/06/19/containers-hypervisors-part-2/">Hypervisors Are Dead, Long Live the Hypervisor (Part 2)</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  </div>
+  <div class="footer">
+    <div class="wrapf">
+
+
+        <div class="custom"  >
+            <p><a href="http://www.cloudius-systems.com"><img style="margin-top: 30px;" src="http://osv.io/images/footerLogo.jpg" alt="" width="380" height="38" /></a></p></div>
+
+
+
+        <div class="custom social"  >
+            <p><a href="https://plus.google.com/107787008629542080430" rel="publisher">Google+</a></p></div>
+
+
+
+        <div class="custom CloudIcon"  >
+            <p><a href="/index.php"><img src="http://osv.io/images/footerCloudIcon.jpg" width="57" height="33" alt="footerCloudIcon" /></a></p></div>
+
+        <div class="clr"></div>
+    </div>
+</div>
+
+
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'osvblog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://osv.io/blog/blog/2014/07/14/osv-shrinker-api/';
+        var disqus_url = 'http://osv.io/blog/blog/2014/07/14/osv-shrinker-api/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

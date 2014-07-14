@@ -9,7 +9,7 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="What happens in that critical fraction of a second between when a virtual x86_64 system &ldquo;powers up&rdquo; and when it begins running operating &hellip;">
+  <meta name="description" content="By Don Marti If you&rsquo;re writing a program that keeps a cache in memory, you&rsquo;re probably expecting users to have to set the cache size, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -104,6 +104,51 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/blog/2014/07/14/osv-shrinker-api/">Getting Started With the OSv Shrinker API</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-14T08:37:05-07:00" pubdate data-updated="true">Jul 14<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>By Don Marti</strong></p>
+
+<p>If you&rsquo;re writing a program that keeps a cache in memory, you&rsquo;re probably expecting users to have to set the cache size, which means a configuration setting or command-line argument.  And every configuration setting or command-line argument is something that you have to document, or explain to users when they get it wrong.</p>
+
+<p>Thankfully, there&rsquo;s an easier way.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/blog/2014/07/14/osv-shrinker-api/">Read more&#8230;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -827,70 +872,6 @@ and Raspberry Pis?</strong></p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/blog/2014/05/07/capstan-bridge/">Bridged Networking With Capstan</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-05-07T08:37:05-07:00" pubdate data-updated="true">May 7<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><strong>By Don Marti</strong></p>
-
-<p>New versions of <a href="https://github.com/cloudius-systems/capstan">Capstan</a> are making it simpler to run OSv virtual machines in a production configuration, by adding more control of network options.  A useful new feature, which helps deal with the <a href="https://github.com/cloudius-systems/osv/wiki/Running-OSv-image-under-KVM-QEMU">details of bringing up networking</a>, is the <code>-n</code> option.</p>
-
-<p>By default, Capstan starts up KVM/QEMU with user networking:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> -netdev user,id=un0,net=192.168.122.0/24,host=192.168.122.1</span></code></pre></td></tr></table></div></figure>
-
-
-<p>(That&rsquo;s from <code>ps ax | grep qemu</code>, which you can run
-to see the qemu-system-x86_64 command that Capstan
-is executing for you.)</p>
-
-<p>But there are many more <a href="http://www.linux-kvm.org/page/Networking">networking options</a> for QEMU/KVM.  The basic user networking, which does not require root access to start up, is good for development and simple tasks.  But for production use, where you need to get your VM on a network where it&rsquo;s available from other VMs or from the outside, you&rsquo;ll need bridged networking.  (See your Linux distribution or hypervisor documentation for the details of creating a virtual or public bridge device.)</p>
-
-<p>If you invoke <code>capstan run</code> with the <code>-n bridge</code> option, you&rsquo;ll get QEMU running with:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>-netdev bridge,id=hn0,br=virbr0,helper=/usr/libexec/qemu-bridge-helper</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If you have a specific bridge device to connect to, you can use the <code>-b</code> option with the name of the bridge device.  The default is <code>virbr0</code>, but you can also set up a public bridge, usually <code>br0</code>, that&rsquo;s bridged to a physical network interface on the host.</p>
-
-<h1>Other hypervisors</h1>
-
-<p>Don&rsquo;t feel left out if you have a different hypervisor.  Capstan also handles bridged networking on VirtualBox, with the rest of the supported hypervisors coming soon.   The fact that the syntax is the same is going to be a big time-saver for those of us who have to do testing and demos on multiple systems&mdash;no more dealing with arcane commands that are different from system to system.</p>
-
-<p>For more on Capstan and networking, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list on Google Groups</a>.  You can get updates by subscribing to this blog&rsquo;s feed, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/blog/page/2/">&larr; Older</a>
@@ -906,6 +887,10 @@ is executing for you.)</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/blog/2014/07/14/osv-shrinker-api/">Getting Started With the OSv Shrinker API</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/blog/2014/07/11/osv-boot/">Inside the OSv Boot Process</a>
       </li>
     
@@ -919,10 +904,6 @@ is executing for you.)</p>
     
       <li class="post">
         <a href="/blog/blog/2014/06/19/containers-hypervisors-part-2/">Hypervisors Are Dead, Long Live the Hypervisor (Part 2)</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/blog/2014/06/19/containers-hypervisors-part-1/">Hypervisors Are Dead, Long Live the Hypervisor (Part 1)</a>
       </li>
     
   </ul>
