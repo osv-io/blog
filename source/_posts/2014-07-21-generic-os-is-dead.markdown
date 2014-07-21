@@ -12,26 +12,28 @@ This post is a response to the excellent presentation [**"Java Application Serve
 Go read his slides and come back here.
 
 
-back already?
+Back already?
 Assuming you agree with Eberhard’s  claims,  let me demonstrate how
 most of his points on Java Application Servers can be applied to a
-generic OS.
+generic OS (one designed for hardware servers) in the cloud as well.
 <!-- more -->
 
 First let me scope the discussion.
 An operating system can run on your mobile, desktop, back office, or as a VM on the cloud.
-For this post, I’m referring specifically to the last use case, which can be public or private.
+For this post, I’m referring specifically to the cloud use case, which can be public or private.
 Cloud deployments are the important case to concentrate on, as new Java application servers are mostly deployed on VMs these days.
 
 ![turtles all the way down](/images/turtles-all-the-way-down.png)
 From http://religion.ua.edu/blog/2012/09/turtles-all-the-way-down/
 
+<!-- Is the above image Creative Commons licensed? -->
+
 Eberhard present different properties of the Java Application Server, and for each, demonstrates why it is no longer relevant. 
 I will follow his footsteps, applying the same methodology to generic
-OS, for two of the properties: Container for multiple application and Deployment.
+OS, for two of the properties: _Container for multiple applications_ and _Deployment_.
 
-## Container for multiple application
-Both the Java application server and the OS are supposed to isolate applications from each others. Both do a good job at it, and OS isolation is definitely somewhat stronger.  However, it is still not good enough for multitenancy, [even with containers](http://osv.io/blog/blog/2014/06/19/containers-hypervisors-part-2/).
+## Container for multiple applications
+Both the Java application server and the OS are supposed to isolate applications from each other. Both do a good job at it, and OS isolation is definitely somewhat stronger.  However, it is still not good enough for multitenancy, [even with OS-level containers](http://osv.io/blog/blog/2014/06/19/containers-hypervisors-part-2/).
 This is why we have hypervisors, and this is why most deployment in the clouds include one application per VM.
  
 ## Deployment
@@ -55,12 +57,12 @@ To summarize, both the  Java application server and the generic OS were created 
 From Martin Fowler http://martinfowler.com/articles/microservices.html
 
 Each micro service can can have its own end to end stack, from the OS up to the application.
-As explained above, an idle scenario will be to deploy the micro service logic directly on a Hypervisor, cutting two middle layers: the application server and the generic OS.
+As explained above, an ideal scenario would be to deploy the micro service logic directly on a hypervisor, cutting two middle layers: the application server and the generic OS.
 
 At this point you might doubt my sanity.
-Run my application on EC2 with no OS to support it? Not quite. 
+Run my application on EC2 with no OS at all to support it? Not quite. 
 
-As you recall from the “AS are dead” presentation, the application server has become an application library, dedicated to supporting a single application. With the Library OS concept, the the same process is apply to the OS, making it a library of the application.
+As you recall from the “AS are dead” presentation, the application server has become an application library, dedicated to supporting a single application. With the Library OS concept, the the same process can also be applied to the OS, making it a library of the application.
 
 For every micro service, one can use a tool like
 [Capstan](http://osv.io/capstan) to cook a new VM, pre integrating the
@@ -68,7 +70,6 @@ application, JVM and the OS - to a ready to be deployed VM. Just take
 it and deploy it on your favorite cloud provider.
 
 Take Capstan for a [spin](http://osv.io/run-locally/)
-
 
 For more info on Capstan and other OSv subjects, please join
 the
