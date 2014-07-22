@@ -4,7 +4,7 @@
   <title><![CDATA[OSv Blog]]></title>
   <link href="http://osv.io/blog/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2014-07-15T07:10:15-07:00</updated>
+  <updated>2014-07-22T07:12:14-07:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -12,6 +12,84 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[If Java Application Servers Are Dead, So Is the Operating System (in the Cloud)]]></title>
+    <link href="http://osv.io/blog/blog/2014/07/21/generic-os-is-dead/"/>
+    <updated>2014-07-21T00:00:00-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/07/21/generic-os-is-dead</id>
+    <content type="html"><![CDATA[<p><strong>By Tzach Livyatan</strong>
+This post is a response to the excellent presentation <a href="http://www.slideshare.net/ewolff/java-application-servers-are-dead"><strong>&ldquo;Java Application Servers Are Dead!&rdquo;</strong></a> by <a href="https://twitter.com/ewolff">Eberhard Wolff</a>.
+Go read his slides and come back here.</p>
+
+<p>Back already?
+Assuming you agree with Eberhard’s  claims,  let me demonstrate how
+most of his points on Java Application Servers can be applied to a
+generic OS (one designed for hardware servers) in the cloud as well.</p>
+
+<!-- more -->
+
+
+<p>First let me scope the discussion.
+An operating system can run on your mobile, desktop, back office, or as a VM on the cloud.
+For this post, I’m referring specifically to the cloud use case, which can be public or private.
+Cloud deployments are the important case to concentrate on, as new Java application servers are mostly deployed on VMs these days.</p>
+
+<p><img src="http://osv.io/blog/images/turtles.png" alt="turtles all the way down" />
+Illustration: Omarcito for Wikimedia Commons (<a href="http://commons.wikimedia.org/wiki/File:Omarcito.gif">http://commons.wikimedia.org/wiki/File:Omarcito.gif</a>)</p>
+
+<p>Eberhard present different properties of the Java Application Server, and for each, demonstrates why it is no longer relevant.
+I will follow his footsteps, applying the same methodology to generic
+OS, for two of the properties: <em>Container for multiple applications</em> and <em>Deployment</em>.</p>
+
+<h2>Container for multiple applications</h2>
+
+<p>Both the Java application server and the OS are supposed to isolate applications from each other. Both do a good job at it, and OS isolation is definitely somewhat stronger.  However, it is still not good enough for multitenancy, <a href="http://osv.io/blog/blog/2014/06/19/containers-hypervisors-part-2/">even with OS-level containers</a>.
+This is why we have hypervisors, and this is why most deployment in the clouds include one application per VM.</p>
+
+<h2>Deployment</h2>
+
+<p>I agree with Eberhard’s claim that Java deployments (JAR, WAR, EAR) are problematic.
+Linux-style packaging, using RPM or deb packages, is not a full solution either.</p>
+
+<p>In a cloud environment, there is no reason to start with a blank OS, and spend 15 minutes downloading and installing the application. It makes more sense to use a pre-installed server image (AMI, in AWS terms) with the application already installed. Indeed, using a ready-made AMI is a common practice.</p>
+
+<p>Containers are another successful attempt to fix this problem, but running containers on a virtual machine brings an extra layer of complexity. More on that <a href="http://osv.io/blog/blog/2014/06/19/containers-hypervisors-part-1/">here</a>. Obviously, there is still a requirement to install urgent patches on both AMI and containers.</p>
+
+<p>To summarize, both the  Java application server and the generic OS were created to provide a set of services which is no longer required.</p>
+
+<h2>With Java AS and generic OS dead, what&rsquo;s next?</h2>
+
+<p><strong> Micro Services </strong></p>
+
+<p><em>&ldquo;an approach to developing a single application as a suite of small
+ services, each running in its own process and communicating with
+ lightweight mechanisms, often an HTTP resource API&rdquo;</em>
+<a href="http://martinfowler.com/articles/microservices.html">Martin Fowler</a>
+<img src="http://osv.io/blog/images/PreferFunctionalStaffOrganization.png" alt="&quot;From micro services" />
+Illustration: Martin Fowler (<a href="http://martinfowler.com/articles/microservices.html">http://martinfowler.com/articles/microservices.html</a>)</p>
+
+<p>Each micro service can can have its own end to end stack, from the OS up to the application.
+As explained above, an ideal scenario would be to deploy the micro service logic directly on a hypervisor, cutting two middle layers: the application server and the generic OS.</p>
+
+<p>At this point you might doubt my sanity.
+Run my application on EC2 with no OS at all to support it? Not quite.</p>
+
+<p>As you recall from the “AS are dead” presentation, the application server has become an application library, dedicated to supporting a single application. With the Library OS concept, the the same process can also be applied to the OS, making it a library of the application.</p>
+
+<p>For every micro service, one can use a tool like
+<a href="http://osv.io/capstan">Capstan</a> to cook a new VM, pre integrating the
+application, JVM and the OS &ndash; to a ready to be deployed VM. Just take
+it and deploy it on your favorite cloud provider.</p>
+
+<p>Take Capstan for a <a href="http://osv.io/run-locally/">spin</a></p>
+
+<p>For more info on Capstan and other OSv subjects, please join
+the
+<a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.<br/>
+You can get updates on by subscribing to the <a href="http://osv.io/blog/atom.xml">OSv blog RSS feed</a> or following <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Getting Started With the OSv Shrinker API]]></title>

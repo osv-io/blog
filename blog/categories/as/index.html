@@ -5,12 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>What Is the Most Popular OSv Virtual Appliance? - OSv Blog</title>
+  <title>Category: As - OSv Blog</title>
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="By Tzach Livyatan (Spoiler: It&rsquo;s Apache Tomcat.) Capstan is a tool for rapidly building and running applications on OSv.
-As with Docker, &hellip;">
+  <meta name="description" content="Category: AS">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +18,7 @@ As with Docker, &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://osv.io/blog/blog/2014/07/01/s3stat">
+  <link rel="canonical" href="http://osv.io/blogblog/categories/as">
   <link href="/blog/favicon.ico" rel="icon">
   <link href="/blog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
@@ -108,142 +107,42 @@ As with Docker, &hellip;">
         </script>
     </div>
 </div>
-<div class="mobile mobilePageTitle">What is the most popular OSv virtual appliance?</div>
+<div class="mobile mobilePageTitle">Category: AS</div>
 
 
   <div id="main">
     <div id="content">
       <div>
-<article class="hentry" role="article">
+<article role="article">
   
   <header>
-    
-      <h1 class="entry-title">What Is the Most Popular OSv Virtual Appliance?</h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-01T00:00:00-07:00" pubdate data-updated="true">Jul 1<span>st</span>, 2014</time>
-        
-      </p>
+    <h1 class="entry-title">Category: As</h1>
     
   </header>
-
-
-<div class="entry-content"><p><strong>By Tzach Livyatan</strong></p>
-
-<p>(Spoiler: It&rsquo;s Apache Tomcat.)</p>
-
-<p><a href="https://github.com/cloudius-systems/capstan">Capstan</a> is a tool for rapidly building and running applications on OSv.
-As with Docker, Capstan users can download and run images from a public repository.
-We chose to implement our public Capstan repository using <a href="http://aws.amazon.com/s3/">Amazon S3</a>.</p>
-
-<p>Amazon S3  gives us the flexibility and security we need, but by default it&rsquo;s missing a critical feature: download statistics.
-This statistics are very interesting to us, to evaluate which of the Capstan virtual appliances are more popular.  Fortunately, there is an easy way to gather the stats we need.</p>
-
-<p>After a short tools survey, we choose <a href="http://www.s3stat.com/">s3stat</a>.</p>
-
-<p><a href="http://www.s3stat.com/">s3stat</a> is a cloud-based service which can follow an S3 bucket, and visualize download statistics, by file, country, browser day, or otherwise.
-The price makes sense, and it is super easy to enable.</p>
-
-<p><img src="/blog/images/s3stat_chart.png" alt="s3stat chart" /></p>
-
-<p>So what are the results? (drum roll&hellip;.)</p>
-
-<!-- more -->
-
-
-<p><img src="/blog/images/s3stat_files.png" alt="s3stat files" /></p>
-
-<p>Omitting Capstan download of capstan index.yaml files, which Capstan does for every repository search, the most popular images are the base images for OSv and OSv + Java.
-That make sense because these two images will be used by anyone who wants to build a local OSv application, running a native or Java application.</p>
-
-<p>Virtual appliances comes right after, with (drums again&hellip;.) <strong>Tomcat</strong>, <strong>Cassandra</strong>, <strong>Memcached</strong> on the podium (Tomcat wins the Gold).
-These are all very early results, but we will keep using s3stat to follow Capstan image downloads.</p>
-
-<p><img src="/blog/images/s3stat_map.png" alt="s3stat map" /></p>
-</div>
-
-
-  <footer>
-    <p class="meta">
-      
   
-
-<span class="byline author vcard">Posted by <span class="fn">Cloudius Systems</span></span>
-
-      
-
-
-
-
-
+  <div id="blog-archives" class="category">
 
 
 
   
+  <h2>2014</h2>
 
-
-<time datetime="2014-07-01T00:00:00-07:00" pubdate data-updated="true">Jul 1<span>st</span>, 2014</time>
-      
-
-<span class="categories">
+<article>
   
-    <a class='category' href='/blog/blog/categories/capstan/'>capstan</a>, <a class='category' href='/blog/blog/categories/tools/'>tools</a>
-  
-</span>
+<h1><a href="/blog/blog/2014/07/21/generic-os-is-dead/">If Java Application Servers Are Dead, So Is the Operating System (in the Cloud)</a></h1>
+<time datetime="2014-07-21T00:00:00-07:00" pubdate><span class='month'>Jul</span> <span class='day'>21</span> <span class='year'>2014</span></time>
+
+<footer>
+  <span class="categories">posted in <a class='category' href='/blog/blog/categories/as/'>AS</a>, <a class='category' href='/blog/blog/categories/java/'>java</a></span>
+</footer>
 
 
-    </p>
-    
-      <div class="sharing">
-    <div class="addthis_toolbox addthis_default_style ">
-        
-        <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
-        
-        
-        <a class="addthis_button_tweet"></a>
-        
-        
-        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
-        
-        
-        <a class="addthis_counter addthis_pill_style"></a>
-        
-    </div>
-    
-    <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-5343e81a2e0c9bfa"></script>
-    
-</div>
-
-    
-    <p class="meta">
-      
-        <a class="basic-alignment left" href="/blog/blog/2014/06/23/containers-hypervisors-part-3/" title="Previous Post: Hypervisors are dead, long live the hypervisor (part 3)">&laquo; Hypervisors are dead, long live the hypervisor (part 3)</a>
-      
-      
-        <a class="basic-alignment right" href="/blog/blog/2014/07/11/osv-boot/" title="Next Post: Inside the OSv boot process">Inside the OSv boot process &raquo;</a>
-      
-    </p>
-  </footer>
 </article>
 
-  <section>
-    <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
-  </section>
+
+  
+</article>
 
 </div>
 
@@ -315,10 +214,7 @@ These are all very early results, but we will keep using s3stat to follow Capsta
       var disqus_shortname = 'osvblog';
       
         
-        // var disqus_developer = 1;
-        var disqus_identifier = 'http://osv.io/blog/blog/2014/07/01/s3stat/';
-        var disqus_url = 'http://osv.io/blog/blog/2014/07/01/s3stat/';
-        var disqus_script = 'embed.js';
+        var disqus_script = 'count.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

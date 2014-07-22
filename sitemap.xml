@@ -65,8 +65,12 @@
         <lastmod>2014-07-14T10:58:37-07:00</lastmod>
     </url>
     <url>
+        <loc>http://osv.io/blog/blog/2014/07/21/generic-os-is-dead/</loc>
+        <lastmod>2014-07-22T07:11:42-07:00</lastmod>
+    </url>
+    <url>
         <loc>http://osv.io/blog/blog/archives/</loc>
-        <lastmod>2014-07-14T10:58:37-07:00</lastmod>
+        <lastmod>2014-07-22T07:11:42-07:00</lastmod>
     </url>
     <url>
         <loc>http://osv.io/blog/robots.txt</loc>
@@ -74,6 +78,6 @@
     </url>
     <url>
         <loc>http://osv.io/blog/</loc>
-        <lastmod>2014-07-14T10:58:37-07:00</lastmod>
+        <lastmod>2014-07-22T07:11:42-07:00</lastmod>
     </url>
 </urlset>

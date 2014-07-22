@@ -9,7 +9,9 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="By Don Marti If you&rsquo;re writing a program that keeps a cache in memory, you&rsquo;re probably expecting users to have to set the cache size, &hellip;">
+  <meta name="description" content="By Tzach Livyatan
+This post is a response to the excellent presentation &ldquo;Java Application Servers Are Dead!&rdquo; by Eberhard Wolff.
+Go read &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -114,6 +116,54 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/blog/2014/07/21/generic-os-is-dead/">If Java Application Servers Are Dead, So Is the Operating System (in the Cloud)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-21T00:00:00-07:00" pubdate data-updated="true">Jul 21<span>st</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>By Tzach Livyatan</strong>
+This post is a response to the excellent presentation <a href="http://www.slideshare.net/ewolff/java-application-servers-are-dead"><strong>&ldquo;Java Application Servers Are Dead!&rdquo;</strong></a> by <a href="https://twitter.com/ewolff">Eberhard Wolff</a>.
+Go read his slides and come back here.</p>
+
+<p>Back already?
+Assuming you agree with Eberhard’s  claims,  let me demonstrate how
+most of his points on Java Application Servers can be applied to a
+generic OS (one designed for hardware servers) in the cloud as well.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/blog/2014/07/21/generic-os-is-dead/">Read more&#8230;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -777,111 +827,6 @@ in Philadelphia!</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/blog/2014/05/12/osv-on-64-bit-arm/">Interview: OSv on 64-bit ARM Systems</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-05-12T20:54:23-07:00" pubdate data-updated="true">May 12<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>Q&amp;A with Paul Mundt,  Jani Kokkonen, and Claudio Fontana</h2>
-
-<p>Paul Mundt is CTO of OS &amp; Virtualization at Huawei, while Jani and Claudio are both Virtualization Architects on Huawei&rsquo;s virtualization team. All are based in Munich, which is the headquarters for Huawei’s European Research Center. The company also has a team of OSv developers in Hangzhou, China, who are focused on adaptation of OSv to Huawei&rsquo;s x86-based enterprise servers.</p>
-
-<p><strong>Q: ARM processors are everywhere.  What are the important differences
-between the Aarch64 hardware that you&rsquo;re targeting with the OSv port and
-the garden-variety ARM processors that we have in our phones, toasters,
-and Raspberry Pis?</strong></p>
-
-<p>Other than the relatively obvious architectural differences in going from a 32-bit to a 64-bit architecture (more general purpose registers, address space, etc), there are quite a number of fundamental changes in v8 that considerably clean up the architecture in contrast to earlier versions.</p>
-
-<p>One of the more substantial changes is the new exception and privilege model, with 4 exception levels now taking the place of v7&rsquo;s assortment of processor modes. The new privilege levels are much more in line with conventional CPU privilege rings (eg, x86), even though for whatever reason the numbering has been inverted &mdash; now with EL3 being the most privileged, and EL0 being the least.</p>
-
-<p>Of specific relevance to the OSv port, through its heavy use of C++11/C1x atomic operations and memory model, are the improvements to the CPU&rsquo;s own memory and concurrency model. In contrast to x86, v7 and earlier adopt a weak memory model for better energy efficiency, but have always been terrible at sequentially consistent (SC) atomics as a result. In v8, the weak memory model has been retained, but special attention has also been paid to improving the deficiencies in SC atomics, resulting in the addition of load-acquire/store-release instruction pairs that work across the entire spectrum of general purpose and exclusive loads/stores. This places the architecture in direct alignment with the emerging standardization occurring in C++11/C1x, and has simplified much of the porting work in this area.</p>
-
-<p>Beyond this (while not strictly v8-specific) there are also a new range of virtualization extensions to the interrupt controller that we can take advantage of, but unfortunately this part of the IP is not yet finalized and remains under NDA.</p>
-
-<p>As our semiconductor company (HiSilicon) produces its own Aarch64 CPUs, we have also made a number of our own changes to the microarchitecture to better fit our workloads, especially in the areas of the cache and virtual memory system architecture, virtualization extensions, interconnects, and so on.</p>
-
-<p><strong>Q: What class of applications is your team planning to run on OSv?</strong></p>
-
-<p>We see many different potential applications for OSv within Huawei. While OSv is primarily touted as a lightweight cloud OS, the area that is more interesting for my team is its potential as a lightweight kernel for running individual applications directly on the hypervisor, as well as its ability to be used as an I/O or compute node kernel in the dataplane through virtio.</p>
-
-<p>Tight coupling of the JVM to the hypervisor is also an area that we are interested in, particularly as we look to new directions in heterogeneous computing emerging through OpenJDK Sumatra, Aparapi, and the on-going work by the HSA Foundation in which we are also engaged.</p>
-
-<p>Over the next year or so we also expect to see the JVM support maturing, to the point where it should also become possible to run some of the heavier weight big data stacks, but there is a long way to go first.</p>
-
-<p><strong>Q:  When you&rsquo;re considering using OSv as a lightweight kernel for running applications directly on the hypervisor, are you considering using it  without a local filesystem?  (I understand OSv can boot in about 1/10th the time without ZFS.)</strong></p>
-
-<p>ZFS is indeed quite heavyweight for our needs, and indeed, up until this stage in the porting effort we have largely been able to avoid it, but this will obviously not be the long-term case as we look to a solution we can bring to our customers.</p>
-
-<p>In addition to the boot time issues you have mentioned, the ZFS adaptive replacement cache (ARC) and page cache interactivity problems with large mmap()&rsquo;s is an area of concern for some of our potential users, so this is something that we are also closely monitoring, particularly as we think about other ways we might utilize OSv for other applications in the future.</p>
-
-<p>That being said, at the moment we basically see a few different directions to go on the file system side (and by extension, the VFS layer) for our more immediate applications:</p>
-
-<p>1) Simple in-memory file systems with substantially reduced functionality that we can use for scenarios like dataplane applications or I/O nodes where we need no persistent storage. In these cases as we don&rsquo;t even need to support file I/O, we will likely be carrying out some customization and optimizations in this area. This is obviously in contrast to the compute node and control plane side, which we primarily intend to run under Linux in parallel for now.</p>
-
-<p>2) Adaptation for phase change and other non-volatile memories. OSv has a much lighter weight stack with no real legacy at the moment, so fits the role of testbed quite well in terms of experimenting with the best way to tie these technologies in for different deployment scenarios, particularly under a layer of virtualization. In the long run we would naturally expect the results of this work to transfer to the Linux kernel, too.</p>
-
-<p>3) Global and distributed filesystems &mdash; initially across OSv instances, and then across to Linux. This also has implications for the underlying transport mechanisms, particularly as we look to things like lightweight paravirtualized RDMA and inter-VM communication.</p>
-
-<p><strong>Q:  Which hypervisor or hypervisors are you using?</strong></p>
-
-<p>While Huawei is actively engaged across many different hypervisors, as my department (in which most of us have a Linux kernel development background) is quite focused on working close to the metal and on performance related issues, KVM is our primary focus.</p>
-
-<p>We have previously done a fair bit of work with guest OS real-time, inter-VM communications, and I/O virtualization enhancements on ARM, so continuing with KVM also makes the most sense for us and our customers.</p>
-
-<p>As one of the main focuses for my OS team is in heterogeneous computing, we also aim to leverage and contribute to much of the work surrounding accelerator, domain processor, and heterogeneous system architecture virtualization under KVM, although much of this is tied up in various European Union framework programmes (eg, FP7-ICT, H2020) at the moment. OSv will also continue to play an important role in these areas as we move forward.</p>
-
-<p><strong>Q: Anything else that you would like to add?</strong></p>
-
-<p>Only that now is an exciting time to be in OSv development. The OS has a lot of potential and is still very much in its infancy, which also makes it an excellent target for trying out new technical directions. I would also encourage people who are not necessarily cloud-focused to look at the broader potential for the system, as there&rsquo;s certainly a lot of interesting development to get involved in.</p>
-
-<h2>About</h2>
-
-<p><img src="/blog/images/Paul_Mundt.jpg" alt="Paul Mundt" /></p>
-
-<p><strong>Paul Mundt</strong> is the CTO of OS &amp; Virtualization at Huawei’s European Research Center in Munich, Germany, where he manages the Euler department (including OS &amp; Virtualization R&amp;D, as well as new CPU development and support). Paul first joined Huawei at the beginning of 2013 as the Chief Architect of Huawei’s Server OS division, responsible for overall architecture and strategy. Prior to that, as the Linux Kernel Architect at Renesas in Tokyo, Paul was responsible for leading the Linux group within Renesas for seven years, establishing both the initial strategy and vision while taking the group from zero in-house support or upstream engagement to supporting hundreds of different CPUs across the entire MCU/MPU spectrum and becoming a consistent top-10 contributor to the Linux kernel, which carries on to this day. He has more than 15 years of Linux kernel development experience, across a diverse range of domains (HPC, embedded, enterprise, carrier grade), and has spent most of that time as the maintainer of various subsystems (primarily in the areas of core kernel infrastructure, CPU architectures, memory management, and file systems). He previously organized and chaired the Memory Management Working Group within the CE Linux Forum, where he advocated the convergence of Enterprise and Embedded technologies, resulting in the creation of Asymmetric NUMA, as well as early transparent superpage/large TLB adoption. He is a voting member of the OASIS Virtual I/O Device (VIRTIO) Technical Committee and the HSA Foundation.</p>
-
-<p><img src="/blog/images/Jani_Kokkonen.jpg" alt="Jani Kokkonen" /></p>
-
-<p><strong>Jani Kokkonen</strong> received his master’s degree in 2000 from the Technical University of Helsinki, Finland. He went to pursue research and development job in Nokia Networks. The work concentrated in research of different transport technologies on various radio access networks. This was followed by research and development activities on virtualization technologies on 3GPP radio and core network elements. Work consisted also evaluation of hardware extensions for virtualization support on various embedded multicore chips. He has been as virtualization architect in Huawei ERC Euler Department since September 2011. The work in Huawei has concentrated on research and development on QEMU/KVM on ARM and Intel platforms varying from CPU to network technologies, with his most recent effort focusing on ARM64 memory management where he is responsible for the MMU backend in the Aarch64 OSv port, as well as leading the OSv team. He is a member of the OASIS Virtual I/O Device (VIRTIO) Technical Committee and the Multicore Association.</p>
-
-<p><img src="/blog/images/Claudio_Fontana.jpg" alt="Claudio Fontana" /></p>
-
-<p><strong>Claudio Fontana</strong> received his Laurea in Computer Science in 2005 at the University of Trento, Italy, discussing a thesis on frameworks for the evaluation of taxonomy matching algorithms. He went on to pursue a software engineering opportunity in Zurich, where he worked on medium-scale (100s hosts) distributed systems. This was followed by a software engineering position in Amsterdam, working on messaging, routing, firewalls and billing systems. He has been with Huawei since December 2011. He is currently working in the virtualization area (Linux/KVM/QEMU). He is part of the early enablement effort for the ARM 64bit architecture (ARMv8 AArch64), and has been a maintainer and contributor of Free and Open Source projects, lately involving mostly QEMU binary translation (as QEMU Aarch64 TCG maintainer) and the OSv Operating System (as Aarch64 maintainer). He also spent some time as a member of Linaro&rsquo;s Virtualization team, where he focused on early Aarch64 enablement.</p>
-
-<h2>For more information</h2>
-
-<p>To keep up with the progress of OSv on ARM (and x86_64 too), join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a> or follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/blog/page/2/">&larr; Older</a>
@@ -897,6 +842,10 @@ and Raspberry Pis?</strong></p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/blog/2014/07/21/generic-os-is-dead/">If Java Application Servers Are Dead, So Is the Operating System (in the Cloud)</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/blog/2014/07/14/osv-shrinker-api/">Getting Started With the OSv Shrinker API</a>
       </li>
     
@@ -910,10 +859,6 @@ and Raspberry Pis?</strong></p>
     
       <li class="post">
         <a href="/blog/blog/2014/06/23/containers-hypervisors-part-3/">Hypervisors Are Dead, Long Live the Hypervisor (Part 3)</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/blog/2014/06/19/containers-hypervisors-part-2/">Hypervisors Are Dead, Long Live the Hypervisor (Part 2)</a>
       </li>
     
   </ul>
