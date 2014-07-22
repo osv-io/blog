@@ -3,7 +3,7 @@ layout: post
 title: "If Java Application Servers Are Dead, So is the Operating System (in the cloud)"
 date: 2014-07-21
 comments: true
-published: false
+published: true
 categories:  java AS
 ---
 
@@ -23,10 +23,9 @@ An operating system can run on your mobile, desktop, back office, or as a VM on 
 For this post, I’m referring specifically to the cloud use case, which can be public or private.
 Cloud deployments are the important case to concentrate on, as new Java application servers are mostly deployed on VMs these days.
 
-![turtles all the way down](/images/turtles-all-the-way-down.png)
-From http://religion.ua.edu/blog/2012/09/turtles-all-the-way-down/
+![turtles all the way down](/images/turtles.png)
+Illustration: Omarcito for Wikimedia Commons (http://commons.wikimedia.org/wiki/File:Omarcito.gif)
 
-<!-- Is the above image Creative Commons licensed? -->
 
 Eberhard present different properties of the Java Application Server, and for each, demonstrates why it is no longer relevant. 
 I will follow his footsteps, applying the same methodology to generic
@@ -54,7 +53,7 @@ To summarize, both the  Java application server and the generic OS were created 
  lightweight mechanisms, often an HTTP resource API"*
 [Martin Fowler](http://martinfowler.com/articles/microservices.html)
 !["From micro services](/images/PreferFunctionalStaffOrganization.png)
-From Martin Fowler http://martinfowler.com/articles/microservices.html
+Illustration: Martin Fowler (http://martinfowler.com/articles/microservices.html)
 
 Each micro service can can have its own end to end stack, from the OS up to the application.
 As explained above, an ideal scenario would be to deploy the micro service logic directly on a hypervisor, cutting two middle layers: the application server and the generic OS.
