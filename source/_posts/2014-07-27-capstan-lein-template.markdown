@@ -7,36 +7,39 @@ published: false
 categories:  java clojure lein
 ---
 
-Clojure developers usually do not care too much about the underline OS.
-Different between Linux, Mac and even Windows is abstract away by the JVM.
+Clojure developers usually do not care too much about the underlying OS.
+The low-level differences between Linux, Mac OS, and even Microsoft Windows are abstracted away by the JVM.
 
-When deploying Clojure code on the cloud, there used to be one alternative - Linux.
+When deploying Clojure code on the cloud, there used to be one default choice - Linux.
 But Linux
-[is not an idle](http://osv.io/blog/blog/2014/07/21/generic-os-is-dead/)
-OS for cloud services.
+[is not an ideal OS](http://osv.io/blog/blog/2014/07/21/generic-os-is-dead/)
+for pure cloud services.
 
-[OSv](https://github.com/cloudius-systems/osv) is a new, open source OS design specifically for the Cloud.
-Since OSv support the standard JVM, it is idle for running Clojure application on the Cloud.
+[OSv](https://github.com/cloudius-systems/osv) is a new, open source OS, designed specifically for the cloud.  Since OSv supports the standard JVM, it is ideal for running Clojure applications on the cloud.  And the same configuration applies to building VMs for any cloud: public clouds such as Amazon's and Google's, private clouds based on VMware or KVM, or public and private OpenStack.
 
-Porting Clojure app to OSv was already
+Porting a Clojure application to OSv was already
 [pretty easy](http://osv.io/blog/blog/2014/04/22/riemann-on-osv/), but
-now its even easier with a new [lein template](https://github.com/tzach/capstan-lein-plugin)
+now it's even easier.  This blog post describes a new [lein template](https://github.com/tzach/capstan-lein-plugin) for OSv.
 <!-- more -->
 
 ## Usage
-create a new project skeleton
+
+Capstan works together with the [Leinigen](http://leiningen.org/) build tool.
+
+First, create a new project skeleton.
 ```
 lein new capstan new-app
 ```
 
-run your project on a OSv image
+Now, you can run [Capstan](https://github.com/cloudius-systems/capstan) to 
+run your project on an a OSv VM.
+
 ```
 cd new-app
 capstan run
 ```
 
-The template take care of creating the project skeleton, including the Capstan file.
-Once you did, you can use capstan directly to build a new OSv VM, deploy it on the cloud, or upload it to the public repository.
+The template takes care of creating the project skeleton, including the Capstanfile.  When this is done, you can use Capstan directly to build a new OSv VM, deploy it on the cloud, or upload it to the public repository.
 
 <script type="text/javascript" src="https://asciinema.org/a/11068.js"
 id="asciicast-11068" async="" data-speed="2" data-autoplay="1"
