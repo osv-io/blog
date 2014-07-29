@@ -3,8 +3,8 @@ layout: post
 title: "Running Clojure on OSv: easier with a new Capstan template"
 date: 2014-07-27
 comments: true
-published: false
-categories:  java clojure lein
+published: true
+categories:  java clojure lein capstan
 ---
 
 Clojure developers usually do not care too much about the underlying OS.
