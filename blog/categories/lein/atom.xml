@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Lein | OSv Blog]]></title>
+  <link href="http://osv.io/blog/blog/categories/lein/atom.xml" rel="self"/>
+  <link href="http://osv.io/blog/"/>
+  <updated>2014-07-29T05:40:29-07:00</updated>
+  <id>http://osv.io/blog/</id>
+  <author>
+    <name><![CDATA[Cloudius Systems]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Running Clojure on OSv: Easier With a New Capstan Template]]></title>
+    <link href="http://osv.io/blog/blog/2014/07/27/capstan-lein-template/"/>
+    <updated>2014-07-27T00:00:00-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/07/27/capstan-lein-template</id>
+    <content type="html"><![CDATA[<p>Clojure developers usually do not care too much about the underlying OS.
+The low-level differences between Linux, Mac OS, and even Microsoft Windows are abstracted away by the JVM.</p>
+
+<p>When deploying Clojure code on the cloud, there used to be one default choice &ndash; Linux.
+But Linux
+<a href="http://osv.io/blog/blog/2014/07/21/generic-os-is-dead/">is not an ideal OS</a>
+for pure cloud services.</p>
+
+<p><a href="https://github.com/cloudius-systems/osv">OSv</a> is a new, open source OS, designed specifically for the cloud.  Since OSv supports the standard JVM, it is ideal for running Clojure applications on the cloud.  And the same configuration applies to building VMs for any cloud: public clouds such as Amazon&rsquo;s and Google&rsquo;s, private clouds based on VMware or KVM, or public and private OpenStack.</p>
+
+<p>Porting a Clojure application to OSv was already
+<a href="http://osv.io/blog/blog/2014/04/22/riemann-on-osv/">pretty easy</a>, but
+now it&rsquo;s even easier.  This blog post describes a new <a href="https://github.com/tzach/capstan-lein-plugin">lein template</a> for OSv.</p>
+
+<!-- more -->
+
+
+<h2>Usage</h2>
+
+<p>Capstan works together with the <a href="http://leiningen.org/">Leinigen</a> build tool.</p>
+
+<p>First, create a new project skeleton.
+<code>
+lein new capstan new-app
+</code></p>
+
+<p>Now, you can run <a href="https://github.com/cloudius-systems/capstan">Capstan</a> to
+run your project on an a OSv VM.</p>
+
+<p><code>
+cd new-app
+capstan run
+</code></p>
+
+<p>The template takes care of creating the project skeleton, including the Capstanfile.  When this is done, you can use Capstan directly to build a new OSv VM, deploy it on the cloud, or upload it to the public repository.</p>
+
+<script type="text/javascript" src="https://asciinema.org/a/11068.js"
+id="asciicast-11068" async="" data-speed="2" data-autoplay="1"
+ata-size="medium"></script>
+
+
+<p></p></p>
+
+<p>For more info on Capstan and other OSv subjects, please join
+the
+<a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.<br/>
+You can get updates on by subscribing to the <a href="http://osv.io/blog/atom.xml">OSv blog RSS feed</a> or following <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+]]></content>
+  </entry>
+  
+</feed>
