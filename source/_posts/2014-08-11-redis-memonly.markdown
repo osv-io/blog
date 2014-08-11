@@ -45,7 +45,9 @@ own copy of any page that it modifies.
 
 Because OSv has a single address space,
 that isn't an option here. OSv support Redis
-[SAVE](http://redis.io/commands/save) but not BGSAVE.
+[SAVE](http://redis.io/commands/save) but not BGSAVE. Other than that,
+running redis on OSv requires little effort. From the OSv source tree,
+all one should do is:
 
 
 ```
@@ -54,6 +56,10 @@ make image=redis-memonly
 
 Now you have a `usr.img` file, which you can run locally with OSv's `run.py`.
 
+All that must do, is to issue the application's `make`, with the
+right set of flags so redis is a shared library.
+
+
 '''
 
 
@@ -61,9 +67,81 @@ Now you have a `usr.img` file, which you can run locally with OSv's `run.py`.
 
 ## Is it fast?
 
+We have been running redis on local machines to test many of its
+functionalities and help us mature OSv.  As with any piece of software, the
+result of course depends on many factors.  Because OSv is an Operating System
+designed for the Cloud, we wanted to showcase its performance running on Amazon
+EC2.
 
+To do that, we have selected the c3.x8large machines.  They feature 32 CPUs and
+60Gb of memory each. While we are fully aware this is an overkill in the case
+of redis - a single threaded application. However, those are the only machines
+that Amazon advertises as featuring a 10Gb networking, and we didn't want the
+network to be a bottleneck for the sake of the benchmark. Also, smaller
+machines cannot be put in EC2 placement groups. It all boils down to the network! 
 
+So in this benchmark, no more than two cores should be active at any given time -
+one for redis, one for network interrupt processing. In a real scenario, one could
+easily deploy in a smaller machine.
 
+### Benchmark setup
+
+We have benchmarked redis' latest beta (beta-8) running both on OSv, and on an
+Ubuntu14 AMI. To do that, we have just launched a new AMI, selected
+Ubuntu14.04, and launched it. Once it launched, we have downloaded and compiled
+redis' latest, and moved the redis.conf used by OSv to the machine. The only
+difference in that configuration file from what is shipped with redis by
+default, is that we disable all kinds of disk activity. As already explained,
+OSv currently do not support that, and to be fair, the Linux guest we are
+comparing against should not hit the disk either at any point.
+
+On ubuntu, redis was ran with:
+
+```
+numactl --physcpubind=1 redis-server ~/redis.conf
+```
+
+Using numactl considerably reduces the standard deviation coming from the Linux
+scheduler moving the thread around.
+
+The `redis-benchmark` command was issued in another machine of the same type,
+running in the same zone and placement group.
+
+The two commands were:
+
+```
+numactl --physcpubind=1 redis-benchmark --csv -h <IP> -c 50 -n 100000 -P 1
+```
+
+and later on, to demonstrate how OSv can handle larger messages,
+
+```
+numactl --physcpubind=1 redis-benchmark --csv -h <IP> -c 50 -n 100000 -P 16
+```
+
+What this last command does, is to exercise redis' ``pipeline`` feature, that
+can send multiple - in this case 16 - commands in the same packet. This will
+decrease the impact of the round trip time in the final figure.
+
+The difference can be clearly saw in the graph...
+
+Note that the LRANGE class of commands has a significantly different pattern
+than the other commands. In that command, the client sends a very short query,
+and receive a potentially very large reply, therefore exercising the transmission
+path, rather than the receive path of OSv. This table shows that our transmission
+path is lacking a bit of love, particularly when the response sizes grows (as the
+pipeline level increases)
+
+## Conclusions
+
+OSv is a fast maturing, but not yet mature Operating System, soon to be in beta
+phase. We have gaps to close, as can be seen in the case of LRANGE set of
+benchmarks. So far, we have focused our efforts in technologies around the
+receive path, and it has paid off: We can offer a level of performance far
+beyond what an out of the box distribution can. Some features that we
+architecturally lack, makes the use of redis as a full-blown on-disk database
+challenging. But if you want to serve your load from memory, the OSv promise
+delivers: With OSv, you don't have to pay the virtualization tax.
 
 If you have any questions on running Redis or any other application, please join the [osv-dev mailing list](https://groups.google.com/forum/#!forum/osv-dev).  You can get general updates by subscribing to this blog's [feed](http://osv.io/blog/atom.xml), or folllowing [@CloudiusSystems](https://twitter.com/CloudiusSystems) on Twitter.
 
