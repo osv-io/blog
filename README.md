@@ -11,6 +11,18 @@ This means:
 * blog source are on branch **source**
 * blog generated HTML/CSS are under branch **gh-pages**
 
+### Checking out the blog for the first time
+
+Check out the `source` branch and update dependencies.
+
+```
+git checkout source
+bundle install
+```
+
+You only need to do this once.
+
+
 ### Update the blog
 
 1. `git clone https://github.com/osv-io/blog.git`
