@@ -12,7 +12,8 @@ categories: nosql
 We're planning to attend the 
 Linux Foundation's [CloudOpen North America conference](http://events.linuxfoundation.org/events/cloudopen-north-america).  Hope to see you there, and please come to our talk, "[Beating the Virtualization Tax for NoSQL Workloads With OSv](http://lccona14.sched.org/event/4684a80dd37f200277e971133920a2d0)."
 
-If you'd like to follow along, you're welcome to clone and build Redis on OSv.  We're big Redis fans.
+We'll be using a popular NoSQL database for our demo: Redis.  If you'd like to follow along, you're welcome to clone and build Redis on OSv.  We're big Redis fans, because it's a fast, easy-to-administer, in-memory database that works with many useful data structures.
+
 
 ## Redis A to Z
 
@@ -24,7 +25,28 @@ It makes a great session cache, lightweight task queue, or a place to keep pre-r
 
 But you probably already know that.
 
+
 ## Building Redis on OSv
+
+Redis works on OSv except for one feature: the
+[BGSAVE](http://redis.io/commands/bgsave)
+command.  A Redis background
+save depends on the operating system's
+[copy-on-write](http://en.wikipedia.org/wiki/Copy-on-write#Copy-on-write_in_virtual_memory_management)
+functionity.  When you issue the BGSAVE
+command, the parent Redis process calls
+[fork](http://en.wikipedia.org/wiki/Fork_%28system_call%29),
+and the parent process keeps running while the child
+process saves the database state.
+
+Copy-on-write ensures that the child process sees
+a consistent set of data, while the parent gets its
+own copy of any page that it modifies.
+
+Because OSv has a single address space,
+that isn't an option here. OSv support Redis
+[SAVE](http://redis.io/commands/save) but not BGSAVE.
+
 
 ```
 make image=redis-memonly
