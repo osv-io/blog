@@ -12,6 +12,8 @@ categories: nosql
 We're planning to attend the 
 Linux Foundation's [CloudOpen North America conference](http://events.linuxfoundation.org/events/cloudopen-north-america).  Hope to see you there, and please come to our talk, "[Beating the Virtualization Tax for NoSQL Workloads With OSv](http://lccona14.sched.org/event/4684a80dd37f200277e971133920a2d0)."
 
+[![CloudOpen logo](http://events.linuxfoundation.org/sites/events/files/styles/events_listing_192x192/public/logo_cona.png)](http://events.linuxfoundation.org/events/cloudopen-north-america)
+
 We'll be using a popular NoSQL database for our demo: Redis.  If you'd like to follow along, you're welcome to clone and build Redis on OSv.  We're big Redis fans, because it's a fast, easy-to-administer, in-memory database that works with many useful data structures.
 
 
@@ -134,6 +136,8 @@ beyond what an out of the box distribution can. Some features that we
 architecturally lack, makes the use of Redis as a full-blown on-disk database
 challenging. But if you want to serve your load from memory, the OSv promise
 delivers: With OSv, you don't have to pay the virtualization tax.
+
+If you'll be at CloudOpen, you can [add our talk to your schedule now](http://lccona14.sched.org/event/4684a80dd37f200277e971133920a2d0).
 
 If you have any questions on running Redis or any other application, please join the [osv-dev mailing list](https://groups.google.com/forum/#!forum/osv-dev).  You can get general updates by subscribing to this blog's [feed](http://osv.io/blog/atom.xml), or folllowing [@CloudiusSystems](https://twitter.com/CloudiusSystems) on Twitter.
 
