@@ -1,9 +1,9 @@
 ---
 layout: post
 title: "Redis on OSv"
-date: 2014-08-08 11:37:05 -0400
+date: 2014-08-14 08:26:31 -0800
 comments: true
-published: false
+published: true
 categories: nosql
 ---
 
@@ -11,8 +11,6 @@ categories: nosql
 
 We're planning to attend the 
 Linux Foundation's [CloudOpen North America conference](http://events.linuxfoundation.org/events/cloudopen-north-america).  Hope to see you there, and please come to our talk, "[Beating the Virtualization Tax for NoSQL Workloads With OSv](http://lccona14.sched.org/event/4684a80dd37f200277e971133920a2d0)."
-
-[![CloudOpen logo](http://events.linuxfoundation.org/sites/events/files/styles/events_listing_192x192/public/logo_cona.png)](http://events.linuxfoundation.org/events/cloudopen-north-america)
 
 We'll be using a popular NoSQL database for our demo: Redis.  If you'd like to follow along, you're welcome to clone and build Redis on OSv.  We're big Redis fans, because it's a fast, easy-to-administer, in-memory database that works with many useful data structures.
 
