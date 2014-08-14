@@ -4,7 +4,7 @@
   <title><![CDATA[OSv Blog]]></title>
   <link href="http://osv.io/blog/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2014-08-14T08:27:24-07:00</updated>
+  <updated>2014-08-14T08:28:28-07:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -22,8 +22,6 @@
 
 <p>We&rsquo;re planning to attend the
 Linux Foundation&rsquo;s <a href="http://events.linuxfoundation.org/events/cloudopen-north-america">CloudOpen North America conference</a>.  Hope to see you there, and please come to our talk, &ldquo;<a href="http://lccona14.sched.org/event/4684a80dd37f200277e971133920a2d0">Beating the Virtualization Tax for NoSQL Workloads With OSv</a>.&rdquo;</p>
-
-<p><a href="http://events.linuxfoundation.org/events/cloudopen-north-america"><img src="http://events.linuxfoundation.org/sites/events/files/styles/events_listing_192x192/public/logo_cona.png" alt="CloudOpen logo" /></a></p>
 
 <p>We&rsquo;ll be using a popular NoSQL database for our demo: Redis.  If you&rsquo;d like to follow along, you&rsquo;re welcome to clone and build Redis on OSv.  We&rsquo;re big Redis fans, because it&rsquo;s a fast, easy-to-administer, in-memory database that works with many useful data structures.</p>
 
