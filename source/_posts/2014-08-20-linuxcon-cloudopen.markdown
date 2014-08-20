@@ -10,6 +10,7 @@ categories: events
 While we relax and don't have to fix anything on our slides (really, they're all done), other speakers at the Linux Foundation's [CloudOpen North America conference](http://events.linuxfoundation.org/events/cloudopen-north-america) in beautiful Chicago have some observations to make about OSv.
 
 ![Chicago River](/images/chicago-river.jpeg)
+
 **The Linux Foundation always picks great conference locations.**
 
 [Russell Pavlicek](http://lccona14.sched.org/speaker/rcpavlicek) from the Xen project mentioned several library OSs that run on Xen in his [talk on new Xen features](http://lccona14.sched.org/event/17fdf31e5913cc4ebd5cf1f2ec039aa0).  He called the concept "one of the biggest advances in the cloud."  Earlier library OSs have shown how much performance and simplicity gains are available, and OSv is extending the idea to ordinary POSIX and Java applications.
