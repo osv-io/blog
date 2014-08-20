@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Network | OSv Blog]]></title>
   <link href="http://osv.io/blog/blog/categories/network/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2014-08-14T08:28:28-07:00</updated>
+  <updated>2014-08-20T17:10:39-05:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Bridged Networking With Capstan]]></title>
     <link href="http://osv.io/blog/blog/2014/05/07/capstan-bridge/"/>
-    <updated>2014-05-07T08:37:05-07:00</updated>
+    <updated>2014-05-07T10:37:05-05:00</updated>
     <id>http://osv.io/blog/blog/2014/05/07/capstan-bridge</id>
     <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
 

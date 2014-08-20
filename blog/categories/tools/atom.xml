@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Tools | OSv Blog]]></title>
   <link href="http://osv.io/blog/blog/categories/tools/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2014-08-14T08:28:28-07:00</updated>
+  <updated>2014-08-20T17:10:39-05:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[What Is the Most Popular OSv Virtual Appliance?]]></title>
     <link href="http://osv.io/blog/blog/2014/07/01/s3stat/"/>
-    <updated>2014-07-01T00:00:00-07:00</updated>
+    <updated>2014-07-01T00:00:00-05:00</updated>
     <id>http://osv.io/blog/blog/2014/07/01/s3stat</id>
     <content type="html"><![CDATA[<p><strong>By Tzach Livyatan</strong></p>
 
@@ -56,7 +56,7 @@ These are all very early results, but we will keep using s3stat to follow Capsta
   <entry>
     <title type="html"><![CDATA[Bridged Networking With Capstan]]></title>
     <link href="http://osv.io/blog/blog/2014/05/07/capstan-bridge/"/>
-    <updated>2014-05-07T08:37:05-07:00</updated>
+    <updated>2014-05-07T10:37:05-05:00</updated>
     <id>http://osv.io/blog/blog/2014/05/07/capstan-bridge</id>
     <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
 
@@ -93,7 +93,7 @@ is executing for you.)</p>
   <entry>
     <title type="html"><![CDATA[Riemann - a Clojure Application on OSv]]></title>
     <link href="http://osv.io/blog/blog/2014/04/22/riemann-on-osv/"/>
-    <updated>2014-04-22T09:00:00-07:00</updated>
+    <updated>2014-04-22T11:00:00-05:00</updated>
     <id>http://osv.io/blog/blog/2014/04/22/riemann-on-osv</id>
     <content type="html"><![CDATA[<p><strong>By Tzach Livyatan</strong></p>
 
@@ -203,7 +203,7 @@ to launch a Riemann web GUI.  Here is how it looks:</p>
   <entry>
     <title type="html"><![CDATA[A Simple Capstan Example]]></title>
     <link href="http://osv.io/blog/blog/2014/04/03/capstan/"/>
-    <updated>2014-04-03T08:37:05-07:00</updated>
+    <updated>2014-04-03T10:37:05-05:00</updated>
     <id>http://osv.io/blog/blog/2014/04/03/capstan</id>
     <content type="html"><![CDATA[<p>(Updated 14 April 2014: Add new URL for osv-base image.)</p>
 

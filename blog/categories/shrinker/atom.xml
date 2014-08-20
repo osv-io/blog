@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Shrinker | OSv Blog]]></title>
   <link href="http://osv.io/blog/blog/categories/shrinker/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2014-08-14T08:28:28-07:00</updated>
+  <updated>2014-08-20T17:10:39-05:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Getting Started With the OSv Shrinker API]]></title>
     <link href="http://osv.io/blog/blog/2014/07/14/osv-shrinker-api/"/>
-    <updated>2014-07-14T08:37:05-07:00</updated>
+    <updated>2014-07-14T10:37:05-05:00</updated>
     <id>http://osv.io/blog/blog/2014/07/14/osv-shrinker-api</id>
     <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
 

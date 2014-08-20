@@ -4,7 +4,7 @@
   <title><![CDATA[OSv Blog]]></title>
   <link href="http://osv.io/blog/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2014-08-14T08:28:28-07:00</updated>
+  <updated>2014-08-20T17:10:39-05:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -14,9 +14,29 @@
 
   
   <entry>
+    <title type="html"><![CDATA[OSv in the Spotlight at LinuxCon/CloudOpen 2014]]></title>
+    <link href="http://osv.io/blog/blog/2014/08/20/linuxcon-cloudopen/"/>
+    <updated>2014-08-20T18:10:31-05:00</updated>
+    <id>http://osv.io/blog/blog/2014/08/20/linuxcon-cloudopen</id>
+    <content type="html"><![CDATA[<p>While we relax and don&rsquo;t have to fix anything on our slides (really, they&rsquo;re all done), other speakers at the Linux Foundation&rsquo;s <a href="http://events.linuxfoundation.org/events/cloudopen-north-america">CloudOpen North America conference</a> in beautiful Chicago have some observations to make about OSv.</p>
+
+<p><img src="http://osv.io/blog/images/chicago-river.jpeg" alt="Chicago River" />
+<strong>The Linux Foundation always picks great conference locations.</strong></p>
+
+<p><a href="http://lccona14.sched.org/speaker/rcpavlicek">Russell Pavlicek</a> from the Xen project mentioned several library OSs that run on Xen in his <a href="http://lccona14.sched.org/event/17fdf31e5913cc4ebd5cf1f2ec039aa0">talk on new Xen features</a>.  He called the concept &ldquo;one of the biggest advances in the cloud.&rdquo;  Earlier library OSs have shown how much performance and simplicity gains are available, and OSv is extending the idea to ordinary POSIX and Java applications.</p>
+
+<p><a href="http://lccona14.sched.org/speaker/mikeday">Mike Day</a> from IBM said, &ldquo;the engineers who write OSv are really good C++ coders,&rdquo; and called the project &ldquo;some of the finest C++ source code I&rsquo;ve ever seen&rdquo; in his <a href="http://lccona14.sched.org/event/434032efc316cc7aa98d4d590abda72e">talk on cloud operating systems for servers</a>.  He also had some praise for the <a href="http://osv.io/blog/blog/2014/04/19/spinlock-free/">spinlock-free way</a> that OSv handles mutexes, which as regular readers of this blog will know is important to prevent the dreaded lock-holder preemption problem.</p>
+
+<p>If you&rsquo;re at LinuxCon, excuse me, #linuxcon, please come over and say &ldquo;hi&rdquo; to the OSv speakers: Don Marti and Glauber Costa. Hope to see you at the event, and please come to &ldquo;<a href="http://lccona14.sched.org/event/4684a80dd37f200277e971133920a2d0">Beating the Virtualization Tax for NoSQL Workloads With OSv</a>&rdquo; on Friday at 10:45 in the Colorado room.   Otherwise, you can get general OSv updates by subscribing to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+
+<p><strong>Chicago River photo: <a href="http://commons.wikimedia.org/wiki/File:Chicago_river_2004.jpg">Urban for Wikimedia Commons</a></strong></p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[Redis on OSv]]></title>
     <link href="http://osv.io/blog/blog/2014/08/14/redis-memonly/"/>
-    <updated>2014-08-14T09:26:31-07:00</updated>
+    <updated>2014-08-14T11:26:31-05:00</updated>
     <id>http://osv.io/blog/blog/2014/08/14/redis-memonly</id>
     <content type="html"><![CDATA[<p><strong>By Glauber Costa and Don Marti</strong></p>
 
@@ -151,7 +171,7 @@ delivers: With OSv, you don&rsquo;t have to pay the virtualization tax.</p>
   <entry>
     <title type="html"><![CDATA[Running Clojure on OSv: Easier With a New Capstan Template]]></title>
     <link href="http://osv.io/blog/blog/2014/07/27/capstan-lein-template/"/>
-    <updated>2014-07-27T00:00:00-07:00</updated>
+    <updated>2014-07-27T00:00:00-05:00</updated>
     <id>http://osv.io/blog/blog/2014/07/27/capstan-lein-template</id>
     <content type="html"><![CDATA[<p>Clojure developers usually do not care too much about the underlying OS.
 The low-level differences between Linux, Mac OS, and even Microsoft Windows are abstracted away by the JVM.</p>
@@ -208,7 +228,7 @@ You can get updates on by subscribing to the <a href="http://osv.io/blog/atom.xm
   <entry>
     <title type="html"><![CDATA[If Java Application Servers Are Dead, So Is the Operating System (in the Cloud)]]></title>
     <link href="http://osv.io/blog/blog/2014/07/21/generic-os-is-dead/"/>
-    <updated>2014-07-21T00:00:00-07:00</updated>
+    <updated>2014-07-21T00:00:00-05:00</updated>
     <id>http://osv.io/blog/blog/2014/07/21/generic-os-is-dead</id>
     <content type="html"><![CDATA[<p><strong>By Tzach Livyatan</strong>
 This post is a response to the excellent presentation <a href="http://www.slideshare.net/ewolff/java-application-servers-are-dead"><strong>&ldquo;Java Application Servers Are Dead!&rdquo;</strong></a> by <a href="https://twitter.com/ewolff">Eberhard Wolff</a>.
@@ -286,7 +306,7 @@ You can get updates on by subscribing to the <a href="http://osv.io/blog/atom.xm
   <entry>
     <title type="html"><![CDATA[Getting Started With the OSv Shrinker API]]></title>
     <link href="http://osv.io/blog/blog/2014/07/14/osv-shrinker-api/"/>
-    <updated>2014-07-14T08:37:05-07:00</updated>
+    <updated>2014-07-14T10:37:05-05:00</updated>
     <id>http://osv.io/blog/blog/2014/07/14/osv-shrinker-api</id>
     <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
 
@@ -449,7 +469,7 @@ must have its own lock to prevent concurrency issues.</p>
   <entry>
     <title type="html"><![CDATA[Inside the OSv Boot Process]]></title>
     <link href="http://osv.io/blog/blog/2014/07/11/osv-boot/"/>
-    <updated>2014-07-11T08:37:05-07:00</updated>
+    <updated>2014-07-11T10:37:05-05:00</updated>
     <id>http://osv.io/blog/blog/2014/07/11/osv-boot</id>
     <content type="html"><![CDATA[<p>What happens in that critical fraction of a second between when a virtual x86_64 system &ldquo;powers up&rdquo; and when it begins running operating system code written in a high-level language?</p>
 
@@ -472,7 +492,7 @@ original IBM PC.</strong></p>
   <entry>
     <title type="html"><![CDATA[What Is the Most Popular OSv Virtual Appliance?]]></title>
     <link href="http://osv.io/blog/blog/2014/07/01/s3stat/"/>
-    <updated>2014-07-01T00:00:00-07:00</updated>
+    <updated>2014-07-01T00:00:00-05:00</updated>
     <id>http://osv.io/blog/blog/2014/07/01/s3stat</id>
     <content type="html"><![CDATA[<p><strong>By Tzach Livyatan</strong></p>
 
@@ -512,7 +532,7 @@ These are all very early results, but we will keep using s3stat to follow Capsta
   <entry>
     <title type="html"><![CDATA[Hypervisors Are Dead, Long Live the Hypervisor (Part 3)]]></title>
     <link href="http://osv.io/blog/blog/2014/06/23/containers-hypervisors-part-3/"/>
-    <updated>2014-06-23T13:00:00-07:00</updated>
+    <updated>2014-06-23T15:00:00-05:00</updated>
     <id>http://osv.io/blog/blog/2014/06/23/containers-hypervisors-part-3</id>
     <content type="html"><![CDATA[<p><strong>By Dor Laor and Avi Kivity</strong></p>
 
@@ -580,7 +600,7 @@ These are all very early results, but we will keep using s3stat to follow Capsta
   <entry>
     <title type="html"><![CDATA[Hypervisors Are Dead, Long Live the Hypervisor (Part 2)]]></title>
     <link href="http://osv.io/blog/blog/2014/06/19/containers-hypervisors-part-2/"/>
-    <updated>2014-06-19T13:00:00-07:00</updated>
+    <updated>2014-06-19T15:00:00-05:00</updated>
     <id>http://osv.io/blog/blog/2014/06/19/containers-hypervisors-part-2</id>
     <content type="html"><![CDATA[<p><strong>By Dor Laor and Avi Kivity</strong></p>
 
@@ -709,7 +729,7 @@ The first stage would be to gain control of the application within the container
   <entry>
     <title type="html"><![CDATA[Hypervisors Are Dead, Long Live the Hypervisor (Part 1)]]></title>
     <link href="http://osv.io/blog/blog/2014/06/19/containers-hypervisors-part-1/"/>
-    <updated>2014-06-19T13:00:00-07:00</updated>
+    <updated>2014-06-19T15:00:00-05:00</updated>
     <id>http://osv.io/blog/blog/2014/06/19/containers-hypervisors-part-1</id>
     <content type="html"><![CDATA[<p><strong>By Dor Laor and Avi Kivity</strong></p>
 
@@ -776,7 +796,7 @@ The first stage would be to gain control of the application within the container
   <entry>
     <title type="html"><![CDATA[Nadav Har’El Presenting OSv at USENIX June 19th]]></title>
     <link href="http://osv.io/blog/blog/2014/06/18/usenix-atc/"/>
-    <updated>2014-06-18T08:54:23-07:00</updated>
+    <updated>2014-06-18T10:54:23-05:00</updated>
     <id>http://osv.io/blog/blog/2014/06/18/usenix-atc</id>
     <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
 
@@ -798,7 +818,7 @@ The first stage would be to gain control of the application within the container
   <entry>
     <title type="html"><![CDATA[Using Capstan With Local OSv Images]]></title>
     <link href="http://osv.io/blog/blog/2014/06/06/capstan-push/"/>
-    <updated>2014-06-06T08:54:23-07:00</updated>
+    <updated>2014-06-06T10:54:23-05:00</updated>
     <id>http://osv.io/blog/blog/2014/06/06/capstan-push</id>
     <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
 
@@ -827,7 +847,7 @@ The first stage would be to gain control of the application within the container
   <entry>
     <title type="html"><![CDATA[OSv Paper Coming to USENIX in June]]></title>
     <link href="http://osv.io/blog/blog/2014/05/19/usenix-atc/"/>
-    <updated>2014-05-19T08:54:23-07:00</updated>
+    <updated>2014-05-19T10:54:23-05:00</updated>
     <id>http://osv.io/blog/blog/2014/05/19/usenix-atc</id>
     <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
 
@@ -858,7 +878,7 @@ in Philadelphia!</p>
   <entry>
     <title type="html"><![CDATA[Interview: OSv on 64-bit ARM Systems]]></title>
     <link href="http://osv.io/blog/blog/2014/05/12/osv-on-64-bit-arm/"/>
-    <updated>2014-05-12T20:54:23-07:00</updated>
+    <updated>2014-05-12T22:54:23-05:00</updated>
     <id>http://osv.io/blog/blog/2014/05/12/osv-on-64-bit-arm</id>
     <content type="html"><![CDATA[<h2>Q&amp;A with Paul Mundt,  Jani Kokkonen, and Claudio Fontana</h2>
 
@@ -936,7 +956,7 @@ and Raspberry Pis?</strong></p>
   <entry>
     <title type="html"><![CDATA[Bridged Networking With Capstan]]></title>
     <link href="http://osv.io/blog/blog/2014/05/07/capstan-bridge/"/>
-    <updated>2014-05-07T08:37:05-07:00</updated>
+    <updated>2014-05-07T10:37:05-05:00</updated>
     <id>http://osv.io/blog/blog/2014/05/07/capstan-bridge</id>
     <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
 
@@ -973,7 +993,7 @@ is executing for you.)</p>
   <entry>
     <title type="html"><![CDATA[New OSv Meetup Group]]></title>
     <link href="http://osv.io/blog/blog/2014/04/25/meetup/"/>
-    <updated>2014-04-25T08:54:23-07:00</updated>
+    <updated>2014-04-25T10:54:23-05:00</updated>
     <id>http://osv.io/blog/blog/2014/04/25/meetup</id>
     <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
 
@@ -992,7 +1012,7 @@ is executing for you.)</p>
   <entry>
     <title type="html"><![CDATA[Riemann - a Clojure Application on OSv]]></title>
     <link href="http://osv.io/blog/blog/2014/04/22/riemann-on-osv/"/>
-    <updated>2014-04-22T09:00:00-07:00</updated>
+    <updated>2014-04-22T11:00:00-05:00</updated>
     <id>http://osv.io/blog/blog/2014/04/22/riemann-on-osv</id>
     <content type="html"><![CDATA[<p><strong>By Tzach Livyatan</strong></p>
 
@@ -1131,7 +1151,7 @@ and</p>
   <entry>
     <title type="html"><![CDATA[Spinlock-free OS Design for Virtualization]]></title>
     <link href="http://osv.io/blog/blog/2014/04/19/spinlock-free/"/>
-    <updated>2014-04-19T09:00:00-07:00</updated>
+    <updated>2014-04-19T11:00:00-05:00</updated>
     <id>http://osv.io/blog/blog/2014/04/19/spinlock-free</id>
     <content type="html"><![CDATA[<p>Designing an OS to run specifically as a cloud guest doesn’t just mean stripping out features. There are some other important problems with running virtualized that a conventional guest OS doesn’t address.  In this post we&rsquo;ll cover one of them.</p>
 
@@ -1162,7 +1182,7 @@ and</p>
   <entry>
     <title type="html"><![CDATA[A Simple Capstan Example]]></title>
     <link href="http://osv.io/blog/blog/2014/04/03/capstan/"/>
-    <updated>2014-04-03T08:37:05-07:00</updated>
+    <updated>2014-04-03T10:37:05-05:00</updated>
     <id>http://osv.io/blog/blog/2014/04/03/capstan</id>
     <content type="html"><![CDATA[<p>(Updated 14 April 2014: Add new URL for osv-base image.)</p>
 
@@ -1239,7 +1259,7 @@ and</p>
   <entry>
     <title type="html"><![CDATA[New OSv Blog]]></title>
     <link href="http://osv.io/blog/blog/2014/03/30/welcome/"/>
-    <updated>2014-03-30T20:54:23-07:00</updated>
+    <updated>2014-03-30T22:54:23-05:00</updated>
     <id>http://osv.io/blog/blog/2014/03/30/welcome</id>
     <content type="html"><![CDATA[<p>Welcome to the OSv blog.</p>
 

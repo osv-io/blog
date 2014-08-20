@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Internals | OSv Blog]]></title>
   <link href="http://osv.io/blog/blog/categories/internals/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2014-08-14T08:28:28-07:00</updated>
+  <updated>2014-08-20T17:10:39-05:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Inside the OSv Boot Process]]></title>
     <link href="http://osv.io/blog/blog/2014/07/11/osv-boot/"/>
-    <updated>2014-07-11T08:37:05-07:00</updated>
+    <updated>2014-07-11T10:37:05-05:00</updated>
     <id>http://osv.io/blog/blog/2014/07/11/osv-boot</id>
     <content type="html"><![CDATA[<p>What happens in that critical fraction of a second between when a virtual x86_64 system &ldquo;powers up&rdquo; and when it begins running operating system code written in a high-level language?</p>
 
