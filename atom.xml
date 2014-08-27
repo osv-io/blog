@@ -4,7 +4,7 @@
   <title><![CDATA[OSv Blog]]></title>
   <link href="http://osv.io/blog/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2014-08-20T17:11:55-05:00</updated>
+  <updated>2014-08-27T08:10:18-07:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -14,9 +14,116 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Jolokia JMX Connectivity in OSv]]></title>
+    <link href="http://osv.io/blog/blog/2014/08/26/jolokia-jmx-connectivity-in-osv/"/>
+    <updated>2014-08-26T07:11:20-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/08/26/jolokia-jmx-connectivity-in-osv</id>
+    <content type="html"><![CDATA[<p><strong>By Calle Wilund</strong></p>
+
+<p>OSv is a great way to run Java applications in the cloud, and it recently became just a little bit better. As you are probably aware, OSv exposes quite a bit of information and manageability options through its <a href="https://github.com/cloudius-systems/osv/wiki/The-RESTful-API">RESTful API</a>, accessible through the built-in HTTP server. More or less from its inception, this API has exposed various aspects of the JVM and the <a href="http://docs.oracle.com/javase/7/docs/technotes/guides/jmx/">Java Management Beans</a> provided.</p>
+
+<p>Recently we improved on this a bit by including the <a href="http://www.jolokia.org/">Jolokia</a> JMX-via-JSON-REST connector, providing full read/write access to the entire set of Java manageability attributes and operations. Now you no longer need to set up and secure separate JMX-over-RMI connectivity with your Java application to fully manage it.</p>
+
+<p>The Jolokia API is available via the OSv REST server at <nobr><code>http[s]://&lt;OSv host&gt;:&lt;port&gt;/jolokia</code></nobr>. You can explore this and other API:s via the <a href="https://github.com/cloudius-systems/osv/wiki/The-RESTful-API#using-the-swagger-ui">Swagger UI</a>.
+For a better understanding of the full <a href="http://www.jolokia.org/reference/html/protocol.html">Jolokia syntax</a>, I suggest reading through the <a href="http://www.jolokia.org/reference/html/index.html">reference manual</a>. In its simplest form, querying a Java Management Bean value from an OSv instance can be done like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; curl http://&lt;ip&gt;:&lt;port&gt;/jolokia/read/java.lang:type=Memory/HeapMemoryUsage</span></code></pre></td></tr></table></div></figure>
+
+
+<p>With the result of something like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="p">{</span>   
+</span><span class='line'>  <span class="s2">&quot;timestamp&quot;</span>   <span class="o">:</span><span class="mi">1409065190</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;status&quot;</span>  <span class="o">:</span><span class="mi">200</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;request&quot;</span> <span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>          <span class="s2">&quot;mbean&quot;</span>       <span class="o">:</span><span class="s2">&quot;java.lang:type=Memory&quot;</span><span class="p">,</span>
+</span><span class='line'>          <span class="s2">&quot;attribute&quot;</span>   <span class="o">:</span><span class="s2">&quot;HeapMemoryUsage&quot;</span><span class="p">,</span>
+</span><span class='line'>          <span class="s2">&quot;type&quot;</span>        <span class="o">:</span><span class="s2">&quot;read&quot;</span>
+</span><span class='line'>          <span class="p">},</span>
+</span><span class='line'>  <span class="s2">&quot;value&quot;</span>       <span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>          <span class="s2">&quot;max&quot;</span>     <span class="o">:</span><span class="mi">1839202304</span><span class="p">,</span>
+</span><span class='line'>          <span class="s2">&quot;committed&quot;</span>   <span class="o">:</span><span class="mi">1839202304</span><span class="p">,</span>
+</span><span class='line'>          <span class="s2">&quot;init&quot;</span>        <span class="o">:</span><span class="mi">1918894080</span><span class="p">,</span>
+</span><span class='line'>          <span class="s2">&quot;used&quot;</span>        <span class="o">:</span><span class="mi">192117128</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Jolokia provides a full syntax for packaging JMX bean information inside JSON objects, including the ability to batch requests.  It also provides client connector libraries for <a href="http://www.jolokia.org/client/java.html">Java</a>, <a href="http://www.jolokia.org/client/perl.html">Perl</a> and <a href="http://www.jolokia.org/client/javascript.html">JavaScript</a> to access them easily from (web) applications.</p>
+
+<h2>Important note about REST requests and browser security</h2>
+
+<p>Most browsers today enforce that resources such as REST queries may only be made to the same domain as the requesting web page. When you want to allow <a href="http://www.w3.org/TR/cors/">cross-domain requests</a> you need to either turn off this security feature in your browser (for Google Chrome you can run it with <code>--disable-web-security</code>, however if you use Firefox I do not know of any way to do it), or enable CORS in OSv.</p>
+
+<p>To do the latter, you need to provide a <code>httpserver</code> configuration section in your <a href="https://github.com/cloudius-systems/osv/wiki/Cloud-init">cloud init</a> settings. To simply allow all domains to make requests to the OSv APIs, add this to your configuration:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">httpserver</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">access-allow</span><span class="p-Indicator">:</span> <span class="s">&#39;*&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And make this reachable through your cloud-init server. (Or use the EC2 simulator script provided with OSv).</p>
+
+<h2>A small demo</h2>
+
+<p>A small demo JavaScript application showing how to easily plot various JVM graphs from a running OSv instance can be found at <a href="https://github.com/elcallio/jolokia-demo">https://github.com/elcallio/jolokia-demo</a> (which is a modified fork of the <a href="https://github.com/nurkiewicz/token-bucket">Jolokia demo</a> created by Tomasz Nurkiewicz.</p>
+
+<p>To test the demo, simply clone the repository and edit the <a name="osvhost"><code>src/js/osvhost.js</code></a> to match the IP address and port for your OSv instance. (Don&rsquo;t forget to make sure that your OSv image includes the HTTP server).</p>
+
+<p>Since I am runnning OSv compiled from source, I simply go to my OSv source tree and type:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="p-Indicator">&gt;</span><span class="err"> make image=httpserver,mgmt</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><em>&hellip;&lt;chug, chug, chug></em>
+And when it is done:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="p-Indicator">&gt;</span><span class="err"> ./scripts/run.py --api</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will build and start an almost empty image, containing only the HTTP server, <a href="https://github.com/cloudius-systems/osv/wiki/Cloud-init">cloud init support</a> and the Java-based shell (not a very interesting appliance, I admit, but you can pick any image you prefer). Running like this, the REST API is available from <code>http://localhost:8000</code>, so this is what I enter into <a href="#osvhost"><code>src/js/osvhost.js</code></a>.</p>
+
+<p>Then load the <code>jolokia-demo/src/index.html</code> in your favourite browser, and you should be greeted by this:</p>
+
+<p><img src="http://osv.io/blog/images/jolokia-demo.png" alt="screenshot" /></p>
+
+<p>As you can see, the demo provides the start of a small management console for Java with just a few lines of Javascript code, most of which actually deal with setting up the charts. Requesting and polling the actual data on the other hand is almost ridiculously easy.</p>
+
+<p>Having Jolokia integrated in the OSv manageability layer means that not only can you access all the JMX attributes parallel with the rest of the exposed OSv aspects, not having to modify Java appliances, but also that you only need to deal with <a href="https://github.com/cloudius-systems/osv/wiki/The-RESTful-API#configuring-ssl">securing a single service point</a>.</p>
+
+<p>This is just one small aspect of all the new and exciting manageability features that are in or coming to OSv. Over the next few months we hope to bring you additional aspects that will further enhance your deployment experience. Stay tuned.</p>
+
+<p>If you have any questions on OSv management, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get general updates by subscribing to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[OSv in the Spotlight at LinuxCon/CloudOpen 2014]]></title>
     <link href="http://osv.io/blog/blog/2014/08/20/linuxcon-cloudopen/"/>
-    <updated>2014-08-20T18:10:31-05:00</updated>
+    <updated>2014-08-20T16:10:31-07:00</updated>
     <id>http://osv.io/blog/blog/2014/08/20/linuxcon-cloudopen</id>
     <content type="html"><![CDATA[<p>While we relax and don&rsquo;t have to fix anything on our slides (really, they&rsquo;re all done), other speakers at the Linux Foundation&rsquo;s <a href="http://events.linuxfoundation.org/events/cloudopen-north-america">CloudOpen North America conference</a> in beautiful Chicago have some observations to make about OSv.</p>
 
@@ -37,7 +144,7 @@
   <entry>
     <title type="html"><![CDATA[Redis on OSv]]></title>
     <link href="http://osv.io/blog/blog/2014/08/14/redis-memonly/"/>
-    <updated>2014-08-14T11:26:31-05:00</updated>
+    <updated>2014-08-14T09:26:31-07:00</updated>
     <id>http://osv.io/blog/blog/2014/08/14/redis-memonly</id>
     <content type="html"><![CDATA[<p><strong>By Glauber Costa and Don Marti</strong></p>
 
@@ -172,7 +279,7 @@ delivers: With OSv, you don&rsquo;t have to pay the virtualization tax.</p>
   <entry>
     <title type="html"><![CDATA[Running Clojure on OSv: Easier With a New Capstan Template]]></title>
     <link href="http://osv.io/blog/blog/2014/07/27/capstan-lein-template/"/>
-    <updated>2014-07-27T00:00:00-05:00</updated>
+    <updated>2014-07-27T00:00:00-07:00</updated>
     <id>http://osv.io/blog/blog/2014/07/27/capstan-lein-template</id>
     <content type="html"><![CDATA[<p>Clojure developers usually do not care too much about the underlying OS.
 The low-level differences between Linux, Mac OS, and even Microsoft Windows are abstracted away by the JVM.</p>
@@ -229,7 +336,7 @@ You can get updates on by subscribing to the <a href="http://osv.io/blog/atom.xm
   <entry>
     <title type="html"><![CDATA[If Java Application Servers Are Dead, So Is the Operating System (in the Cloud)]]></title>
     <link href="http://osv.io/blog/blog/2014/07/21/generic-os-is-dead/"/>
-    <updated>2014-07-21T00:00:00-05:00</updated>
+    <updated>2014-07-21T00:00:00-07:00</updated>
     <id>http://osv.io/blog/blog/2014/07/21/generic-os-is-dead</id>
     <content type="html"><![CDATA[<p><strong>By Tzach Livyatan</strong>
 This post is a response to the excellent presentation <a href="http://www.slideshare.net/ewolff/java-application-servers-are-dead"><strong>&ldquo;Java Application Servers Are Dead!&rdquo;</strong></a> by <a href="https://twitter.com/ewolff">Eberhard Wolff</a>.
@@ -307,7 +414,7 @@ You can get updates on by subscribing to the <a href="http://osv.io/blog/atom.xm
   <entry>
     <title type="html"><![CDATA[Getting Started With the OSv Shrinker API]]></title>
     <link href="http://osv.io/blog/blog/2014/07/14/osv-shrinker-api/"/>
-    <updated>2014-07-14T10:37:05-05:00</updated>
+    <updated>2014-07-14T08:37:05-07:00</updated>
     <id>http://osv.io/blog/blog/2014/07/14/osv-shrinker-api</id>
     <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
 
@@ -470,7 +577,7 @@ must have its own lock to prevent concurrency issues.</p>
   <entry>
     <title type="html"><![CDATA[Inside the OSv Boot Process]]></title>
     <link href="http://osv.io/blog/blog/2014/07/11/osv-boot/"/>
-    <updated>2014-07-11T10:37:05-05:00</updated>
+    <updated>2014-07-11T08:37:05-07:00</updated>
     <id>http://osv.io/blog/blog/2014/07/11/osv-boot</id>
     <content type="html"><![CDATA[<p>What happens in that critical fraction of a second between when a virtual x86_64 system &ldquo;powers up&rdquo; and when it begins running operating system code written in a high-level language?</p>
 
@@ -493,7 +600,7 @@ original IBM PC.</strong></p>
   <entry>
     <title type="html"><![CDATA[What Is the Most Popular OSv Virtual Appliance?]]></title>
     <link href="http://osv.io/blog/blog/2014/07/01/s3stat/"/>
-    <updated>2014-07-01T00:00:00-05:00</updated>
+    <updated>2014-07-01T00:00:00-07:00</updated>
     <id>http://osv.io/blog/blog/2014/07/01/s3stat</id>
     <content type="html"><![CDATA[<p><strong>By Tzach Livyatan</strong></p>
 
@@ -533,7 +640,7 @@ These are all very early results, but we will keep using s3stat to follow Capsta
   <entry>
     <title type="html"><![CDATA[Hypervisors Are Dead, Long Live the Hypervisor (Part 3)]]></title>
     <link href="http://osv.io/blog/blog/2014/06/23/containers-hypervisors-part-3/"/>
-    <updated>2014-06-23T15:00:00-05:00</updated>
+    <updated>2014-06-23T13:00:00-07:00</updated>
     <id>http://osv.io/blog/blog/2014/06/23/containers-hypervisors-part-3</id>
     <content type="html"><![CDATA[<p><strong>By Dor Laor and Avi Kivity</strong></p>
 
@@ -601,7 +708,7 @@ These are all very early results, but we will keep using s3stat to follow Capsta
   <entry>
     <title type="html"><![CDATA[Hypervisors Are Dead, Long Live the Hypervisor (Part 2)]]></title>
     <link href="http://osv.io/blog/blog/2014/06/19/containers-hypervisors-part-2/"/>
-    <updated>2014-06-19T15:00:00-05:00</updated>
+    <updated>2014-06-19T13:00:00-07:00</updated>
     <id>http://osv.io/blog/blog/2014/06/19/containers-hypervisors-part-2</id>
     <content type="html"><![CDATA[<p><strong>By Dor Laor and Avi Kivity</strong></p>
 
@@ -730,7 +837,7 @@ The first stage would be to gain control of the application within the container
   <entry>
     <title type="html"><![CDATA[Hypervisors Are Dead, Long Live the Hypervisor (Part 1)]]></title>
     <link href="http://osv.io/blog/blog/2014/06/19/containers-hypervisors-part-1/"/>
-    <updated>2014-06-19T15:00:00-05:00</updated>
+    <updated>2014-06-19T13:00:00-07:00</updated>
     <id>http://osv.io/blog/blog/2014/06/19/containers-hypervisors-part-1</id>
     <content type="html"><![CDATA[<p><strong>By Dor Laor and Avi Kivity</strong></p>
 
@@ -797,7 +904,7 @@ The first stage would be to gain control of the application within the container
   <entry>
     <title type="html"><![CDATA[Nadav Har’El Presenting OSv at USENIX June 19th]]></title>
     <link href="http://osv.io/blog/blog/2014/06/18/usenix-atc/"/>
-    <updated>2014-06-18T10:54:23-05:00</updated>
+    <updated>2014-06-18T08:54:23-07:00</updated>
     <id>http://osv.io/blog/blog/2014/06/18/usenix-atc</id>
     <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
 
@@ -819,7 +926,7 @@ The first stage would be to gain control of the application within the container
   <entry>
     <title type="html"><![CDATA[Using Capstan With Local OSv Images]]></title>
     <link href="http://osv.io/blog/blog/2014/06/06/capstan-push/"/>
-    <updated>2014-06-06T10:54:23-05:00</updated>
+    <updated>2014-06-06T08:54:23-07:00</updated>
     <id>http://osv.io/blog/blog/2014/06/06/capstan-push</id>
     <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
 
@@ -848,7 +955,7 @@ The first stage would be to gain control of the application within the container
   <entry>
     <title type="html"><![CDATA[OSv Paper Coming to USENIX in June]]></title>
     <link href="http://osv.io/blog/blog/2014/05/19/usenix-atc/"/>
-    <updated>2014-05-19T10:54:23-05:00</updated>
+    <updated>2014-05-19T08:54:23-07:00</updated>
     <id>http://osv.io/blog/blog/2014/05/19/usenix-atc</id>
     <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
 
@@ -879,7 +986,7 @@ in Philadelphia!</p>
   <entry>
     <title type="html"><![CDATA[Interview: OSv on 64-bit ARM Systems]]></title>
     <link href="http://osv.io/blog/blog/2014/05/12/osv-on-64-bit-arm/"/>
-    <updated>2014-05-12T22:54:23-05:00</updated>
+    <updated>2014-05-12T20:54:23-07:00</updated>
     <id>http://osv.io/blog/blog/2014/05/12/osv-on-64-bit-arm</id>
     <content type="html"><![CDATA[<h2>Q&amp;A with Paul Mundt,  Jani Kokkonen, and Claudio Fontana</h2>
 
@@ -957,7 +1064,7 @@ and Raspberry Pis?</strong></p>
   <entry>
     <title type="html"><![CDATA[Bridged Networking With Capstan]]></title>
     <link href="http://osv.io/blog/blog/2014/05/07/capstan-bridge/"/>
-    <updated>2014-05-07T10:37:05-05:00</updated>
+    <updated>2014-05-07T08:37:05-07:00</updated>
     <id>http://osv.io/blog/blog/2014/05/07/capstan-bridge</id>
     <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
 
@@ -994,7 +1101,7 @@ is executing for you.)</p>
   <entry>
     <title type="html"><![CDATA[New OSv Meetup Group]]></title>
     <link href="http://osv.io/blog/blog/2014/04/25/meetup/"/>
-    <updated>2014-04-25T10:54:23-05:00</updated>
+    <updated>2014-04-25T08:54:23-07:00</updated>
     <id>http://osv.io/blog/blog/2014/04/25/meetup</id>
     <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
 
@@ -1013,7 +1120,7 @@ is executing for you.)</p>
   <entry>
     <title type="html"><![CDATA[Riemann - a Clojure Application on OSv]]></title>
     <link href="http://osv.io/blog/blog/2014/04/22/riemann-on-osv/"/>
-    <updated>2014-04-22T11:00:00-05:00</updated>
+    <updated>2014-04-22T09:00:00-07:00</updated>
     <id>http://osv.io/blog/blog/2014/04/22/riemann-on-osv</id>
     <content type="html"><![CDATA[<p><strong>By Tzach Livyatan</strong></p>
 
@@ -1152,7 +1259,7 @@ and</p>
   <entry>
     <title type="html"><![CDATA[Spinlock-free OS Design for Virtualization]]></title>
     <link href="http://osv.io/blog/blog/2014/04/19/spinlock-free/"/>
-    <updated>2014-04-19T11:00:00-05:00</updated>
+    <updated>2014-04-19T09:00:00-07:00</updated>
     <id>http://osv.io/blog/blog/2014/04/19/spinlock-free</id>
     <content type="html"><![CDATA[<p>Designing an OS to run specifically as a cloud guest doesn’t just mean stripping out features. There are some other important problems with running virtualized that a conventional guest OS doesn’t address.  In this post we&rsquo;ll cover one of them.</p>
 
@@ -1183,7 +1290,7 @@ and</p>
   <entry>
     <title type="html"><![CDATA[A Simple Capstan Example]]></title>
     <link href="http://osv.io/blog/blog/2014/04/03/capstan/"/>
-    <updated>2014-04-03T10:37:05-05:00</updated>
+    <updated>2014-04-03T08:37:05-07:00</updated>
     <id>http://osv.io/blog/blog/2014/04/03/capstan</id>
     <content type="html"><![CDATA[<p>(Updated 14 April 2014: Add new URL for osv-base image.)</p>
 
@@ -1254,23 +1361,6 @@ and</p>
 <p>In an upcoming blog post, I&rsquo;ll cover the recently added VirtualBox support in Capstan (hint: try <code>-p vbox</code>) and some other fun things you can do.</p>
 
 <p>If you have any Capstan questions, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list on Google Groups</a>.  You can get updates on new OSv and Capstan progress by subscribing to this blog or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[New OSv Blog]]></title>
-    <link href="http://osv.io/blog/blog/2014/03/30/welcome/"/>
-    <updated>2014-03-30T22:54:23-05:00</updated>
-    <id>http://osv.io/blog/blog/2014/03/30/welcome</id>
-    <content type="html"><![CDATA[<p>Welcome to the OSv blog.</p>
-
-<p>A <a href="http://osv.io/blog/atom.xml">feed</a> is available, so please subscribe in your RSS reader for updates, or, if you prefer to use Twitter, you can follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> there.</p>
-
-<p>We&rsquo;re running <a href="http://octopress.org/docs/blogging/">Octopress</a> on <a href="http://pages.github.com/">GitHub Pages</a>, so that we can use the same easy Git contribution process for the blog as for our code.</p>
-
-<p>Watch for a simple introduction to the <a href="https://github.com/cloudius-systems/capstan">Capstan</a> devops tool, coming this week.</p>
-
-<p>If you have any questions about the blog, you can post a comment here, or mail <a href="mailto:dmarti@cloudius-systems.com">Don Marti</a>.</p>
 ]]></content>
   </entry>
   

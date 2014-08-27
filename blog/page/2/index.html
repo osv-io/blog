@@ -9,8 +9,7 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="By Don Marti If you&rsquo;re attending the USENIX Annual Technical Conference, be sure not to miss
-&ldquo;OSv—Optimizing the Operating System for &hellip;">
+  <meta name="description" content="By Dor Laor and Avi Kivity The hypervisor is the basic building block of cloud computing; hypervisors drive the software-defined data center &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -121,6 +120,100 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/blog/2014/06/19/containers-hypervisors-part-1/">Hypervisors Are Dead, Long Live the Hypervisor (Part 1)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-19T13:00:00-07:00" pubdate data-updated="true">Jun 19<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>By Dor Laor and Avi Kivity</strong></p>
+
+<p>The hypervisor is the basic building block of cloud computing; hypervisors drive the software-defined data center revolution, and two-thirds of all new servers are virtualized today. Hypervisors for commodity hardware have been the key enabler for the software revolution we have been experiencing.</p>
+
+<p>However, for the past 8 years a parallel technology has been growing, namely, containers. Recently containers have been getting a fairly large amount of traction with the development of the Docker project. When run on bare metal, containers perform better than hypervisors and have a lower footprint.</p>
+
+<p>There is a lot in common with the goals of these technologies. These three blog entries will try to provide an answer to the question</p>
+
+<p><strong>Will containers kill the hypervisor?</strong></p>
+
+<p>The series will provide in-depth explanations about the underlying technology and the pros and cons of each solution.</p>
+
+<h2>Intro: ancient hypervisor lore</h2>
+
+<p>What is virtualization anyway?</p>
+
+<p><img src="/blog/images/virtualization.png" alt="Virtualization diagram" /></p>
+
+<p>A hypervisor is a software component (potentially assisted by hardware) that allows us to run multiple operating systems on the same physical machine. The overlay OS is called the guest OS or simply, a Virtual Machine (VM). The guest OS may not even be aware it is running on virtual hardware.</p>
+
+<p>The interface between the guest and the host is the hardware specification. It covers the CPU itself and any other hardware devices, from BIOS to NICs, SCSI adapters, GPUs and memory.</p>
+
+<p><img src="/blog/images/IBM360-67AtUmichWithMikeAlexander.jpg" alt="IBM System/360" /></p>
+
+<p><strong>IBM, together with MIT and the University of Michigan, pioneered hypervisor technology on System/360 and System/370 mainframes, beginning in the 1960s.</strong></p>
+
+<p>IBM was the first company to produce hypervisors. The IBM System/360, model 1967, was the first to <a href="http://www.beagle-ears.com/lars/engineer/comphist/ibm360.htm#gener">ship with virtual memory hardware supporting virtualization</a>. The next system in the series, System/370, was the “private cloud” of its day. Administrators could set up virtual machines for running different OS versions, and even public-cloud-like “time sharing” by multiple customers.</p>
+
+<h2>Virtualization for x86</h2>
+
+<p>Virtualization didn’t make it to commodity systems until the <a href="http://www.vmware.com/company/news/mediaresource/milestones">release of VMware Workstation in 1999</a>. In the early 2000s, hypervisors were based on pure software and were mostly useful for development and testing.  VMware initially used a technique called dynamic translation to intercept privileged operations by the guest operating system. When the guest accessed “hardware”, VMWare rewrote the instructions on the fly, to protect itself from the guest and isolate guests from each other.</p>
+
+<p><img src="/blog/images/vmware-logo.png" alt="VMware logo" /></p>
+
+<p>Later on, the open source Xen hypervisor project coined the term paravirtualization (PV). PV guests, which have to be specially modified to run on a PV host, do not execute privileged instructions themselves but ask the hypervisor to do it on their behalf.</p>
+
+<p><img src="/blog/images/xen-logo.png" alt="Xen logo" /></p>
+
+<p>Eventually, Intel, AMD and ARM implemented support for virtualization extensions. A special host mode allows running guest code on the bare CPU, getting near 100% of bare metal throughput for CPU-intensive workloads. In parallel, the memory management and the IO path received attention as well with technologies such as nested paging (virtual memory), virtual interrupt controllers, single-root I/O virtualization (SRIOV) and other optimizations.</p>
+
+<h2>Hardware support for hypervisors</h2>
+
+<p>Hypervisor enablement continues to be a priority for hardware manufacturers. <a href="https://plus.google.com/+OsvIo/posts/fgzsepcScTa">Glauber Costa wrote</a>, “the silicon keeps getting better and better at taking complexity away from software and hiding somewhere else.”</p>
+
+<p><a href="http://www.redhat.com/rhecm/rest-rhecm/jcr/repository/collaboration/jcr:system/jcr:versionStorage/5e7884ed7f00000102c317385572f1b1/1/jcr:frozenNode/rh:pdfFile.pdf">According to a paper from Red Hat Software</a>,</p>
+
+<blockquote><p>Both Intel and AMD continue to add new features to hardware to improve performance for virtualization. In so doing, they offload more features from the hypervisor into “the silicon” to provide improved performance and a more robust platform&hellip;.These features allow virtual machines to achieve the same I/O performance as bare metal systems.</p></blockquote>
+
+<h2>Old-school hypervisors</h2>
+
+<p>Hypervisors are one of the main pillars of the IT market (try making your way through downtown San Francisco during VMworld) and solve an important piece of the problem. Today the hypervisor layer is commoditized, users can choose any hypervisor they wish when they deploy Open Stack or similar solutions.</p>
+
+<p>Hypervisors are a mature technology with a rich set of tools and features ranging from live migration, cpu hotplug, software defined networking and other new coined terms that describe the virtualization of the data center.</p>
+
+<p>However, in order to virtualize your workload, one must deploy a full fledged guest operating system onto every VM instance. This new layer is a burden in terms of management and in terms of performance overhead. We’ll look at one of the other approaches to compartmentalization next time: containers.</p>
+
+<p><strong>This is part 1 of a 3-part series.</strong>  <a href="http://osv.io/blog/blog/2014/06/19/containers-hypervisors-part-2/">Part 2 is now available</a>.  Please subscribe to our <a href="/blog/atom.xml">feed</a> or follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> to get a notification of future posts.</p>
+
+<p>Photo credit, IBM 360: <a href="http://commons.wikimedia.org/wiki/File:IBM360-67AtUmichWithMikeAlexander.jpg">Dave Mills for Wikimedia Commons</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/blog/2014/06/18/usenix-atc/">Nadav Har’El Presenting OSv at USENIX June 19th</a></h1>
     
     
@@ -137,7 +230,7 @@
   
 
 
-<time datetime="2014-06-18T10:54:23-05:00" pubdate data-updated="true">Jun 18<span>th</span>, 2014</time>
+<time datetime="2014-06-18T08:54:23-07:00" pubdate data-updated="true">Jun 18<span>th</span>, 2014</time>
         
       </p>
     
@@ -186,7 +279,7 @@
   
 
 
-<time datetime="2014-06-06T10:54:23-05:00" pubdate data-updated="true">Jun 6<span>th</span>, 2014</time>
+<time datetime="2014-06-06T08:54:23-07:00" pubdate data-updated="true">Jun 6<span>th</span>, 2014</time>
         
       </p>
     
@@ -242,7 +335,7 @@
   
 
 
-<time datetime="2014-05-19T10:54:23-05:00" pubdate data-updated="true">May 19<span>th</span>, 2014</time>
+<time datetime="2014-05-19T08:54:23-07:00" pubdate data-updated="true">May 19<span>th</span>, 2014</time>
         
       </p>
     
@@ -300,7 +393,7 @@ in Philadelphia!</p>
   
 
 
-<time datetime="2014-05-12T22:54:23-05:00" pubdate data-updated="true">May 12<span>th</span>, 2014</time>
+<time datetime="2014-05-12T20:54:23-07:00" pubdate data-updated="true">May 12<span>th</span>, 2014</time>
         
       </p>
     
@@ -405,7 +498,7 @@ and Raspberry Pis?</strong></p>
   
 
 
-<time datetime="2014-05-07T10:37:05-05:00" pubdate data-updated="true">May 7<span>th</span>, 2014</time>
+<time datetime="2014-05-07T08:37:05-07:00" pubdate data-updated="true">May 7<span>th</span>, 2014</time>
         
       </p>
     
@@ -469,7 +562,7 @@ is executing for you.)</p>
   
 
 
-<time datetime="2014-04-25T10:54:23-05:00" pubdate data-updated="true">Apr 25<span>th</span>, 2014</time>
+<time datetime="2014-04-25T08:54:23-07:00" pubdate data-updated="true">Apr 25<span>th</span>, 2014</time>
         
       </p>
     
@@ -515,7 +608,7 @@ is executing for you.)</p>
   
 
 
-<time datetime="2014-04-22T11:00:00-05:00" pubdate data-updated="true">Apr 22<span>nd</span>, 2014</time>
+<time datetime="2014-04-22T09:00:00-07:00" pubdate data-updated="true">Apr 22<span>nd</span>, 2014</time>
         
       </p>
     
@@ -560,7 +653,7 @@ is executing for you.)</p>
   
 
 
-<time datetime="2014-04-19T11:00:00-05:00" pubdate data-updated="true">Apr 19<span>th</span>, 2014</time>
+<time datetime="2014-04-19T09:00:00-07:00" pubdate data-updated="true">Apr 19<span>th</span>, 2014</time>
         
       </p>
     
@@ -618,7 +711,7 @@ is executing for you.)</p>
   
 
 
-<time datetime="2014-04-03T10:37:05-05:00" pubdate data-updated="true">Apr 3<span>rd</span>, 2014</time>
+<time datetime="2014-04-03T08:37:05-07:00" pubdate data-updated="true">Apr 3<span>rd</span>, 2014</time>
         
       </p>
     
@@ -651,51 +744,9 @@ is executing for you.)</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/blog/2014/03/30/welcome/">New OSv Blog</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-03-30T22:54:23-05:00" pubdate data-updated="true">Mar 30<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Welcome to the OSv blog.</p>
-
-<p>A <a href="/blog/atom.xml">feed</a> is available, so please subscribe in your RSS reader for updates, or, if you prefer to use Twitter, you can follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> there.</p>
-
-<p>We&rsquo;re running <a href="http://octopress.org/docs/blogging/">Octopress</a> on <a href="http://pages.github.com/">GitHub Pages</a>, so that we can use the same easy Git contribution process for the blog as for our code.</p>
-
-<p>Watch for a simple introduction to the <a href="https://github.com/cloudius-systems/capstan">Capstan</a> devops tool, coming this week.</p>
-
-<p>If you have any questions about the blog, you can post a comment here, or mail <a href="mailto:dmarti@cloudius-systems.com">Don Marti</a>.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
+    
+      <a class="prev" href="/blog/blog/page/3/">&larr; Older</a>
     
     <a href="/blog/blog/archives">Blog Archives</a>
     
@@ -708,6 +759,10 @@ is executing for you.)</p>
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/blog/2014/08/26/jolokia-jmx-connectivity-in-osv/">Jolokia JMX Connectivity in OSv</a>
+      </li>
     
       <li class="post">
         <a href="/blog/blog/2014/08/20/linuxcon-cloudopen/">OSv in the Spotlight at LinuxCon/CloudOpen 2014</a>
@@ -723,10 +778,6 @@ is executing for you.)</p>
     
       <li class="post">
         <a href="/blog/blog/2014/07/21/generic-os-is-dead/">If Java Application Servers Are Dead, So Is the Operating System (in the Cloud)</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/blog/2014/07/14/osv-shrinker-api/">Getting Started With the OSv Shrinker API</a>
       </li>
     
   </ul>

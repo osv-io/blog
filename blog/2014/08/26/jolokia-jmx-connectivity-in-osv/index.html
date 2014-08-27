@@ -1,0 +1,426 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Jolokia JMX Connectivity in OSv - OSv Blog</title>
+  <meta name="author" content="Cloudius Systems">
+
+  
+  <meta name="description" content="By Calle Wilund OSv is a great way to run Java applications in the cloud, and it recently became just a little bit better. As you are probably aware &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://osv.io/blog/blog/2014/08/26/jolokia-jmx-connectivity-in-osv">
+  <link href="/blog/favicon.ico" rel="icon">
+  <link href="/blog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
+  <script src="/blog/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/blog/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+<!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="http://osv.io/js/cycle.js"></script>
+<script src="http://osv.io/js/js.js" language="javascript"></script-->
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-43975320-1', 'osv.io');
+  ga('send', 'pageview');
+</script>
+
+  
+
+</head>
+
+<body   >
+  <div class="wrap">
+  <div class="header"> <a class="logo" href="http://osv.io"><img src="http://osv.io/images/logo.jpg" /> </a>
+    <div class="topMenu">
+        <ul class="nav menu">
+            <li><a href="http://osv.io">Home</a></li>
+            <li class=""><a href="/blog/">Blog</a></li>
+            <li class=""><a href="/blog/blog/archives">Archives</a></li>
+        </ul>
+        <ul class="subscription" data-subscription="rss">
+            <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+            
+        </ul>
+        
+        <form action="https://www.google.com/search" method="get">
+            <fieldset role="search">
+                <input type="hidden" name="q" value="site:osv.io/blog" />
+                <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+            </fieldset>
+        </form>
+        
+    </div>
+</div>
+<div class="mobile header">
+    <a class="logo" href="http://osv.io/">
+        <img src="http://osv.io/images/mobileLogo.jpg"/>
+    </a>
+
+    <div class="mobile-topMenu">
+        <a href="javascript:void(0)" class="mobileMenuLink">&nbsp;</a>
+        <div class="theMobileMenu">
+            <ul class="nav menu">
+                <li class=""><a href="" >Home</a></li>
+                <li class="deeper parent"><a href="/users" >Users</a>
+                    <ul class="nav-child unstyled small">
+                        
+                    </ul>
+                </li>
+                <li class="deeper parent"><a href="/dev" >Development</a>
+                    <ul class="nav-child unstyled small">
+                        
+                    </ul>
+                </li>
+                <li class="deeper parent"><a href="/community" >Community</a>
+                    <ul class="nav-child unstyled small">
+                        
+                    </ul>
+                </li>
+                <li><a href="/contact/" >Contact</a></li>
+            </ul>
+        </div>
+        <script>
+            jQuery(document).ready(function(e) {
+                $('.mobileMenuLink').click(function(e) {
+                    $(this).toggleClass('active');
+                    $('.theMobileMenu').slideToggle();
+                });
+            });
+        </script>
+    </div>
+</div>
+<div class="mobile mobilePageTitle">Jolokia JMX connectivity in OSv</div>
+
+
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Jolokia JMX Connectivity in OSv</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-26T07:11:20-07:00" pubdate data-updated="true">Aug 26<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><strong>By Calle Wilund</strong></p>
+
+<p>OSv is a great way to run Java applications in the cloud, and it recently became just a little bit better. As you are probably aware, OSv exposes quite a bit of information and manageability options through its <a href="https://github.com/cloudius-systems/osv/wiki/The-RESTful-API">RESTful API</a>, accessible through the built-in HTTP server. More or less from its inception, this API has exposed various aspects of the JVM and the <a href="http://docs.oracle.com/javase/7/docs/technotes/guides/jmx/">Java Management Beans</a> provided.</p>
+
+<p>Recently we improved on this a bit by including the <a href="http://www.jolokia.org/">Jolokia</a> JMX-via-JSON-REST connector, providing full read/write access to the entire set of Java manageability attributes and operations. Now you no longer need to set up and secure separate JMX-over-RMI connectivity with your Java application to fully manage it.</p>
+
+<p>The Jolokia API is available via the OSv REST server at <nobr><code>http[s]://&lt;OSv host&gt;:&lt;port&gt;/jolokia</code></nobr>. You can explore this and other API:s via the <a href="https://github.com/cloudius-systems/osv/wiki/The-RESTful-API#using-the-swagger-ui">Swagger UI</a>.
+For a better understanding of the full <a href="http://www.jolokia.org/reference/html/protocol.html">Jolokia syntax</a>, I suggest reading through the <a href="http://www.jolokia.org/reference/html/index.html">reference manual</a>. In its simplest form, querying a Java Management Bean value from an OSv instance can be done like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; curl http://&lt;ip&gt;:&lt;port&gt;/jolokia/read/java.lang:type=Memory/HeapMemoryUsage</span></code></pre></td></tr></table></div></figure>
+
+
+<p>With the result of something like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="p">{</span>   
+</span><span class='line'>  <span class="s2">&quot;timestamp&quot;</span>   <span class="o">:</span><span class="mi">1409065190</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;status&quot;</span>  <span class="o">:</span><span class="mi">200</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;request&quot;</span> <span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>          <span class="s2">&quot;mbean&quot;</span>       <span class="o">:</span><span class="s2">&quot;java.lang:type=Memory&quot;</span><span class="p">,</span>
+</span><span class='line'>          <span class="s2">&quot;attribute&quot;</span>   <span class="o">:</span><span class="s2">&quot;HeapMemoryUsage&quot;</span><span class="p">,</span>
+</span><span class='line'>          <span class="s2">&quot;type&quot;</span>        <span class="o">:</span><span class="s2">&quot;read&quot;</span>
+</span><span class='line'>          <span class="p">},</span>
+</span><span class='line'>  <span class="s2">&quot;value&quot;</span>       <span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>          <span class="s2">&quot;max&quot;</span>     <span class="o">:</span><span class="mi">1839202304</span><span class="p">,</span>
+</span><span class='line'>          <span class="s2">&quot;committed&quot;</span>   <span class="o">:</span><span class="mi">1839202304</span><span class="p">,</span>
+</span><span class='line'>          <span class="s2">&quot;init&quot;</span>        <span class="o">:</span><span class="mi">1918894080</span><span class="p">,</span>
+</span><span class='line'>          <span class="s2">&quot;used&quot;</span>        <span class="o">:</span><span class="mi">192117128</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Jolokia provides a full syntax for packaging JMX bean information inside JSON objects, including the ability to batch requests.  It also provides client connector libraries for <a href="http://www.jolokia.org/client/java.html">Java</a>, <a href="http://www.jolokia.org/client/perl.html">Perl</a> and <a href="http://www.jolokia.org/client/javascript.html">JavaScript</a> to access them easily from (web) applications.</p>
+
+<h2>Important note about REST requests and browser security</h2>
+
+<p>Most browsers today enforce that resources such as REST queries may only be made to the same domain as the requesting web page. When you want to allow <a href="http://www.w3.org/TR/cors/">cross-domain requests</a> you need to either turn off this security feature in your browser (for Google Chrome you can run it with <code>--disable-web-security</code>, however if you use Firefox I do not know of any way to do it), or enable CORS in OSv.</p>
+
+<p>To do the latter, you need to provide a <code>httpserver</code> configuration section in your <a href="https://github.com/cloudius-systems/osv/wiki/Cloud-init">cloud init</a> settings. To simply allow all domains to make requests to the OSv APIs, add this to your configuration:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">httpserver</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">access-allow</span><span class="p-Indicator">:</span> <span class="s">&#39;*&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And make this reachable through your cloud-init server. (Or use the EC2 simulator script provided with OSv).</p>
+
+<h2>A small demo</h2>
+
+<p>A small demo JavaScript application showing how to easily plot various JVM graphs from a running OSv instance can be found at <a href="https://github.com/elcallio/jolokia-demo">https://github.com/elcallio/jolokia-demo</a> (which is a modified fork of the <a href="https://github.com/nurkiewicz/token-bucket">Jolokia demo</a> created by Tomasz Nurkiewicz.</p>
+
+<p>To test the demo, simply clone the repository and edit the <a name="osvhost"><code>src/js/osvhost.js</code></a> to match the IP address and port for your OSv instance. (Don&rsquo;t forget to make sure that your OSv image includes the HTTP server).</p>
+
+<p>Since I am runnning OSv compiled from source, I simply go to my OSv source tree and type:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="p-Indicator">&gt;</span><span class="err"> make image=httpserver,mgmt</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><em>&hellip;&lt;chug, chug, chug></em>
+And when it is done:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="p-Indicator">&gt;</span><span class="err"> ./scripts/run.py --api</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will build and start an almost empty image, containing only the HTTP server, <a href="https://github.com/cloudius-systems/osv/wiki/Cloud-init">cloud init support</a> and the Java-based shell (not a very interesting appliance, I admit, but you can pick any image you prefer). Running like this, the REST API is available from <code>http://localhost:8000</code>, so this is what I enter into <a href="#osvhost"><code>src/js/osvhost.js</code></a>.</p>
+
+<p>Then load the <code>jolokia-demo/src/index.html</code> in your favourite browser, and you should be greeted by this:</p>
+
+<p><img src="/blog/images/jolokia-demo.png" alt="screenshot" /></p>
+
+<p>As you can see, the demo provides the start of a small management console for Java with just a few lines of Javascript code, most of which actually deal with setting up the charts. Requesting and polling the actual data on the other hand is almost ridiculously easy.</p>
+
+<p>Having Jolokia integrated in the OSv manageability layer means that not only can you access all the JMX attributes parallel with the rest of the exposed OSv aspects, not having to modify Java appliances, but also that you only need to deal with <a href="https://github.com/cloudius-systems/osv/wiki/The-RESTful-API#configuring-ssl">securing a single service point</a>.</p>
+
+<p>This is just one small aspect of all the new and exciting manageability features that are in or coming to OSv. Over the next few months we hope to bring you additional aspects that will further enhance your deployment experience. Stay tuned.</p>
+
+<p>If you have any questions on OSv management, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get general updates by subscribing to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Cloudius Systems</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-26T07:11:20-07:00" pubdate data-updated="true">Aug 26<span>th</span>, 2014</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+    <div class="addthis_toolbox addthis_default_style ">
+        
+        <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+        
+        
+        <a class="addthis_button_tweet"></a>
+        
+        
+        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+        
+        
+        <a class="addthis_counter addthis_pill_style"></a>
+        
+    </div>
+    
+    <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-5343e81a2e0c9bfa"></script>
+    
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/blog/2014/08/20/linuxcon-cloudopen/" title="Previous Post: OSv in the spotlight at LinuxCon/CloudOpen 2014">&laquo; OSv in the spotlight at LinuxCon/CloudOpen 2014</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/blog/2014/08/26/jolokia-jmx-connectivity-in-osv/">Jolokia JMX Connectivity in OSv</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/blog/2014/08/20/linuxcon-cloudopen/">OSv in the Spotlight at LinuxCon/CloudOpen 2014</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/blog/2014/08/14/redis-memonly/">Redis on OSv</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/blog/2014/07/27/capstan-lein-template/">Running Clojure on OSv: Easier With a New Capstan Template</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/blog/2014/07/21/generic-os-is-dead/">If Java Application Servers Are Dead, So Is the Operating System (in the Cloud)</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  </div>
+  <div class="footer">
+    <div class="wrapf">
+
+
+        <div class="custom"  >
+            <p><a href="http://www.cloudius-systems.com"><img style="margin-top: 30px;" src="http://osv.io/images/footerLogo.jpg" alt="" width="380" height="38" /></a></p></div>
+
+
+
+        <div class="custom social"  >
+            <p><a href="https://plus.google.com/107787008629542080430" rel="publisher">Google+</a></p></div>
+
+
+
+        <div class="custom CloudIcon"  >
+            <p><a href="/index.php"><img src="http://osv.io/images/footerCloudIcon.jpg" width="57" height="33" alt="footerCloudIcon" /></a></p></div>
+
+        <div class="clr"></div>
+    </div>
+</div>
+
+
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'osvblog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://osv.io/blog/blog/2014/08/26/jolokia-jmx-connectivity-in-osv/';
+        var disqus_url = 'http://osv.io/blog/blog/2014/08/26/jolokia-jmx-connectivity-in-osv/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

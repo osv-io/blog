@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Clojure | OSv Blog]]></title>
   <link href="http://osv.io/blog/blog/categories/clojure/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2014-08-20T17:11:55-05:00</updated>
+  <updated>2014-08-27T08:10:18-07:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Running Clojure on OSv: Easier With a New Capstan Template]]></title>
     <link href="http://osv.io/blog/blog/2014/07/27/capstan-lein-template/"/>
-    <updated>2014-07-27T00:00:00-05:00</updated>
+    <updated>2014-07-27T00:00:00-07:00</updated>
     <id>http://osv.io/blog/blog/2014/07/27/capstan-lein-template</id>
     <content type="html"><![CDATA[<p>Clojure developers usually do not care too much about the underlying OS.
 The low-level differences between Linux, Mac OS, and even Microsoft Windows are abstracted away by the JVM.</p>
@@ -71,7 +71,7 @@ You can get updates on by subscribing to the <a href="http://osv.io/blog/atom.xm
   <entry>
     <title type="html"><![CDATA[Riemann - a Clojure Application on OSv]]></title>
     <link href="http://osv.io/blog/blog/2014/04/22/riemann-on-osv/"/>
-    <updated>2014-04-22T11:00:00-05:00</updated>
+    <updated>2014-04-22T09:00:00-07:00</updated>
     <id>http://osv.io/blog/blog/2014/04/22/riemann-on-osv</id>
     <content type="html"><![CDATA[<p><strong>By Tzach Livyatan</strong></p>
 

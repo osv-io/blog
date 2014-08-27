@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Events | OSv Blog]]></title>
   <link href="http://osv.io/blog/blog/categories/events/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2014-08-20T17:11:55-05:00</updated>
+  <updated>2014-08-27T08:10:18-07:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[OSv in the Spotlight at LinuxCon/CloudOpen 2014]]></title>
     <link href="http://osv.io/blog/blog/2014/08/20/linuxcon-cloudopen/"/>
-    <updated>2014-08-20T18:10:31-05:00</updated>
+    <updated>2014-08-20T16:10:31-07:00</updated>
     <id>http://osv.io/blog/blog/2014/08/20/linuxcon-cloudopen</id>
     <content type="html"><![CDATA[<p>While we relax and don&rsquo;t have to fix anything on our slides (really, they&rsquo;re all done), other speakers at the Linux Foundation&rsquo;s <a href="http://events.linuxfoundation.org/events/cloudopen-north-america">CloudOpen North America conference</a> in beautiful Chicago have some observations to make about OSv.</p>
 
