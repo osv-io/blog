@@ -3,8 +3,11 @@ layout: post
 title: "Jolokia JMX connectivity in OSv"
 date: 2014-08-26 16:11:20 +0200
 comments: true
+published: false
 categories: 
 ---
+**By Calle Wilund**
+
 OSv is a great way to run Java applications in the cloud, and it recently became just a little bit better. As you are probably aware, OSv exposes quite a bit of information and manageability options through its [RESTful API](https://github.com/cloudius-systems/osv/wiki/The-RESTful-API), accessible through the built-in http server for this purpose. More or less from its inception, this API has exposed various aspects of the JVM and the [Java Management Beans](http://docs.oracle.com/javase/7/docs/technotes/guides/jmx/) provided. 
 
 Recently we improved on this a bit by including the [Jolokia](http://www.jolokia.org/) JMX-via-json-REST connector, providing full read/write access to the entire set of Java manageability attributes and operations. Now you no longer need to set up and secure separate JMX-over-rmi connectivity with your Java application to fully manage it. 
