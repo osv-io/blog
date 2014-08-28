@@ -1,15 +1,16 @@
 OSv/blog
 ====
 
-This project holds the source for [blog.osv.io](blog.osv.io)
+This project holds the source for [osv.io/blog](http://osv.io/blog)
 
-
-blog.osv.io is base on [Octopress](octopress.org) and deployed on Github [Project pages](http://octopress.org/docs/deploying/github/)
-
+This blog is based on [Octopress](octopress.org) and deployed on Github [Project pages](http://octopress.org/docs/deploying/github/)
 
 This means: 
 * blog source are on branch **source**
 * blog generated HTML/CSS are under branch **gh-pages**
+
+**Do not commit to the gh-pages branch.  It is generated automatically.**
+
 
 ### Checking out the blog for the first time
 
@@ -50,17 +51,15 @@ The above process only update the **gh-pages** branch.
 Once publishing done, remember to commit your source update to the
 source branch!
 
-
-*With out this, you changes will be lost when someone else update the blog.*
+*Without this, your changes will be lost when someone else update the blog.*
 
 ### Suggest updates without publishing
 
 1. Fork the blog 
 2. Execute steps 1-7 above
-3. Do a Pull Request to the source branch
+3. Send a [GitHub Pull Request](https://help.github.com/articles/using-pull-requests) to the **source** branch.
 
 ### How to add a new post / update a post?
 http://octopress.org/docs/blogging/
-
 
 
