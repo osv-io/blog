@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Bridged Networking With Capstan - OSv Blog</title>
+  <title>Wiki Watch: Cloud Init - OSv Blog</title>
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="By Don Marti New versions of Capstan are making it simpler to run OSv virtual machines in a production configuration, by adding more control of &hellip;">
+  <meta name="description" content="The previous blog article, on Jolokia mentions a configuration item for cloud-init. You may be asking, &ldquo;Cloud init? How do I use that on OSv?& &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://osv.io/blog/blog/2014/05/07/capstan-bridge">
+  <link rel="canonical" href="http://osv.io/blog/blog/2014/08/28/wiki-watch-cloud-init">
   <link href="/blog/favicon.ico" rel="icon">
   <link href="/blog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
@@ -107,7 +107,7 @@
         </script>
     </div>
 </div>
-<div class="mobile mobilePageTitle">Bridged networking with Capstan</div>
+<div class="mobile mobilePageTitle">Wiki watch: Cloud init</div>
 
 
   <div id="main">
@@ -117,7 +117,7 @@
   
   <header>
     
-      <h1 class="entry-title">Bridged Networking With Capstan</h1>
+      <h1 class="entry-title">Wiki Watch: Cloud Init</h1>
     
     
       <p class="meta">
@@ -133,42 +133,18 @@
   
 
 
-<time datetime="2014-05-07T08:37:05-07:00" pubdate data-updated="true">May 7<span>th</span>, 2014</time>
+<time datetime="2014-08-28T08:37:05-07:00" pubdate data-updated="true">Aug 28<span>th</span>, 2014</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p><strong>By Don Marti</strong></p>
+<div class="entry-content"><p><a href="http://osv.io/blog/blog/2014/08/26/jolokia-jmx-connectivity-in-osv/">The previous blog article, on Jolokia</a> mentions a configuration item for cloud-init.  You may be asking, &ldquo;Cloud init?  How do I use that on OSv?&rdquo;  Well, good news.  For details on configuring OSv using the cloud init mechanism, check out our recently updated wiki page: <a href="https://github.com/cloudius-systems/osv/wiki/cloud-init">Cloud init</a>.</p>
 
-<p>New versions of <a href="https://github.com/cloudius-systems/capstan">Capstan</a> are making it simpler to run OSv virtual machines in a production configuration, by adding more control of network options.  A useful new feature, which helps deal with the <a href="https://github.com/cloudius-systems/osv/wiki/Running-OSv-image-under-KVM-QEMU">details of bringing up networking</a>, is the <code>-n</code> option.</p>
+<p><a href="https://github.com/tgrabiec">Tomasz Grabiec</a> has written an informative page on how to configure your OSv instance, from setting the port for the management HTTP server to filling in the content of config files. Check it out.  (Naturally, it&rsquo;s a wiki, so feel free to fill in additional details if you like.)</p>
 
-<p>By default, Capstan starts up KVM/QEMU with user networking:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> -netdev user,id=un0,net=192.168.122.0/24,host=192.168.122.1</span></code></pre></td></tr></table></div></figure>
-
-
-<p>(That&rsquo;s from <code>ps ax | grep qemu</code>, which you can run
-to see the qemu-system-x86_64 command that Capstan
-is executing for you.)</p>
-
-<p>But there are many more <a href="http://www.linux-kvm.org/page/Networking">networking options</a> for QEMU/KVM.  The basic user networking, which does not require root access to start up, is good for development and simple tasks.  But for production use, where you need to get your VM on a network where it&rsquo;s available from other VMs or from the outside, you&rsquo;ll need bridged networking.  (See your Linux distribution or hypervisor documentation for the details of creating a virtual or public bridge device.)</p>
-
-<p>If you invoke <code>capstan run</code> with the <code>-n bridge</code> option, you&rsquo;ll get QEMU running with:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>-netdev bridge,id=hn0,br=virbr0,helper=/usr/libexec/qemu-bridge-helper</span></code></pre></td></tr></table></div></figure>
-
-
-<p>If you have a specific bridge device to connect to, you can use the <code>-b</code> option with the name of the bridge device.  The default is <code>virbr0</code>, but you can also set up a public bridge, usually <code>br0</code>, that&rsquo;s bridged to a physical network interface on the host.</p>
-
-<h1>Other hypervisors</h1>
-
-<p>Don&rsquo;t feel left out if you have a different hypervisor.  Capstan also handles bridged networking on VirtualBox, with the rest of the supported hypervisors coming soon.   The fact that the syntax is the same is going to be a big time-saver for those of us who have to do testing and demos on multiple systems&mdash;no more dealing with arcane commands that are different from system to system.</p>
-
-<p>For more on Capstan and networking, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list on Google Groups</a>.  You can get updates by subscribing to this blog&rsquo;s feed, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+<p>Want more info on cloud-init and related topics?  Join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get regular OSv updates by subscribing to this blog&rsquo;s feed, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
 </div>
 
 
@@ -191,12 +167,12 @@ is executing for you.)</p>
   
 
 
-<time datetime="2014-05-07T08:37:05-07:00" pubdate data-updated="true">May 7<span>th</span>, 2014</time>
+<time datetime="2014-08-28T08:37:05-07:00" pubdate data-updated="true">Aug 28<span>th</span>, 2014</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/blog/categories/capstan/'>capstan</a>, <a class='category' href='/blog/blog/categories/network/'>network</a>, <a class='category' href='/blog/blog/categories/tools/'>tools</a>
+    <a class='category' href='/blog/blog/categories/management/'>management</a>
   
 </span>
 
@@ -226,10 +202,8 @@ is executing for you.)</p>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/blog/2014/04/25/meetup/" title="Previous Post: New OSv Meetup group">&laquo; New OSv Meetup group</a>
+        <a class="basic-alignment left" href="/blog/blog/2014/08/26/jolokia-jmx-connectivity-in-osv/" title="Previous Post: Jolokia JMX connectivity in OSv">&laquo; Jolokia JMX connectivity in OSv</a>
       
-      
-        <a class="basic-alignment right" href="/blog/blog/2014/05/12/osv-on-64-bit-arm/" title="Next Post: Interview: OSv on 64-bit ARM systems">Interview: OSv on 64-bit ARM systems &raquo;</a>
       
     </p>
   </footer>
@@ -312,8 +286,8 @@ is executing for you.)</p>
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://osv.io/blog/blog/2014/05/07/capstan-bridge/';
-        var disqus_url = 'http://osv.io/blog/blog/2014/05/07/capstan-bridge/';
+        var disqus_identifier = 'http://osv.io/blog/blog/2014/08/28/wiki-watch-cloud-init/';
+        var disqus_url = 'http://osv.io/blog/blog/2014/08/28/wiki-watch-cloud-init/';
         var disqus_script = 'embed.js';
       
     (function () {
