@@ -9,7 +9,7 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="The previous blog article, on Jolokia mentions a configuration item for cloud-init. You may be asking, &ldquo;Cloud init? How do I use that on OSv?& &hellip;">
+  <meta name="description" content="Pop quiz: what does this graph show? If you&rsquo;d like a hint, here&rsquo;s some context. It&rsquo;s from the upcoming talk on Cassandra on OSv at &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -114,6 +114,52 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/blog/2014/09/10/cassandra-summit/">What&#8217;s the Big Deal About OSv at Cassandra Summit 2014?</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-10T16:10:31-07:00" pubdate data-updated="true">Sep 10<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>Pop quiz: what does this graph show?</strong></p>
+
+<p><img src="/blog/images/mystery-graph.png" alt="graph" /></p>
+
+<p>If you&rsquo;d like a hint, here&rsquo;s some context.  It&rsquo;s from the upcoming <a href="http://www.cvent.com/events/cassandra-summit-2014/agenda-176f061a4b144525ae05f18cd9a9cb12.aspx">talk on Cassandra on OSv</a> at Cassandra Summit in San Francisco.</p>
+
+<p>We&rsquo;ve been picking up a bunch of Cassandra tips at the event so far.  And we&rsquo;re really looking forward to (a) tomorrow&rsquo;s talks from the administrators of large-scale Cassandra sites and (b) showing off a new useful thing that should make life much easier for Cassandra admins who know <code>curl</code>. Which would be&hellip;everyone?</p>
+
+<p>If you missed the chance to see Don Marti and Glauber Costa at Linuxcon/CloudOpen, please come see us, with bonus extra speaker <strong>Dor Laor</strong>.  Otherwise, you can keep up with the latest OSv news from this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+
+<p>(Next up: <a href="http://www.xenproject.org/about/events/viewevent/120-xen-project-user-summit-2014.html">Xen Project User Summit</a> in New York City&hellip;)</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -754,101 +800,6 @@ The price makes sense, and it is super easy to enable.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/blog/2014/06/23/containers-hypervisors-part-3/">Hypervisors Are Dead, Long Live the Hypervisor (Part 3)</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-06-23T13:00:00-07:00" pubdate data-updated="true">Jun 23<span>rd</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><strong>By Dor Laor and Avi Kivity</strong></p>
-
-<h1>The new school: functionality, isolation and simplicity</h1>
-
-<p>(This is part 3 of a 3-part series. <a href="http://osv.io/blog/blog/2014/06/19/containers-hypervisors-part-1/">Part 1</a>, <a href="http://osv.io/blog/blog/2014/06/19/containers-hypervisors-part-2/">Part 2</a>)</p>
-
-<p>Containers make administration simple, and VMs give you portability, isolation, and administration advantages. The concept of putting <a href="http://www.slideshare.net/jpetazzo/linux-containers-lxc-docker-and-security">containers inside VMs</a> gives you the isolation you need, but there are now two layers of configuration and overhead instead of one.</p>
-
-<p>What if there were one technology that could give us the simplicity and reduced overhead of containers and the security, tools, and hardware support of hypervisors? That’s where OSv comes in.  OSv, the “Operating System Designed for the Cloud.” takes an approach different from either containerization or virtualizing an existing bare-metal OS.  OSv is a single address space OS, designed to run as a guest only, with one application per VM.</p>
-
-<h2>Best of both worlds?</h2>
-
-<p>Glauber Costa, in a speech at Linuxcon called <a href="https://events.linuxfoundation.org/images/stories/pdf/lceu2012_costa.odp">&ldquo;The failure of Operating Systems, and how we can fix it&rdquo;</a>, pointed out that the existence of hypervisors is evidence that Operating Systems alone cannot meet some of the demands of real workloads. Through OSv, we have the opportunity to work together with the hypervisor to create a superior solution to what can be done with the OS alone: combining the resource efficiency of containers with the processor-aided advantages of hardware virtualization.</p>
-
-<p>In the eight years since the release of Intel VMX, the silicon has kept getting better and better at moving the costs of virtualization into hardware. Enterprise customers have been demanding lower virtualization overhead for as long as hypervisors have been a thing, and the best minds of the CPU industry are working on it. With nested page tables and other features coming “for free” on the processor, virtualization overhead is being squeezed closer and closer to parity with bare metal.</p>
-
-<p><img src="/blog/images/duplication.png" alt="typical cloud stack with duplication" /></p>
-
-<p><strong>Typical cloud stacks have duplicate functionality at the hypervisor, guest OS, and application levels.</strong></p>
-
-<p>While many players are trying to carve out a simple OS containerization system at the guest OS level, they are ignoring the stable, simple, secure, hardware-supported interface we already have: the hypervisor-guest interface.  There’s nothing that says we have to use this well-tested, industry-standard interface just to run a large, complete OS designed for bare metal. (In fact, research projects such as “Erlang on Xen” and MirageOS have explored using the hypervisor to run something less than a full OS for quite a while.)</p>
-
-<h2>OSv is designed to perform</h2>
-
-<p>OSv transparently loads an application into its kernel space. There is no userspace whatsoever. It removes the need for user to kernel context switches. In addition, the kernel trusts the application, since it relies on the underlying hypervisor for isolation from other applications in other VMs. Thus it opens up a way for the application to use any kernel API – from taking scheduling decisions to zero copy operations on data, and even unlock the brute force of the hardware page tables for the benefit of the application or its framework.</p>
-
-<p>To date (June 2014), OSv provides 4x better performance for Memcache, a 40% gain with Apache Tomcat, and a 20% gain with Cassandra and SPECjbb. These results are based on our alpha versions, and are likely to improve as we complete the optimizations remaining on our roadmap.</p>
-
-<p><img src="/blog/images/workloads.png" alt="OSv example workloads" /></p>
-
-<p><strong>OSv runs many key cloud workloads with low overhead and high performance.</strong></p>
-
-<p>OSv&rsquo;s image is your app and our kernel. Sometimes it means an image size of 10MB! That&rsquo;s a 100-400x better than the traditional OS and resembles a container&rsquo;s footprint. The OSv boot time is under a second, which is also closer to container startup time.</p>
-
-<h2>OSv management: some questions for devops</h2>
-
-<p>How many configuration files does your OS have? <strong>OSv has zero.</strong></p>
-
-<p>How many times have you had to perform string manipulation on UNIX-like config files? <strong>OSv is built for automation and uses a RESTful API instead.</strong></p>
-
-<p>How hard is it to upgrade your OS, and how can you revert it? <strong>OS is stateless.</strong></p>
-
-<p>With an hypervisor below, you get the features such as live migration, perfect SLA, superior security for free while you get to enjoy from OSv’s added value.</p>
-
-<h2>Capstan – or what we have learned from Docker</h2>
-
-<p>We do love Docker with regard to development. The neat public image repository and the dead-simple-single execution won our hearts. We wanted to have the same for VMs, so we created the <a href="http://osv.io/capstan/">Capstan</a> project. Capstan has a public image repository, and by executing &lsquo;capstan run cloudius/osv-cassandra&rsquo; a virtual machine image will be either downloaded to your laptop (Mac OS X, Microsoft Windows, or Linux) or be executed on your cloud of choice. Capstan also allows you to build images including an app and a base OSv image. It takes about three seconds. On Capstan&rsquo;s roadmap, we plan to support the Docker file format, run Java apps directly without a config file, and form a simple PaaS for developers to load their favorite app directly to a running VM.</p>
-
-<h2>Pick a cloud, any cloud</h2>
-
-<p>The business case for cloud computing has never been better for the customer. While Amazon continues to upgrade the available instances and offer faster VMs at lower prices, Google is coming on strong as well. Microsoft, HP, IBM, and others are all competing for cloud business.  The cloud VM is the new generic PC.  Because we can create standard VMs that will run on anyone’s cloud, or on a private or hybrid cloud, we can develop with the confidence that we’ll be able to deploy to whatever infrastructure makes business sense&mdash;or move, or split deployment.</p>
-
-<p>Lastly, we like to point out we are not against containers. Container technology is awesome when used for the right scenario. As there are cases for public transportation versus private cars, the same applies to devops. Both containers and OSv excel, in different domains. Here is a simple flow chart that can guide you with your choices:</p>
-
-<p><a href="/blog/images/flowchart.png"><img src="/blog/images/flowchart.png" alt="Guest OS selection flowchart" /></a></p>
-
-<p>Using OSv on ubiquitous, secure, full-featured hypervisors is the way to keep performance up, costs down, and options open. We had to completely reinvent the guest OS to do it&mdash;but now that we have it, OSv is available to build on. Please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a> for technical info, or follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems on Twitter</a> for the latest news.</p>
-
-<p>( <a href="http://osv.io/blog/blog/2014/06/19/containers-hypervisors-part-1/">Part 1</a>, <a href="http://osv.io/blog/blog/2014/06/19/containers-hypervisors-part-2/">Part 2</a>
-)</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/blog/page/2/">&larr; Older</a>
@@ -864,6 +815,10 @@ The price makes sense, and it is super easy to enable.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/blog/2014/09/10/cassandra-summit/">What&#8217;s the Big Deal About OSv at Cassandra Summit 2014?</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/blog/2014/08/28/wiki-watch-cloud-init/">Wiki Watch: Cloud Init</a>
       </li>
     
@@ -877,10 +832,6 @@ The price makes sense, and it is super easy to enable.</p>
     
       <li class="post">
         <a href="/blog/blog/2014/08/14/redis-memonly/">Redis on OSv</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/blog/2014/07/27/capstan-lein-template/">Running Clojure on OSv: Easier With a New Capstan Template</a>
       </li>
     
   </ul>
