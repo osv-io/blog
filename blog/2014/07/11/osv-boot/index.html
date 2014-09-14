@@ -1,0 +1,350 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Inside the OSv Boot Process - OSv Blog</title>
+  <meta name="author" content="Cloudius Systems">
+
+  
+  <meta name="description" content="What happens in that critical fraction of a second between when a virtual x86_64 system &ldquo;powers up&rdquo; and when it begins running operating &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.osv.io//github/blog/2014/07/11/osv-boot">
+  <link href="/blog/favicon.ico" rel="icon">
+  <link href="/blog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
+  <script src="/blog/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/blog/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+<!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="http://osv.io/js/cycle.js"></script>
+<script src="http://osv.io/js/js.js" language="javascript"></script-->
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-43975320-1', 'osv.io');
+  ga('send', 'pageview');
+</script>
+
+  
+
+</head>
+
+<body   >
+  <div class="wrap">
+  <div class="header"> <a class="logo" href="http://osv.io"><img src="http://osv.io/images/logo.jpg" /> </a>
+    <div class="topMenu">
+        <ul class="nav menu">
+            <li><a href="http://osv.io">Home</a></li>
+            <li class=""><a href="/blog/">Blog</a></li>
+            <li class=""><a href="/blog/blog/archives">Archives</a></li>
+        </ul>
+        <ul class="subscription" data-subscription="rss">
+            <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+            
+        </ul>
+        
+        <form action="https://www.google.com/search" method="get">
+            <fieldset role="search">
+                <input type="hidden" name="q" value="site:blog.osv.io//github" />
+                <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+            </fieldset>
+        </form>
+        
+    </div>
+</div>
+<div class="mobile header">
+    <a class="logo" href="http://osv.io/">
+        <img src="http://osv.io/images/mobileLogo.jpg"/>
+    </a>
+
+    <div class="mobile-topMenu">
+        <a href="javascript:void(0)" class="mobileMenuLink">&nbsp;</a>
+        <div class="theMobileMenu">
+            <ul class="nav menu">
+                <li class=""><a href="" >Home</a></li>
+                <li class="deeper parent"><a href="/users" >Users</a>
+                    <ul class="nav-child unstyled small">
+                        
+                    </ul>
+                </li>
+                <li class="deeper parent"><a href="/dev" >Development</a>
+                    <ul class="nav-child unstyled small">
+                        
+                    </ul>
+                </li>
+                <li class="deeper parent"><a href="/community" >Community</a>
+                    <ul class="nav-child unstyled small">
+                        
+                    </ul>
+                </li>
+                <li><a href="/contact/" >Contact</a></li>
+            </ul>
+        </div>
+        <script>
+            jQuery(document).ready(function(e) {
+                $('.mobileMenuLink').click(function(e) {
+                    $(this).toggleClass('active');
+                    $('.theMobileMenu').slideToggle();
+                });
+            });
+        </script>
+    </div>
+</div>
+<div class="mobile mobilePageTitle">Inside the OSv boot process</div>
+
+
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Inside the OSv Boot Process</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-11T18:37:05+03:00" pubdate data-updated="true">Jul 11<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>What happens in that critical fraction of a second between when a virtual x86_64 system &ldquo;powers up&rdquo; and when it begins running operating system code written in a high-level language?</p>
+
+<p>For a helpful walk-through, there&rsquo;s a new article on the OSv wiki, originally written by Elazar Leibovich.</p>
+
+<p><img src="/blog/images/pc-power.jpeg" alt="IBM PC power switch" /></p>
+
+<p><strong>The boot process for a modern VM traces its history back to the
+original IBM PC.</strong></p>
+
+<p>While some of the intricate startup steps are historic, the end result is an OSv boot time that&rsquo;s less than a second&mdash;an order of magnitude faster than a conventional multi-user OS.  To read (or contribute!) details,
+<a href="http://github.com/cloudius-systems/osv/wiki/OSv-early-boot-(MBR)">the &ldquo;OSv early boot&rdquo; article on the wiki.</a></p>
+
+<p>(photo: <a href="http://commons.wikimedia.org/wiki/File:XT-PC-Power-Supply-PCB-IMG_0436.JPG">Hans Haase for Wikimedia Commons</a>. Available under the Creative Commons Attribution-Share Alike 3.0 Unported license.)</p>
+
+<p>If you have any questions on OSv internals, or porting your application, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get general updates by subscribing to this blog&rsquo;s feed, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Cloudius Systems</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-11T18:37:05+03:00" pubdate data-updated="true">Jul 11<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/blog/categories/internals/'>internals</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+    <div class="addthis_toolbox addthis_default_style ">
+        
+        <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+        
+        
+        <a class="addthis_button_tweet"></a>
+        
+        
+        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+        
+        
+        <a class="addthis_counter addthis_pill_style"></a>
+        
+    </div>
+    
+    <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-5343e81a2e0c9bfa"></script>
+    
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/blog/2014/07/01/s3stat/" title="Previous Post: What is the most popular OSv virtual appliance?">&laquo; What is the most popular OSv virtual appliance?</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/blog/2014/07/14/osv-shrinker-api/" title="Next Post: Getting started with the OSv Shrinker API">Getting started with the OSv Shrinker API &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/blog/2014/09/14/how-fast-can-you-run-4-vm/">Speed Run: Running 4 Virtual Appliances on Your Laptop in 5 Seconds Overall</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/blog/2014/09/11/cassandra-summit/">What's the Big Deal About OSv at Cassandra Summit 2014?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/blog/2014/08/28/wiki-watch-cloud-init/">Wiki Watch: Cloud Init</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/blog/2014/08/26/jolokia-jmx-connectivity-in-osv/">Jolokia JMX Connectivity in OSv</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/blog/2014/08/21/linuxcon-cloudopen/">OSv in the Spotlight at LinuxCon/CloudOpen 2014</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  </div>
+  <div class="footer">
+    <div class="wrapf">
+
+
+        <div class="custom"  >
+            <p><a href="http://www.cloudius-systems.com"><img style="margin-top: 30px;" src="http://osv.io/images/footerLogo.jpg" alt="" width="380" height="38" /></a></p></div>
+
+
+
+        <div class="custom social"  >
+            <p><a href="https://plus.google.com/107787008629542080430" rel="publisher">Google+</a></p></div>
+
+
+
+        <div class="custom CloudIcon"  >
+            <p><a href="/index.php"><img src="http://osv.io/images/footerCloudIcon.jpg" width="57" height="33" alt="footerCloudIcon" /></a></p></div>
+
+        <div class="clr"></div>
+    </div>
+</div>
+
+
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'osvblog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.osv.io//github/blog/2014/07/11/osv-boot/';
+        var disqus_url = 'http://blog.osv.io//github/blog/2014/07/11/osv-boot/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

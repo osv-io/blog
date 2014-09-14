@@ -1,1 +1,925 @@
-My Octopress Page is coming soon &hellip;
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>OSv Blog</title>
+  <meta name="author" content="Cloudius Systems">
+
+  
+  <meta name="description" content="By Dor Laor, Tzach Livyatan In the following demo, Dor is running 4 different OSv base virtual appliances
+on his laptop: Redis
+Tomcat
+MySQL
+Cassandra &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://blog.osv.io//github">
+  <link href="/blog/favicon.ico" rel="icon">
+  <link href="/blog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
+  <script src="/blog/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/blog/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+<!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="http://osv.io/js/cycle.js"></script>
+<script src="http://osv.io/js/js.js" language="javascript"></script-->
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-43975320-1', 'osv.io');
+  ga('send', 'pageview');
+</script>
+
+  
+
+</head>
+
+<body   >
+  <div class="wrap">
+  <div class="header"> <a class="logo" href="http://osv.io"><img src="http://osv.io/images/logo.jpg" /> </a>
+    <div class="topMenu">
+        <ul class="nav menu">
+            <li><a href="http://osv.io">Home</a></li>
+            <li class="current"><a href="/blog/">Blog</a></li>
+            <li class=""><a href="/blog/blog/archives">Archives</a></li>
+        </ul>
+        <ul class="subscription" data-subscription="rss">
+            <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+            
+        </ul>
+        
+        <form action="https://www.google.com/search" method="get">
+            <fieldset role="search">
+                <input type="hidden" name="q" value="site:blog.osv.io//github" />
+                <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+            </fieldset>
+        </form>
+        
+    </div>
+</div>
+<div class="mobile header">
+    <a class="logo" href="http://osv.io/">
+        <img src="http://osv.io/images/mobileLogo.jpg"/>
+    </a>
+
+    <div class="mobile-topMenu">
+        <a href="javascript:void(0)" class="mobileMenuLink">&nbsp;</a>
+        <div class="theMobileMenu">
+            <ul class="nav menu">
+                <li class="current active"><a href="" >Home</a></li>
+                <li class="deeper parent"><a href="/users" >Users</a>
+                    <ul class="nav-child unstyled small">
+                        
+                    </ul>
+                </li>
+                <li class="deeper parent"><a href="/dev" >Development</a>
+                    <ul class="nav-child unstyled small">
+                        
+                    </ul>
+                </li>
+                <li class="deeper parent"><a href="/community" >Community</a>
+                    <ul class="nav-child unstyled small">
+                        
+                    </ul>
+                </li>
+                <li><a href="/contact/" >Contact</a></li>
+            </ul>
+        </div>
+        <script>
+            jQuery(document).ready(function(e) {
+                $('.mobileMenuLink').click(function(e) {
+                    $(this).toggleClass('active');
+                    $('.theMobileMenu').slideToggle();
+                });
+            });
+        </script>
+    </div>
+</div>
+<div class="mobile mobilePageTitle"></div>
+
+
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/blog/2014/09/14/how-fast-can-you-run-4-vm/">Speed Run: Running 4 Virtual Appliances on Your Laptop in 5 Seconds Overall</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-14T09:30:00+03:00" pubdate data-updated="true">Sep 14<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>By Dor Laor, Tzach Livyatan</strong></p>
+
+<p>In the following demo, Dor is running 4 different OSv base virtual appliances
+on his laptop:</p>
+
+<ul>
+<li>Redis</li>
+<li>Tomcat</li>
+<li>MySQL</li>
+<li>Cassandra</li>
+</ul>
+
+
+<p>Each virtual appliance is a full–blown VM, each with a pre-integrated
+cloud application, and each launched without terminating the others.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/blog/2014/09/14/how-fast-can-you-run-4-vm/">Read more&#8230;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/blog/2014/09/11/cassandra-summit/">What&#8217;s the Big Deal About OSv at Cassandra Summit 2014?</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-11T02:10:31+03:00" pubdate data-updated="true">Sep 11<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>Pop quiz: what does this graph show?</strong></p>
+
+<p><img src="/blog/images/mystery-graph.png" alt="graph" /></p>
+
+<p>If you&rsquo;d like a hint, here&rsquo;s some context.  It&rsquo;s from the upcoming <a href="http://www.cvent.com/events/cassandra-summit-2014/agenda-176f061a4b144525ae05f18cd9a9cb12.aspx">talk on Cassandra on OSv</a> at Cassandra Summit in San Francisco.</p>
+
+<p>We&rsquo;ve been picking up a bunch of Cassandra tips at the event so far.  And we&rsquo;re really looking forward to (a) tomorrow&rsquo;s talks from the administrators of large-scale Cassandra sites and (b) showing off a new useful thing that should make life much easier for Cassandra admins who know <code>curl</code>. Which would be&hellip;everyone?</p>
+
+<p>If you missed the chance to see Don Marti and Glauber Costa at Linuxcon/CloudOpen, please come see us, with bonus extra speaker <strong>Dor Laor</strong>.  Otherwise, you can keep up with the latest OSv news from this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+
+<p>(Next up: <a href="http://www.xenproject.org/about/events/viewevent/120-xen-project-user-summit-2014.html">Xen Project User Summit</a> in New York City&hellip;)</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/blog/2014/08/28/wiki-watch-cloud-init/">Wiki Watch: Cloud Init</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-28T18:37:05+03:00" pubdate data-updated="true">Aug 28<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="http://osv.io/blog/blog/2014/08/26/jolokia-jmx-connectivity-in-osv/">The previous blog article, on Jolokia</a> mentions a configuration item for cloud-init.  You may be asking, &ldquo;Cloud init?  How do I use that on OSv?&rdquo;  Well, good news.  For details on configuring OSv using the cloud init mechanism, check out our recently updated wiki page: <a href="https://github.com/cloudius-systems/osv/wiki/cloud-init">Cloud init</a>.</p>
+
+<p><a href="https://github.com/tgrabiec">Tomasz Grabiec</a> has written an informative page on how to configure your OSv instance, from setting the port for the management HTTP server to filling in the content of config files. Check it out.  (Naturally, it&rsquo;s a wiki, so feel free to fill in additional details if you like.)</p>
+
+<p>Want more info on cloud-init and related topics?  Join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get regular OSv updates by subscribing to this blog&rsquo;s feed, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/blog/2014/08/26/jolokia-jmx-connectivity-in-osv/">Jolokia JMX Connectivity in OSv</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-26T17:11:20+03:00" pubdate data-updated="true">Aug 26<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>By Calle Wilund</strong></p>
+
+<p>OSv is a great way to run Java applications in the cloud, and it recently became just a little bit better. As you are probably aware, OSv exposes quite a bit of information and manageability options through its <a href="https://github.com/cloudius-systems/osv/wiki/The-RESTful-API">RESTful API</a>, accessible through the built-in HTTP server. More or less from its inception, this API has exposed various aspects of the JVM and the <a href="http://docs.oracle.com/javase/7/docs/technotes/guides/jmx/">Java Management Beans</a> provided.</p>
+
+<p>Recently we improved on this a bit by including the <a href="http://www.jolokia.org/">Jolokia</a> JMX-via-JSON-REST connector, providing full read/write access to the entire set of Java manageability attributes and operations. Now you no longer need to set up and secure separate JMX-over-RMI connectivity with your Java application to fully manage it.</p>
+
+<p>The Jolokia API is available via the OSv REST server at <nobr><code>http[s]://&lt;OSv host&gt;:&lt;port&gt;/jolokia</code></nobr>. You can explore this and other API:s via the <a href="https://github.com/cloudius-systems/osv/wiki/The-RESTful-API#using-the-swagger-ui">Swagger UI</a>.
+For a better understanding of the full <a href="http://www.jolokia.org/reference/html/protocol.html">Jolokia syntax</a>, I suggest reading through the <a href="http://www.jolokia.org/reference/html/index.html">reference manual</a>. In its simplest form, querying a Java Management Bean value from an OSv instance can be done like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; curl http://&lt;ip&gt;:&lt;port&gt;/jolokia/read/java.lang:type=Memory/HeapMemoryUsage</span></code></pre></td></tr></table></div></figure>
+
+
+<p>With the result of something like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="p">{</span>   
+</span><span class='line'>  <span class="s2">&quot;timestamp&quot;</span>   <span class="o">:</span><span class="mi">1409065190</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;status&quot;</span>  <span class="o">:</span><span class="mi">200</span><span class="p">,</span>
+</span><span class='line'>  <span class="s2">&quot;request&quot;</span> <span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>          <span class="s2">&quot;mbean&quot;</span>       <span class="o">:</span><span class="s2">&quot;java.lang:type=Memory&quot;</span><span class="p">,</span>
+</span><span class='line'>          <span class="s2">&quot;attribute&quot;</span>   <span class="o">:</span><span class="s2">&quot;HeapMemoryUsage&quot;</span><span class="p">,</span>
+</span><span class='line'>          <span class="s2">&quot;type&quot;</span>        <span class="o">:</span><span class="s2">&quot;read&quot;</span>
+</span><span class='line'>          <span class="p">},</span>
+</span><span class='line'>  <span class="s2">&quot;value&quot;</span>       <span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>          <span class="s2">&quot;max&quot;</span>     <span class="o">:</span><span class="mi">1839202304</span><span class="p">,</span>
+</span><span class='line'>          <span class="s2">&quot;committed&quot;</span>   <span class="o">:</span><span class="mi">1839202304</span><span class="p">,</span>
+</span><span class='line'>          <span class="s2">&quot;init&quot;</span>        <span class="o">:</span><span class="mi">1918894080</span><span class="p">,</span>
+</span><span class='line'>          <span class="s2">&quot;used&quot;</span>        <span class="o">:</span><span class="mi">192117128</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Jolokia provides a full syntax for packaging JMX bean information inside JSON objects, including the ability to batch requests.  It also provides client connector libraries for <a href="http://www.jolokia.org/client/java.html">Java</a>, <a href="http://www.jolokia.org/client/perl.html">Perl</a> and <a href="http://www.jolokia.org/client/javascript.html">JavaScript</a> to access them easily from (web) applications.</p>
+
+<h2>Important note about REST requests and browser security</h2>
+
+<p>Most browsers today enforce that resources such as REST queries may only be made to the same domain as the requesting web page. When you want to allow <a href="http://www.w3.org/TR/cors/">cross-domain requests</a> you need to either turn off this security feature in your browser (for Google Chrome you can run it with <code>--disable-web-security</code>, however if you use Firefox I do not know of any way to do it), or enable CORS in OSv.</p>
+
+<p>To do the latter, you need to provide a <code>httpserver</code> configuration section in your <a href="https://github.com/cloudius-systems/osv/wiki/Cloud-init">cloud init</a> settings. To simply allow all domains to make requests to the OSv APIs, add this to your configuration:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">httpserver</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="l-Scalar-Plain">access-allow</span><span class="p-Indicator">:</span> <span class="s">&#39;*&#39;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And make this reachable through your cloud-init server. (Or use the EC2 simulator script provided with OSv).</p>
+
+<h2>A small demo</h2>
+
+<p>A small demo JavaScript application showing how to easily plot various JVM graphs from a running OSv instance can be found at <a href="https://github.com/elcallio/jolokia-demo">https://github.com/elcallio/jolokia-demo</a> (which is a modified fork of the <a href="https://github.com/nurkiewicz/token-bucket">Jolokia demo</a> created by Tomasz Nurkiewicz.</p>
+
+<p>To test the demo, simply clone the repository and edit the <a name="osvhost"><code>src/js/osvhost.js</code></a> to match the IP address and port for your OSv instance. (Don&rsquo;t forget to make sure that your OSv image includes the HTTP server).</p>
+
+<p>Since I am runnning OSv compiled from source, I simply go to my OSv source tree and type:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="p-Indicator">&gt;</span><span class="err"> make image=httpserver,mgmt</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><em>&hellip;&lt;chug, chug, chug></em>
+And when it is done:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="p-Indicator">&gt;</span><span class="err"> ./scripts/run.py --api</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will build and start an almost empty image, containing only the HTTP server, <a href="https://github.com/cloudius-systems/osv/wiki/Cloud-init">cloud init support</a> and the Java-based shell (not a very interesting appliance, I admit, but you can pick any image you prefer). Running like this, the REST API is available from <code>http://localhost:8000</code>, so this is what I enter into <a href="#osvhost"><code>src/js/osvhost.js</code></a>.</p>
+
+<p>Then load the <code>jolokia-demo/src/index.html</code> in your favourite browser, and you should be greeted by this:</p>
+
+<p><img src="/blog/images/jolokia-demo.png" alt="screenshot" /></p>
+
+<p>As you can see, the demo provides the start of a small management console for Java with just a few lines of Javascript code, most of which actually deal with setting up the charts. Requesting and polling the actual data on the other hand is almost ridiculously easy.</p>
+
+<p>Having Jolokia integrated in the OSv manageability layer means that not only can you access all the JMX attributes parallel with the rest of the exposed OSv aspects, not having to modify Java appliances, but also that you only need to deal with <a href="https://github.com/cloudius-systems/osv/wiki/The-RESTful-API#configuring-ssl">securing a single service point</a>.</p>
+
+<p>This is just one small aspect of all the new and exciting manageability features that are in or coming to OSv. Over the next few months we hope to bring you additional aspects that will further enhance your deployment experience. Stay tuned.</p>
+
+<p>If you have any questions on OSv management, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get general updates by subscribing to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/blog/2014/08/21/linuxcon-cloudopen/">OSv in the Spotlight at LinuxCon/CloudOpen 2014</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-21T02:10:31+03:00" pubdate data-updated="true">Aug 21<span>st</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>While we relax and don&rsquo;t have to fix anything on our slides (really, they&rsquo;re all done), other speakers at the Linux Foundation&rsquo;s <a href="http://events.linuxfoundation.org/events/cloudopen-north-america">CloudOpen North America conference</a> in beautiful Chicago have some observations to make about OSv.</p>
+
+<p><img src="/blog/images/chicago-river.jpeg" alt="Chicago River" /></p>
+
+<p><strong>The Linux Foundation always picks great conference locations.</strong></p>
+
+<p><a href="http://lccona14.sched.org/speaker/rcpavlicek">Russell Pavlicek</a> from the Xen project mentioned several library OSs that run on Xen in his <a href="http://lccona14.sched.org/event/17fdf31e5913cc4ebd5cf1f2ec039aa0">talk on new Xen features</a>.  He called the concept &ldquo;one of the biggest advances in the cloud.&rdquo;  Earlier library OSs have shown how much performance and simplicity gains are available, and OSv is extending the idea to ordinary POSIX and Java applications.</p>
+
+<p><a href="http://lccona14.sched.org/speaker/mikeday">Mike Day</a> from IBM said, &ldquo;the engineers who write OSv are really good C++ coders,&rdquo; and called the project &ldquo;some of the finest C++ source code I&rsquo;ve ever seen&rdquo; in his <a href="http://lccona14.sched.org/event/434032efc316cc7aa98d4d590abda72e">talk on cloud operating systems for servers</a>.  He also had some praise for the <a href="http://osv.io/blog/blog/2014/04/19/spinlock-free/">spinlock-free way</a> that OSv handles mutexes, which as regular readers of this blog will know is important to prevent the dreaded lock-holder preemption problem.</p>
+
+<p>If you&rsquo;re at LinuxCon, excuse me, #linuxcon, please come over and say &ldquo;hi&rdquo; to the OSv speakers: Don Marti and Glauber Costa. Hope to see you at the event, and please come to &ldquo;<a href="http://lccona14.sched.org/event/4684a80dd37f200277e971133920a2d0">Beating the Virtualization Tax for NoSQL Workloads With OSv</a>&rdquo; on Friday at 10:45 in the Colorado room.   Otherwise, you can get general OSv updates by subscribing to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+
+<p><strong>Chicago River photo: <a href="http://commons.wikimedia.org/wiki/File:Chicago_river_2004.jpg">Urban for Wikimedia Commons</a></strong></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/blog/2014/08/14/redis-memonly/">Redis on OSv</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-08-14T19:26:31+03:00" pubdate data-updated="true">Aug 14<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>By Glauber Costa and Don Marti</strong></p>
+
+<p>We&rsquo;re planning to attend the
+Linux Foundation&rsquo;s <a href="http://events.linuxfoundation.org/events/cloudopen-north-america">CloudOpen North America conference</a>.  Hope to see you there, and please come to our talk, &ldquo;<a href="http://lccona14.sched.org/event/4684a80dd37f200277e971133920a2d0">Beating the Virtualization Tax for NoSQL Workloads With OSv</a>.&rdquo;</p>
+
+<p>We&rsquo;ll be using a popular NoSQL database for our demo: Redis.  If you&rsquo;d like to follow along, you&rsquo;re welcome to clone and build Redis on OSv.  We&rsquo;re big Redis fans, because it&rsquo;s a fast, easy-to-administer, in-memory database that works with many useful data structures.</p>
+
+<h2>Redis A to Z</h2>
+
+<p><a href="http://redis.io/">Redis</a> is a remarkably useful piece of software.  People on the Internet talk about Redis a lot.  Here&rsquo;s what Google Suggest has to say about it: <strong>Atomic, benchmark, cluster, delete, expire, failover, gem, hash, incr, Java, key, list, master/slave, node.js, objects, Python, queue, Ruby, set, ttl, Ubuntu, &ldquo;vs. mongodb&rdquo;, Windows, XML, yum, zadd</strong>.  (<a href="http://redis.io/commands/ZADD">zadd</a> is a really cool command by the way.  A huge time-saver for maintaining &ldquo;scoreboard&rdquo; state for games and content-scoring applications.  Did we mention that we&rsquo;re Redis fans?)</p>
+
+<p>Redis fills a valuable niche between memcached and a full-scale NoSQL database such as Cassandra.  Although it&rsquo;s fast and perfectly usable as a simple key-value store, you can also use Redis to manage more featureful data structures such as sets and queues.</p>
+
+<p>It makes a great session cache, lightweight task queue, or a place to keep pre-rendered content or ephemeral data, and it&rsquo;s a <a href="http://highscalability.com/display/Search?moduleId=4876569&amp;searchQuery=redis">star at highscalability.com</a>.</p>
+
+<p>But you probably already know that.</p>
+
+<h2>Building Redis on OSv</h2>
+
+<p>Redis works normally on OSv except for one feature: the
+<a href="http://redis.io/commands/bgsave">BGSAVE</a>
+command.  A Redis background
+save depends on the operating system&rsquo;s
+<a href="http://en.wikipedia.org/wiki/Copy-on-write#Copy-on-write_in_virtual_memory_management">copy-on-write</a>
+functionity.  When you issue the BGSAVE
+command, the parent Redis process calls
+<a href="http://en.wikipedia.org/wiki/Fork_%28system_call%29">fork</a>,
+and the parent process keeps running while the child
+process saves the database state.</p>
+
+<p>Copy-on-write ensures that the child process sees
+a consistent set of data, while the parent gets its
+own copy of any page that it modifies.</p>
+
+<p>Because OSv has a single address space,
+that isn&rsquo;t an option here. OSv support Redis
+<a href="http://redis.io/commands/save">SAVE</a> but not BGSAVE. Other than that,
+running redis on OSv requires little effort. From the OSv source tree,
+all one should do is:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>make image=redis-memonly</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now you have a <code>usr.img</code> file, which you can run locally with OSv&rsquo;s <code>run.py</code>.  Behind the scenes, all that this build step is doing is to issue the application&rsquo;s <code>make</code>, with the right set of flags so redis is a shared library.  For more info on how to do that, see <a href="http://osv.io/blog/blog/2014/04/03/capstan/">our earlier example</a>.  of how to use the <code>-fPIC</code> and <code>-shared</code> options.</p>
+
+<h2>Is it fast?</h2>
+
+<p>We have been running redis on local machines to test many of its
+functionalities and help us mature OSv.  As with any piece of software, the
+result of course depends on many factors.  Because OSv is an operating system
+designed for the cloud, we wanted to showcase its performance running on Amazon
+EC2.</p>
+
+<p>To do that, we have selected the <a href="http://aws.amazon.com/ec2/instance-types/">c3.x8large</a> machines.  They feature 32 CPUs and
+60Gb of memory each. We are fully aware this is an overkill in the case
+of Redis &ndash; a single threaded application. However, those are the only machines
+that Amazon advertises as featuring 10Gb networking, and we didn&rsquo;t want the
+network to be a bottleneck for the sake of the benchmark. Also, smaller
+machines cannot be put in EC2 placement groups. It all boils down to the network!</p>
+
+<p>So in this benchmark, no more than two cores should be active at any given time &ndash; one for redis, one for network interrupt processing. In a real scenario, one could easily deploy in a smaller machine.</p>
+
+<h3>Benchmark setup</h3>
+
+<p>We have benchmarked redis&#8217; latest beta (beta-8) running both on OSv, and on an
+Ubuntu14 AMI. To do that, we have just launched a new AMI, selected
+Ubuntu14.04, and launched it. Once it launched, we have downloaded and compiled
+redis&#8217; latest, and moved the redis.conf used by OSv to the machine. The only
+difference in that configuration file from what is shipped with redis by
+default, is that we disable disk activity. As already explained,
+OSv currently do not support that, and to be fair, the Linux guest we are
+comparing against should not hit the disk either at any point.</p>
+
+<p>On ubuntu, redis was run with:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>numactl --physcpubind=1 redis-server ~/redis.conf</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Using numactl considerably reduces the standard deviation coming from the Linux
+scheduler moving the thread around.</p>
+
+<p>The <code>redis-benchmark</code> command was issued in another machine of the same type,
+running in the same zone and placement group.</p>
+
+<p>The two commands were:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>numactl --physcpubind=1 redis-benchmark --csv -h &lt;IP&gt; -c 50 -n 100000 -P 1</span></code></pre></td></tr></table></div></figure>
+
+
+<p>and later on, to demonstrate how OSv can handle larger messages,</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>numactl --physcpubind=1 redis-benchmark --csv -h &lt;IP&gt; -c 50 -n 100000 -P 16</span></code></pre></td></tr></table></div></figure>
+
+
+<p>What this last command does, is to exercise redis&#8217; <code>pipeline</code> feature, that
+can send multiple &ndash; in this case 16 &ndash; commands in the same packet. This will
+decrease the impact of the round trip time in the final figure.</p>
+
+<p>The difference can be clearly seen in the graph&hellip;</p>
+
+<p><a href="/blog/images/redis.png"><img src="/blog/images/redis.png" alt="Redis benchmark results" /></a></p>
+
+<p>Note that the LRANGE class of commands has a significantly different pattern
+than the other commands. In that command, the client sends a very short query,
+and receive a potentially very large reply, thereby exercising the transmission
+path, rather than the receive path of OSv. This table shows that our transmission
+path is lacking a bit of love, particularly when the response sizes grows (as the
+pipeline level increases)</p>
+
+<h2>Conclusions</h2>
+
+<p>OSv is a fast maturing, but not yet mature operating system, soon to be in beta
+phase. We have gaps to close, as can be seen in the case of LRANGE set of
+benchmarks. So far, we have focused our efforts in technologies around the
+receive path, and it has paid off: We can offer a level of performance far
+beyond what an out of the box distribution can. Some features that we
+architecturally lack, makes the use of Redis as a full-blown on-disk database
+challenging. But if you want to serve your load from memory, the OSv promise
+delivers: With OSv, you don&rsquo;t have to pay the virtualization tax.</p>
+
+<p>If you&rsquo;ll be at CloudOpen, you can <a href="http://lccona14.sched.org/event/4684a80dd37f200277e971133920a2d0">add our talk to your schedule now</a>.</p>
+
+<p>If you have any questions on running Redis or any other application, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get general updates by subscribing to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/blog/2014/07/27/capstan-lein-template/">Running Clojure on OSv: Easier With a New Capstan Template</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-27T00:00:00+03:00" pubdate data-updated="true">Jul 27<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Clojure developers usually do not care too much about the underlying OS.
+The low-level differences between Linux, Mac OS, and even Microsoft Windows are abstracted away by the JVM.</p>
+
+<p>When deploying Clojure code on the cloud, there used to be one default choice &ndash; Linux.
+But Linux
+<a href="http://osv.io/blog/blog/2014/07/21/generic-os-is-dead/">is not an ideal OS</a>
+for pure cloud services.</p>
+
+<p><a href="https://github.com/cloudius-systems/osv">OSv</a> is a new, open source OS, designed specifically for the cloud.  Since OSv supports the standard JVM, it is ideal for running Clojure applications on the cloud.  And the same configuration applies to building VMs for any cloud: public clouds such as Amazon&rsquo;s and Google&rsquo;s, private clouds based on VMware or KVM, or public and private OpenStack.</p>
+
+<p>Porting a Clojure application to OSv was already
+<a href="http://osv.io/blog/blog/2014/04/22/riemann-on-osv/">pretty easy</a>, but
+now it&rsquo;s even easier.  This blog post describes a new <a href="https://github.com/tzach/capstan-lein-plugin">lein template</a> for OSv.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/blog/2014/07/27/capstan-lein-template/">Read more&#8230;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/blog/2014/07/21/generic-os-is-dead/">If Java Application Servers Are Dead, So Is the Operating System (in the Cloud)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-21T00:00:00+03:00" pubdate data-updated="true">Jul 21<span>st</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>By Tzach Livyatan</strong>
+This post is a response to the excellent presentation <a href="http://www.slideshare.net/ewolff/java-application-servers-are-dead"><strong>&ldquo;Java Application Servers Are Dead!&rdquo;</strong></a> by <a href="https://twitter.com/ewolff">Eberhard Wolff</a>.
+Go read his slides and come back here.</p>
+
+<p>Back already?
+Assuming you agree with Eberhard’s  claims,  let me demonstrate how
+most of his points on Java Application Servers can be applied to a
+generic OS (one designed for hardware servers) in the cloud as well.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/blog/2014/07/21/generic-os-is-dead/">Read more&#8230;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/blog/2014/07/14/osv-shrinker-api/">Getting Started With the OSv Shrinker API</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-14T18:37:05+03:00" pubdate data-updated="true">Jul 14<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>By Don Marti</strong></p>
+
+<p>If you&rsquo;re writing a program that keeps a cache in memory, you&rsquo;re probably expecting users to have to set the cache size, which means a configuration setting or command-line argument.  And every configuration setting or command-line argument is something that you have to document, or explain to users when they get it wrong.</p>
+
+<p>Thankfully, there&rsquo;s an easier way.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/blog/2014/07/14/osv-shrinker-api/">Read more&#8230;</a>
+    </footer>
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/blog/2014/07/11/osv-boot/">Inside the OSv Boot Process</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-11T18:37:05+03:00" pubdate data-updated="true">Jul 11<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>What happens in that critical fraction of a second between when a virtual x86_64 system &ldquo;powers up&rdquo; and when it begins running operating system code written in a high-level language?</p>
+
+<p>For a helpful walk-through, there&rsquo;s a new article on the OSv wiki, originally written by Elazar Leibovich.</p>
+
+<p><img src="/blog/images/pc-power.jpeg" alt="IBM PC power switch" /></p>
+
+<p><strong>The boot process for a modern VM traces its history back to the
+original IBM PC.</strong></p>
+
+<p>While some of the intricate startup steps are historic, the end result is an OSv boot time that&rsquo;s less than a second&mdash;an order of magnitude faster than a conventional multi-user OS.  To read (or contribute!) details,
+<a href="http://github.com/cloudius-systems/osv/wiki/OSv-early-boot-(MBR)">the &ldquo;OSv early boot&rdquo; article on the wiki.</a></p>
+
+<p>(photo: <a href="http://commons.wikimedia.org/wiki/File:XT-PC-Power-Supply-PCB-IMG_0436.JPG">Hans Haase for Wikimedia Commons</a>. Available under the Creative Commons Attribution-Share Alike 3.0 Unported license.)</p>
+
+<p>If you have any questions on OSv internals, or porting your application, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get general updates by subscribing to this blog&rsquo;s feed, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/blog/page/2/">&larr; Older</a>
+    
+    <a href="/blog/blog/archives">Blog Archives</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/blog/2014/09/14/how-fast-can-you-run-4-vm/">Speed Run: Running 4 Virtual Appliances on Your Laptop in 5 Seconds Overall</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/blog/2014/09/11/cassandra-summit/">What&#8217;s the Big Deal About OSv at Cassandra Summit 2014?</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/blog/2014/08/28/wiki-watch-cloud-init/">Wiki Watch: Cloud Init</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/blog/2014/08/26/jolokia-jmx-connectivity-in-osv/">Jolokia JMX Connectivity in OSv</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/blog/2014/08/21/linuxcon-cloudopen/">OSv in the Spotlight at LinuxCon/CloudOpen 2014</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  </div>
+  <div class="footer">
+    <div class="wrapf">
+
+
+        <div class="custom"  >
+            <p><a href="http://www.cloudius-systems.com"><img style="margin-top: 30px;" src="http://osv.io/images/footerLogo.jpg" alt="" width="380" height="38" /></a></p></div>
+
+
+
+        <div class="custom social"  >
+            <p><a href="https://plus.google.com/107787008629542080430" rel="publisher">Google+</a></p></div>
+
+
+
+        <div class="custom CloudIcon"  >
+            <p><a href="/index.php"><img src="http://osv.io/images/footerCloudIcon.jpg" width="57" height="33" alt="footerCloudIcon" /></a></p></div>
+
+        <div class="clr"></div>
+    </div>
+</div>
+
+
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'osvblog';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
