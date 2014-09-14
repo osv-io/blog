@@ -1,9 +1,9 @@
 ---
 layout: post
 title: "Speed run: running 4 virtual appliances on your laptop in 5 seconds overall"
-date: 2014-09-10 11:54:23 +0200
+date: 2014-09-14 08:30:00 +0200
 comments: true
-published: false
+published: true
 categories:  capstan tools redis tomcat mysql cassandra
 ---
 
