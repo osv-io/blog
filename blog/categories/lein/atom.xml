@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Lein | OSv Blog]]></title>
-  <link href="http://blog.osv.io//github/blog/categories/lein/atom.xml" rel="self"/>
-  <link href="http://blog.osv.io//github/"/>
-  <updated>2014-09-14T08:38:57+03:00</updated>
-  <id>http://blog.osv.io//github/</id>
+  <link href="http://osv.io/blog/blog/categories/lein/atom.xml" rel="self"/>
+  <link href="http://osv.io/blog/"/>
+  <updated>2014-09-15T05:16:04-07:00</updated>
+  <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Running Clojure on OSv: Easier With a New Capstan Template]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/07/27/capstan-lein-template/"/>
-    <updated>2014-07-27T00:00:00+03:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/07/27/capstan-lein-template</id>
+    <link href="http://osv.io/blog/blog/2014/07/27/capstan-lein-template/"/>
+    <updated>2014-07-27T00:00:00-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/07/27/capstan-lein-template</id>
     <content type="html"><![CDATA[<p>Clojure developers usually do not care too much about the underlying OS.
 The low-level differences between Linux, Mac OS, and even Microsoft Windows are abstracted away by the JVM.</p>
 

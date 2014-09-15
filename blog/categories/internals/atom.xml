@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Internals | OSv Blog]]></title>
-  <link href="http://blog.osv.io//github/blog/categories/internals/atom.xml" rel="self"/>
-  <link href="http://blog.osv.io//github/"/>
-  <updated>2014-09-14T08:38:57+03:00</updated>
-  <id>http://blog.osv.io//github/</id>
+  <link href="http://osv.io/blog/blog/categories/internals/atom.xml" rel="self"/>
+  <link href="http://osv.io/blog/"/>
+  <updated>2014-09-15T05:16:04-07:00</updated>
+  <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Inside the OSv Boot Process]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/07/11/osv-boot/"/>
-    <updated>2014-07-11T18:37:05+03:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/07/11/osv-boot</id>
+    <link href="http://osv.io/blog/blog/2014/07/11/osv-boot/"/>
+    <updated>2014-07-11T08:37:05-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/07/11/osv-boot</id>
     <content type="html"><![CDATA[<p>What happens in that critical fraction of a second between when a virtual x86_64 system &ldquo;powers up&rdquo; and when it begins running operating system code written in a high-level language?</p>
 
 <p>For a helpful walk-through, there&rsquo;s a new article on the OSv wiki, originally written by Elazar Leibovich.</p>

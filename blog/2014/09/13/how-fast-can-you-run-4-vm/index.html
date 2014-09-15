@@ -5,11 +5,15 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>What's the Big Deal About OSv at Cassandra Summit 2014? - OSv Blog</title>
+  <title>Speed Run: Running 4 Virtual Appliances on Your Laptop in 5 Seconds Overall - OSv Blog</title>
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="Pop quiz: what does this graph show? If you&rsquo;d like a hint, here&rsquo;s some context. It&rsquo;s from the upcoming talk on Cassandra on OSv at &hellip;">
+  <meta name="description" content="By Dor Laor, Tzach Livyatan In the following demo, Dor is running 4 different OSv base virtual appliances
+on his laptop: Redis
+Tomcat
+MySQL
+Cassandra &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +22,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.osv.io//github/blog/2014/09/11/cassandra-summit">
+  <link rel="canonical" href="http://osv.io/blog/blog/2014/09/13/how-fast-can-you-run-4-vm">
   <link href="/blog/favicon.ico" rel="icon">
   <link href="/blog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
@@ -62,7 +66,7 @@
         
         <form action="https://www.google.com/search" method="get">
             <fieldset role="search">
-                <input type="hidden" name="q" value="site:blog.osv.io//github" />
+                <input type="hidden" name="q" value="site:osv.io/blog" />
                 <input class="search" type="text" name="q" results="0" placeholder="Search"/>
             </fieldset>
         </form>
@@ -107,7 +111,7 @@
         </script>
     </div>
 </div>
-<div class="mobile mobilePageTitle">What's the big deal about OSv at Cassandra Summit 2014?</div>
+<div class="mobile mobilePageTitle">Speed run: running 4 virtual appliances on your laptop in 5 seconds overall</div>
 
 
   <div id="main">
@@ -117,7 +121,7 @@
   
   <header>
     
-      <h1 class="entry-title">What's the Big Deal About OSv at Cassandra Summit 2014?</h1>
+      <h1 class="entry-title">Speed Run: Running 4 Virtual Appliances on Your Laptop in 5 Seconds Overall</h1>
     
     
       <p class="meta">
@@ -133,24 +137,42 @@
   
 
 
-<time datetime="2014-09-11T02:10:31+03:00" pubdate data-updated="true">Sep 11<span>th</span>, 2014</time>
+<time datetime="2014-09-13T23:30:00-07:00" pubdate data-updated="true">Sep 13<span>th</span>, 2014</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p><strong>Pop quiz: what does this graph show?</strong></p>
+<div class="entry-content"><p><strong>By Dor Laor, Tzach Livyatan</strong></p>
 
-<p><img src="/blog/images/mystery-graph.png" alt="graph" /></p>
+<p>In the following demo, Dor is running 4 different OSv base virtual appliances
+on his laptop:</p>
 
-<p>If you&rsquo;d like a hint, here&rsquo;s some context.  It&rsquo;s from the upcoming <a href="http://www.cvent.com/events/cassandra-summit-2014/agenda-176f061a4b144525ae05f18cd9a9cb12.aspx">talk on Cassandra on OSv</a> at Cassandra Summit in San Francisco.</p>
+<ul>
+<li>Redis</li>
+<li>Tomcat</li>
+<li>MySQL</li>
+<li>Cassandra</li>
+</ul>
 
-<p>We&rsquo;ve been picking up a bunch of Cassandra tips at the event so far.  And we&rsquo;re really looking forward to (a) tomorrow&rsquo;s talks from the administrators of large-scale Cassandra sites and (b) showing off a new useful thing that should make life much easier for Cassandra admins who know <code>curl</code>. Which would be&hellip;everyone?</p>
 
-<p>If you missed the chance to see Don Marti and Glauber Costa at Linuxcon/CloudOpen, please come see us, with bonus extra speaker <strong>Dor Laor</strong>.  Otherwise, you can keep up with the latest OSv news from this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+<p>Each virtual appliance is a full–blown VM, each with a pre-integrated
+cloud application, and each launched without terminating the others.</p>
 
-<p>(Next up: <a href="http://www.xenproject.org/about/events/viewevent/120-xen-project-user-summit-2014.html">Xen Project User Summit</a> in New York City&hellip;)</p>
+<!-- more -->
+
+
+
+
+<script type="text/javascript" src="https://asciinema.org/a/11914.js" id="asciicast-11914" async></script>
+
+
+<p>As you can see, application startup time takes between sub-second
+(Redis) to a few seconds (Cassandra) depending on the application.
+The hypervisor plus OS part of the boot time is less than a second for all cases.</p>
+
+<p>Want more info on Capstan and related topics?  Join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get regular OSv updates by subscribing to this blog&rsquo;s feed, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
 </div>
 
 
@@ -173,12 +195,12 @@
   
 
 
-<time datetime="2014-09-11T02:10:31+03:00" pubdate data-updated="true">Sep 11<span>th</span>, 2014</time>
+<time datetime="2014-09-13T23:30:00-07:00" pubdate data-updated="true">Sep 13<span>th</span>, 2014</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/blog/categories/events/'>events</a>
+    <a class='category' href='/blog/blog/categories/capstan/'>capstan</a>, <a class='category' href='/blog/blog/categories/cassandra/'>cassandra</a>, <a class='category' href='/blog/blog/categories/mysql/'>mysql</a>, <a class='category' href='/blog/blog/categories/redis/'>redis</a>, <a class='category' href='/blog/blog/categories/tomcat/'>tomcat</a>, <a class='category' href='/blog/blog/categories/tools/'>tools</a>
   
 </span>
 
@@ -208,10 +230,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/blog/2014/08/28/wiki-watch-cloud-init/" title="Previous Post: Wiki watch: Cloud init">&laquo; Wiki watch: Cloud init</a>
+        <a class="basic-alignment left" href="/blog/blog/2014/09/10/cassandra-summit/" title="Previous Post: What's the big deal about OSv at Cassandra Summit 2014?">&laquo; What's the big deal about OSv at Cassandra Summit 2014?</a>
       
-      
-        <a class="basic-alignment right" href="/blog/blog/2014/09/14/how-fast-can-you-run-4-vm/" title="Next Post: Speed run: running 4 virtual appliances on your laptop in 5 seconds overall">Speed run: running 4 virtual appliances on your laptop in 5 seconds overall &raquo;</a>
       
     </p>
   </footer>
@@ -232,11 +252,11 @@
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/blog/2014/09/14/how-fast-can-you-run-4-vm/">Speed Run: Running 4 Virtual Appliances on Your Laptop in 5 Seconds Overall</a>
+        <a href="/blog/blog/2014/09/13/how-fast-can-you-run-4-vm/">Speed Run: Running 4 Virtual Appliances on Your Laptop in 5 Seconds Overall</a>
       </li>
     
       <li class="post">
-        <a href="/blog/blog/2014/09/11/cassandra-summit/">What's the Big Deal About OSv at Cassandra Summit 2014?</a>
+        <a href="/blog/blog/2014/09/10/cassandra-summit/">What's the Big Deal About OSv at Cassandra Summit 2014?</a>
       </li>
     
       <li class="post">
@@ -248,7 +268,7 @@
       </li>
     
       <li class="post">
-        <a href="/blog/blog/2014/08/21/linuxcon-cloudopen/">OSv in the Spotlight at LinuxCon/CloudOpen 2014</a>
+        <a href="/blog/blog/2014/08/20/linuxcon-cloudopen/">OSv in the Spotlight at LinuxCon/CloudOpen 2014</a>
       </li>
     
   </ul>
@@ -294,8 +314,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://blog.osv.io//github/blog/2014/09/11/cassandra-summit/';
-        var disqus_url = 'http://blog.osv.io//github/blog/2014/09/11/cassandra-summit/';
+        var disqus_identifier = 'http://osv.io/blog/blog/2014/09/13/how-fast-can-you-run-4-vm/';
+        var disqus_url = 'http://osv.io/blog/blog/2014/09/13/how-fast-can-you-run-4-vm/';
         var disqus_script = 'embed.js';
       
     (function () {

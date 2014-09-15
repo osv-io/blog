@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Examples | OSv Blog]]></title>
-  <link href="http://blog.osv.io//github/blog/categories/examples/atom.xml" rel="self"/>
-  <link href="http://blog.osv.io//github/"/>
-  <updated>2014-09-14T08:38:57+03:00</updated>
-  <id>http://blog.osv.io//github/</id>
+  <link href="http://osv.io/blog/blog/categories/examples/atom.xml" rel="self"/>
+  <link href="http://osv.io/blog/"/>
+  <updated>2014-09-15T05:16:04-07:00</updated>
+  <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Riemann - a Clojure Application on OSv]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/04/22/riemann-on-osv/"/>
-    <updated>2014-04-22T19:00:00+03:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/04/22/riemann-on-osv</id>
+    <link href="http://osv.io/blog/blog/2014/04/22/riemann-on-osv/"/>
+    <updated>2014-04-22T09:00:00-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/04/22/riemann-on-osv</id>
     <content type="html"><![CDATA[<p><strong>By Tzach Livyatan</strong></p>
 
 <p>Clojure applications run on the JVM, so they&rsquo;re usually simple to run on OSv.  We have <a href="https://github.com/tzach/capstan-example-clojure">hello world in Clojure</a> running, but this time I wanted to port a real, non-toy, Clojure application. I chose <a href="http://riemann.io">Riemann</a>, a widely-used application for aggregating system events (and more).</p>

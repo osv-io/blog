@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Tools | OSv Blog]]></title>
-  <link href="http://blog.osv.io//github/blog/categories/tools/atom.xml" rel="self"/>
-  <link href="http://blog.osv.io//github/"/>
-  <updated>2014-09-14T08:38:57+03:00</updated>
-  <id>http://blog.osv.io//github/</id>
+  <link href="http://osv.io/blog/blog/categories/tools/atom.xml" rel="self"/>
+  <link href="http://osv.io/blog/"/>
+  <updated>2014-09-15T05:16:04-07:00</updated>
+  <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Speed Run: Running 4 Virtual Appliances on Your Laptop in 5 Seconds Overall]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/09/14/how-fast-can-you-run-4-vm/"/>
-    <updated>2014-09-14T09:30:00+03:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/09/14/how-fast-can-you-run-4-vm</id>
+    <link href="http://osv.io/blog/blog/2014/09/13/how-fast-can-you-run-4-vm/"/>
+    <updated>2014-09-13T23:30:00-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/09/13/how-fast-can-you-run-4-vm</id>
     <content type="html"><![CDATA[<p><strong>By Dor Laor, Tzach Livyatan</strong></p>
 
 <p>In the following demo, Dor is running 4 different OSv base virtual appliances
@@ -52,9 +52,9 @@ The hypervisor plus OS part of the boot time is less than a second for all cases
   
   <entry>
     <title type="html"><![CDATA[What Is the Most Popular OSv Virtual Appliance?]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/07/01/s3stat/"/>
-    <updated>2014-07-01T00:00:00+03:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/07/01/s3stat</id>
+    <link href="http://osv.io/blog/blog/2014/07/01/s3stat/"/>
+    <updated>2014-07-01T00:00:00-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/07/01/s3stat</id>
     <content type="html"><![CDATA[<p><strong>By Tzach Livyatan</strong></p>
 
 <p>(Spoiler: It&rsquo;s Apache Tomcat.)</p>
@@ -92,9 +92,9 @@ These are all very early results, but we will keep using s3stat to follow Capsta
   
   <entry>
     <title type="html"><![CDATA[Bridged Networking With Capstan]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/05/07/capstan-bridge/"/>
-    <updated>2014-05-07T18:37:05+03:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/05/07/capstan-bridge</id>
+    <link href="http://osv.io/blog/blog/2014/05/07/capstan-bridge/"/>
+    <updated>2014-05-07T08:37:05-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/05/07/capstan-bridge</id>
     <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
 
 <p>New versions of <a href="https://github.com/cloudius-systems/capstan">Capstan</a> are making it simpler to run OSv virtual machines in a production configuration, by adding more control of network options.  A useful new feature, which helps deal with the <a href="https://github.com/cloudius-systems/osv/wiki/Running-OSv-image-under-KVM-QEMU">details of bringing up networking</a>, is the <code>-n</code> option.</p>
@@ -129,9 +129,9 @@ is executing for you.)</p>
   
   <entry>
     <title type="html"><![CDATA[Riemann - a Clojure Application on OSv]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/04/22/riemann-on-osv/"/>
-    <updated>2014-04-22T19:00:00+03:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/04/22/riemann-on-osv</id>
+    <link href="http://osv.io/blog/blog/2014/04/22/riemann-on-osv/"/>
+    <updated>2014-04-22T09:00:00-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/04/22/riemann-on-osv</id>
     <content type="html"><![CDATA[<p><strong>By Tzach Livyatan</strong></p>
 
 <p>Clojure applications run on the JVM, so they&rsquo;re usually simple to run on OSv.  We have <a href="https://github.com/tzach/capstan-example-clojure">hello world in Clojure</a> running, but this time I wanted to port a real, non-toy, Clojure application. I chose <a href="http://riemann.io">Riemann</a>, a widely-used application for aggregating system events (and more).</p>
@@ -239,9 +239,9 @@ to launch a Riemann web GUI.  Here is how it looks:</p>
   
   <entry>
     <title type="html"><![CDATA[A Simple Capstan Example]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/04/03/capstan/"/>
-    <updated>2014-04-03T18:37:05+03:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/04/03/capstan</id>
+    <link href="http://osv.io/blog/blog/2014/04/03/capstan/"/>
+    <updated>2014-04-03T08:37:05-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/04/03/capstan</id>
     <content type="html"><![CDATA[<p>(Updated 14 April 2014: Add new URL for osv-base image.)</p>
 
 <p><a href="https://github.com/cloudius-systems/capstan">Capstan</a> is a new tool for building <a href="http://osv.io/">OSv</a> virtual machine images.  If you have worked with other tools for making VMs, you&rsquo;ll find that Capstan is really simple.  It&rsquo;s a lot like <a href="http://www.docker.io/">Docker</a> actually&mdash;only you get a complete VM out of it and not just a container.</p>

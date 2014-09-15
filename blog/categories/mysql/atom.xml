@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Mysql | OSv Blog]]></title>
-  <link href="http://blog.osv.io//github/blog/categories/mysql/atom.xml" rel="self"/>
-  <link href="http://blog.osv.io//github/"/>
-  <updated>2014-09-14T08:38:57+03:00</updated>
-  <id>http://blog.osv.io//github/</id>
+  <link href="http://osv.io/blog/blog/categories/mysql/atom.xml" rel="self"/>
+  <link href="http://osv.io/blog/"/>
+  <updated>2014-09-15T05:16:04-07:00</updated>
+  <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Speed Run: Running 4 Virtual Appliances on Your Laptop in 5 Seconds Overall]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/09/14/how-fast-can-you-run-4-vm/"/>
-    <updated>2014-09-14T09:30:00+03:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/09/14/how-fast-can-you-run-4-vm</id>
+    <link href="http://osv.io/blog/blog/2014/09/13/how-fast-can-you-run-4-vm/"/>
+    <updated>2014-09-13T23:30:00-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/09/13/how-fast-can-you-run-4-vm</id>
     <content type="html"><![CDATA[<p><strong>By Dor Laor, Tzach Livyatan</strong></p>
 
 <p>In the following demo, Dor is running 4 different OSv base virtual appliances

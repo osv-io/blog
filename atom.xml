@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[OSv Blog]]></title>
-  <link href="http://blog.osv.io//github/atom.xml" rel="self"/>
-  <link href="http://blog.osv.io//github/"/>
-  <updated>2014-09-14T08:38:57+03:00</updated>
-  <id>http://blog.osv.io//github/</id>
+  <link href="http://osv.io/blog/atom.xml" rel="self"/>
+  <link href="http://osv.io/blog/"/>
+  <updated>2014-09-15T05:16:04-07:00</updated>
+  <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Speed Run: Running 4 Virtual Appliances on Your Laptop in 5 Seconds Overall]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/09/14/how-fast-can-you-run-4-vm/"/>
-    <updated>2014-09-14T09:30:00+03:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/09/14/how-fast-can-you-run-4-vm</id>
+    <link href="http://osv.io/blog/blog/2014/09/13/how-fast-can-you-run-4-vm/"/>
+    <updated>2014-09-13T23:30:00-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/09/13/how-fast-can-you-run-4-vm</id>
     <content type="html"><![CDATA[<p><strong>By Dor Laor, Tzach Livyatan</strong></p>
 
 <p>In the following demo, Dor is running 4 different OSv base virtual appliances
@@ -52,12 +52,12 @@ The hypervisor plus OS part of the boot time is less than a second for all cases
   
   <entry>
     <title type="html"><![CDATA[What's the Big Deal About OSv at Cassandra Summit 2014?]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/09/11/cassandra-summit/"/>
-    <updated>2014-09-11T02:10:31+03:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/09/11/cassandra-summit</id>
+    <link href="http://osv.io/blog/blog/2014/09/10/cassandra-summit/"/>
+    <updated>2014-09-10T16:10:31-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/09/10/cassandra-summit</id>
     <content type="html"><![CDATA[<p><strong>Pop quiz: what does this graph show?</strong></p>
 
-<p><img src="http://blog.osv.io//github/images/mystery-graph.png" alt="graph" /></p>
+<p><img src="http://osv.io/blog/images/mystery-graph.png" alt="graph" /></p>
 
 <p>If you&rsquo;d like a hint, here&rsquo;s some context.  It&rsquo;s from the upcoming <a href="http://www.cvent.com/events/cassandra-summit-2014/agenda-176f061a4b144525ae05f18cd9a9cb12.aspx">talk on Cassandra on OSv</a> at Cassandra Summit in San Francisco.</p>
 
@@ -71,9 +71,9 @@ The hypervisor plus OS part of the boot time is less than a second for all cases
   
   <entry>
     <title type="html"><![CDATA[Wiki Watch: Cloud Init]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/08/28/wiki-watch-cloud-init/"/>
-    <updated>2014-08-28T18:37:05+03:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/08/28/wiki-watch-cloud-init</id>
+    <link href="http://osv.io/blog/blog/2014/08/28/wiki-watch-cloud-init/"/>
+    <updated>2014-08-28T08:37:05-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/08/28/wiki-watch-cloud-init</id>
     <content type="html"><![CDATA[<p><a href="http://osv.io/blog/blog/2014/08/26/jolokia-jmx-connectivity-in-osv/">The previous blog article, on Jolokia</a> mentions a configuration item for cloud-init.  You may be asking, &ldquo;Cloud init?  How do I use that on OSv?&rdquo;  Well, good news.  For details on configuring OSv using the cloud init mechanism, check out our recently updated wiki page: <a href="https://github.com/cloudius-systems/osv/wiki/cloud-init">Cloud init</a>.</p>
 
 <p><a href="https://github.com/tgrabiec">Tomasz Grabiec</a> has written an informative page on how to configure your OSv instance, from setting the port for the management HTTP server to filling in the content of config files. Check it out.  (Naturally, it&rsquo;s a wiki, so feel free to fill in additional details if you like.)</p>
@@ -84,9 +84,9 @@ The hypervisor plus OS part of the boot time is less than a second for all cases
   
   <entry>
     <title type="html"><![CDATA[Jolokia JMX Connectivity in OSv]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/08/26/jolokia-jmx-connectivity-in-osv/"/>
-    <updated>2014-08-26T17:11:20+03:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/08/26/jolokia-jmx-connectivity-in-osv</id>
+    <link href="http://osv.io/blog/blog/2014/08/26/jolokia-jmx-connectivity-in-osv/"/>
+    <updated>2014-08-26T07:11:20-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/08/26/jolokia-jmx-connectivity-in-osv</id>
     <content type="html"><![CDATA[<p><strong>By Calle Wilund</strong></p>
 
 <p>OSv is a great way to run Java applications in the cloud, and it recently became just a little bit better. As you are probably aware, OSv exposes quite a bit of information and manageability options through its <a href="https://github.com/cloudius-systems/osv/wiki/The-RESTful-API">RESTful API</a>, accessible through the built-in HTTP server. More or less from its inception, this API has exposed various aspects of the JVM and the <a href="http://docs.oracle.com/javase/7/docs/technotes/guides/jmx/">Java Management Beans</a> provided.</p>
@@ -177,7 +177,7 @@ And when it is done:</p>
 
 <p>Then load the <code>jolokia-demo/src/index.html</code> in your favourite browser, and you should be greeted by this:</p>
 
-<p><img src="http://blog.osv.io//github/images/jolokia-demo.png" alt="screenshot" /></p>
+<p><img src="http://osv.io/blog/images/jolokia-demo.png" alt="screenshot" /></p>
 
 <p>As you can see, the demo provides the start of a small management console for Java with just a few lines of Javascript code, most of which actually deal with setting up the charts. Requesting and polling the actual data on the other hand is almost ridiculously easy.</p>
 
@@ -191,12 +191,12 @@ And when it is done:</p>
   
   <entry>
     <title type="html"><![CDATA[OSv in the Spotlight at LinuxCon/CloudOpen 2014]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/08/21/linuxcon-cloudopen/"/>
-    <updated>2014-08-21T02:10:31+03:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/08/21/linuxcon-cloudopen</id>
+    <link href="http://osv.io/blog/blog/2014/08/20/linuxcon-cloudopen/"/>
+    <updated>2014-08-20T16:10:31-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/08/20/linuxcon-cloudopen</id>
     <content type="html"><![CDATA[<p>While we relax and don&rsquo;t have to fix anything on our slides (really, they&rsquo;re all done), other speakers at the Linux Foundation&rsquo;s <a href="http://events.linuxfoundation.org/events/cloudopen-north-america">CloudOpen North America conference</a> in beautiful Chicago have some observations to make about OSv.</p>
 
-<p><img src="http://blog.osv.io//github/images/chicago-river.jpeg" alt="Chicago River" /></p>
+<p><img src="http://osv.io/blog/images/chicago-river.jpeg" alt="Chicago River" /></p>
 
 <p><strong>The Linux Foundation always picks great conference locations.</strong></p>
 
@@ -212,9 +212,9 @@ And when it is done:</p>
   
   <entry>
     <title type="html"><![CDATA[Redis on OSv]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/08/14/redis-memonly/"/>
-    <updated>2014-08-14T19:26:31+03:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/08/14/redis-memonly</id>
+    <link href="http://osv.io/blog/blog/2014/08/14/redis-memonly/"/>
+    <updated>2014-08-14T09:26:31-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/08/14/redis-memonly</id>
     <content type="html"><![CDATA[<p><strong>By Glauber Costa and Don Marti</strong></p>
 
 <p>We&rsquo;re planning to attend the
@@ -319,7 +319,7 @@ decrease the impact of the round trip time in the final figure.</p>
 
 <p>The difference can be clearly seen in the graph&hellip;</p>
 
-<p><a href="http://blog.osv.io//github/images/redis.png"><img src="http://blog.osv.io//github/images/redis.png" alt="Redis benchmark results" /></a></p>
+<p><a href="http://osv.io/blog/images/redis.png"><img src="http://osv.io/blog/images/redis.png" alt="Redis benchmark results" /></a></p>
 
 <p>Note that the LRANGE class of commands has a significantly different pattern
 than the other commands. In that command, the client sends a very short query,
@@ -347,9 +347,9 @@ delivers: With OSv, you don&rsquo;t have to pay the virtualization tax.</p>
   
   <entry>
     <title type="html"><![CDATA[Running Clojure on OSv: Easier With a New Capstan Template]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/07/27/capstan-lein-template/"/>
-    <updated>2014-07-27T00:00:00+03:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/07/27/capstan-lein-template</id>
+    <link href="http://osv.io/blog/blog/2014/07/27/capstan-lein-template/"/>
+    <updated>2014-07-27T00:00:00-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/07/27/capstan-lein-template</id>
     <content type="html"><![CDATA[<p>Clojure developers usually do not care too much about the underlying OS.
 The low-level differences between Linux, Mac OS, and even Microsoft Windows are abstracted away by the JVM.</p>
 
@@ -404,9 +404,9 @@ You can get updates on by subscribing to the <a href="http://osv.io/blog/atom.xm
   
   <entry>
     <title type="html"><![CDATA[If Java Application Servers Are Dead, So Is the Operating System (in the Cloud)]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/07/21/generic-os-is-dead/"/>
-    <updated>2014-07-21T00:00:00+03:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/07/21/generic-os-is-dead</id>
+    <link href="http://osv.io/blog/blog/2014/07/21/generic-os-is-dead/"/>
+    <updated>2014-07-21T00:00:00-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/07/21/generic-os-is-dead</id>
     <content type="html"><![CDATA[<p><strong>By Tzach Livyatan</strong>
 This post is a response to the excellent presentation <a href="http://www.slideshare.net/ewolff/java-application-servers-are-dead"><strong>&ldquo;Java Application Servers Are Dead!&rdquo;</strong></a> by <a href="https://twitter.com/ewolff">Eberhard Wolff</a>.
 Go read his slides and come back here.</p>
@@ -424,7 +424,7 @@ An operating system can run on your mobile, desktop, back office, or as a VM on 
 For this post, I’m referring specifically to the cloud use case, which can be public or private.
 Cloud deployments are the important case to concentrate on, as new Java application servers are mostly deployed on VMs these days.</p>
 
-<p><img src="http://blog.osv.io//github/images/turtles.png" alt="turtles all the way down" />
+<p><img src="http://osv.io/blog/images/turtles.png" alt="turtles all the way down" />
 Illustration: Omarcito for Wikimedia Commons (<a href="http://commons.wikimedia.org/wiki/File:Omarcito.gif">http://commons.wikimedia.org/wiki/File:Omarcito.gif</a>)</p>
 
 <p>Eberhard present different properties of the Java Application Server, and for each, demonstrates why it is no longer relevant.
@@ -455,7 +455,7 @@ Linux-style packaging, using RPM or deb packages, is not a full solution either.
  services, each running in its own process and communicating with
  lightweight mechanisms, often an HTTP resource API&rdquo;</em>
 <a href="http://martinfowler.com/articles/microservices.html">Martin Fowler</a>
-<img src="http://blog.osv.io//github/images/PreferFunctionalStaffOrganization.png" alt="&quot;From micro services" />
+<img src="http://osv.io/blog/images/PreferFunctionalStaffOrganization.png" alt="&quot;From micro services" />
 Illustration: Martin Fowler (<a href="http://martinfowler.com/articles/microservices.html">http://martinfowler.com/articles/microservices.html</a>)</p>
 
 <p>Each micro service can can have its own end to end stack, from the OS up to the application.
@@ -482,9 +482,9 @@ You can get updates on by subscribing to the <a href="http://osv.io/blog/atom.xm
   
   <entry>
     <title type="html"><![CDATA[Getting Started With the OSv Shrinker API]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/07/14/osv-shrinker-api/"/>
-    <updated>2014-07-14T18:37:05+03:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/07/14/osv-shrinker-api</id>
+    <link href="http://osv.io/blog/blog/2014/07/14/osv-shrinker-api/"/>
+    <updated>2014-07-14T08:37:05-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/07/14/osv-shrinker-api</id>
     <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
 
 <p>If you&rsquo;re writing a program that keeps a cache in memory, you&rsquo;re probably expecting users to have to set the cache size, which means a configuration setting or command-line argument.  And every configuration setting or command-line argument is something that you have to document, or explain to users when they get it wrong.</p>
@@ -645,14 +645,14 @@ must have its own lock to prevent concurrency issues.</p>
   
   <entry>
     <title type="html"><![CDATA[Inside the OSv Boot Process]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/07/11/osv-boot/"/>
-    <updated>2014-07-11T18:37:05+03:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/07/11/osv-boot</id>
+    <link href="http://osv.io/blog/blog/2014/07/11/osv-boot/"/>
+    <updated>2014-07-11T08:37:05-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/07/11/osv-boot</id>
     <content type="html"><![CDATA[<p>What happens in that critical fraction of a second between when a virtual x86_64 system &ldquo;powers up&rdquo; and when it begins running operating system code written in a high-level language?</p>
 
 <p>For a helpful walk-through, there&rsquo;s a new article on the OSv wiki, originally written by Elazar Leibovich.</p>
 
-<p><img src="http://blog.osv.io//github/images/pc-power.jpeg" alt="IBM PC power switch" /></p>
+<p><img src="http://osv.io/blog/images/pc-power.jpeg" alt="IBM PC power switch" /></p>
 
 <p><strong>The boot process for a modern VM traces its history back to the
 original IBM PC.</strong></p>
@@ -668,9 +668,9 @@ original IBM PC.</strong></p>
   
   <entry>
     <title type="html"><![CDATA[What Is the Most Popular OSv Virtual Appliance?]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/07/01/s3stat/"/>
-    <updated>2014-07-01T00:00:00+03:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/07/01/s3stat</id>
+    <link href="http://osv.io/blog/blog/2014/07/01/s3stat/"/>
+    <updated>2014-07-01T00:00:00-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/07/01/s3stat</id>
     <content type="html"><![CDATA[<p><strong>By Tzach Livyatan</strong></p>
 
 <p>(Spoiler: It&rsquo;s Apache Tomcat.)</p>
@@ -687,14 +687,14 @@ This statistics are very interesting to us, to evaluate which of the Capstan vir
 <p><a href="http://www.s3stat.com/">s3stat</a> is a cloud-based service which can follow an S3 bucket, and visualize download statistics, by file, country, browser day, or otherwise.
 The price makes sense, and it is super easy to enable.</p>
 
-<p><img src="http://blog.osv.io//github/images/s3stat_chart.png" alt="s3stat chart" /></p>
+<p><img src="http://osv.io/blog/images/s3stat_chart.png" alt="s3stat chart" /></p>
 
 <p>So what are the results? (drum roll&hellip;.)</p>
 
 <!-- more -->
 
 
-<p><img src="http://blog.osv.io//github/images/s3stat_files.png" alt="s3stat files" /></p>
+<p><img src="http://osv.io/blog/images/s3stat_files.png" alt="s3stat files" /></p>
 
 <p>Omitting Capstan download of capstan index.yaml files, which Capstan does for every repository search, the most popular images are the base images for OSv and OSv + Java.
 That make sense because these two images will be used by anyone who wants to build a local OSv application, running a native or Java application.</p>
@@ -702,15 +702,15 @@ That make sense because these two images will be used by anyone who wants to bui
 <p>Virtual appliances comes right after, with (drums again&hellip;.) <strong>Tomcat</strong>, <strong>Cassandra</strong>, <strong>Memcached</strong> on the podium (Tomcat wins the Gold).
 These are all very early results, but we will keep using s3stat to follow Capstan image downloads.</p>
 
-<p><img src="http://blog.osv.io//github/images/s3stat_map.png" alt="s3stat map" /></p>
+<p><img src="http://osv.io/blog/images/s3stat_map.png" alt="s3stat map" /></p>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[Hypervisors Are Dead, Long Live the Hypervisor (Part 3)]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/06/23/containers-hypervisors-part-3/"/>
-    <updated>2014-06-23T23:00:00+03:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/06/23/containers-hypervisors-part-3</id>
+    <link href="http://osv.io/blog/blog/2014/06/23/containers-hypervisors-part-3/"/>
+    <updated>2014-06-23T13:00:00-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/06/23/containers-hypervisors-part-3</id>
     <content type="html"><![CDATA[<p><strong>By Dor Laor and Avi Kivity</strong></p>
 
 <h1>The new school: functionality, isolation and simplicity</h1>
@@ -727,7 +727,7 @@ These are all very early results, but we will keep using s3stat to follow Capsta
 
 <p>In the eight years since the release of Intel VMX, the silicon has kept getting better and better at moving the costs of virtualization into hardware. Enterprise customers have been demanding lower virtualization overhead for as long as hypervisors have been a thing, and the best minds of the CPU industry are working on it. With nested page tables and other features coming “for free” on the processor, virtualization overhead is being squeezed closer and closer to parity with bare metal.</p>
 
-<p><img src="http://blog.osv.io//github/images/duplication.png" alt="typical cloud stack with duplication" /></p>
+<p><img src="http://osv.io/blog/images/duplication.png" alt="typical cloud stack with duplication" /></p>
 
 <p><strong>Typical cloud stacks have duplicate functionality at the hypervisor, guest OS, and application levels.</strong></p>
 
@@ -739,7 +739,7 @@ These are all very early results, but we will keep using s3stat to follow Capsta
 
 <p>To date (June 2014), OSv provides 4x better performance for Memcache, a 40% gain with Apache Tomcat, and a 20% gain with Cassandra and SPECjbb. These results are based on our alpha versions, and are likely to improve as we complete the optimizations remaining on our roadmap.</p>
 
-<p><img src="http://blog.osv.io//github/images/workloads.png" alt="OSv example workloads" /></p>
+<p><img src="http://osv.io/blog/images/workloads.png" alt="OSv example workloads" /></p>
 
 <p><strong>OSv runs many key cloud workloads with low overhead and high performance.</strong></p>
 
@@ -765,7 +765,7 @@ These are all very early results, but we will keep using s3stat to follow Capsta
 
 <p>Lastly, we like to point out we are not against containers. Container technology is awesome when used for the right scenario. As there are cases for public transportation versus private cars, the same applies to devops. Both containers and OSv excel, in different domains. Here is a simple flow chart that can guide you with your choices:</p>
 
-<p><a href="http://blog.osv.io//github/images/flowchart.png"><img src="http://blog.osv.io//github/images/flowchart.png" alt="Guest OS selection flowchart" /></a></p>
+<p><a href="http://osv.io/blog/images/flowchart.png"><img src="http://osv.io/blog/images/flowchart.png" alt="Guest OS selection flowchart" /></a></p>
 
 <p>Using OSv on ubiquitous, secure, full-featured hypervisors is the way to keep performance up, costs down, and options open. We had to completely reinvent the guest OS to do it&mdash;but now that we have it, OSv is available to build on. Please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a> for technical info, or follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems on Twitter</a> for the latest news.</p>
 
@@ -776,9 +776,9 @@ These are all very early results, but we will keep using s3stat to follow Capsta
   
   <entry>
     <title type="html"><![CDATA[Hypervisors Are Dead, Long Live the Hypervisor (Part 2)]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/06/19/containers-hypervisors-part-2/"/>
-    <updated>2014-06-19T23:00:00+03:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/06/19/containers-hypervisors-part-2</id>
+    <link href="http://osv.io/blog/blog/2014/06/19/containers-hypervisors-part-2/"/>
+    <updated>2014-06-19T13:00:00-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/06/19/containers-hypervisors-part-2</id>
     <content type="html"><![CDATA[<p><strong>By Dor Laor and Avi Kivity</strong></p>
 
 <h1>Linux containers</h1>
@@ -805,7 +805,7 @@ These are all very early results, but we will keep using s3stat to follow Capsta
 a. Public image repository &ndash; immediate search and download of containers pre-loaded with dependencies, and
 b. Dead-simple execution &ndash; a one-liner command for running a container.</p>
 
-<p><img src="http://blog.osv.io//github/images/docker.png" alt="Docker diagram" /></p>
+<p><img src="http://osv.io/blog/images/docker.png" alt="Docker diagram" /></p>
 
 <p><strong><a href="https://www.docker.io/the_whole_story/">Docker gives container users a simple build process and a public repository system.</a></strong></p>
 
@@ -853,7 +853,7 @@ Today there isn&rsquo;t a switch or a storage system without VM integration or V
 
 <p>The long history of hypervisors means that the industry has developed a huge collection of tools for real-world administration needs.</p>
 
-<p><img src="http://blog.osv.io//github/images/esx2.jpg" alt="CPM monitoring in VMware" /></p>
+<p><img src="http://osv.io/blog/images/esx2.jpg" alt="CPM monitoring in VMware" /></p>
 
 <p><strong><a href="http://robertmorannet.blogspot.com/2010/08/vmware-vsphere-screenshots.html">Blogger Robert Moran shows a screenshot of CPU monitoring in VMware’s vSphere</a>.</strong></p>
 
@@ -899,15 +899,15 @@ The first stage would be to gain control of the application within the container
 
 <blockquote><p>With containers you&rsquo;re starting with everything open and then going around trying to close all the holes; if you miss even a single one, bam, you lose. With VMs, you start with almost everything closed, and selectively open things up; that makes a big difference.</p></blockquote>
 
-<p><strong>This is part 2 of a 3-part series.</strong> Please subscribe to our <a href="http://blog.osv.io//github/atom.xml">feed</a> or follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> to get a notification when part 3 is available.</p>
+<p><strong>This is part 2 of a 3-part series.</strong> Please subscribe to our <a href="http://osv.io/blog/atom.xml">feed</a> or follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> to get a notification when part 3 is available.</p>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[Hypervisors Are Dead, Long Live the Hypervisor (Part 1)]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/06/19/containers-hypervisors-part-1/"/>
-    <updated>2014-06-19T23:00:00+03:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/06/19/containers-hypervisors-part-1</id>
+    <link href="http://osv.io/blog/blog/2014/06/19/containers-hypervisors-part-1/"/>
+    <updated>2014-06-19T13:00:00-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/06/19/containers-hypervisors-part-1</id>
     <content type="html"><![CDATA[<p><strong>By Dor Laor and Avi Kivity</strong></p>
 
 <p>The hypervisor is the basic building block of cloud computing; hypervisors drive the software-defined data center revolution, and two-thirds of all new servers are virtualized today. Hypervisors for commodity hardware have been the key enabler for the software revolution we have been experiencing.</p>
@@ -924,13 +924,13 @@ The first stage would be to gain control of the application within the container
 
 <p>What is virtualization anyway?</p>
 
-<p><img src="http://blog.osv.io//github/images/virtualization.png" alt="Virtualization diagram" /></p>
+<p><img src="http://osv.io/blog/images/virtualization.png" alt="Virtualization diagram" /></p>
 
 <p>A hypervisor is a software component (potentially assisted by hardware) that allows us to run multiple operating systems on the same physical machine. The overlay OS is called the guest OS or simply, a Virtual Machine (VM). The guest OS may not even be aware it is running on virtual hardware.</p>
 
 <p>The interface between the guest and the host is the hardware specification. It covers the CPU itself and any other hardware devices, from BIOS to NICs, SCSI adapters, GPUs and memory.</p>
 
-<p><img src="http://blog.osv.io//github/images/IBM360-67AtUmichWithMikeAlexander.jpg" alt="IBM System/360" /></p>
+<p><img src="http://osv.io/blog/images/IBM360-67AtUmichWithMikeAlexander.jpg" alt="IBM System/360" /></p>
 
 <p><strong>IBM, together with MIT and the University of Michigan, pioneered hypervisor technology on System/360 and System/370 mainframes, beginning in the 1960s.</strong></p>
 
@@ -940,11 +940,11 @@ The first stage would be to gain control of the application within the container
 
 <p>Virtualization didn’t make it to commodity systems until the <a href="http://www.vmware.com/company/news/mediaresource/milestones">release of VMware Workstation in 1999</a>. In the early 2000s, hypervisors were based on pure software and were mostly useful for development and testing.  VMware initially used a technique called dynamic translation to intercept privileged operations by the guest operating system. When the guest accessed “hardware”, VMWare rewrote the instructions on the fly, to protect itself from the guest and isolate guests from each other.</p>
 
-<p><img src="http://blog.osv.io//github/images/vmware-logo.png" alt="VMware logo" /></p>
+<p><img src="http://osv.io/blog/images/vmware-logo.png" alt="VMware logo" /></p>
 
 <p>Later on, the open source Xen hypervisor project coined the term paravirtualization (PV). PV guests, which have to be specially modified to run on a PV host, do not execute privileged instructions themselves but ask the hypervisor to do it on their behalf.</p>
 
-<p><img src="http://blog.osv.io//github/images/xen-logo.png" alt="Xen logo" /></p>
+<p><img src="http://osv.io/blog/images/xen-logo.png" alt="Xen logo" /></p>
 
 <p>Eventually, Intel, AMD and ARM implemented support for virtualization extensions. A special host mode allows running guest code on the bare CPU, getting near 100% of bare metal throughput for CPU-intensive workloads. In parallel, the memory management and the IO path received attention as well with technologies such as nested paging (virtual memory), virtual interrupt controllers, single-root I/O virtualization (SRIOV) and other optimizations.</p>
 
@@ -964,7 +964,7 @@ The first stage would be to gain control of the application within the container
 
 <p>However, in order to virtualize your workload, one must deploy a full fledged guest operating system onto every VM instance. This new layer is a burden in terms of management and in terms of performance overhead. We’ll look at one of the other approaches to compartmentalization next time: containers.</p>
 
-<p><strong>This is part 1 of a 3-part series.</strong>  <a href="http://osv.io/blog/blog/2014/06/19/containers-hypervisors-part-2/">Part 2 is now available</a>.  Please subscribe to our <a href="http://blog.osv.io//github/atom.xml">feed</a> or follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> to get a notification of future posts.</p>
+<p><strong>This is part 1 of a 3-part series.</strong>  <a href="http://osv.io/blog/blog/2014/06/19/containers-hypervisors-part-2/">Part 2 is now available</a>.  Please subscribe to our <a href="http://osv.io/blog/atom.xml">feed</a> or follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> to get a notification of future posts.</p>
 
 <p>Photo credit, IBM 360: <a href="http://commons.wikimedia.org/wiki/File:IBM360-67AtUmichWithMikeAlexander.jpg">Dave Mills for Wikimedia Commons</a></p>
 ]]></content>
@@ -972,9 +972,9 @@ The first stage would be to gain control of the application within the container
   
   <entry>
     <title type="html"><![CDATA[Nadav Har’El Presenting OSv at USENIX June 19th]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/06/18/usenix-atc/"/>
-    <updated>2014-06-18T18:54:23+03:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/06/18/usenix-atc</id>
+    <link href="http://osv.io/blog/blog/2014/06/18/usenix-atc/"/>
+    <updated>2014-06-18T08:54:23-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/06/18/usenix-atc</id>
     <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
 
 <p>If you&rsquo;re attending the USENIX Annual Technical Conference, be sure not to miss
@@ -982,7 +982,7 @@ The first stage would be to gain control of the application within the container
 
 <p>Here&rsquo;s a quick preview of some of the performance results that Nadav will show:</p>
 
-<p><img src="http://blog.osv.io//github/images/usenix-paper.png" alt="table from upcoming paper" /></p>
+<p><img src="http://osv.io/blog/images/usenix-paper.png" alt="table from upcoming paper" /></p>
 
 <p>It&rsquo;s also your opportunity to ask Nadav some hard questions.</p>
 
@@ -994,9 +994,9 @@ The first stage would be to gain control of the application within the container
   
   <entry>
     <title type="html"><![CDATA[Using Capstan With Local OSv Images]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/06/06/capstan-push/"/>
-    <updated>2014-06-06T18:54:23+03:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/06/06/capstan-push</id>
+    <link href="http://osv.io/blog/blog/2014/06/06/capstan-push/"/>
+    <updated>2014-06-06T08:54:23-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/06/06/capstan-push</id>
     <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
 
 <p>If you&rsquo;re building OSv from source, you can use the <code>capstan push</code> command to temporarily use a local build in place of a base image from a network repository.  This is handy when you&rsquo;re trying your application with a patched version of OSv.   Just run <code>capstan push</code> after the OSv build to push your newly built image into your local Capstan repository.</p>
@@ -1023,9 +1023,9 @@ The first stage would be to gain control of the application within the container
   
   <entry>
     <title type="html"><![CDATA[OSv Paper Coming to USENIX in June]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/05/19/usenix-atc/"/>
-    <updated>2014-05-19T18:54:23+03:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/05/19/usenix-atc</id>
+    <link href="http://osv.io/blog/blog/2014/05/19/usenix-atc/"/>
+    <updated>2014-05-19T08:54:23-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/05/19/usenix-atc</id>
     <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
 
 <p>We&rsquo;re going to the USENIX Annual Technical Conference
@@ -1054,9 +1054,9 @@ in Philadelphia!</p>
   
   <entry>
     <title type="html"><![CDATA[Interview: OSv on 64-bit ARM Systems]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/05/13/osv-on-64-bit-arm/"/>
-    <updated>2014-05-13T06:54:23+03:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/05/13/osv-on-64-bit-arm</id>
+    <link href="http://osv.io/blog/blog/2014/05/12/osv-on-64-bit-arm/"/>
+    <updated>2014-05-12T20:54:23-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/05/12/osv-on-64-bit-arm</id>
     <content type="html"><![CDATA[<h2>Q&amp;A with Paul Mundt,  Jani Kokkonen, and Claudio Fontana</h2>
 
 <p>Paul Mundt is CTO of OS &amp; Virtualization at Huawei, while Jani and Claudio are both Virtualization Architects on Huawei&rsquo;s virtualization team. All are based in Munich, which is the headquarters for Huawei’s European Research Center. The company also has a team of OSv developers in Hangzhou, China, who are focused on adaptation of OSv to Huawei&rsquo;s x86-based enterprise servers.</p>
@@ -1112,15 +1112,15 @@ and Raspberry Pis?</strong></p>
 
 <h2>About</h2>
 
-<p><img src="http://blog.osv.io//github/images/Paul_Mundt.jpg" alt="Paul Mundt" /></p>
+<p><img src="http://osv.io/blog/images/Paul_Mundt.jpg" alt="Paul Mundt" /></p>
 
 <p><strong>Paul Mundt</strong> is the CTO of OS &amp; Virtualization at Huawei’s European Research Center in Munich, Germany, where he manages the Euler department (including OS &amp; Virtualization R&amp;D, as well as new CPU development and support). Paul first joined Huawei at the beginning of 2013 as the Chief Architect of Huawei’s Server OS division, responsible for overall architecture and strategy. Prior to that, as the Linux Kernel Architect at Renesas in Tokyo, Paul was responsible for leading the Linux group within Renesas for seven years, establishing both the initial strategy and vision while taking the group from zero in-house support or upstream engagement to supporting hundreds of different CPUs across the entire MCU/MPU spectrum and becoming a consistent top-10 contributor to the Linux kernel, which carries on to this day. He has more than 15 years of Linux kernel development experience, across a diverse range of domains (HPC, embedded, enterprise, carrier grade), and has spent most of that time as the maintainer of various subsystems (primarily in the areas of core kernel infrastructure, CPU architectures, memory management, and file systems). He previously organized and chaired the Memory Management Working Group within the CE Linux Forum, where he advocated the convergence of Enterprise and Embedded technologies, resulting in the creation of Asymmetric NUMA, as well as early transparent superpage/large TLB adoption. He is a voting member of the OASIS Virtual I/O Device (VIRTIO) Technical Committee and the HSA Foundation.</p>
 
-<p><img src="http://blog.osv.io//github/images/Jani_Kokkonen.jpg" alt="Jani Kokkonen" /></p>
+<p><img src="http://osv.io/blog/images/Jani_Kokkonen.jpg" alt="Jani Kokkonen" /></p>
 
 <p><strong>Jani Kokkonen</strong> received his master’s degree in 2000 from the Technical University of Helsinki, Finland. He went to pursue research and development job in Nokia Networks. The work concentrated in research of different transport technologies on various radio access networks. This was followed by research and development activities on virtualization technologies on 3GPP radio and core network elements. Work consisted also evaluation of hardware extensions for virtualization support on various embedded multicore chips. He has been as virtualization architect in Huawei ERC Euler Department since September 2011. The work in Huawei has concentrated on research and development on QEMU/KVM on ARM and Intel platforms varying from CPU to network technologies, with his most recent effort focusing on ARM64 memory management where he is responsible for the MMU backend in the Aarch64 OSv port, as well as leading the OSv team. He is a member of the OASIS Virtual I/O Device (VIRTIO) Technical Committee and the Multicore Association.</p>
 
-<p><img src="http://blog.osv.io//github/images/Claudio_Fontana.jpg" alt="Claudio Fontana" /></p>
+<p><img src="http://osv.io/blog/images/Claudio_Fontana.jpg" alt="Claudio Fontana" /></p>
 
 <p><strong>Claudio Fontana</strong> received his Laurea in Computer Science in 2005 at the University of Trento, Italy, discussing a thesis on frameworks for the evaluation of taxonomy matching algorithms. He went on to pursue a software engineering opportunity in Zurich, where he worked on medium-scale (100s hosts) distributed systems. This was followed by a software engineering position in Amsterdam, working on messaging, routing, firewalls and billing systems. He has been with Huawei since December 2011. He is currently working in the virtualization area (Linux/KVM/QEMU). He is part of the early enablement effort for the ARM 64bit architecture (ARMv8 AArch64), and has been a maintainer and contributor of Free and Open Source projects, lately involving mostly QEMU binary translation (as QEMU Aarch64 TCG maintainer) and the OSv Operating System (as Aarch64 maintainer). He also spent some time as a member of Linaro&rsquo;s Virtualization team, where he focused on early Aarch64 enablement.</p>
 
@@ -1132,9 +1132,9 @@ and Raspberry Pis?</strong></p>
   
   <entry>
     <title type="html"><![CDATA[Bridged Networking With Capstan]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/05/07/capstan-bridge/"/>
-    <updated>2014-05-07T18:37:05+03:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/05/07/capstan-bridge</id>
+    <link href="http://osv.io/blog/blog/2014/05/07/capstan-bridge/"/>
+    <updated>2014-05-07T08:37:05-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/05/07/capstan-bridge</id>
     <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
 
 <p>New versions of <a href="https://github.com/cloudius-systems/capstan">Capstan</a> are making it simpler to run OSv virtual machines in a production configuration, by adding more control of network options.  A useful new feature, which helps deal with the <a href="https://github.com/cloudius-systems/osv/wiki/Running-OSv-image-under-KVM-QEMU">details of bringing up networking</a>, is the <code>-n</code> option.</p>
@@ -1169,14 +1169,14 @@ is executing for you.)</p>
   
   <entry>
     <title type="html"><![CDATA[New OSv Meetup Group]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/04/25/meetup/"/>
-    <updated>2014-04-25T18:54:23+03:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/04/25/meetup</id>
+    <link href="http://osv.io/blog/blog/2014/04/25/meetup/"/>
+    <updated>2014-04-25T08:54:23-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/04/25/meetup</id>
     <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
 
 <p>We held the first meeting of the OSv <a href="http://www.meetup.com/OSv-Developer-Meetup/">Meetup group</a> in San Francisco this week, and got 14 participants from the Apache, Big Data, and OSv communities, as well as a few meetup.com users interested in cloud computing who just came along serendipitously.</p>
 
-<p><img src="http://blog.osv.io//github/images/meetup.jpg" alt="attendees" /></p>
+<p><img src="http://osv.io/blog/images/meetup.jpg" alt="attendees" /></p>
 
 <p>Thanks to our hosts at <a href="http://ohmdata.com/">OhmData</a> who made their groovy South of Market office space available, and thanks to our attendees for coming in to try out OSv.  Looking forward to seeing the results of your initial experiments.</p>
 

@@ -5,15 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Speed Run: Running 4 Virtual Appliances on Your Laptop in 5 Seconds Overall - OSv Blog</title>
+  <title>OSv in the Spotlight at LinuxCon/CloudOpen 2014 - OSv Blog</title>
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="By Dor Laor, Tzach Livyatan In the following demo, Dor is running 4 different OSv base virtual appliances
-on his laptop: Redis
-Tomcat
-MySQL
-Cassandra &hellip;">
+  <meta name="description" content="While we relax and don&rsquo;t have to fix anything on our slides (really, they&rsquo;re all done), other speakers at the Linux Foundation&rsquo;s &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -22,7 +18,7 @@ Cassandra &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.osv.io//github/blog/2014/09/14/how-fast-can-you-run-4-vm">
+  <link rel="canonical" href="http://osv.io/blog/blog/2014/08/20/linuxcon-cloudopen">
   <link href="/blog/favicon.ico" rel="icon">
   <link href="/blog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
@@ -66,7 +62,7 @@ Cassandra &hellip;">
         
         <form action="https://www.google.com/search" method="get">
             <fieldset role="search">
-                <input type="hidden" name="q" value="site:blog.osv.io//github" />
+                <input type="hidden" name="q" value="site:osv.io/blog" />
                 <input class="search" type="text" name="q" results="0" placeholder="Search"/>
             </fieldset>
         </form>
@@ -111,7 +107,7 @@ Cassandra &hellip;">
         </script>
     </div>
 </div>
-<div class="mobile mobilePageTitle">Speed run: running 4 virtual appliances on your laptop in 5 seconds overall</div>
+<div class="mobile mobilePageTitle">OSv in the spotlight at LinuxCon/CloudOpen 2014</div>
 
 
   <div id="main">
@@ -121,7 +117,7 @@ Cassandra &hellip;">
   
   <header>
     
-      <h1 class="entry-title">Speed Run: Running 4 Virtual Appliances on Your Laptop in 5 Seconds Overall</h1>
+      <h1 class="entry-title">OSv in the Spotlight at LinuxCon/CloudOpen 2014</h1>
     
     
       <p class="meta">
@@ -137,42 +133,26 @@ Cassandra &hellip;">
   
 
 
-<time datetime="2014-09-14T09:30:00+03:00" pubdate data-updated="true">Sep 14<span>th</span>, 2014</time>
+<time datetime="2014-08-20T16:10:31-07:00" pubdate data-updated="true">Aug 20<span>th</span>, 2014</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p><strong>By Dor Laor, Tzach Livyatan</strong></p>
+<div class="entry-content"><p>While we relax and don&rsquo;t have to fix anything on our slides (really, they&rsquo;re all done), other speakers at the Linux Foundation&rsquo;s <a href="http://events.linuxfoundation.org/events/cloudopen-north-america">CloudOpen North America conference</a> in beautiful Chicago have some observations to make about OSv.</p>
 
-<p>In the following demo, Dor is running 4 different OSv base virtual appliances
-on his laptop:</p>
+<p><img src="/blog/images/chicago-river.jpeg" alt="Chicago River" /></p>
 
-<ul>
-<li>Redis</li>
-<li>Tomcat</li>
-<li>MySQL</li>
-<li>Cassandra</li>
-</ul>
+<p><strong>The Linux Foundation always picks great conference locations.</strong></p>
 
+<p><a href="http://lccona14.sched.org/speaker/rcpavlicek">Russell Pavlicek</a> from the Xen project mentioned several library OSs that run on Xen in his <a href="http://lccona14.sched.org/event/17fdf31e5913cc4ebd5cf1f2ec039aa0">talk on new Xen features</a>.  He called the concept &ldquo;one of the biggest advances in the cloud.&rdquo;  Earlier library OSs have shown how much performance and simplicity gains are available, and OSv is extending the idea to ordinary POSIX and Java applications.</p>
 
-<p>Each virtual appliance is a full–blown VM, each with a pre-integrated
-cloud application, and each launched without terminating the others.</p>
+<p><a href="http://lccona14.sched.org/speaker/mikeday">Mike Day</a> from IBM said, &ldquo;the engineers who write OSv are really good C++ coders,&rdquo; and called the project &ldquo;some of the finest C++ source code I&rsquo;ve ever seen&rdquo; in his <a href="http://lccona14.sched.org/event/434032efc316cc7aa98d4d590abda72e">talk on cloud operating systems for servers</a>.  He also had some praise for the <a href="http://osv.io/blog/blog/2014/04/19/spinlock-free/">spinlock-free way</a> that OSv handles mutexes, which as regular readers of this blog will know is important to prevent the dreaded lock-holder preemption problem.</p>
 
-<!-- more -->
+<p>If you&rsquo;re at LinuxCon, excuse me, #linuxcon, please come over and say &ldquo;hi&rdquo; to the OSv speakers: Don Marti and Glauber Costa. Hope to see you at the event, and please come to &ldquo;<a href="http://lccona14.sched.org/event/4684a80dd37f200277e971133920a2d0">Beating the Virtualization Tax for NoSQL Workloads With OSv</a>&rdquo; on Friday at 10:45 in the Colorado room.   Otherwise, you can get general OSv updates by subscribing to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
 
-
-
-
-<script type="text/javascript" src="https://asciinema.org/a/11914.js" id="asciicast-11914" async></script>
-
-
-<p>As you can see, application startup time takes between sub-second
-(Redis) to a few seconds (Cassandra) depending on the application.
-The hypervisor plus OS part of the boot time is less than a second for all cases.</p>
-
-<p>Want more info on Capstan and related topics?  Join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get regular OSv updates by subscribing to this blog&rsquo;s feed, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+<p><strong>Chicago River photo: <a href="http://commons.wikimedia.org/wiki/File:Chicago_river_2004.jpg">Urban for Wikimedia Commons</a></strong></p>
 </div>
 
 
@@ -195,12 +175,12 @@ The hypervisor plus OS part of the boot time is less than a second for all cases
   
 
 
-<time datetime="2014-09-14T09:30:00+03:00" pubdate data-updated="true">Sep 14<span>th</span>, 2014</time>
+<time datetime="2014-08-20T16:10:31-07:00" pubdate data-updated="true">Aug 20<span>th</span>, 2014</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/blog/categories/capstan/'>capstan</a>, <a class='category' href='/blog/blog/categories/cassandra/'>cassandra</a>, <a class='category' href='/blog/blog/categories/mysql/'>mysql</a>, <a class='category' href='/blog/blog/categories/redis/'>redis</a>, <a class='category' href='/blog/blog/categories/tomcat/'>tomcat</a>, <a class='category' href='/blog/blog/categories/tools/'>tools</a>
+    <a class='category' href='/blog/blog/categories/events/'>events</a>
   
 </span>
 
@@ -230,8 +210,10 @@ The hypervisor plus OS part of the boot time is less than a second for all cases
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/blog/2014/09/11/cassandra-summit/" title="Previous Post: What's the big deal about OSv at Cassandra Summit 2014?">&laquo; What's the big deal about OSv at Cassandra Summit 2014?</a>
+        <a class="basic-alignment left" href="/blog/blog/2014/08/14/redis-memonly/" title="Previous Post: Redis on OSv">&laquo; Redis on OSv</a>
       
+      
+        <a class="basic-alignment right" href="/blog/blog/2014/08/26/jolokia-jmx-connectivity-in-osv/" title="Next Post: Jolokia JMX connectivity in OSv">Jolokia JMX connectivity in OSv &raquo;</a>
       
     </p>
   </footer>
@@ -252,11 +234,11 @@ The hypervisor plus OS part of the boot time is less than a second for all cases
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/blog/2014/09/14/how-fast-can-you-run-4-vm/">Speed Run: Running 4 Virtual Appliances on Your Laptop in 5 Seconds Overall</a>
+        <a href="/blog/blog/2014/09/13/how-fast-can-you-run-4-vm/">Speed Run: Running 4 Virtual Appliances on Your Laptop in 5 Seconds Overall</a>
       </li>
     
       <li class="post">
-        <a href="/blog/blog/2014/09/11/cassandra-summit/">What's the Big Deal About OSv at Cassandra Summit 2014?</a>
+        <a href="/blog/blog/2014/09/10/cassandra-summit/">What's the Big Deal About OSv at Cassandra Summit 2014?</a>
       </li>
     
       <li class="post">
@@ -268,7 +250,7 @@ The hypervisor plus OS part of the boot time is less than a second for all cases
       </li>
     
       <li class="post">
-        <a href="/blog/blog/2014/08/21/linuxcon-cloudopen/">OSv in the Spotlight at LinuxCon/CloudOpen 2014</a>
+        <a href="/blog/blog/2014/08/20/linuxcon-cloudopen/">OSv in the Spotlight at LinuxCon/CloudOpen 2014</a>
       </li>
     
   </ul>
@@ -314,8 +296,8 @@ The hypervisor plus OS part of the boot time is less than a second for all cases
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://blog.osv.io//github/blog/2014/09/14/how-fast-can-you-run-4-vm/';
-        var disqus_url = 'http://blog.osv.io//github/blog/2014/09/14/how-fast-can-you-run-4-vm/';
+        var disqus_identifier = 'http://osv.io/blog/blog/2014/08/20/linuxcon-cloudopen/';
+        var disqus_url = 'http://osv.io/blog/blog/2014/08/20/linuxcon-cloudopen/';
         var disqus_script = 'embed.js';
       
     (function () {
