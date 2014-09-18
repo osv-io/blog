@@ -9,7 +9,6 @@ categories: cassandra dashboard
 
 **By Tzach Livyatan**
 
-
 We are constantly looking for ways to improve OSv Virtual Appliances experience.
 Latest improvement is an integrate dashboard, presenting a combination of:
 
@@ -21,6 +20,14 @@ Latest improvement is an integrate dashboard, presenting a combination of:
 ![tab](/images/cassandra-tab.png)
 
 <!-- more -->
+The dashboard is yet another example for using
+[REST API](osv.io/api/swagger-ui/dist/index.html) to monitor and
+control OSv and
+OSv virtual appliances. These REST APIs are open for the
+user directly. In particular, Capstan tab take advantage of the newly added
+[Jolokia](/jolokia-jmx-connectivity-in-osv)
+connector, exposing JMX information over REST.
+
 
 There are other great tools out there for JVM monitoring and profiling, like [VisualVM](http://visualvm.java.net/).
 OSv dashboard is unique by unifying the end to end Virtual Appliances functionality:
