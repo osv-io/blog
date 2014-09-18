@@ -4,7 +4,7 @@
   <title><![CDATA[OSv Blog]]></title>
   <link href="http://osv.io/blog/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2014-09-18T08:11:52-07:00</updated>
+  <updated>2014-09-18T08:16:59-07:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -23,9 +23,9 @@
 <p>We are constantly looking for ways to improve the OSv virtual appliance experience.  The latest improvement is an integrated dashboard, presenting a combination of:</p>
 
 <ul>
-<li>OS related metric (CPU, threads, &hellip;)</li>
+<li>OS related metrics (CPU, memory, threads, &hellip;)</li>
 <li>Profiling related metrics (trace points)</li>
-<li>JVM related metrics (heap, GC,&hellip;)</li>
+<li>JVM related metrics (heap, GC, &hellip;)</li>
 <li>Cassandra related metrics (latency, tasks, cluster status)</li>
 </ul>
 
@@ -35,13 +35,20 @@
 <!-- more -->
 
 
+<p>The dashboard is yet another example of using
+<a href="osv.io/api/swagger-ui/dist/index.html">REST API</a> to monitor and
+control OSv and
+OSv virtual appliances. These REST APIs are open for the
+user directly. In particular, the new Capstan tab takes advantage of the newly added
+<a href="http://osv.io/blog/jolokia-jmx-connectivity-in-osv">Jolokia</a>
+connector, exposing JMX information over REST.
+The OSv REST API makes it simple to manage your OSv virtual appliance with <code>curl(1)</code> or your own script.</p>
+
 <p>There are other great tools out there for JVM monitoring and profiling, like <a href="http://visualvm.java.net/">VisualVM</a>.
 The OSv dashboard is unique by unifying the end-to-end virtual appliances functionality:
 From the application to the JVM, down to the OS and HW status.</p>
 
 <p>In particular, trace points allow a deep dive into the system execution, providing similar functionality on OSv to what <a href="https://en.wikipedia.org/wiki/DTrace">DTrace</a> does for Solaris.</p>
-
-<p>The dashboard is an easy first start, but that&rsquo;s not all.  Everything that you can do from the dashboard is also available from the <a href="https://github.com/cloudius-systems/osv/wiki/The-RESTful-API">OSv RESTful API</a>, so it&rsquo;s easy to manage your OSv virtual appliance with <code>curl(1)</code> or your own script.</p>
 
 <p>We are planing to provide similar application-level tabs for other OSv virtual appliances.
 Want to build a tab for your favorite application on OSv?
