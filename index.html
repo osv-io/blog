@@ -9,11 +9,7 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="By Dor Laor, Tzach Livyatan In the following demo, Dor is running 4 different OSv base virtual appliances
-on his laptop: Redis
-Tomcat
-MySQL
-Cassandra &hellip;">
+  <meta name="description" content="By Tzach Livyatan We are constantly looking for ways to improve the OSv virtual appliance experience. The latest improvement is an integrated &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -118,6 +114,59 @@ Cassandra &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/blog/2014/09/18/cassandra-dashboard-tab/">New Dashboard Tab for Insight on Cassandra Virtual Appliances</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-18T06:00:00-07:00" pubdate data-updated="true">Sep 18<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>By Tzach Livyatan</strong></p>
+
+<p>We are constantly looking for ways to improve the OSv virtual appliance experience.  The latest improvement is an integrated dashboard, presenting a combination of:</p>
+
+<ul>
+<li>OS related metric (CPU, threads, &hellip;)</li>
+<li>Profiling related metrics (trace points)</li>
+<li>JVM related metrics (heap, GC,&hellip;)</li>
+<li>Cassandra related metrics (latency, tasks, cluster status)</li>
+</ul>
+
+
+<p><img src="/blog/images/cassandra-tab.png" alt="tab" /></p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/blog/2014/09/18/cassandra-dashboard-tab/">Read more&#8230;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -750,56 +799,6 @@ generic OS (one designed for hardware servers) in the cloud as well.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/blog/2014/07/11/osv-boot/">Inside the OSv Boot Process</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-11T08:37:05-07:00" pubdate data-updated="true">Jul 11<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>What happens in that critical fraction of a second between when a virtual x86_64 system &ldquo;powers up&rdquo; and when it begins running operating system code written in a high-level language?</p>
-
-<p>For a helpful walk-through, there&rsquo;s a new article on the OSv wiki, originally written by Elazar Leibovich.</p>
-
-<p><img src="/blog/images/pc-power.jpeg" alt="IBM PC power switch" /></p>
-
-<p><strong>The boot process for a modern VM traces its history back to the
-original IBM PC.</strong></p>
-
-<p>While some of the intricate startup steps are historic, the end result is an OSv boot time that&rsquo;s less than a second&mdash;an order of magnitude faster than a conventional multi-user OS.  To read (or contribute!) details,
-<a href="http://github.com/cloudius-systems/osv/wiki/OSv-early-boot-(MBR)">the &ldquo;OSv early boot&rdquo; article on the wiki.</a></p>
-
-<p>(photo: <a href="http://commons.wikimedia.org/wiki/File:XT-PC-Power-Supply-PCB-IMG_0436.JPG">Hans Haase for Wikimedia Commons</a>. Available under the Creative Commons Attribution-Share Alike 3.0 Unported license.)</p>
-
-<p>If you have any questions on OSv internals, or porting your application, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get general updates by subscribing to this blog&rsquo;s feed, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/blog/page/2/">&larr; Older</a>
@@ -815,6 +814,10 @@ original IBM PC.</strong></p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/blog/2014/09/18/cassandra-dashboard-tab/">New Dashboard Tab for Insight on Cassandra Virtual Appliances</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/blog/2014/09/13/how-fast-can-you-run-4-vm/">Speed Run: Running 4 Virtual Appliances on Your Laptop in 5 Seconds Overall</a>
       </li>
     
@@ -828,10 +831,6 @@ original IBM PC.</strong></p>
     
       <li class="post">
         <a href="/blog/blog/2014/08/26/jolokia-jmx-connectivity-in-osv/">Jolokia JMX Connectivity in OSv</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/blog/2014/08/20/linuxcon-cloudopen/">OSv in the Spotlight at LinuxCon/CloudOpen 2014</a>
       </li>
     
   </ul>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: Cassandra | OSv Blog]]></title>
-  <link href="http://osv.io/blog/blog/categories/cassandra/atom.xml" rel="self"/>
+  <title><![CDATA[Category: Dashboard | OSv Blog]]></title>
+  <link href="http://osv.io/blog/blog/categories/dashboard/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
   <updated>2014-09-18T08:11:52-07:00</updated>
   <id>http://osv.io/blog/</id>
@@ -48,43 +48,6 @@ Want to build a tab for your favorite application on OSv?
 Clone the <a href="https://github.com/cloudius-systems/osv-gui">osv-gui</a> repository and start submitting pull requests!</p>
 
 <p>You can keep up with the latest OSv news from this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or following <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Speed Run: Running 4 Virtual Appliances on Your Laptop in 5 Seconds Overall]]></title>
-    <link href="http://osv.io/blog/blog/2014/09/13/how-fast-can-you-run-4-vm/"/>
-    <updated>2014-09-13T23:30:00-07:00</updated>
-    <id>http://osv.io/blog/blog/2014/09/13/how-fast-can-you-run-4-vm</id>
-    <content type="html"><![CDATA[<p><strong>By Dor Laor, Tzach Livyatan</strong></p>
-
-<p>In the following demo, Dor is running 4 different OSv base virtual appliances
-on his laptop:</p>
-
-<ul>
-<li>Redis</li>
-<li>Tomcat</li>
-<li>MySQL</li>
-<li>Cassandra</li>
-</ul>
-
-
-<p>Each virtual appliance is a full–blown VM, each with a pre-integrated
-cloud application, and each launched without terminating the others.</p>
-
-<!-- more -->
-
-
-
-
-<script type="text/javascript" src="https://asciinema.org/a/11914.js" id="asciicast-11914" async></script>
-
-
-<p>As you can see, application startup time takes between sub-second
-(Redis) to a few seconds (Cassandra) depending on the application.
-The hypervisor plus OS part of the boot time is less than a second for all cases.</p>
-
-<p>Want more info on Capstan and related topics?  Join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get regular OSv updates by subscribing to this blog&rsquo;s feed, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
 ]]></content>
   </entry>
   
