@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Dashboard | OSv Blog]]></title>
   <link href="http://osv.io/blog/blog/categories/dashboard/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2014-09-18T08:16:59-07:00</updated>
+  <updated>2014-09-19T08:25:45-07:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -40,7 +40,7 @@
 control OSv and
 OSv virtual appliances. These REST APIs are open for the
 user directly. In particular, the new Capstan tab takes advantage of the newly added
-<a href="/jolokia-jmx-connectivity-in-osv">Jolokia</a>
+<a href="http://osv.io/blog/blog/2014/08/26/jolokia-jmx-connectivity-in-osv/">Jolokia</a>
 connector, exposing JMX information over REST.
 The OSv REST API makes it simple to manage your OSv virtual appliance with <code>curl(1)</code> or your own script.</p>
 
