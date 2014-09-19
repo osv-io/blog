@@ -24,7 +24,7 @@ The dashboard is yet another example of using
 control OSv and
 OSv virtual appliances. These REST APIs are open for the
 user directly. In particular, the new Capstan tab takes advantage of the newly added
-[Jolokia](/jolokia-jmx-connectivity-in-osv)
+[Jolokia](http://osv.io/blog/blog/2014/08/26/jolokia-jmx-connectivity-in-osv/)
 connector, exposing JMX information over REST.
 The OSv REST API makes it simple to manage your OSv virtual appliance with `curl(1)` or your own script.
 
