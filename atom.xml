@@ -4,7 +4,7 @@
   <title><![CDATA[OSv Blog]]></title>
   <link href="http://osv.io/blog/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2014-09-24T17:31:09-07:00</updated>
+  <updated>2014-09-25T14:34:38-07:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -12,6 +12,92 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Shellshock]]></title>
+    <link href="http://osv.io/blog/blog/2014/09/25/shellshock/"/>
+    <updated>2014-09-25T15:54:23-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/09/25/shellshock</id>
+    <content type="html"><![CDATA[<p><strong>By Tzach Livyatan</strong></p>
+
+<p>A new bash bug is &lsquo;bigger than Heartbleed&rsquo; and puts millions of websites.
+In short, Shellshock can take advantage of any server which call Bash.
+You can find a good insight into Shellshock <a href="http://lcamtuf.blogspot.co.il/2014/09/quick-notes-about-bash-bug-its-impact.html">on Michal Zalewski&rsquo;s blog</a>.</p>
+
+<p>A Bash patch is already available, but there is a bigger question:
+Why do you want  Bash on a production server in the first place?
+By its nature Bash is a dangerous beast, wouldn&rsquo;t it be better to keep him on the cage and off your system?</p>
+
+<p>What did you say?</p>
+
+<p>&ldquo;I need my Bash for troubleshooting?&rdquo;</p>
+
+<p>Do you now?</p>
+
+<!-- more -->
+
+
+<p>I assume your production server already writes logs and send traps to to a remote machine.
+If not, you probably do not have many production servers.
+What if in addition you had a secure remote REST API which allows you to probe files, get traces and any other information element you need?
+Do you still need Bash?
+And if you don&rsquo;t, than wouldn&rsquo;t it be better not to have it on the first place?</p>
+
+<p>Don Marti <a href="http://osv.io/blog/blog/2014/09/25/security-is-a-journey-not-a-destination/">writes</a> that the need for fast, reliable VM builds is the important lesson from this bug, but I disagree. Why not just remove the shell from the server?</p>
+
+<p>OSv takes a different approach from other OSs on the subject.
+Recognizing that most cloud servers only run one application, it is designed to run one and only one process.
+Every interaction with OSv is done via a set of REST APIs, over SSL.
+You can find the <a href="http://osv.io/api/swagger-ui/dist/index.html">current list of supported endpoints</a> on the OSv site.
+Since <code>fork</code> is inherently not allowed, there is not way for a Shellshock-like bug to exist.
+Sure, bugs in OSv may still lead to code injection via the API, but the surface of attack is much smaller, and dangerous APIs can be easily disabled.
+OSv still supports a CLI, but its run outside the OS, and administrators can use the secure API to access it, just like everybody else.</p>
+
+<p><strong>More info</strong></p>
+
+<p>For general questions on OSv, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get general updates by subscribing to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Waking Up Late, After Bash Fixing Night]]></title>
+    <link href="http://osv.io/blog/blog/2014/09/25/security-is-a-journey-not-a-destination/"/>
+    <updated>2014-09-25T13:54:23-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/09/25/security-is-a-journey-not-a-destination</id>
+    <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
+
+<p>Yesterday we found out about <a href="https://lwn.net/Articles/613032/">a remotely exploitable hole in bash</a> from our favorite Linux news sites.  For some of us, our schedules on the night of September 24th were disrupted, and not in a good way.</p>
+
+<p>It&rsquo;s true that my own Internet-facing code, while not perfect, isn&rsquo;t vulnerable.  But for one older web-based application I have to deal with, it&rsquo;s faster to install a new version of Bash than to trace through the code to make sure it isn&rsquo;t doing something bad, somewhere.</p>
+
+<p>Clearly this particular bug isn&rsquo;t a problem on OSv, because OSv doesn&rsquo;t run Bash.  The whole point of Bash is to <code>fork()</code> and <code>exec()</code> other processes, and OSv doesn&rsquo;t do all that.  Everything runs in one process, with no shell available or needed.</p>
+
+<p>As <a href="http://osv.io/blog/blog/2014/09/25/shellshock/">Tzach Livyatan points out</a>, managing OSv doesn&rsquo;t require a shell either.  There&rsquo;s one REST API for everything, from VM basics such as CPU and memory usage, up to <a href="http://osv.io/blog/blog/2014/08/26/jolokia-jmx-connectivity-in-osv/">JMX data from the application</a>.</p>
+
+<p>But it looks like Tzach is missing the main point.</p>
+
+<!-- more -->
+
+
+<p>The problem isn&rsquo;t so much that someone discovered a bug in Bash.  The problem is <em>what happened to the evening of September 24, 2014</em>?  A software bug should be something that you fix, test, check in the fix, and go home, not a full <a href="http://www.tor.com/stories/2009/12/overtime">night on duty</a>.</p>
+
+<p>I&rsquo;m starting to think that what&rsquo;s more important than any design advantages of OSv is the flow that it enables.   The size and, more important, simplicity of an OSv VM means that regenerating one is a matter of, let me time it&hellip; 9 seconds.  An OSv VM is a build artifact that I can crank out of my regular build system.</p>
+
+<p>It would be full of security hubris to say that OSv will never have to issue a security fix.  Yes, there are many fewer lines of code, and yes, the C++ experts on the development team will point to shorter, clearer programming contstructs in which fewer old-school bugs can hide.  But every software project has to issue a fix sometimes.</p>
+
+<p>The question is how long it takes to get current and put the bug behind you.</p>
+
+<p><strong>Repeatable flow, from commit to deploy</strong></p>
+
+<p>At <a href="https://oracleus.activeevents.com/2014/connect/sessionDetail.ww?SESSION_ID=4120">JavaOne next week</a>, Glauber Costa and I will be speaking about <q>OSv: The Operating System Designed for Java and the Cloud</q>.  Glauber summed it up: <q>OSv is a library OS. Therefore, you can think of using it as being a way to boot a JVM directly into the cloud. Forget OS management: it’s your application and the end of the story.</q></p>
+
+<p>The <a href="https://www.gartner.com/doc/2831925/make-sdlc-agile-using-cloud">complexity of maintaining conventional OS environments</a> looks like just a time-suck for developers, not a big problem.  But simplicity matters on a Big Security Day.</p>
+
+<p><strong>More info</strong></p>
+
+<p>For general questions on OSv, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get general updates by subscribing to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Adding a NewRelic Agent to Your OSv Appliance]]></title>
@@ -1195,66 +1281,6 @@ The first stage would be to gain control of the application within the container
 <p>If you&rsquo;re not at USENIX this year, you can still get a copy of the paper.</p>
 
 <p>Thanks to the USENIX open access policy, the paper is scheduled to go Open Access on the day of the event. To get an alert from us when it&rsquo;s up, please follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems on Twitter</a>.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Using Capstan With Local OSv Images]]></title>
-    <link href="http://osv.io/blog/blog/2014/06/06/capstan-push/"/>
-    <updated>2014-06-06T08:54:23-07:00</updated>
-    <id>http://osv.io/blog/blog/2014/06/06/capstan-push</id>
-    <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
-
-<p>If you&rsquo;re building OSv from source, you can use the <code>capstan push</code> command to temporarily use a local build in place of a base image from a network repository.  This is handy when you&rsquo;re trying your application with a patched version of OSv.   Just run <code>capstan push</code> after the OSv build to push your newly built image into your local Capstan repository.</p>
-
-<p>For example, if your Capstanfile uses the <code>cloudius/osv-base</code> base image:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>make 
-</span><span class='line'>capstan push cloudius/osv-base  build/release/usr.img</span></code></pre></td></tr></table></div></figure>
-
-
-<p>When you&rsquo;re ready to go back to using the image from the network, you can run</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>capstan pull cloudius/osv-base</span></code></pre></td></tr></table></div></figure>
-
-
-<p>to replace the image in your local repository with the image from the network repository.</p>
-
-<p>For more tips and updates, please follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems on Twitter</a>.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[OSv Paper Coming to USENIX in June]]></title>
-    <link href="http://osv.io/blog/blog/2014/05/19/usenix-atc/"/>
-    <updated>2014-05-19T08:54:23-07:00</updated>
-    <id>http://osv.io/blog/blog/2014/05/19/usenix-atc</id>
-    <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
-
-<p>We&rsquo;re going to the USENIX Annual Technical Conference
-in Philadelphia!</p>
-
-<p><a href="https://www.usenix.org/conference/fcw14"><img src="https://www.usenix.org/sites/default/files/fcw14_banner_450x93.png" border="0" alt="2014 Federated Conferences Week"></a></p>
-
-<p><a href="https://www.usenix.org/conference/atc14/technical-sessions/presentation/kivity">Our paper, &ldquo;OSv—Optimizing the Operating System for Virtual Machines&rdquo; </a> has been accepted by one of our favorite IT events.  We appreciate all the excellent comments and questions from our peer reviewers.</p>
-
-<p>This year, ATC will be part of a Federated Conferences Week that includes HotCloud, HotStorage, two days of sysadmin training, and more, so there should be something for everyone.</p>
-
-<p>The paper will be available under Open Access terms starting on the date of the event, but we all hope you can come see us live and in person.</p>
-
-<p>Here&rsquo;s the abstract:</p>
-
-<blockquote>
-<p>Virtual machines in the cloud typically run existing general-purpose operating systems such as Linux. We notice that the cloud’s hypervisor already provides some features, such as isolation and hardware abstraction, which are duplicated by traditional operating systems, and that this duplication comes at a cost.</p>
-
-<p>We present the design and implementation of OSv, a new guest operating system designed specifically for running a single application on a virtual machine in the cloud. It addresses the duplication issues by using a low-overhead library-OS-like design. It runs existing applications written for Linux, as well as new applications written for OSv . We demonstrate that OSv is able to efficiently run a variety of existing applications. We demonstrate its sub-second boot time, small OS image and how it makes more memory available to the application. For unmodified network-intensive applications, we demonstrate up to 25% increase in throughput and 47% decrease in latency. By using non-POSIX network APIs, we can further improve performance and demonstrate a 290% increase in Memcached throughput.</p>
-</blockquote>
-
-
-<p>For more event updates, please follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems on Twitter</a>.</p>
 ]]></content>
   </entry>
   

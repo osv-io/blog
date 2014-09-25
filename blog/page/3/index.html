@@ -9,7 +9,7 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="Q&amp;A with Paul Mundt, Jani Kokkonen, and Claudio Fontana Paul Mundt is CTO of OS &amp; Virtualization at Huawei, while Jani and Claudio are both &hellip;">
+  <meta name="description" content="By Don Marti If you&rsquo;re building OSv from source, you can use the capstan push command to temporarily use a local build in place of a base image &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -114,6 +114,120 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/blog/2014/06/06/capstan-push/">Using Capstan With Local OSv Images</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-06-06T08:54:23-07:00" pubdate data-updated="true">Jun 6<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>By Don Marti</strong></p>
+
+<p>If you&rsquo;re building OSv from source, you can use the <code>capstan push</code> command to temporarily use a local build in place of a base image from a network repository.  This is handy when you&rsquo;re trying your application with a patched version of OSv.   Just run <code>capstan push</code> after the OSv build to push your newly built image into your local Capstan repository.</p>
+
+<p>For example, if your Capstanfile uses the <code>cloudius/osv-base</code> base image:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>make 
+</span><span class='line'>capstan push cloudius/osv-base  build/release/usr.img</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When you&rsquo;re ready to go back to using the image from the network, you can run</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>capstan pull cloudius/osv-base</span></code></pre></td></tr></table></div></figure>
+
+
+<p>to replace the image in your local repository with the image from the network repository.</p>
+
+<p>For more tips and updates, please follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems on Twitter</a>.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/blog/2014/05/19/usenix-atc/">OSv Paper Coming to USENIX in June</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-19T08:54:23-07:00" pubdate data-updated="true">May 19<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>By Don Marti</strong></p>
+
+<p>We&rsquo;re going to the USENIX Annual Technical Conference
+in Philadelphia!</p>
+
+<p><a href="https://www.usenix.org/conference/fcw14"><img src="https://www.usenix.org/sites/default/files/fcw14_banner_450x93.png" border="0" alt="2014 Federated Conferences Week"></a></p>
+
+<p><a href="https://www.usenix.org/conference/atc14/technical-sessions/presentation/kivity">Our paper, &ldquo;OSv—Optimizing the Operating System for Virtual Machines&rdquo; </a> has been accepted by one of our favorite IT events.  We appreciate all the excellent comments and questions from our peer reviewers.</p>
+
+<p>This year, ATC will be part of a Federated Conferences Week that includes HotCloud, HotStorage, two days of sysadmin training, and more, so there should be something for everyone.</p>
+
+<p>The paper will be available under Open Access terms starting on the date of the event, but we all hope you can come see us live and in person.</p>
+
+<p>Here&rsquo;s the abstract:</p>
+
+<blockquote>
+<p>Virtual machines in the cloud typically run existing general-purpose operating systems such as Linux. We notice that the cloud’s hypervisor already provides some features, such as isolation and hardware abstraction, which are duplicated by traditional operating systems, and that this duplication comes at a cost.</p>
+
+<p>We present the design and implementation of OSv, a new guest operating system designed specifically for running a single application on a virtual machine in the cloud. It addresses the duplication issues by using a low-overhead library-OS-like design. It runs existing applications written for Linux, as well as new applications written for OSv . We demonstrate that OSv is able to efficiently run a variety of existing applications. We demonstrate its sub-second boot time, small OS image and how it makes more memory available to the application. For unmodified network-intensive applications, we demonstrate up to 25% increase in throughput and 47% decrease in latency. By using non-POSIX network APIs, we can further improve performance and demonstrate a 290% increase in Memcached throughput.</p>
+</blockquote>
+
+
+<p>For more event updates, please follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems on Twitter</a>.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -546,6 +660,14 @@ is executing for you.)</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/blog/2014/09/25/shellshock/">Shellshock</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/blog/2014/09/25/security-is-a-journey-not-a-destination/">Waking Up Late, After Bash Fixing Night</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/blog/2014/09/24/java-newrelic-agent/">Adding a NewRelic Agent to Your OSv Appliance</a>
       </li>
     
@@ -555,14 +677,6 @@ is executing for you.)</p>
     
       <li class="post">
         <a href="/blog/blog/2014/09/18/cassandra-dashboard-tab/">New Dashboard Tab for Insight on Cassandra Virtual Appliances</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/blog/2014/09/13/how-fast-can-you-run-4-vm/">Speed Run: Running 4 Virtual Appliances on Your Laptop in 5 Seconds Overall</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/blog/2014/09/10/cassandra-summit/">What&#8217;s the Big Deal About OSv at Cassandra Summit 2014?</a>
       </li>
     
   </ul>

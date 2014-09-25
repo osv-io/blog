@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: Cassandra - OSv Blog</title>
+  <title>Waking Up Late, After Bash Fixing Night - OSv Blog</title>
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="Category: cassandra">
+  <meta name="description" content="By Don Marti Yesterday we found out about a remotely exploitable hole in bash from our favorite Linux news sites. For some of us, our schedules on &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://osv.io/blogblog/categories/cassandra">
+  <link rel="canonical" href="http://osv.io/blog/blog/2014/09/25/security-is-a-journey-not-a-destination">
   <link href="/blog/favicon.ico" rel="icon">
   <link href="/blog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
@@ -107,56 +107,136 @@
         </script>
     </div>
 </div>
-<div class="mobile mobilePageTitle">Category: cassandra</div>
+<div class="mobile mobilePageTitle">Waking up late, after bash Fixing Night</div>
 
 
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Cassandra</h1>
+    
+      <h1 class="entry-title">Waking Up Late, After Bash Fixing Night</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-25T13:54:23-07:00" pubdate data-updated="true">Sep 25<span>th</span>, 2014</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p><strong>By Don Marti</strong></p>
 
-  
-  <h2>2014</h2>
+<p>Yesterday we found out about <a href="https://lwn.net/Articles/613032/">a remotely exploitable hole in bash</a> from our favorite Linux news sites.  For some of us, our schedules on the night of September 24th were disrupted, and not in a good way.</p>
 
-<article>
-  
-<h1><a href="/blog/blog/2014/09/18/cassandra-dashboard-tab/">New Dashboard Tab for Insight on Cassandra Virtual Appliances</a></h1>
-<time datetime="2014-09-18T06:00:00-07:00" pubdate><span class='month'>Sep</span> <span class='day'>18</span> <span class='year'>2014</span></time>
+<p>It&rsquo;s true that my own Internet-facing code, while not perfect, isn&rsquo;t vulnerable.  But for one older web-based application I have to deal with, it&rsquo;s faster to install a new version of Bash than to trace through the code to make sure it isn&rsquo;t doing something bad, somewhere.</p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/blog/categories/cassandra/'>cassandra</a>, <a class='category' href='/blog/blog/categories/dashboard/'>dashboard</a></span>
-</footer>
+<p>Clearly this particular bug isn&rsquo;t a problem on OSv, because OSv doesn&rsquo;t run Bash.  The whole point of Bash is to <code>fork()</code> and <code>exec()</code> other processes, and OSv doesn&rsquo;t do all that.  Everything runs in one process, with no shell available or needed.</p>
 
+<p>As <a href="http://osv.io/blog/blog/2014/09/25/shellshock/">Tzach Livyatan points out</a>, managing OSv doesn&rsquo;t require a shell either.  There&rsquo;s one REST API for everything, from VM basics such as CPU and memory usage, up to <a href="http://osv.io/blog/blog/2014/08/26/jolokia-jmx-connectivity-in-osv/">JMX data from the application</a>.</p>
 
-</article>
+<p>But it looks like Tzach is missing the main point.</p>
+
+<!-- more -->
 
 
+<p>The problem isn&rsquo;t so much that someone discovered a bug in Bash.  The problem is <em>what happened to the evening of September 24, 2014</em>?  A software bug should be something that you fix, test, check in the fix, and go home, not a full <a href="http://www.tor.com/stories/2009/12/overtime">night on duty</a>.</p>
 
-<article>
-  
-<h1><a href="/blog/blog/2014/09/13/how-fast-can-you-run-4-vm/">Speed Run: Running 4 Virtual Appliances on Your Laptop in 5 Seconds Overall</a></h1>
-<time datetime="2014-09-13T23:30:00-07:00" pubdate><span class='month'>Sep</span> <span class='day'>13</span> <span class='year'>2014</span></time>
+<p>I&rsquo;m starting to think that what&rsquo;s more important than any design advantages of OSv is the flow that it enables.   The size and, more important, simplicity of an OSv VM means that regenerating one is a matter of, let me time it&hellip; 9 seconds.  An OSv VM is a build artifact that I can crank out of my regular build system.</p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/blog/categories/capstan/'>capstan</a>, <a class='category' href='/blog/blog/categories/cassandra/'>cassandra</a>, <a class='category' href='/blog/blog/categories/mysql/'>mysql</a>, <a class='category' href='/blog/blog/categories/redis/'>redis</a>, <a class='category' href='/blog/blog/categories/tomcat/'>tomcat</a>, <a class='category' href='/blog/blog/categories/tools/'>tools</a></span>
-</footer>
+<p>It would be full of security hubris to say that OSv will never have to issue a security fix.  Yes, there are many fewer lines of code, and yes, the C++ experts on the development team will point to shorter, clearer programming contstructs in which fewer old-school bugs can hide.  But every software project has to issue a fix sometimes.</p>
 
+<p>The question is how long it takes to get current and put the bug behind you.</p>
 
-</article>
+<p><strong>Repeatable flow, from commit to deploy</strong></p>
 
+<p>At <a href="https://oracleus.activeevents.com/2014/connect/sessionDetail.ww?SESSION_ID=4120">JavaOne next week</a>, Glauber Costa and I will be speaking about <q>OSv: The Operating System Designed for Java and the Cloud</q>.  Glauber summed it up: <q>OSv is a library OS. Therefore, you can think of using it as being a way to boot a JVM directly into the cloud. Forget OS management: it’s your application and the end of the story.</q></p>
+
+<p>The <a href="https://www.gartner.com/doc/2831925/make-sdlc-agile-using-cloud">complexity of maintaining conventional OS environments</a> looks like just a time-suck for developers, not a big problem.  But simplicity matters on a Big Security Day.</p>
+
+<p><strong>More info</strong></p>
+
+<p>For general questions on OSv, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get general updates by subscribing to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Cloudius Systems</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-25T13:54:23-07:00" pubdate data-updated="true">Sep 25<span>th</span>, 2014</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+    <div class="addthis_toolbox addthis_default_style ">
+        
+        <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+        
+        
+        <a class="addthis_button_tweet"></a>
+        
+        
+        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+        
+        
+        <a class="addthis_counter addthis_pill_style"></a>
+        
+    </div>
+    
+    <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-5343e81a2e0c9bfa"></script>
+    
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/blog/2014/09/24/java-newrelic-agent/" title="Previous Post: Adding a NewRelic agent to your OSv appliance">&laquo; Adding a NewRelic agent to your OSv appliance</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/blog/2014/09/25/shellshock/" title="Next Post: Shellshock">Shellshock &raquo;</a>
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -228,7 +308,10 @@
       var disqus_shortname = 'osvblog';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://osv.io/blog/blog/2014/09/25/security-is-a-journey-not-a-destination/';
+        var disqus_url = 'http://osv.io/blog/blog/2014/09/25/security-is-a-journey-not-a-destination/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
