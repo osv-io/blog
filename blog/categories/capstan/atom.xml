@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Capstan | OSv Blog]]></title>
   <link href="http://osv.io/blog/blog/categories/capstan/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2014-09-22T15:44:07-07:00</updated>
+  <updated>2014-09-24T17:31:09-07:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -12,6 +12,108 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Adding a NewRelic Agent to Your OSv Appliance]]></title>
+    <link href="http://osv.io/blog/blog/2014/09/24/java-newrelic-agent/"/>
+    <updated>2014-09-24T16:22:22-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/09/24/java-newrelic-agent</id>
+    <content type="html"><![CDATA[<p><strong>By Tzach Livyatan</strong></p>
+
+<p><a href="http://newrelic.com/">New Relic</a> is a popular real-time monitoring
+service for Web and mobile applications.</p>
+
+<p>In the following post I will describe how to add a New Relic
+monitoring agent to your OSv virtual appliance, using <a href="http://tomcat.apache.org/">Tomcat</a> as an
+example.</p>
+
+<!-- more -->
+
+
+<p>As first step, go to the <a href="http://newrelic.com/">New Relic web site</a> and log in  or open an account.  Following the instructions on the site, you should be prompted to download two files:</p>
+
+<ul>
+<li>newrelic.yml</li>
+<li>newrelic.jar</li>
+</ul>
+
+
+<p>newrelic.yml should already have the your license key in it.
+If you downloaded the file
+<a href="http://download.newrelic.com/newrelic/java-agent/newrelic-agent/3.10.0/newrelic.yml">directly</a>,
+you should make sure to edit the license line.
+Make sure to update your application name in the same file. This name
+will be used in the New Relic GUI.</p>
+
+<p>There are two ways to build an OSv appliance:</p>
+
+<ol>
+<li>Using an OSv build from source</li>
+<li>Using <a href="https://github.com/cloudius-systems/capstan">Capstan</a></li>
+</ol>
+
+
+<p>The first requires cloning OSv source code with Git, as described
+<a href="https://github.com/cloudius-systems/osv-apps/tree/master/java-newrelic">here</a>.
+The second assumes you are familiar with <a href="https://github.com/cloudius-systems/capstan">Capstan</a> and is described below.</p>
+
+<h3>Using Capstan to add a NewRelic Agent</h3>
+
+<ul>
+<li>Create a new project directory</li>
+</ul>
+
+
+<p><code>
+mkdir my-tomcat-with-newrelic
+cd my-tomcat-with-newrelic
+</code>
+* Copy newrelic.jar and newrelic.yml to this location
+* Create a new <a href="https://github.com/cloudius-systems/capstan/blob/master/Documentation/Capstanfile.md">Capstanfile</a> with the following contents:</p>
+
+<p>```
+base: cloudius/osv-tomcat</p>
+
+<p>cmdline: >
+  /java.so
+  -javaagent:/tools/newrelic.jar
+  -cp /usr/tomcat/bin/bootstrap.jar:/usr/tomcat/bin/tomcat-juli.jar
+  -Djava.util.logging.config.file=/usr/tomcat/conf/logging.properties
+  -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+  -Dcatalina.base=/usr/tomcat
+  -Dcatalina.home=/usr/tomcat
+  -Djava.io.tmpdir=/usr/tomcat/temp
+  org.apache.catalina.startup.Bootstrap
+  start</p>
+
+<p>files:
+  /tools/newrelic.jar: newrelic.jar
+  /tools/newrelic.yml: newrelic.yml
+```</p>
+
+<p>The base OSv image is <code>tomcat</code>, the cmdline include both Tomcat and
+  New Relic options, and the files are the two New Relic files: the JAR and the configuration file.</p>
+
+<ul>
+<li>build the image</li>
+</ul>
+
+
+<p><code>
+capstan build
+</code>
+You are done! you now have a ready VM with Tomcat and a New Relic agent.
+To run the image locally:</p>
+
+<p><code>
+capstan run -n bridge
+</code>
+* Go to the New Relic web app, monitor your application, and give yourself a
+  pat on the shoulder :)</p>
+
+<p>You can keep up with the latest OSv news from this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or by following <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.  Questions always welcome on the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev</a> mailing list.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Speed Run: Running 4 Virtual Appliances on Your Laptop in 5 Seconds Overall]]></title>
@@ -179,116 +281,6 @@ is executing for you.)</p>
 <p>Don&rsquo;t feel left out if you have a different hypervisor.  Capstan also handles bridged networking on VirtualBox, with the rest of the supported hypervisors coming soon.   The fact that the syntax is the same is going to be a big time-saver for those of us who have to do testing and demos on multiple systems&mdash;no more dealing with arcane commands that are different from system to system.</p>
 
 <p>For more on Capstan and networking, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list on Google Groups</a>.  You can get updates by subscribing to this blog&rsquo;s feed, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Riemann - a Clojure Application on OSv]]></title>
-    <link href="http://osv.io/blog/blog/2014/04/22/riemann-on-osv/"/>
-    <updated>2014-04-22T09:00:00-07:00</updated>
-    <id>http://osv.io/blog/blog/2014/04/22/riemann-on-osv</id>
-    <content type="html"><![CDATA[<p><strong>By Tzach Livyatan</strong></p>
-
-<p>Clojure applications run on the JVM, so they&rsquo;re usually simple to run on OSv.  We have <a href="https://github.com/tzach/capstan-example-clojure">hello world in Clojure</a> running, but this time I wanted to port a real, non-toy, Clojure application. I chose <a href="http://riemann.io">Riemann</a>, a widely-used application for aggregating system events (and more).</p>
-
-<p>I used <a href="http://osv.io/capstan/">Capstan</a>, a tool for building and running applications on OSv.  Jump to the end <a href="https://github.com/tzach/riemann">result</a>, or follow the steps I took:</p>
-
-<!-- more -->
-
-
-<p>Following the Capstan guideline, I added a <a href="https://github.com/tzach/riemann/blob/master/Capstanfile">Capstanfile</a> to the project.  Here are the parts of Capstanfile you need to know about:</p>
-
-<ul>
-<li><p>Set the base image. In this case I chose a base image with Java (open-jdk)
-<code>
-base: cloudius/osv-openjdk
-</code></p></li>
-<li><p>Build the jar file, taking advantage of the <code>lein uberjar</code> command, which packages the application with all dependencies into one jar file.</p></li>
-</ul>
-
-
-<p>```</p>
-
-<pre><code>build: lein uberjar
-</code></pre>
-
-<p><code>
-  * Copy the build artifacts to the base image, producing a new image:
-</code>
-files:
-  /riemann.jar: ./target/riemann-0.2.5-SNAPSHOT-standalone.jar
-  /riemann.config: ./riemann.config
-```</p>
-
-<p>I also copy the config file, which Riemann will look for.</p>
-
-<ul>
-<li>The run command for the VM is executed when the VM starts.
-<code>
-cmdline: /java.so -jar /riemann.jar
-</code></li>
-</ul>
-
-
-<p>That&rsquo;s it. Done with the Capstanfile.</p>
-
-<p><strong>Let&rsquo;s test it!</strong>
-```</p>
-
-<blockquote><p>capstan run
-WARN [2014-04-13 14:11:22,029] Thread-9 &ndash; riemann.core &ndash; instrumentation service caught
-java.io.IOException: Cannot run program &ldquo;hostname&rdquo;: error=0, vfork failed</p>
-
-<pre><code>at java.lang.ProcessBuilder.start(ProcessBuilder.java:1041)
-at java.lang.Runtime.exec(Runtime.java:617)
-at clojure.java.shell$sh.doInvoke(shell.clj:116)
-at clojure.lang.RestFn.invoke(RestFn.java:408)
-</code></pre>
-
-<p><code>
-No luck.  It turns out that Riemann is using
-</code>
-(sh &ldquo;hostname&rdquo;)
-```</p></blockquote>
-
-<p>which uses vfork to run a child process. On any OS its not very efficient to fork just to get the hostname, and on current OSv it simply won&rsquo;t work. To bypass the problem, I replace this call with:</p>
-
-<p><code>
-(.getHostName (java.net.InetAddress/getLocalHost))
-</code>
-which uses a Java <code>getHostName</code>.</p>
-
-<p><strong>Let&rsquo;s try again</strong>
-```sh</p>
-
-<blockquote><p>capstan run
-```
-This time it works, but how do I test it and connect to it?</p></blockquote>
-
-<p><strong>Let&rsquo;s use Capstan port forwarding</strong>
-<code>sh
-capstan run -f 5555:5555 -f 5556:5556
-</code>
-This will  forward host ports 5555 and 5556 to the corresponding ports on the OSv VM.</p>
-
-<p><strong>Success :)</strong></p>
-
-<p>Now we can switch to another terminal and run:
-<code>sh
-riemann-health
-</code>
-to generate traffic for Riemann
-and
-<code>sh
-riemann-dash
-</code>
-to launch a Riemann web GUI.  Here is how it looks:</p>
-
-<p><img src="/images/riemann_on_osv.png" alt="&quot;Riemann GUI" /> <i>riemann-dash</i></p>
-
-<p>Now we&rsquo;re ready to do further stress testing.  If you do find any problem, or have any question, you&rsquo;re invited to join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev list</a> and ask, or post an issue to the <a href="https://github.com/tzach/riemann">GitHub repository</a>.</p>
-
-<p>&mdash; <a href="https://twitter.com/TzachL">Tzach Livyatan</a></p>
 ]]></content>
   </entry>
   

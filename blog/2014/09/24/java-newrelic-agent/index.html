@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Spinlock-free OS Design for Virtualization - OSv Blog</title>
+  <title>Adding a NewRelic Agent to Your OSv Appliance - OSv Blog</title>
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="Designing an OS to run specifically as a cloud guest doesn’t just mean stripping out features. There are some other important problems with running &hellip;">
+  <meta name="description" content="By Tzach Livyatan New Relic is a popular real-time monitoring
+service for Web and mobile applications. In the following post I will describe how to &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://osv.io/blog/blog/2014/04/19/spinlock-free">
+  <link rel="canonical" href="http://osv.io/blog/blog/2014/09/24/java-newrelic-agent">
   <link href="/blog/favicon.ico" rel="icon">
   <link href="/blog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
@@ -107,7 +108,7 @@
         </script>
     </div>
 </div>
-<div class="mobile mobilePageTitle">Spinlock-free OS design for virtualization</div>
+<div class="mobile mobilePageTitle">Adding a NewRelic agent to your OSv appliance</div>
 
 
   <div id="main">
@@ -117,7 +118,7 @@
   
   <header>
     
-      <h1 class="entry-title">Spinlock-free OS Design for Virtualization</h1>
+      <h1 class="entry-title">Adding a NewRelic Agent to Your OSv Appliance</h1>
     
     
       <p class="meta">
@@ -133,36 +134,133 @@
   
 
 
-<time datetime="2014-04-19T09:00:00-07:00" pubdate data-updated="true">Apr 19<span>th</span>, 2014</time>
+<time datetime="2014-09-24T16:22:22-07:00" pubdate data-updated="true">Sep 24<span>th</span>, 2014</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>Designing an OS to run specifically as a cloud guest doesn’t just mean stripping out features. There are some other important problems with running virtualized that a conventional guest OS doesn’t address.  In this post we&rsquo;ll cover one of them.</p>
+<div class="entry-content"><p><strong>By Tzach Livyatan</strong></p>
 
-<h2>Little spinlocks, big problem</h2>
+<p><a href="http://newrelic.com/">New Relic</a> is a popular real-time monitoring
+service for Web and mobile applications.</p>
 
-<p>In any situation where code running on multiple CPUs might read or write the  same data, typical SMP operating systems use spinlocks. One CPU acquires the lock using an atomic test-and-set operation, and other CPUs that need the data must execute a busy-loop until they can acquire the lock themselves. Can I have the data? No. Can I have the data? No. Can I have the data? No. When an OS runs on bare hardware, a spinlock might just waste a little electricity. OS developers often use other more sophisticated locking techniques where they can, and try to reserve spinlocks for short-term locking of critical items.</p>
+<p>In the following post I will describe how to add a New Relic
+monitoring agent to your OSv virtual appliance, using <a href="http://tomcat.apache.org/">Tomcat</a> as an
+example.</p>
 
-<p><img src="/blog/images/apachecon.jpg" alt="OSv hacking at Apachecon 2014" /> <i>Getting some high-performance web applications running on OSv at ApacheCON 2014</i></p>
+<!-- more -->
 
-<p>The problem comes in when you add virtualization. A physical CPU that holds a spinlock is actually working. The other CPUs in the system, “spinning” away waiting for the lock, are at least waiting for something that’s actually in progress. On a well-designed OS, the lock holder will be done quickly. When the OS is running under virtualization, though, it’s another story. The hypervisor might pause a virtual CPU at times when the guest OS can’t predict. As <a href="http://www.betriebssysteme.org/Aktivitaeten/Treffen/2008-Garching/Programm/docs/Abstract_Friebel.pdf">Thomas Friebel and Sebastian Biemueller described</a> (PDF) in “How to Deal with Lock Holder Preemption”,</p>
 
-<blockquote><p>Lock holder preemption describes the situation when a VCPU is preempted inside the guest kernel while holding a spinlock. As this lock stays acquired during the preemption any other VCPUs of the same guest trying to acquire this lock will have to wait until the VCPU is executed again and releases the lock. Lock holder preemption is possible if two or more VCPUs run on a single CPU concurrently. And the more VCPUs of a guest are running in parallel the more VCPUs have to wait if trying to acquire a preempted lock. And as spinlocks imply active waiting the CPU time of waiting VCPUs is simply wasted.</p></blockquote>
+<p>As first step, go to the <a href="http://newrelic.com/">New Relic web site</a> and log in  or open an account.  Following the instructions on the site, you should be prompted to download two files:</p>
 
-<p>If the hypervisor pauses a virtual CPU while that VCPU holds a spinlock, you get into the bad situation where other virtual CPUs on your guest are just spinning, and it’s possible that no useful work is getting done in that guest&mdash;just electricity wasting. Friebel and Biemueller describe a solution to the problem involving a hypercall to complain about the wait. But the OSv solution to the problem is to remove spinlocks from the guest OS entirely.</p>
+<ul>
+<li>newrelic.yml</li>
+<li>newrelic.jar</li>
+</ul>
 
-<h2>Why going spinlock-free matters</h2>
 
-<p>As a first step, OSv does almost all of its kernel-level work in threads. Threads, which are allowed to sleep, can use lock-based algorithms. They use mutexes, not spinlocks, to protect shared data. The <a href="https://github.com/cloudius-systems/osv/blob/master/include/lockfree/mutex.hh">mutex implementation itself</a>, however, has to use a lock-free algorithm. OSv’s <a href="https://github.com/cloudius-systems/osv/blob/master/include/lockfree/mutex.hh">mutex implementation</a> is based on a lock-free design by Gidenstam &amp; Papatriantafilou, covered in <a href="http://domino.mpi-inf.mpg.de/internet/reports.nsf/c125634c000710d0c12560400034f45a/77c097efde9fa63fc125736800444203/$FILE/MPI-I-2007-1-003.pdf">LFTHREADS: A lock-free thread library.</a> (PDF).</p>
+<p>newrelic.yml should already have the your license key in it.
+If you downloaded the file
+<a href="http://download.newrelic.com/newrelic/java-agent/newrelic-agent/3.10.0/newrelic.yml">directly</a>,
+you should make sure to edit the license line.
+Make sure to update your application name in the same file. This name
+will be used in the New Relic GUI.</p>
 
-<p>One other place that can’t run as a thread, because it has to handle the low-level switching among threads, is the scheduler. The scheduler uses per-cpu run queues, so that almost all scheduling operations do not require coordination among CPUs, and lock-free algorithms when a thread must be moved from one CPU to another.</p>
+<p>There are two ways to build an OSv appliance:</p>
 
-<p>Lock-free design is just one example of the kind of thing that we mean when talking about how OSv is “designed for the cloud”.  Because we can’t assume that a CPU is always running or available to run, the low-level design of the OS needs to be cloud-aware to prevent performance degradation and resource waste.</p>
+<ol>
+<li>Using an OSv build from source</li>
+<li>Using <a href="https://github.com/cloudius-systems/capstan">Capstan</a></li>
+</ol>
 
-<p>We’ve been posting benchmarks that show sizeable performance increases running memcached and other programs. If you’re curious about whether OSv can make your application faster, please try it out from the <a href="http://osv.io/">OSv home page</a> or join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.</p>
+
+<p>The first requires cloning OSv source code with Git, as described
+<a href="https://github.com/cloudius-systems/osv-apps/tree/master/java-newrelic">here</a>.
+The second assumes you are familiar with <a href="https://github.com/cloudius-systems/capstan">Capstan</a> and is described below.</p>
+
+<h3>Using Capstan to add a NewRelic Agent</h3>
+
+<ul>
+<li>Create a new project directory</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>mkdir my-tomcat-with-newrelic
+</span><span class='line'>cd my-tomcat-with-newrelic</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Copy newrelic.jar and newrelic.yml to this location</li>
+<li>Create a new <a href="https://github.com/cloudius-systems/capstan/blob/master/Documentation/Capstanfile.md">Capstanfile</a> with the following contents:</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>base: cloudius/osv-tomcat
+</span><span class='line'>
+</span><span class='line'>cmdline: &gt;
+</span><span class='line'>  /java.so
+</span><span class='line'>  -javaagent:/tools/newrelic.jar
+</span><span class='line'>  -cp /usr/tomcat/bin/bootstrap.jar:/usr/tomcat/bin/tomcat-juli.jar
+</span><span class='line'>  -Djava.util.logging.config.file=/usr/tomcat/conf/logging.properties
+</span><span class='line'>  -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+</span><span class='line'>  -Dcatalina.base=/usr/tomcat
+</span><span class='line'>  -Dcatalina.home=/usr/tomcat
+</span><span class='line'>  -Djava.io.tmpdir=/usr/tomcat/temp
+</span><span class='line'>  org.apache.catalina.startup.Bootstrap
+</span><span class='line'>  start
+</span><span class='line'>
+</span><span class='line'>files:
+</span><span class='line'>  /tools/newrelic.jar: newrelic.jar
+</span><span class='line'>  /tools/newrelic.yml: newrelic.yml</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The base OSv image is <code>tomcat</code>, the cmdline include both Tomcat and
+  New Relic options, and the files are the two New Relic files: the JAR and the configuration file.</p>
+
+<ul>
+<li>build the image</li>
+</ul>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>capstan build</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You are done! you now have a ready VM with Tomcat and a New Relic agent.
+To run the image locally:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>capstan run -n bridge</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>Go to the New Relic web app, monitor your application, and give yourself a
+pat on the shoulder :)</li>
+</ul>
+
+
+<p>You can keep up with the latest OSv news from this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or by following <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.  Questions always welcome on the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev</a> mailing list.</p>
 </div>
 
 
@@ -185,8 +283,14 @@
   
 
 
-<time datetime="2014-04-19T09:00:00-07:00" pubdate data-updated="true">Apr 19<span>th</span>, 2014</time>
+<time datetime="2014-09-24T16:22:22-07:00" pubdate data-updated="true">Sep 24<span>th</span>, 2014</time>
       
+
+<span class="categories">
+  
+    <a class='category' href='/blog/blog/categories/capstan/'>capstan</a>, <a class='category' href='/blog/blog/categories/newrelic/'>newrelic</a>, <a class='category' href='/blog/blog/categories/tomcat/'>tomcat</a>
+  
+</span>
 
 
     </p>
@@ -214,10 +318,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/blog/2014/04/03/capstan/" title="Previous Post: A simple Capstan example">&laquo; A simple Capstan example</a>
+        <a class="basic-alignment left" href="/blog/blog/2014/09/22/meetup/" title="Previous Post: OSv Meetup group: Convert your application to a run-anywhere VM">&laquo; OSv Meetup group: Convert your application to a run-anywhere VM</a>
       
-      
-        <a class="basic-alignment right" href="/blog/blog/2014/04/22/riemann-on-osv/" title="Next Post: Riemann - a Clojure application on OSv">Riemann - a Clojure application on OSv &raquo;</a>
       
     </p>
   </footer>
@@ -300,8 +402,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://osv.io/blog/blog/2014/04/19/spinlock-free/';
-        var disqus_url = 'http://osv.io/blog/blog/2014/04/19/spinlock-free/';
+        var disqus_identifier = 'http://osv.io/blog/blog/2014/09/24/java-newrelic-agent/';
+        var disqus_url = 'http://osv.io/blog/blog/2014/09/24/java-newrelic-agent/';
         var disqus_script = 'embed.js';
       
     (function () {
