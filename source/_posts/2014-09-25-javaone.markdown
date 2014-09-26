@@ -3,16 +3,21 @@ layout: post
 title: "OSv at JavaOne"
 date: 2014-09-25 16:10:31 -0800
 comments: true
-published: false
+published: true
 categories: events
 ---
 
 ![speaking at JavaOne](/images/speaking-at-javaone.jpg)
 
-Glauber Costa is 
+Glauber Costa and Don Marti are speaking at the JavaOne conference in San Francisco: 
 
+[OSv: The Operating System Designed for Java and the Cloud](https://oracleus.activeevents.com/2014/connect/sessionDetail.ww?SESSION_ID=4120)
 
+Here's what you're in for:
 
+> A lot of the cloud discussion centers around which hypervisors are the best and which management tools will simplify our life the most. But is it the whole story? When problems are addressed from the lower and higher layers, the middleman—the guest operating system—is usually left behind. This changes with OSv, an operating system designed from the ground up to run Java applications in the cloud. OSv is a library OS. Therefore, you can think of using it as being a way to boot a JVM directly into the cloud. Forget OS management: it’s your application and the end of the story. Besides explaining the architecture, this presentation demonstrates how designing an OS with Java in mind can benefit the Java ecosystem.
+
+We'll demonstrate a nine-second build of a VM from a Java project.  Hope to see you there.
 
 You can keep up with the latest OSv news from this blog's [feed](http://osv.io/blog/atom.xml), or folllowing [@CloudiusSystems](https://twitter.com/CloudiusSystems) on Twitter.
 
