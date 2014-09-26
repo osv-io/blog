@@ -1,0 +1,79 @@
+---
+layout: post
+title: Merge the OS into your app, not the other way around!
+date: 2014-09-26 10:54:23 -0800
+comments: true
+published: true
+---
+
+**By Glauber Costa**
+
+Don Marti and I will soon be presenting OSv at [JavaOne](http:// http://osv.io/blog/blog/2014/09/25/javaone/). We are excited about
+the conference, and thought we could give you a small preview of what we will
+be talking about.
+
+As you already know, OSv is at the same time an operating system, and a
+library. It is as functional as an operating system, and as invisible as a
+library. This means that you shouldn't really install your app into OSv, but
+rather, merge them both naturally as a single entity.
+
+If you are using Java, there is a huge chance that one way or another, your
+project is built through Apache Ant, or similar tool.
+
+If you have Capstan, our image building tool, that merges nicely and
+beautifully with your Ant-based build process. Here is how:
+
+```
+<property name="hypervisor" value="qemu"/>
+<basename property="vm-name" file="${basedir}"/>
+<property name="capstanpath"
+   value="${user.home}/.capstan/repository/${vm-name}"/>
+
+<target name="vm" depends="jar">
+<echo file="Capstanfile" append="false">
+base:
+   cloudius/osv-openjdk
+cmdline:
+  /java.so -jar ${jarname}
+files:
+  /${jarname}: build/jar/${jarname}</echo>
+<exec executable="capstan">
+    <arg value="build"/>
+    <arg value="-p"/>
+    <arg value="${hypervisor}"/>
+</exec>
+<copy tofile="HelloWorld.${hypervisor}"
+   file="${capstanpath}/${vm-name}.${hypervisor}"/>
+<delete file="Capstanfile"/>
+</target>
+```
+
+The snippet above assumes that you already have a "jar" target in your build.
+
+As you can guess from the image name, this example is a simple HelloWorld.  The
+code, together with the complete build.xml file, can be downloaded
+[on GitHub](https://github.com/dmarti/OSvJavaOneDemo.git).
+
+Adding that step to your existing build environment, allows you to have a first-class VM in a format consumable by QEMU/KVM. Booting in your hypervisor
+of choice, becomes just a matter of editing the file for the correct format.
+
+And after that? Fire up Capstan and enjoy your VM!
+
+```
+[glauber@localhost JavaOne]$ capstan run JavaOne
+Created instance: JavaOne
+OSv v0.12
+eth0: 192.168.122.15
+Hello World
+```
+
+Alternatively, boot the HelloWorld.qcow2 image that was copied to the local
+directory, with any tool you want.
+
+
+**More info**
+
+Are you attending JavaOne? We will show you this and more, at [Parc 55 - Powell I/II, Tuesday the 30th (12:30 PM)]( https://oracleus.activeevents.com/2014/connect/sessionDetail.ww?SESSION_ID=4120)
+
+For general questions on OSv, please join the [osv-dev mailing list]( https://groups.google.com/forum/#!forum/osv-dev).  You can get general updates by subscribing to this blog's [feed](http://osv.io/blog/atom.xml), or folllowing [@CloudiusSystems](https://twitter.com/CloudiusSystems) on Twitter.
+
