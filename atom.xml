@@ -4,7 +4,7 @@
   <title><![CDATA[OSv Blog]]></title>
   <link href="http://osv.io/blog/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2014-09-26T06:12:42-07:00</updated>
+  <updated>2014-09-26T06:59:14-07:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -12,19 +12,6 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
-  <entry>
-    <title type="html"><![CDATA[OSv at JavaOne]]></title>
-    <link href="http://osv.io/blog/blog/2014/09/25/javaone/"/>
-    <updated>2014-09-25T17:10:31-07:00</updated>
-    <id>http://osv.io/blog/blog/2014/09/25/javaone</id>
-    <content type="html"><![CDATA[<p><img src="http://osv.io/blog/images/speaking-at-javaone.jpg" alt="speaking at JavaOne" /></p>
-
-<p>Glauber Costa is</p>
-
-<p>You can keep up with the latest OSv news from this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
-]]></content>
-  </entry>
   
   <entry>
     <title type="html"><![CDATA[Shellshock]]></title>
@@ -1272,6 +1259,28 @@ The first stage would be to gain control of the application within the container
 <p><strong>This is part 1 of a 3-part series.</strong>  <a href="http://osv.io/blog/blog/2014/06/19/containers-hypervisors-part-2/">Part 2 is now available</a>.  Please subscribe to our <a href="http://osv.io/blog/atom.xml">feed</a> or follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> to get a notification of future posts.</p>
 
 <p>Photo credit, IBM 360: <a href="http://commons.wikimedia.org/wiki/File:IBM360-67AtUmichWithMikeAlexander.jpg">Dave Mills for Wikimedia Commons</a></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Nadav Har’El Presenting OSv at USENIX June 19th]]></title>
+    <link href="http://osv.io/blog/blog/2014/06/18/usenix-atc/"/>
+    <updated>2014-06-18T08:54:23-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/06/18/usenix-atc</id>
+    <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
+
+<p>If you&rsquo;re attending the USENIX Annual Technical Conference, be sure not to miss
+<a href="https://www.usenix.org/conference/atc14/technical-sessions/presentation/kivity">&ldquo;OSv—Optimizing the Operating System for Virtual Machines&rdquo; </a>. Nadav Har&#8217;El will be presenting tomorrow at 10:40 AM.</p>
+
+<p>Here&rsquo;s a quick preview of some of the performance results that Nadav will show:</p>
+
+<p><img src="http://osv.io/blog/images/usenix-paper.png" alt="table from upcoming paper" /></p>
+
+<p>It&rsquo;s also your opportunity to ask Nadav some hard questions.</p>
+
+<p>If you&rsquo;re not at USENIX this year, you can still get a copy of the paper.</p>
+
+<p>Thanks to the USENIX open access policy, the paper is scheduled to go Open Access on the day of the event. To get an alert from us when it&rsquo;s up, please follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems on Twitter</a>.</p>
 ]]></content>
   </entry>
   
