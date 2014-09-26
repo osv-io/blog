@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: Cassandra - OSv Blog</title>
+  <title>Merge the OS Into Your App, Not the Other Way Around! - OSv Blog</title>
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="Category: cassandra">
+  <meta name="description" content="By Glauber Costa Don Marti and I will soon be presenting OSv at JavaOne. We are excited about
+the conference, and thought we could give you a small &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://osv.io/blogblog/categories/cassandra">
+  <link rel="canonical" href="http://osv.io/blog/blog/2014/09/26/ant">
   <link href="/blog/favicon.ico" rel="icon">
   <link href="/blog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
@@ -107,56 +108,196 @@
         </script>
     </div>
 </div>
-<div class="mobile mobilePageTitle">Category: cassandra</div>
+<div class="mobile mobilePageTitle">Merge the OS into your app, not the other way around!</div>
 
 
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Cassandra</h1>
+    
+      <h1 class="entry-title">Merge the OS Into Your App, Not the Other Way Around!</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-26T11:54:23-07:00" pubdate data-updated="true">Sep 26<span>th</span>, 2014</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p><strong>By Glauber Costa</strong></p>
 
-  
-  <h2>2014</h2>
+<p>Don Marti and I will soon be presenting OSv at <a href="http://%20http://osv.io/blog/blog/2014/09/25/javaone/">JavaOne</a>. We are excited about
+the conference, and thought we could give you a small preview of what we will
+be talking about.</p>
 
-<article>
-  
-<h1><a href="/blog/blog/2014/09/18/cassandra-dashboard-tab/">New Dashboard Tab for Insight on Cassandra Virtual Appliances</a></h1>
-<time datetime="2014-09-18T06:00:00-07:00" pubdate><span class='month'>Sep</span> <span class='day'>18</span> <span class='year'>2014</span></time>
+<p>As you already know, OSv is at the same time an operating system, and a
+library. It is as functional as an operating system, and as invisible as a
+library. This means that you shouldn&rsquo;t really install your app into OSv, but
+rather, merge them both naturally as a single entity.</p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/blog/categories/cassandra/'>cassandra</a>, <a class='category' href='/blog/blog/categories/dashboard/'>dashboard</a></span>
-</footer>
+<p>If you are using Java, there is a huge chance that one way or another, your
+project is built through Apache Ant, or similar tool.</p>
+
+<p>If you have Capstan, our image building tool, that merges nicely and
+beautifully with your Ant-based build process. Here is how:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;property name="hypervisor" value="qemu"/&gt;
+</span><span class='line'>&lt;basename property="vm-name" file="${basedir}"/&gt;
+</span><span class='line'>&lt;property name="capstanpath"
+</span><span class='line'>   value="${user.home}/.capstan/repository/${vm-name}"/&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;target name="vm" depends="jar"&gt;
+</span><span class='line'>&lt;echo file="Capstanfile" append="false"&gt;
+</span><span class='line'>base:
+</span><span class='line'>   cloudius/osv-openjdk
+</span><span class='line'>cmdline:
+</span><span class='line'>  /java.so -jar ${jarname}
+</span><span class='line'>files:
+</span><span class='line'>  /${jarname}: build/jar/${jarname}&lt;/echo&gt;
+</span><span class='line'>&lt;exec executable="capstan"&gt;
+</span><span class='line'>    &lt;arg value="build"/&gt;
+</span><span class='line'>    &lt;arg value="-p"/&gt;
+</span><span class='line'>    &lt;arg value="${hypervisor}"/&gt;
+</span><span class='line'>&lt;/exec&gt;
+</span><span class='line'>&lt;copy tofile="HelloWorld.${hypervisor}"
+</span><span class='line'>   file="${capstanpath}/${vm-name}.${hypervisor}"/&gt;
+</span><span class='line'>&lt;delete file="Capstanfile"/&gt;
+</span><span class='line'>&lt;/target&gt;</span></code></pre></td></tr></table></div></figure>
 
 
-</article>
+<p>The snippet above assumes that you already have a &ldquo;jar&rdquo; target in your build.</p>
+
+<p>As you can guess from the image name, this example is a simple HelloWorld.  The
+code, together with the complete build.xml file, can be downloaded
+<a href="https://github.com/dmarti/OSvJavaOneDemo.git">on GitHub</a>.</p>
+
+<p>Adding that step to your existing build environment, allows you to have a first-class VM in a format consumable by QEMU/KVM. Booting in your hypervisor
+of choice, becomes just a matter of editing the file for the correct format.</p>
+
+<p>And after that? Fire up Capstan and enjoy your VM!</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[glauber@localhost JavaOne]$ capstan run JavaOne
+</span><span class='line'>Created instance: JavaOne
+</span><span class='line'>OSv v0.12
+</span><span class='line'>eth0: 192.168.122.15
+</span><span class='line'>Hello World</span></code></pre></td></tr></table></div></figure>
 
 
+<p>Alternatively, boot the HelloWorld.qcow2 image that was copied to the local
+directory, with any tool you want.</p>
 
-<article>
-  
-<h1><a href="/blog/blog/2014/09/13/how-fast-can-you-run-4-vm/">Speed Run: Running 4 Virtual Appliances on Your Laptop in 5 Seconds Overall</a></h1>
-<time datetime="2014-09-13T23:30:00-07:00" pubdate><span class='month'>Sep</span> <span class='day'>13</span> <span class='year'>2014</span></time>
+<p><strong>More info</strong></p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/blog/categories/capstan/'>capstan</a>, <a class='category' href='/blog/blog/categories/cassandra/'>cassandra</a>, <a class='category' href='/blog/blog/categories/mysql/'>mysql</a>, <a class='category' href='/blog/blog/categories/redis/'>redis</a>, <a class='category' href='/blog/blog/categories/tomcat/'>tomcat</a>, <a class='category' href='/blog/blog/categories/tools/'>tools</a></span>
-</footer>
+<p>Are you attending JavaOne? We will show you this and more, at <a href="https://oracleus.activeevents.com/2014/connect/sessionDetail.ww?SESSION_ID=4120">Parc 55 &ndash; Powell I/II, Tuesday the 30th (12:30 PM)</a></p>
 
-
-</article>
-
+<p>For general questions on OSv, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get general updates by subscribing to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Cloudius Systems</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-26T11:54:23-07:00" pubdate data-updated="true">Sep 26<span>th</span>, 2014</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+    <div class="addthis_toolbox addthis_default_style ">
+        
+        <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+        
+        
+        <a class="addthis_button_tweet"></a>
+        
+        
+        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+        
+        
+        <a class="addthis_counter addthis_pill_style"></a>
+        
+    </div>
+    
+    <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-5343e81a2e0c9bfa"></script>
+    
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/blog/2014/09/25/javaone/" title="Previous Post: OSv at JavaOne">&laquo; OSv at JavaOne</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -228,7 +369,10 @@
       var disqus_shortname = 'osvblog';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://osv.io/blog/blog/2014/09/26/ant/';
+        var disqus_url = 'http://osv.io/blog/blog/2014/09/26/ant/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

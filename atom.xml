@@ -4,7 +4,7 @@
   <title><![CDATA[OSv Blog]]></title>
   <link href="http://osv.io/blog/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2014-09-26T07:57:15-07:00</updated>
+  <updated>2014-09-26T13:10:50-07:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -12,6 +12,108 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Merge the OS Into Your App, Not the Other Way Around!]]></title>
+    <link href="http://osv.io/blog/blog/2014/09/26/ant/"/>
+    <updated>2014-09-26T11:54:23-07:00</updated>
+    <id>http://osv.io/blog/blog/2014/09/26/ant</id>
+    <content type="html"><![CDATA[<p><strong>By Glauber Costa</strong></p>
+
+<p>Don Marti and I will soon be presenting OSv at <a href="http://%20http://osv.io/blog/blog/2014/09/25/javaone/">JavaOne</a>. We are excited about
+the conference, and thought we could give you a small preview of what we will
+be talking about.</p>
+
+<p>As you already know, OSv is at the same time an operating system, and a
+library. It is as functional as an operating system, and as invisible as a
+library. This means that you shouldn&rsquo;t really install your app into OSv, but
+rather, merge them both naturally as a single entity.</p>
+
+<p>If you are using Java, there is a huge chance that one way or another, your
+project is built through Apache Ant, or similar tool.</p>
+
+<p>If you have Capstan, our image building tool, that merges nicely and
+beautifully with your Ant-based build process. Here is how:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;property name="hypervisor" value="qemu"/&gt;
+</span><span class='line'>&lt;basename property="vm-name" file="${basedir}"/&gt;
+</span><span class='line'>&lt;property name="capstanpath"
+</span><span class='line'>   value="${user.home}/.capstan/repository/${vm-name}"/&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;target name="vm" depends="jar"&gt;
+</span><span class='line'>&lt;echo file="Capstanfile" append="false"&gt;
+</span><span class='line'>base:
+</span><span class='line'>   cloudius/osv-openjdk
+</span><span class='line'>cmdline:
+</span><span class='line'>  /java.so -jar ${jarname}
+</span><span class='line'>files:
+</span><span class='line'>  /${jarname}: build/jar/${jarname}&lt;/echo&gt;
+</span><span class='line'>&lt;exec executable="capstan"&gt;
+</span><span class='line'>    &lt;arg value="build"/&gt;
+</span><span class='line'>    &lt;arg value="-p"/&gt;
+</span><span class='line'>    &lt;arg value="${hypervisor}"/&gt;
+</span><span class='line'>&lt;/exec&gt;
+</span><span class='line'>&lt;copy tofile="HelloWorld.${hypervisor}"
+</span><span class='line'>   file="${capstanpath}/${vm-name}.${hypervisor}"/&gt;
+</span><span class='line'>&lt;delete file="Capstanfile"/&gt;
+</span><span class='line'>&lt;/target&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The snippet above assumes that you already have a &ldquo;jar&rdquo; target in your build.</p>
+
+<p>As you can guess from the image name, this example is a simple HelloWorld.  The
+code, together with the complete build.xml file, can be downloaded
+<a href="https://github.com/dmarti/OSvJavaOneDemo.git">on GitHub</a>.</p>
+
+<p>Adding that step to your existing build environment, allows you to have a first-class VM in a format consumable by QEMU/KVM. Booting in your hypervisor
+of choice, becomes just a matter of editing the file for the correct format.</p>
+
+<p>And after that? Fire up Capstan and enjoy your VM!</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[glauber@localhost JavaOne]$ capstan run JavaOne
+</span><span class='line'>Created instance: JavaOne
+</span><span class='line'>OSv v0.12
+</span><span class='line'>eth0: 192.168.122.15
+</span><span class='line'>Hello World</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Alternatively, boot the HelloWorld.qcow2 image that was copied to the local
+directory, with any tool you want.</p>
+
+<p><strong>More info</strong></p>
+
+<p>Are you attending JavaOne? We will show you this and more, at <a href="https://oracleus.activeevents.com/2014/connect/sessionDetail.ww?SESSION_ID=4120">Parc 55 &ndash; Powell I/II, Tuesday the 30th (12:30 PM)</a></p>
+
+<p>For general questions on OSv, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get general updates by subscribing to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[OSv at JavaOne]]></title>
@@ -1213,73 +1315,6 @@ The first stage would be to gain control of the application within the container
 <blockquote><p>With containers you&rsquo;re starting with everything open and then going around trying to close all the holes; if you miss even a single one, bam, you lose. With VMs, you start with almost everything closed, and selectively open things up; that makes a big difference.</p></blockquote>
 
 <p><strong>This is part 2 of a 3-part series.</strong> Please subscribe to our <a href="http://osv.io/blog/atom.xml">feed</a> or follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> to get a notification when part 3 is available.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Hypervisors Are Dead, Long Live the Hypervisor (Part 1)]]></title>
-    <link href="http://osv.io/blog/blog/2014/06/19/containers-hypervisors-part-1/"/>
-    <updated>2014-06-19T13:00:00-07:00</updated>
-    <id>http://osv.io/blog/blog/2014/06/19/containers-hypervisors-part-1</id>
-    <content type="html"><![CDATA[<p><strong>By Dor Laor and Avi Kivity</strong></p>
-
-<p>The hypervisor is the basic building block of cloud computing; hypervisors drive the software-defined data center revolution, and two-thirds of all new servers are virtualized today. Hypervisors for commodity hardware have been the key enabler for the software revolution we have been experiencing.</p>
-
-<p>However, for the past 8 years a parallel technology has been growing, namely, containers. Recently containers have been getting a fairly large amount of traction with the development of the Docker project. When run on bare metal, containers perform better than hypervisors and have a lower footprint.</p>
-
-<p>There is a lot in common with the goals of these technologies. These three blog entries will try to provide an answer to the question</p>
-
-<p><strong>Will containers kill the hypervisor?</strong></p>
-
-<p>The series will provide in-depth explanations about the underlying technology and the pros and cons of each solution.</p>
-
-<h2>Intro: ancient hypervisor lore</h2>
-
-<p>What is virtualization anyway?</p>
-
-<p><img src="http://osv.io/blog/images/virtualization.png" alt="Virtualization diagram" /></p>
-
-<p>A hypervisor is a software component (potentially assisted by hardware) that allows us to run multiple operating systems on the same physical machine. The overlay OS is called the guest OS or simply, a Virtual Machine (VM). The guest OS may not even be aware it is running on virtual hardware.</p>
-
-<p>The interface between the guest and the host is the hardware specification. It covers the CPU itself and any other hardware devices, from BIOS to NICs, SCSI adapters, GPUs and memory.</p>
-
-<p><img src="http://osv.io/blog/images/IBM360-67AtUmichWithMikeAlexander.jpg" alt="IBM System/360" /></p>
-
-<p><strong>IBM, together with MIT and the University of Michigan, pioneered hypervisor technology on System/360 and System/370 mainframes, beginning in the 1960s.</strong></p>
-
-<p>IBM was the first company to produce hypervisors. The IBM System/360, model 1967, was the first to <a href="http://www.beagle-ears.com/lars/engineer/comphist/ibm360.htm#gener">ship with virtual memory hardware supporting virtualization</a>. The next system in the series, System/370, was the “private cloud” of its day. Administrators could set up virtual machines for running different OS versions, and even public-cloud-like “time sharing” by multiple customers.</p>
-
-<h2>Virtualization for x86</h2>
-
-<p>Virtualization didn’t make it to commodity systems until the <a href="http://www.vmware.com/company/news/mediaresource/milestones">release of VMware Workstation in 1999</a>. In the early 2000s, hypervisors were based on pure software and were mostly useful for development and testing.  VMware initially used a technique called dynamic translation to intercept privileged operations by the guest operating system. When the guest accessed “hardware”, VMWare rewrote the instructions on the fly, to protect itself from the guest and isolate guests from each other.</p>
-
-<p><img src="http://osv.io/blog/images/vmware-logo.png" alt="VMware logo" /></p>
-
-<p>Later on, the open source Xen hypervisor project coined the term paravirtualization (PV). PV guests, which have to be specially modified to run on a PV host, do not execute privileged instructions themselves but ask the hypervisor to do it on their behalf.</p>
-
-<p><img src="http://osv.io/blog/images/xen-logo.png" alt="Xen logo" /></p>
-
-<p>Eventually, Intel, AMD and ARM implemented support for virtualization extensions. A special host mode allows running guest code on the bare CPU, getting near 100% of bare metal throughput for CPU-intensive workloads. In parallel, the memory management and the IO path received attention as well with technologies such as nested paging (virtual memory), virtual interrupt controllers, single-root I/O virtualization (SRIOV) and other optimizations.</p>
-
-<h2>Hardware support for hypervisors</h2>
-
-<p>Hypervisor enablement continues to be a priority for hardware manufacturers. <a href="https://plus.google.com/+OsvIo/posts/fgzsepcScTa">Glauber Costa wrote</a>, “the silicon keeps getting better and better at taking complexity away from software and hiding somewhere else.”</p>
-
-<p><a href="http://www.redhat.com/rhecm/rest-rhecm/jcr/repository/collaboration/jcr:system/jcr:versionStorage/5e7884ed7f00000102c317385572f1b1/1/jcr:frozenNode/rh:pdfFile.pdf">According to a paper from Red Hat Software</a>,</p>
-
-<blockquote><p>Both Intel and AMD continue to add new features to hardware to improve performance for virtualization. In so doing, they offload more features from the hypervisor into “the silicon” to provide improved performance and a more robust platform&hellip;.These features allow virtual machines to achieve the same I/O performance as bare metal systems.</p></blockquote>
-
-<h2>Old-school hypervisors</h2>
-
-<p>Hypervisors are one of the main pillars of the IT market (try making your way through downtown San Francisco during VMworld) and solve an important piece of the problem. Today the hypervisor layer is commoditized, users can choose any hypervisor they wish when they deploy Open Stack or similar solutions.</p>
-
-<p>Hypervisors are a mature technology with a rich set of tools and features ranging from live migration, cpu hotplug, software defined networking and other new coined terms that describe the virtualization of the data center.</p>
-
-<p>However, in order to virtualize your workload, one must deploy a full fledged guest operating system onto every VM instance. This new layer is a burden in terms of management and in terms of performance overhead. We’ll look at one of the other approaches to compartmentalization next time: containers.</p>
-
-<p><strong>This is part 1 of a 3-part series.</strong>  <a href="http://osv.io/blog/blog/2014/06/19/containers-hypervisors-part-2/">Part 2 is now available</a>.  Please subscribe to our <a href="http://osv.io/blog/atom.xml">feed</a> or follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> to get a notification of future posts.</p>
-
-<p>Photo credit, IBM 360: <a href="http://commons.wikimedia.org/wiki/File:IBM360-67AtUmichWithMikeAlexander.jpg">Dave Mills for Wikimedia Commons</a></p>
 ]]></content>
   </entry>
   
