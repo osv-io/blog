@@ -24,7 +24,7 @@ The problem isn't so much that someone discovered a bug in Bash.  The problem is
 
 I'm starting to think that what's more important than any design advantages of OSv is the flow that it enables.   The size and, more important, simplicity of an OSv VM means that regenerating one is a matter of, let me time it... 9 seconds.  An OSv VM is a build artifact that I can crank out of my regular build system.
 
-It would be full of security hubris to say that OSv will never have to issue a security fix.  Yes, there are many fewer lines of code, and yes, the C++ experts on the development team will point to shorter, clearer programming contstructs in which fewer old-school bugs can hide.  But every software project has to issue a fix sometimes.
+It would be full of security hubris to say that OSv will never have to issue a security fix.  Yes, there are many fewer lines of code, and yes, the C++ experts on the development team will point to shorter, clearer programming constructs in which fewer old-school bugs can hide.  But every software project has to issue a fix sometimes.
 
 The question is how long it takes to get current and put the bug behind you.
 
