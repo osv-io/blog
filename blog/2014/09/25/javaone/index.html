@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Riemann - a Clojure Application on OSv - OSv Blog</title>
+  <title>OSv at JavaOne - OSv Blog</title>
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="By Tzach Livyatan Clojure applications run on the JVM, so they&rsquo;re usually simple to run on OSv. We have hello world in Clojure running, but &hellip;">
+  <meta name="description" content=" Glauber Costa is You can keep up with the latest OSv news from this blog&rsquo;s feed, or folllowing @CloudiusSystems on Twitter.
+">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://osv.io/blog/blog/2014/04/22/riemann-on-osv">
+  <link rel="canonical" href="http://osv.io/blog/blog/2014/09/25/javaone">
   <link href="/blog/favicon.ico" rel="icon">
   <link href="/blog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
@@ -107,7 +108,7 @@
         </script>
     </div>
 </div>
-<div class="mobile mobilePageTitle">Riemann - a Clojure application on OSv</div>
+<div class="mobile mobilePageTitle">OSv at JavaOne</div>
 
 
   <div id="main">
@@ -117,7 +118,7 @@
   
   <header>
     
-      <h1 class="entry-title">Riemann - a Clojure Application on OSv</h1>
+      <h1 class="entry-title">OSv at JavaOne</h1>
     
     
       <p class="meta">
@@ -133,144 +134,18 @@
   
 
 
-<time datetime="2014-04-22T09:00:00-07:00" pubdate data-updated="true">Apr 22<span>nd</span>, 2014</time>
+<time datetime="2014-09-25T17:10:31-07:00" pubdate data-updated="true">Sep 25<span>th</span>, 2014</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p><strong>By Tzach Livyatan</strong></p>
+<div class="entry-content"><p><img src="/blog/images/speaking-at-javaone.jpg" alt="speaking at JavaOne" /></p>
 
-<p>Clojure applications run on the JVM, so they&rsquo;re usually simple to run on OSv.  We have <a href="https://github.com/tzach/capstan-example-clojure">hello world in Clojure</a> running, but this time I wanted to port a real, non-toy, Clojure application. I chose <a href="http://riemann.io">Riemann</a>, a widely-used application for aggregating system events (and more).</p>
+<p>Glauber Costa is</p>
 
-<p>I used <a href="http://osv.io/capstan/">Capstan</a>, a tool for building and running applications on OSv.  Jump to the end <a href="https://github.com/tzach/riemann">result</a>, or follow the steps I took:</p>
-
-<!-- more -->
-
-
-<p>Following the Capstan guideline, I added a <a href="https://github.com/tzach/riemann/blob/master/Capstanfile">Capstanfile</a> to the project.  Here are the parts of Capstanfile you need to know about:</p>
-
-<ul>
-<li>Set the base image. In this case I chose a base image with Java (open-jdk)</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>base: cloudius/osv-openjdk</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>Build the jar file, taking advantage of the <code>lein uberjar</code> command, which packages the application with all dependencies into one jar file.</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>build: lein uberjar</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>Copy the build artifacts to the base image, producing a new image:</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>files:
-</span><span class='line'>  /riemann.jar: ./target/riemann-0.2.5-SNAPSHOT-standalone.jar
-</span><span class='line'>  /riemann.config: ./riemann.config</span></code></pre></td></tr></table></div></figure>
-
-
-<p>I also copy the config file, which Riemann will look for.</p>
-
-<ul>
-<li>The run command for the VM is executed when the VM starts.</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cmdline: /java.so -jar /riemann.jar</span></code></pre></td></tr></table></div></figure>
-
-
-<p>That&rsquo;s it. Done with the Capstanfile.</p>
-
-<p><strong>Let&rsquo;s test it!</strong></p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt;capstan run
-</span><span class='line'>WARN [2014-04-13 14:11:22,029] Thread-9 - riemann.core - instrumentation service caught
-</span><span class='line'>java.io.IOException: Cannot run program "hostname": error=0, vfork failed
-</span><span class='line'>  at java.lang.ProcessBuilder.start(ProcessBuilder.java:1041)
-</span><span class='line'>  at java.lang.Runtime.exec(Runtime.java:617)
-</span><span class='line'>  at clojure.java.shell$sh.doInvoke(shell.clj:116)
-</span><span class='line'>  at clojure.lang.RestFn.invoke(RestFn.java:408)</span></code></pre></td></tr></table></div></figure>
-
-
-<p>No luck.  It turns out that Riemann is using</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>(sh "hostname")</span></code></pre></td></tr></table></div></figure>
-
-
-<p>which uses vfork to run a child process. On any OS its not very efficient to fork just to get the hostname, and on current OSv it simply won&rsquo;t work. To bypass the problem, I replace this call with:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>(.getHostName (java.net.InetAddress/getLocalHost))</span></code></pre></td></tr></table></div></figure>
-
-
-<p>which uses a Java <code>getHostName</code>.</p>
-
-<p><strong>Let&rsquo;s try again</strong></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>&gt;capstan run
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This time it works, but how do I test it and connect to it?</p>
-
-<p><strong>Let&rsquo;s use Capstan port forwarding</strong></p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>capstan run -f 5555:5555 -f 5556:5556
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-This will  forward host ports 5555 and 5556 to the corresponding ports on the OSv VM.</p>
-
-<p><strong>Success :)</strong></p>
-
-<p>Now we can switch to another terminal and run:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>riemann-health
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-to generate traffic for Riemann
-and</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>riemann-dash
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>to launch a Riemann web GUI.  Here is how it looks:</p>
-
-<p><img src="/blog/images/riemann_on_osv.png" alt="&quot;Riemann GUI" /> <i>riemann-dash</i></p>
-
-<p>Now we&rsquo;re ready to do further stress testing.  If you do find any problem, or have any question, you&rsquo;re invited to join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev list</a> and ask, or post an issue to the <a href="https://github.com/tzach/riemann">GitHub repository</a>.</p>
-
-<p>&mdash; <a href="https://twitter.com/TzachL">Tzach Livyatan</a></p>
+<p>You can keep up with the latest OSv news from this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
 </div>
 
 
@@ -293,12 +168,12 @@ and</p>
   
 
 
-<time datetime="2014-04-22T09:00:00-07:00" pubdate data-updated="true">Apr 22<span>nd</span>, 2014</time>
+<time datetime="2014-09-25T17:10:31-07:00" pubdate data-updated="true">Sep 25<span>th</span>, 2014</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/blog/categories/capstan/'>capstan</a>, <a class='category' href='/blog/blog/categories/clojure/'>clojure</a>, <a class='category' href='/blog/blog/categories/examples/'>examples</a>, <a class='category' href='/blog/blog/categories/tools/'>tools</a>
+    <a class='category' href='/blog/blog/categories/events/'>events</a>
   
 </span>
 
@@ -328,10 +203,8 @@ and</p>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/blog/2014/04/19/spinlock-free/" title="Previous Post: Spinlock-free OS design for virtualization">&laquo; Spinlock-free OS design for virtualization</a>
+        <a class="basic-alignment left" href="/blog/blog/2014/09/25/shellshock/" title="Previous Post: Shellshock">&laquo; Shellshock</a>
       
-      
-        <a class="basic-alignment right" href="/blog/blog/2014/04/25/meetup/" title="Next Post: New OSv Meetup group">New OSv Meetup group &raquo;</a>
       
     </p>
   </footer>
@@ -414,8 +287,8 @@ and</p>
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://osv.io/blog/blog/2014/04/22/riemann-on-osv/';
-        var disqus_url = 'http://osv.io/blog/blog/2014/04/22/riemann-on-osv/';
+        var disqus_identifier = 'http://osv.io/blog/blog/2014/09/25/javaone/';
+        var disqus_url = 'http://osv.io/blog/blog/2014/09/25/javaone/';
         var disqus_script = 'embed.js';
       
     (function () {
