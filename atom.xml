@@ -4,7 +4,7 @@
   <title><![CDATA[OSv Blog]]></title>
   <link href="http://osv.io/blog/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2014-10-03T14:32:41-07:00</updated>
+  <updated>2014-10-03T20:22:02-07:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -90,7 +90,7 @@ Hold your horses; Ksplice probably hadn’t been integrated to Xen and Ksplice i
 </ul>
 
 
-<p>Imagine you’re running a JVM application that needs an immediate garbage collection (GC) capability. Today, the application will experience a Stop-The-World phase which will translate into downtime that can go up to several seconds (a function of heap size).  Instead, such a VM can ask to hot plug additional RAM and CPUs 1 second before it really needs to pause. The JVM may use even a silly copy garbage collector to copy the live objects from the original RAM block to newer hotplugged-RAM blocks and unplug the old block entirely (using the extra vCPUs to accelerate the action).</p>
+<p>Imagine you’re running a JVM application that needs an immediate garbage collection (GC). Today, the application will experience a Stop-The-World phase which will translate into downtime that can go up to several seconds (a function of heap size).  Instead, such a VM can ask to hot plug additional RAM and CPUs 1 second before it really needs to pause. The JVM may use even a silly copy garbage collector to copy the live objects from the original RAM block to newer hotplugged-RAM blocks and unplug the old block entirely (using the extra vCPUs to accelerate the action).</p>
 
 <ul>
 <li><p><strong>Trusted boot/computing</strong> Trusted Computing is a technology to keep the integrity of an operating system, which is based on a secure chip such as “TPM (Trusted Platform Module)” and/or Intel’s TXT technology: Trusted Execution Technology provides a hardware based root of trust to ensure that a platform boots with a known good configuration of firmware, BIOS, virtual machine monitor, and operating system, forming a fully signed and secure stack.</p></li>
