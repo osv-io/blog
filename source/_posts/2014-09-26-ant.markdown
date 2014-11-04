@@ -8,7 +8,7 @@ published: true
 
 **By Glauber Costa**
 
-Don Marti and I will soon be presenting OSv at [JavaOne](http:// http://osv.io/blog/blog/2014/09/25/javaone/). We are excited about
+Don Marti and I will soon be presenting OSv at [JavaOne](http://osv.io/blog/blog/2014/09/25/javaone/). We are excited about
 the conference, and thought we could give you a small preview of what we will
 be talking about.
 
