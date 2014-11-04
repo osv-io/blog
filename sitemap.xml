@@ -129,8 +129,12 @@
         <lastmod>2014-10-03T20:22:02-07:00</lastmod>
     </url>
     <url>
+        <loc>http://osv.io/blog/blog/2014/11/03/dashboard/</loc>
+        <lastmod>2014-11-03T21:44:50-08:00</lastmod>
+    </url>
+    <url>
         <loc>http://osv.io/blog/blog/archives/</loc>
-        <lastmod>2014-10-03T20:22:02-07:00</lastmod>
+        <lastmod>2014-11-03T21:44:50-08:00</lastmod>
     </url>
     <url>
         <loc>http://osv.io/blog/robots.txt</loc>
@@ -138,6 +142,6 @@
     </url>
     <url>
         <loc>http://osv.io/blog/</loc>
-        <lastmod>2014-10-03T20:22:02-07:00</lastmod>
+        <lastmod>2014-11-03T21:44:50-08:00</lastmod>
     </url>
 </urlset>

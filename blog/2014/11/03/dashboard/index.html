@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>What's the Big Deal About OSv at Cassandra Summit 2014? - OSv Blog</title>
+  <title>OSv 0.14 Alpha Includes Management Dashboard - OSv Blog</title>
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="Pop quiz: what does this graph show? If you&rsquo;d like a hint, here&rsquo;s some context. It&rsquo;s from the upcoming talk on Cassandra on OSv at &hellip;">
+  <meta name="description" content="By Tzach Livyatan We are pleased to announce the OSv 0.14 Alpha Release. This is the first release to include the dashboard, a browser-based UI for &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://osv.io/blog/blog/2014/09/10/cassandra-summit">
+  <link rel="canonical" href="http://osv.io/blog/blog/2014/11/03/dashboard">
   <link href="/blog/favicon.ico" rel="icon">
   <link href="/blog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
@@ -107,7 +107,7 @@
         </script>
     </div>
 </div>
-<div class="mobile mobilePageTitle">What's the big deal about OSv at Cassandra Summit 2014?</div>
+<div class="mobile mobilePageTitle">OSv 0.14 Alpha includes management dashboard</div>
 
 
   <div id="main">
@@ -117,7 +117,7 @@
   
   <header>
     
-      <h1 class="entry-title">What's the Big Deal About OSv at Cassandra Summit 2014?</h1>
+      <h1 class="entry-title">OSv 0.14 Alpha Includes Management Dashboard</h1>
     
     
       <p class="meta">
@@ -133,24 +133,45 @@
   
 
 
-<time datetime="2014-09-10T16:10:31-07:00" pubdate data-updated="true">Sep 10<span>th</span>, 2014</time>
+<time datetime="2014-11-03T21:10:31-08:00" pubdate data-updated="true">Nov 3<span>rd</span>, 2014</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p><strong>Pop quiz: what does this graph show?</strong></p>
+<div class="entry-content"><p><strong>By Tzach Livyatan</strong></p>
 
-<p><img src="/blog/images/mystery-graph.png" alt="graph" /></p>
+<p>We are pleased to announce the OSv 0.14 Alpha Release.</p>
 
-<p>If you&rsquo;d like a hint, here&rsquo;s some context.  It&rsquo;s from the upcoming <a href="http://www.cvent.com/events/cassandra-summit-2014/agenda-176f061a4b144525ae05f18cd9a9cb12.aspx">talk on Cassandra on OSv</a> at Cassandra Summit in San Francisco.</p>
+<p>This is the first release to include the dashboard, a  browser-based UI for OSv and virtual appliance status.</p>
 
-<p>We&rsquo;ve been picking up a bunch of Cassandra tips at the event so far.  And we&rsquo;re really looking forward to (a) tomorrow&rsquo;s talks from the administrators of large-scale Cassandra sites and (b) showing off a new useful thing that should make life much easier for Cassandra admins who know <code>curl</code>. Which would be&hellip;everyone?</p>
+<p><img src="http://osv.io/images/dashboard.png" alt="OSv dashboard" /></p>
 
-<p>If you missed the chance to see Don Marti and Glauber Costa at Linuxcon/CloudOpen, please come see us, with bonus extra speaker <strong>Dor Laor</strong>.  Otherwise, you can keep up with the latest OSv news from this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+<p>The dashboard includes (among other features):</p>
 
-<p>(Next up: <a href="http://www.xenproject.org/about/events/viewevent/120-xen-project-user-summit-2014.html">Xen Project User Summit</a> in New York City&hellip;)</p>
+<ul>
+<li><p>Main tab with Memory, CPU, Disk</p></li>
+<li><p>Thread tab with interactive visualization of thread status and thread usage.
+You can select and search for particular thread by name.</p></li>
+<li><p>Trace tab, including frequency for each tracepoint. Selection by name and search are available.</p></li>
+<li><p>JVM tab for basic JVM information including memory and GC, when a JVM is installed.</p></li>
+<li><p>Virtual Appliance tab for information relevant to the particular appliance.
+Tabs for Cassandra and Tomcat are currently  available, with more to come.</p></li>
+</ul>
+
+
+<p>To build the dashboard, just includes httpserver in
+the module list.  For example:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ make -j 4 image=cassandra,httpserver</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Once the appliance is running, the dashboard is available on port 8000 by default.  (You can change the port using <a href="https://github.com/cloudius-systems/osv/wiki/cloud-init">cloud-init</a>.)</p>
+
+<p>The <a href="https://groups.google.com/forum/#!topic/osv-dev/tyFGw7NRudA">full 0.14 release announcement</a> is available on the osv-dev mailing list.
+You can keep up with the latest OSv news from this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
 </div>
 
 
@@ -173,12 +194,12 @@
   
 
 
-<time datetime="2014-09-10T16:10:31-07:00" pubdate data-updated="true">Sep 10<span>th</span>, 2014</time>
+<time datetime="2014-11-03T21:10:31-08:00" pubdate data-updated="true">Nov 3<span>rd</span>, 2014</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/blog/categories/events/'>events</a>
+    <a class='category' href='/blog/blog/categories/release/'>release</a>
   
 </span>
 
@@ -208,10 +229,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/blog/2014/08/28/wiki-watch-cloud-init/" title="Previous Post: Wiki watch: Cloud init">&laquo; Wiki watch: Cloud init</a>
+        <a class="basic-alignment left" href="/blog/blog/2014/10/03/cloud-reboot/" title="Previous Post: A cloud wake-up call">&laquo; A cloud wake-up call</a>
       
-      
-        <a class="basic-alignment right" href="/blog/blog/2014/09/13/how-fast-can-you-run-4-vm/" title="Next Post: Speed run: running 4 virtual appliances on your laptop in 5 seconds overall">Speed run: running 4 virtual appliances on your laptop in 5 seconds overall &raquo;</a>
       
     </p>
   </footer>
@@ -294,8 +313,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://osv.io/blog/blog/2014/09/10/cassandra-summit/';
-        var disqus_url = 'http://osv.io/blog/blog/2014/09/10/cassandra-summit/';
+        var disqus_identifier = 'http://osv.io/blog/blog/2014/11/03/dashboard/';
+        var disqus_url = 'http://osv.io/blog/blog/2014/11/03/dashboard/';
         var disqus_script = 'embed.js';
       
     (function () {

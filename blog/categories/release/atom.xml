@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Release | OSv Blog]]></title>
+  <link href="http://osv.io/blog/blog/categories/release/atom.xml" rel="self"/>
+  <link href="http://osv.io/blog/"/>
+  <updated>2014-11-03T21:45:14-08:00</updated>
+  <id>http://osv.io/blog/</id>
+  <author>
+    <name><![CDATA[Cloudius Systems]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[OSv 0.14 Alpha Includes Management Dashboard]]></title>
+    <link href="http://osv.io/blog/blog/2014/11/03/dashboard/"/>
+    <updated>2014-11-03T21:10:31-08:00</updated>
+    <id>http://osv.io/blog/blog/2014/11/03/dashboard</id>
+    <content type="html"><![CDATA[<p><strong>By Tzach Livyatan</strong></p>
+
+<p>We are pleased to announce the OSv 0.14 Alpha Release.</p>
+
+<p>This is the first release to include the dashboard, a  browser-based UI for OSv and virtual appliance status.</p>
+
+<p><img src="http://osv.io/images/dashboard.png" alt="OSv dashboard" /></p>
+
+<p>The dashboard includes (among other features):</p>
+
+<ul>
+<li><p>Main tab with Memory, CPU, Disk</p></li>
+<li><p>Thread tab with interactive visualization of thread status and thread usage.
+You can select and search for particular thread by name.</p></li>
+<li><p>Trace tab, including frequency for each tracepoint. Selection by name and search are available.</p></li>
+<li><p>JVM tab for basic JVM information including memory and GC, when a JVM is installed.</p></li>
+<li><p>Virtual Appliance tab for information relevant to the particular appliance.
+Tabs for Cassandra and Tomcat are currently  available, with more to come.</p></li>
+</ul>
+
+
+<p>To build the dashboard, just includes httpserver in
+the module list.  For example:</p>
+
+<p>```</p>
+
+<pre><code>$ make -j 4 image=cassandra,httpserver
+</code></pre>
+
+<p>```</p>
+
+<p>Once the appliance is running, the dashboard is available on port 8000 by default.  (You can change the port using <a href="https://github.com/cloudius-systems/osv/wiki/cloud-init">cloud-init</a>.)</p>
+
+<p>The <a href="https://groups.google.com/forum/#!topic/osv-dev/tyFGw7NRudA">full 0.14 release announcement</a> is available on the osv-dev mailing list.
+You can keep up with the latest OSv news from this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+]]></content>
+  </entry>
+  
+</feed>
