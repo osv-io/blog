@@ -4,7 +4,7 @@
   <title><![CDATA[OSv Blog]]></title>
   <link href="http://osv.io/blog/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2014-11-04T11:43:43-08:00</updated>
+  <updated>2014-11-09T14:03:58-08:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -12,6 +12,38 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Raspberry Pi at Amazon Re:invent]]></title>
+    <link href="http://osv.io/blog/blog/2014/11/09/rpi/"/>
+    <updated>2014-11-09T11:10:31-08:00</updated>
+    <id>http://osv.io/blog/blog/2014/11/09/rpi</id>
+    <content type="html"><![CDATA[<p>Want to see us build a virtual machine for the Amazon cloud at the <a href="https://reinvent.awsevents.com/">re:Invent show</a>?  Come on over to our booth (K14) and we&rsquo;ll show you.  It&rsquo;s simple to add a virtual appliance build step to any application build.</p>
+
+<p>Well, that took nine seconds.  What else can we do?  How about a hardware giveaway?  Since your virtual machines are going to take so little of your time, you should have plenty of time to play with a fun hardware kit.</p>
+
+<p><img src="http://osv.io/blog/images/rpi.jpeg" alt="Raspberry Pi media kit" /></p>
+
+<p>We&rsquo;ve got some <a href="http://www.mcmelectronics.com/product/83-16333RK">Raspberry Pi media kits</a> to give away.  Not just the board, this kit includes</p>
+
+<ul>
+<li><p>Raspberry Pi Model B+ Board</p></li>
+<li><p>8GB Operating System microSD Card</p></li>
+<li><p>Multicomp Black B+ Case</p></li>
+<li><p>Raspberry Pi Power Supply</p></li>
+<li><p>Wi-Pi Wireless Adapter</p></li>
+<li><p>3&#8217; HDMi Cable</p></li>
+<li><p>7&#8217; Ethernet Cable</p></li>
+</ul>
+
+
+<p>Just the thing for a home media center, or a starting point for a more ambitious project such as a <a href="http://www.retrobuiltgames.com/porta-pi-arcade-help/porta-pi-software-os-download/">vintage arcade</a>.</p>
+
+<p>Amazon re:Invent is sold out, but you can <a href="http://reinvent.awsevents.com/livestream-reg.html">sign up for streaming</a> if you&rsquo;re not able to make it.</p>
+
+<p>You can keep up with the latest OSv news from this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.  Hope to see you at the show.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[OSv 0.14 Alpha Includes Management Dashboard]]></title>
@@ -1211,46 +1243,6 @@ original IBM PC.</strong></p>
 <p>(photo: <a href="http://commons.wikimedia.org/wiki/File:XT-PC-Power-Supply-PCB-IMG_0436.JPG">Hans Haase for Wikimedia Commons</a>. Available under the Creative Commons Attribution-Share Alike 3.0 Unported license.)</p>
 
 <p>If you have any questions on OSv internals, or porting your application, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get general updates by subscribing to this blog&rsquo;s feed, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[What Is the Most Popular OSv Virtual Appliance?]]></title>
-    <link href="http://osv.io/blog/blog/2014/07/01/s3stat/"/>
-    <updated>2014-07-01T00:00:00-07:00</updated>
-    <id>http://osv.io/blog/blog/2014/07/01/s3stat</id>
-    <content type="html"><![CDATA[<p><strong>By Tzach Livyatan</strong></p>
-
-<p>(Spoiler: It&rsquo;s Apache Tomcat.)</p>
-
-<p><a href="https://github.com/cloudius-systems/capstan">Capstan</a> is a tool for rapidly building and running applications on OSv.
-As with Docker, Capstan users can download and run images from a public repository.
-We chose to implement our public Capstan repository using <a href="http://aws.amazon.com/s3/">Amazon S3</a>.</p>
-
-<p>Amazon S3  gives us the flexibility and security we need, but by default it&rsquo;s missing a critical feature: download statistics.
-This statistics are very interesting to us, to evaluate which of the Capstan virtual appliances are more popular.  Fortunately, there is an easy way to gather the stats we need.</p>
-
-<p>After a short tools survey, we choose <a href="http://www.s3stat.com/">s3stat</a>.</p>
-
-<p><a href="http://www.s3stat.com/">s3stat</a> is a cloud-based service which can follow an S3 bucket, and visualize download statistics, by file, country, browser day, or otherwise.
-The price makes sense, and it is super easy to enable.</p>
-
-<p><img src="http://osv.io/blog/images/s3stat_chart.png" alt="s3stat chart" /></p>
-
-<p>So what are the results? (drum roll&hellip;.)</p>
-
-<!-- more -->
-
-
-<p><img src="http://osv.io/blog/images/s3stat_files.png" alt="s3stat files" /></p>
-
-<p>Omitting Capstan download of capstan index.yaml files, which Capstan does for every repository search, the most popular images are the base images for OSv and OSv + Java.
-That make sense because these two images will be used by anyone who wants to build a local OSv application, running a native or Java application.</p>
-
-<p>Virtual appliances comes right after, with (drums again&hellip;.) <strong>Tomcat</strong>, <strong>Cassandra</strong>, <strong>Memcached</strong> on the podium (Tomcat wins the Gold).
-These are all very early results, but we will keep using s3stat to follow Capstan image downloads.</p>
-
-<p><img src="http://osv.io/blog/images/s3stat_map.png" alt="s3stat map" /></p>
 ]]></content>
   </entry>
   

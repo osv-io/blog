@@ -9,7 +9,8 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="By Dor Laor and Avi Kivity The new school: functionality, isolation and simplicity (This is part 3 of a 3-part series. Part 1, Part 2) Containers &hellip;">
+  <meta name="description" content="By Tzach Livyatan (Spoiler: It&rsquo;s Apache Tomcat.) Capstan is a tool for rapidly building and running applications on OSv.
+As with Docker, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -114,6 +115,65 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/blog/2014/07/01/s3stat/">What Is the Most Popular OSv Virtual Appliance?</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-01T00:00:00-07:00" pubdate data-updated="true">Jul 1<span>st</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>By Tzach Livyatan</strong></p>
+
+<p>(Spoiler: It&rsquo;s Apache Tomcat.)</p>
+
+<p><a href="https://github.com/cloudius-systems/capstan">Capstan</a> is a tool for rapidly building and running applications on OSv.
+As with Docker, Capstan users can download and run images from a public repository.
+We chose to implement our public Capstan repository using <a href="http://aws.amazon.com/s3/">Amazon S3</a>.</p>
+
+<p>Amazon S3  gives us the flexibility and security we need, but by default it&rsquo;s missing a critical feature: download statistics.
+This statistics are very interesting to us, to evaluate which of the Capstan virtual appliances are more popular.  Fortunately, there is an easy way to gather the stats we need.</p>
+
+<p>After a short tools survey, we choose <a href="http://www.s3stat.com/">s3stat</a>.</p>
+
+<p><a href="http://www.s3stat.com/">s3stat</a> is a cloud-based service which can follow an S3 bucket, and visualize download statistics, by file, country, browser day, or otherwise.
+The price makes sense, and it is super easy to enable.</p>
+
+<p><img src="/blog/images/s3stat_chart.png" alt="s3stat chart" /></p>
+
+<p>So what are the results? (drum roll&hellip;.)</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/blog/2014/07/01/s3stat/">Read more&#8230;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -838,51 +898,6 @@ is executing for you.)</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/blog/2014/04/22/riemann-on-osv/">Riemann - a Clojure Application on OSv</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-04-22T09:00:00-07:00" pubdate data-updated="true">Apr 22<span>nd</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><strong>By Tzach Livyatan</strong></p>
-
-<p>Clojure applications run on the JVM, so they&rsquo;re usually simple to run on OSv.  We have <a href="https://github.com/tzach/capstan-example-clojure">hello world in Clojure</a> running, but this time I wanted to port a real, non-toy, Clojure application. I chose <a href="http://riemann.io">Riemann</a>, a widely-used application for aggregating system events (and more).</p>
-
-<p>I used <a href="http://osv.io/capstan/">Capstan</a>, a tool for building and running applications on OSv.  Jump to the end <a href="https://github.com/tzach/riemann">result</a>, or follow the steps I took:</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/blog/2014/04/22/riemann-on-osv/">Read more&#8230;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/blog/page/4/">&larr; Older</a>
@@ -900,6 +915,10 @@ is executing for you.)</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/blog/2014/11/09/rpi/">Raspberry Pi at Amazon Re:invent</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/blog/2014/11/03/dashboard/">OSv 0.14 Alpha Includes Management Dashboard</a>
       </li>
     
@@ -913,10 +932,6 @@ is executing for you.)</p>
     
       <li class="post">
         <a href="/blog/blog/2014/09/25/javaone/">OSv at JavaOne</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/blog/2014/09/25/shellshock/">Shellshock</a>
       </li>
     
   </ul>

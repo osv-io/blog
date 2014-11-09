@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Release | OSv Blog]]></title>
   <link href="http://osv.io/blog/blog/categories/release/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2014-11-04T11:43:43-08:00</updated>
+  <updated>2014-11-09T14:03:58-08:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -12,6 +12,38 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Raspberry Pi at Amazon Re:invent]]></title>
+    <link href="http://osv.io/blog/blog/2014/11/09/rpi/"/>
+    <updated>2014-11-09T11:10:31-08:00</updated>
+    <id>http://osv.io/blog/blog/2014/11/09/rpi</id>
+    <content type="html"><![CDATA[<p>Want to see us build a virtual machine for the Amazon cloud at the <a href="https://reinvent.awsevents.com/">re:Invent show</a>?  Come on over to our booth (K14) and we&rsquo;ll show you.  It&rsquo;s simple to add a virtual appliance build step to any application build.</p>
+
+<p>Well, that took nine seconds.  What else can we do?  How about a hardware giveaway?  Since your virtual machines are going to take so little of your time, you should have plenty of time to play with a fun hardware kit.</p>
+
+<p><img src="/images/rpi.jpeg" alt="Raspberry Pi media kit" /></p>
+
+<p>We&rsquo;ve got some <a href="http://www.mcmelectronics.com/product/83-16333RK">Raspberry Pi media kits</a> to give away.  Not just the board, this kit includes</p>
+
+<ul>
+<li><p>Raspberry Pi Model B+ Board</p></li>
+<li><p>8GB Operating System microSD Card</p></li>
+<li><p>Multicomp Black B+ Case</p></li>
+<li><p>Raspberry Pi Power Supply</p></li>
+<li><p>Wi-Pi Wireless Adapter</p></li>
+<li><p>3' HDMi Cable</p></li>
+<li><p>7' Ethernet Cable</p></li>
+</ul>
+
+
+<p>Just the thing for a home media center, or a starting point for a more ambitious project such as a <a href="http://www.retrobuiltgames.com/porta-pi-arcade-help/porta-pi-software-os-download/">vintage arcade</a>.</p>
+
+<p>Amazon re:Invent is sold out, but you can <a href="http://reinvent.awsevents.com/livestream-reg.html">sign up for streaming</a> if you&rsquo;re not able to make it.</p>
+
+<p>You can keep up with the latest OSv news from this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.  Hope to see you at the show.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[OSv 0.14 Alpha Includes Management Dashboard]]></title>

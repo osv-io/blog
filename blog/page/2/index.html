@@ -9,7 +9,11 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="Pop quiz: what does this graph show? If you&rsquo;d like a hint, here&rsquo;s some context. It&rsquo;s from the upcoming talk on Cassandra on OSv at &hellip;">
+  <meta name="description" content="By Dor Laor, Tzach Livyatan In the following demo, Dor is running 4 different OSv base virtual appliances
+on his laptop: Redis
+Tomcat
+MySQL
+Cassandra &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -114,6 +118,61 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/blog/2014/09/13/how-fast-can-you-run-4-vm/">Speed Run: Running 4 Virtual Appliances on Your Laptop in 5 Seconds Overall</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-13T23:30:00-07:00" pubdate data-updated="true">Sep 13<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>By Dor Laor, Tzach Livyatan</strong></p>
+
+<p>In the following demo, Dor is running 4 different OSv base virtual appliances
+on his laptop:</p>
+
+<ul>
+<li>Redis</li>
+<li>Tomcat</li>
+<li>MySQL</li>
+<li>Cassandra</li>
+</ul>
+
+
+<p>Each virtual appliance is a full–blown VM, each with a pre-integrated
+cloud application, and each launched without terminating the others.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/blog/2014/09/13/how-fast-can-you-run-4-vm/">Read more&#8230;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -741,65 +800,6 @@ original IBM PC.</strong></p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/blog/2014/07/01/s3stat/">What Is the Most Popular OSv Virtual Appliance?</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-07-01T00:00:00-07:00" pubdate data-updated="true">Jul 1<span>st</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><strong>By Tzach Livyatan</strong></p>
-
-<p>(Spoiler: It&rsquo;s Apache Tomcat.)</p>
-
-<p><a href="https://github.com/cloudius-systems/capstan">Capstan</a> is a tool for rapidly building and running applications on OSv.
-As with Docker, Capstan users can download and run images from a public repository.
-We chose to implement our public Capstan repository using <a href="http://aws.amazon.com/s3/">Amazon S3</a>.</p>
-
-<p>Amazon S3  gives us the flexibility and security we need, but by default it&rsquo;s missing a critical feature: download statistics.
-This statistics are very interesting to us, to evaluate which of the Capstan virtual appliances are more popular.  Fortunately, there is an easy way to gather the stats we need.</p>
-
-<p>After a short tools survey, we choose <a href="http://www.s3stat.com/">s3stat</a>.</p>
-
-<p><a href="http://www.s3stat.com/">s3stat</a> is a cloud-based service which can follow an S3 bucket, and visualize download statistics, by file, country, browser day, or otherwise.
-The price makes sense, and it is super easy to enable.</p>
-
-<p><img src="/blog/images/s3stat_chart.png" alt="s3stat chart" /></p>
-
-<p>So what are the results? (drum roll&hellip;.)</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/blog/2014/07/01/s3stat/">Read more&#8230;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/blog/page/3/">&larr; Older</a>
@@ -817,6 +817,10 @@ The price makes sense, and it is super easy to enable.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/blog/2014/11/09/rpi/">Raspberry Pi at Amazon Re:invent</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/blog/2014/11/03/dashboard/">OSv 0.14 Alpha Includes Management Dashboard</a>
       </li>
     
@@ -830,10 +834,6 @@ The price makes sense, and it is super easy to enable.</p>
     
       <li class="post">
         <a href="/blog/blog/2014/09/25/javaone/">OSv at JavaOne</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/blog/2014/09/25/shellshock/">Shellshock</a>
       </li>
     
   </ul>
