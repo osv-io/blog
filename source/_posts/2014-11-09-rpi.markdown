@@ -1,0 +1,37 @@
+---
+layout: post
+title: "Raspberry Pi at Amazon re:invent"
+date: 2014-11-09 11:10:31 -0800
+comments: true
+published: true
+categories: release
+---
+
+Want to see us build a virtual machine for the Amazon cloud at the [re:Invent show](https://reinvent.awsevents.com/)?  Come on over to our booth (K14) and we'll show you.  It's simple to add a virtual appliance build step to any application build.
+
+Well, that took nine seconds.  What else can we do?  How about a hardware giveaway?  Since your virtual machines are going to take so little of your time, you should have plenty of time to play with a fun hardware kit.
+
+![Raspberry Pi media kit](/images/rpi.jpeg) 
+
+We've got some [Raspberry Pi media kits](http://www.mcmelectronics.com/product/83-16333RK) to give away.  Not just the board, this kit includes 
+
+ * Raspberry Pi Model B+ Board
+
+ * 8GB Operating System microSD Card
+
+ * Multicomp Black B+ Case
+
+ * Raspberry Pi Power Supply
+
+ * Wi-Pi Wireless Adapter
+
+ * 3' HDMi Cable
+
+ * 7' Ethernet Cable
+
+Just the thing for a home media center, or a starting point for a more ambitious project such as a [vintage arcade](http://www.retrobuiltgames.com/porta-pi-arcade-help/porta-pi-software-os-download/).
+
+Amazon re:Invent is sold out, but you can [sign up for streaming](http://reinvent.awsevents.com/livestream-reg.html) if you're not able to make it.
+
+You can keep up with the latest OSv news from this blog's [feed](http://osv.io/blog/atom.xml), or folllowing [@CloudiusSystems](https://twitter.com/CloudiusSystems) on Twitter.  Hope to see you at the show.
+
