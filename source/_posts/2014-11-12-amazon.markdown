@@ -1,0 +1,30 @@
+---
+layout: post
+title: "On stage Thursday at Amazon re:Invent"
+date: 2014-11-12 08:10:31 -0800
+comments: true
+published: true
+categories: release
+---
+
+If you're at the Amazon re:Invent show, don't miss [3rd Annual Startup Launches moderated by Werner Vogels](https://www.portal.reinvent.awsevents.com/connect/sessionDetail.ww?SESSION_ID=9806) Cloudius Systems CEO Dor Laor will be there, to talk about....but we can't tell you that yet.
+
+ * **Who:** Amazon.com CTO, Dr. Werner Vogels. and five startups
+
+ * **What:** Learn how innovative new startups use the AWS cloud.
+
+ * **Where:** Level 2 - Titian 2306
+
+ * **When:** Thursday, Nov 13, 4:30 PM - 5:15 PM
+
+ * **Why:** Knowledge, plus special discounts on new products and services.
+
+If you can't wait, come over to K14 in the exhibit hall for an OSv demo.
+We've got some [Raspberry Pi media kits](http://www.mcmelectronics.com/product/83-16333RK) to give away (to especially intense cloud users who need some real hardware to restore balance to their lives.)
+
+![demo pod](/images/kiosk.png)<br>*Unikernels don't need big heavyweight booths.*
+
+Amazon re:Invent is sold out, but you can [sign up for streaming](http://reinvent.awsevents.com/livestream-reg.html) if you're not able to make it.
+
+You can keep up with the latest OSv news from this blog's [feed](http://osv.io/blog/atom.xml), or folllowing [@CloudiusSystems](https://twitter.com/CloudiusSystems) on Twitter.  Hope to see you at the show.
+
