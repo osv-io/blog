@@ -4,7 +4,7 @@
   <title><![CDATA[OSv Blog]]></title>
   <link href="http://osv.io/blog/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2014-11-12T08:05:10-08:00</updated>
+  <updated>2014-11-13T15:31:26-08:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -12,6 +12,31 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[OSv Early Access Private Beta]]></title>
+    <link href="http://osv.io/blog/blog/2014/11/13/osv-private-beta/"/>
+    <updated>2014-11-13T08:10:31-08:00</updated>
+    <id>http://osv.io/blog/blog/2014/11/13/osv-private-beta</id>
+    <content type="html"><![CDATA[<p>Cloudius Systems is introducing an early access version of OSv, the lightweight open-source OS optimized for large cloud workloads, on November 13.  <a href="http://osv.io/beta-release/">Beta program information</a> is now available.</p>
+
+<p><img src="http://www.cloudius-systems.com/images/mouse.jpeg" alt="lab mouse" /></p>
+
+<p>OSv can be used to minimize latency and reduce TCO for many workloads, especially horizontally scaled ones. The software is available as ready-to-run virtual machine images pre-configured to run popular NoSQL data stores such as Redis and Apache Cassandra, as well as in source code form.</p>
+
+<p>“OSv lets you take a project from a developer’s IDE to a flexible, multi-server deployment much faster,” said Dor Laor, CEO of Cloudius Systems.  “As customers require more and more throughput at lower and lower operating cost, we enable developers to use the agility of containers along with the proven security and management features known for in virtual machines.”</p>
+
+<p>Cloudius Systems’ early access release features an expanded Web API for management, along with performance improvements that increase efficiency, with an up to a 3.9x throughput gain. Unlike conventional operating systems with their diverse configuration files and complex user and memory management, OSv is designed to provide the minimum OS needed to run a single application at maximum performance in the cloud.</p>
+
+<p>&ldquo;OSv was designed with virtualization in mind,” said Cloudius Systems CTO, Avi Kivity.  “The OS overhead is minimized by a reduction of context switches, data copies, and inefficient constructs such as spinlocks.&rdquo; OSv virtual machines can be as small as 20MB, far smaller than Docker containers, and boot in less than one second.</p>
+
+<h2><a href="http://www.cloudius-systems.com/images/mouse.jpeg">Sign up for the OSv beta</a></h2>
+
+<p>You can keep up with the latest OSv news from this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.  Hope to see you at the show.</p>
+
+<p>Photo: <a href="http://commons.wikimedia.org/wiki/File:Lab_mouse_mg_3216.jpg">Rama for Wikimedia Commons</a></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[On Stage Thursday at Amazon re:Invent]]></title>
@@ -1082,169 +1107,6 @@ it and deploy it on your favorite cloud provider.</p>
 the
 <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.<br/>
 You can get updates on by subscribing to the <a href="http://osv.io/blog/atom.xml">OSv blog RSS feed</a> or following <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Getting Started With the OSv Shrinker API]]></title>
-    <link href="http://osv.io/blog/blog/2014/07/14/osv-shrinker-api/"/>
-    <updated>2014-07-14T08:37:05-07:00</updated>
-    <id>http://osv.io/blog/blog/2014/07/14/osv-shrinker-api</id>
-    <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
-
-<p>If you&rsquo;re writing a program that keeps a cache in memory, you&rsquo;re probably expecting users to have to set the cache size, which means a configuration setting or command-line argument.  And every configuration setting or command-line argument is something that you have to document, or explain to users when they get it wrong.</p>
-
-<p>Thankfully, there&rsquo;s an easier way.</p>
-
-<!-- more -->
-
-
-<p>With OSv, you can ask the OS to let your program know when memory is tight, so that you can manage the cache size on the fly.  Less time spent tweaking settings, more items kept in cache, what&rsquo;s not to like?  Just set up a shrinker callback and register it.  (There is a <a href="https://www.kernel.org/doc/Documentation/cgroups/memory.txt">mechanism for memory pressure notifications</a> on Linux, but it&rsquo;s somewhat complex. With OSv it&rsquo;s just one function to write.)</p>
-
-<h2>Defining a shrinker function</h2>
-
-<p>OSv notifies your program of a low memory situation by
-calling a shrinker callback.</p>
-
-<p>A shrinker function takes two arguments:</p>
-
-<ul>
-<li><p>target amount of memory to free (size_t)</p></li>
-<li><p>A boolean &ldquo;hard&rdquo; argument.  This is false if the function is being called for preemptive freeing of memory, and true if the system is under severe pressure.</p></li>
-</ul>
-
-
-<p>In most invocations, the argument <code>hard</code> will be set by OSv to false. This indicates that the system is acting preemptively, and memory pressure is starting to build up. The application is free to defer the freeing of objects to a later stage. Having your shrinker callback called with <code>hard</code> set to true, however, means that OSv is under severe memory pressure, and may be unable to serve allocations. If not enough memory is freed, the system may be forced to abort.</p>
-
-<h2>Registering</h2>
-
-<p>Now that the shrinker function is defined, you need to register it.</p>
-
-<p>To register a shrinker function involves calling <code>osv_register_shrinker</code>:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>void *osv_register_shrinker(const char *name,
-</span><span class='line'>                            size_t (*func)(size_t target, bool hard));</span></code></pre></td></tr></table></div></figure>
-
-
-<p>For example, an application in C can just do:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>extern void *osv_register_shrinker(const char *name,
-</span><span class='line'>                            size_t (*func)(size_t target, bool hard));
-</span><span class='line'>
-</span><span class='line'>int main () {
-</span><span class='line'>  ...
-</span><span class='line'>  osv_register_shrinker("Example Shrinker", shrinker_function);
-</span><span class='line'>  ...
-</span><span class='line'>  return 0;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
-
-
-<p>An extremely basic example of a program that uses the OSv shrinker API is <a href="https://github.com/dmarti/memory-hog">memory-hog</a>.  To try it, install <a href="https://github.com/cloudius-systems/capstan">Capstan</a>, clone the Git repository, and build an OSv image to run it.  Currently memory-hog requires at least 2GB of memory.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git clone git@github.com:dmarti/memory-hog.git
-</span><span class='line'>Cloning into 'memory-hog'...
-</span><span class='line'>remote: Reusing existing pack: 76, done.
-</span><span class='line'>remote: Total 76 (delta 0), reused 0 (delta 0)
-</span><span class='line'>Receiving objects: 100% (76/76), 12.84 KiB | 0 bytes/s, done.
-</span><span class='line'>Resolving deltas: 100% (39/39), done.
-</span><span class='line'>Checking connectivity... done.
-</span><span class='line'>$ cd memory-hog
-</span><span class='line'>$ capstan run -m 2G
-</span><span class='line'>Building memory-hog...
-</span><span class='line'>Created instance: memory-hog
-</span><span class='line'>OSv v0.09
-</span><span class='line'>eth0: 192.168.122.15
-</span><span class='line'>I'm a memory hog!
-</span><span class='line'>program:  Oink!
-</span><span class='line'>program:  Oink!
-</span><span class='line'>program:  Oink!
-</span><span class='line'>
-</span><span class='line'>...many "Oink!"s later...
-</span><span class='line'>
-</span><span class='line'>program:  Oink!
-</span><span class='line'>shrinker: Soft pressure, all done.
-</span><span class='line'>program:  Oink!
-</span><span class='line'>shrinker: Soft pressure, all done.
-</span><span class='line'>program:  Oink!
-</span><span class='line'>shrinker: Soft pressure, all done.
-</span><span class='line'>program:  Oink!
-</span><span class='line'>shrinker: Soft pressure, all done.
-</span><span class='line'>program:  Oink!
-</span><span class='line'>shrinker: Soft pressure, all done.
-</span><span class='line'>program:  Oink!
-</span><span class='line'>shrinker: Soft pressure, all done.
-</span><span class='line'>shrinker: processing request to free 166062080 bytes.
-</span><span class='line'>shrinker: starting with 64 things.
-</span><span class='line'>shrinker: finishing with 58 things.
-</span><span class='line'>      192534576 bytes of memory were freed!
-</span><span class='line'>program:  Oink!
-</span><span class='line'>shrinker: Soft pressure, all done.</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Concurrency</h2>
-
-<p>Shrinker callbacks conceptually work like asynchronous signal handlers,
-They handle specific events and may be called at any time, from your program&rsquo;s point of view.</p>
-
-<p>Each cache in your program that the shrinker can release data from,
-must have its own lock to prevent concurrency issues.</p>
-
-<p>The memory-hog sample program uses a mutex to handle concurrency.  To handle soft memory pressure, where your shrinker is called with <code>hard</code> set to false, you can keep a global <code>free_memory_please</code> global variable, and set it in the shrinker callback.  Then check it in the main loop, and free memory if necessary.  However, hard memory pressure must be handled immediately, or the system may hang.</p>
-
-<h2>Handling soft pressure</h2>
-
-<p>If possible, you should have your shrinker try to release some memory when called with <code>hard</code> set to false.  This will reduce the number of times you have to handle shrinking, and improve performance by making more free memory available to OSv for system tasks.  The memory-hog example currently ignores soft pressure.</p>
-
-<p>For more info on memory management and other OSv subjects, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get updates on by subscribing to the <a href="http://osv.io/blog/atom.xml">OSv blog RSS feed</a> or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
 ]]></content>
   </entry>
   
