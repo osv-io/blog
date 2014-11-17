@@ -4,7 +4,7 @@
   <title><![CDATA[OSv Blog]]></title>
   <link href="http://osv.io/blog/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2014-11-17T14:53:21-08:00</updated>
+  <updated>2014-11-17T15:56:35-08:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -12,6 +12,33 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[OSv Meetup at EBLUG: Intro Talk and Demo]]></title>
+    <link href="http://osv.io/blog/blog/2014/11/17/eblug/"/>
+    <updated>2014-11-17T16:54:23-08:00</updated>
+    <id>http://osv.io/blog/blog/2014/11/17/eblug</id>
+    <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
+
+<p><a href="http://osv.io/">OSv</a> is the simple, fast OS platform designed to run one application in the cloud, without the complexity of old-school OSs with their local users, permissions, and sevices.  Come see what it&rsquo;s all about, and enjoy free food and drink from East Bay LUG sponsor, Hurricane Electric.</p>
+
+<p><a href="http://www.eblug.org/"><img src="http://www.eblug.org/images/eblugdev-logo-transparent-75px.png" alt="EBLUG logo" /></a></p>
+
+<p><strong>Who:</strong> Don Marti, OSv demo monkey</p>
+
+<p><strong>What:</strong> Introduction to OSv (with live 9-second build demo!)</p>
+
+<p><strong>Where:</strong> <a href="http://www.eblug.org/index.html">East Bay LUG, Fremont, California, USA</a></p>
+
+<p><strong>When:</strong> 7pm Wednesday, November 19, 2014</p>
+
+<p><strong>Why:</strong>  See the new dedicated cloud OS, without the big travel budget</p>
+
+<p>Please join us for the next <a href="http://www.eblug.org/index.html">EBLUG meeting</a>, co-located with the OSv <a href="http://www.meetup.com/OSv-Developer-Meetup/">Meetup group</a>, and get a rapid introduction to OSv, how it works, and where it&rsquo;s going.</p>
+
+<p>If you&rsquo;re not already a member of the OSv <a href="http://www.meetup.com/OSv-Developer-Meetup/">Meetup group</a>, please join.  For general questions on OSv, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get general updates by subscribing to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[SSH Tip: Connecting to a Private Network Without Trusting the Bastion Host]]></title>
@@ -1018,63 +1045,6 @@ delivers: With OSv, you don&rsquo;t have to pay the virtualization tax.</p>
 <p>If you&rsquo;ll be at CloudOpen, you can <a href="http://lccona14.sched.org/event/4684a80dd37f200277e971133920a2d0">add our talk to your schedule now</a>.</p>
 
 <p>If you have any questions on running Redis or any other application, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get general updates by subscribing to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Running Clojure on OSv: Easier With a New Capstan Template]]></title>
-    <link href="http://osv.io/blog/blog/2014/07/27/capstan-lein-template/"/>
-    <updated>2014-07-27T00:00:00-07:00</updated>
-    <id>http://osv.io/blog/blog/2014/07/27/capstan-lein-template</id>
-    <content type="html"><![CDATA[<p>Clojure developers usually do not care too much about the underlying OS.
-The low-level differences between Linux, Mac OS, and even Microsoft Windows are abstracted away by the JVM.</p>
-
-<p>When deploying Clojure code on the cloud, there used to be one default choice &ndash; Linux.
-But Linux
-<a href="http://osv.io/blog/blog/2014/07/21/generic-os-is-dead/">is not an ideal OS</a>
-for pure cloud services.</p>
-
-<p><a href="https://github.com/cloudius-systems/osv">OSv</a> is a new, open source OS, designed specifically for the cloud.  Since OSv supports the standard JVM, it is ideal for running Clojure applications on the cloud.  And the same configuration applies to building VMs for any cloud: public clouds such as Amazon&rsquo;s and Google&rsquo;s, private clouds based on VMware or KVM, or public and private OpenStack.</p>
-
-<p>Porting a Clojure application to OSv was already
-<a href="http://osv.io/blog/blog/2014/04/22/riemann-on-osv/">pretty easy</a>, but
-now it&rsquo;s even easier.  This blog post describes a new <a href="https://github.com/tzach/capstan-lein-plugin">lein template</a> for OSv.</p>
-
-<!-- more -->
-
-
-<h2>Usage</h2>
-
-<p>Capstan works together with the <a href="http://leiningen.org/">Leinigen</a> build tool.</p>
-
-<p>First, create a new project skeleton.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>lein new capstan new-app</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now, you can run <a href="https://github.com/cloudius-systems/capstan">Capstan</a> to
-run your project on an a OSv VM.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd new-app
-</span><span class='line'>capstan run</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The template takes care of creating the project skeleton, including the Capstanfile.  When this is done, you can use Capstan directly to build a new OSv VM, deploy it on the cloud, or upload it to the public repository.</p>
-
-<script type="text/javascript" src="https://asciinema.org/a/11068.js"
-id="asciicast-11068" async="" data-speed="2" data-autoplay="1"
-ata-size="medium"></script>
-
-
-<p></p></p>
-
-<p>For more info on Capstan and other OSv subjects, please join
-the
-<a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.<br/>
-You can get updates on by subscribing to the <a href="http://osv.io/blog/atom.xml">OSv blog RSS feed</a> or following <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
 ]]></content>
   </entry>
   
