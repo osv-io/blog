@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Release | OSv Blog]]></title>
   <link href="http://osv.io/blog/blog/categories/release/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2014-11-13T15:32:04-08:00</updated>
+  <updated>2014-11-17T14:53:21-08:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -12,6 +12,57 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[SSH Tip: Connecting to a Private Network Without Trusting the Bastion Host]]></title>
+    <link href="http://osv.io/blog/blog/2014/11/17/ssh-without-trusting-bastion-host/"/>
+    <updated>2014-11-17T14:10:31-08:00</updated>
+    <id>http://osv.io/blog/blog/2014/11/17/ssh-without-trusting-bastion-host</id>
+    <content type="html"><![CDATA[<p><strong>By Nadav Har'El</strong></p>
+
+<p>In a typical lab network configuration, one cannot just <code>ssh</code> or <code>scp</code> to the hosts behind the firewall (our company calls them after characters from Norse mythology: Loki, Muninn and friends).  Instead, you need to ssh to a bastion host, and from there connect to the internal systems.</p>
+
+<p><img src="/images/ssh-user.jpeg" alt="ssh user" /><br><em>an ssh user connecting using a bastion host</em></p>
+
+<p>One can automate these two steps, with a command like</p>
+
+<p>```</p>
+
+<pre><code>ssh -t bastion.example.com ssh loki.lab.example.com
+</code></pre>
+
+<p>```</p>
+
+<p>And I guess some of you are already doing that. But this only works for ssh, not scp. One can do scp through an &ldquo;ssh tunnel&rdquo;, but this is really ugly to set up every time and to use.</p>
+
+<p>There is also a securty hole in this approach, because anyone who breaks into <code>bastion</code> (which is an external machine and thus exposed to the Internet) can then ssh from there to all the internal machines, or even hijack already-running ssh sessions.</p>
+
+<p>I finally found a much better solution, much easier to use and much more secure.</p>
+
+<!--more-->
+
+
+<p>Just add to your <code>~/.ssh/config</code> the following incantation:</p>
+
+<p>```
+Host *.lab</p>
+
+<pre><code>    ProxyCommand ssh -q bastion.example.com nc `basename %h .lab` 22
+</code></pre>
+
+<p>```</p>
+
+<p>And now, you can <code>ssh</code> or <code>scp</code> directly to <code>loki.lab</code>, or <code>muninn.lab</code> or whatever, without any hassles, as if Loki and Muninn are actual machines on your LAN.</p>
+
+<p>This trick works like this: To connect to the remote host, ssh normally just connects a socket to port 22 of the remote host. When the &ldquo;ProxyCommand&rdquo; is set, this command is used instead. The command above will ssh to <code>bastion.example.com</code> and from there connect (using <code>nc</code>) to loki&rsquo;s port 22. Your own ssh will do the ssh protocol with Loki over this connection.</p>
+
+<p>This solution, beyond being extremely convenient, also has an interesting security feature:  we&rsquo;ll no longer need to trust <code>bastion.example.com</code>. The classic &ldquo;ssh from your laptop to <code>bastion</code> to <code>loki</code>&rdquo; solution suffered from a problem that if someone broke into <code>bastion</code>, they could also break into <code>loki</code> &ndash; by using the private keys stored on <code>bastion</code>, or by hijacking the second leg of the ssh chain (and possibly injecting whatever commands it wanted into this session!). With this new solution, <code>bastion</code> is just acting as a stupid pipe for encypted data between my laptop and Loki &ndash; it cannot hijack the connection, and it doesn&rsquo;t have any private keys needed to initiate a connection to Loki on its own.</p>
+
+<p>For more tips and OSv news, subscript to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+
+<p><strong>Photo:</strong> <a href="http://www.flickr.com/photos/dfectuoso17/7013054091/">Security Hacker</a> by Santiago Zavala</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[OSv Early Access Private Beta]]></title>
