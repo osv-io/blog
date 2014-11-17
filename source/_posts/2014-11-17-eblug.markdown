@@ -1,0 +1,28 @@
+---
+layout: post
+title: "OSv Meetup at EBLUG: intro talk and demo"
+date: 2014-11-17 16:54:23 -0800
+comments: true
+published: true
+---
+
+**By Don Marti**
+
+[OSv](http://osv.io/) is the simple, fast OS platform designed to run one application in the cloud, without the complexity of old-school OSs with their local users, permissions, and sevices.  Come see what it's all about, and enjoy free food and drink from East Bay LUG sponsor, Hurricane Electric.
+
+[![EBLUG logo](http://www.eblug.org/images/eblugdev-logo-transparent-75px.png)](http://www.eblug.org/)
+
+**Who:** Don Marti, OSv demo monkey
+
+**What:** Introduction to OSv (with live 9-second build demo!)
+
+**Where:** [East Bay LUG, Fremont, California, USA](http://www.eblug.org/index.html)
+
+**When:** 7pm Wednesday, November 19, 2014
+
+**Why:**  See the new dedicated cloud OS, without the big travel budget
+
+Please join us for the next [EBLUG meeting](http://www.eblug.org/index.html), co-located with the OSv [Meetup group](http://www.meetup.com/OSv-Developer-Meetup/), and get a rapid introduction to OSv, how it works, and where it's going.  
+
+If you're not already a member of the OSv [Meetup group](http://www.meetup.com/OSv-Developer-Meetup/), please join.  For general questions on OSv, please join the [osv-dev mailing list](https://groups.google.com/forum/#!forum/osv-dev).  You can get general updates by subscribing to this blog's [feed](http://osv.io/blog/atom.xml), or folllowing [@CloudiusSystems](https://twitter.com/CloudiusSystems) on Twitter.
+
