@@ -9,7 +9,8 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="By Don Marti Yesterday we found out about a remotely exploitable hole in bash from our favorite Linux news sites. For some of us, our schedules on &hellip;">
+  <meta name="description" content="By Tzach Livyatan A new bash bug is &lsquo;bigger than Heartbleed&rsquo; and puts millions of websites.
+In short, Shellshock can take advantage of &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -114,6 +115,61 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/blog/2014/09/25/shellshock/">Shellshock</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-25T15:54:23-07:00" pubdate data-updated="true">Sep 25<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>By Tzach Livyatan</strong></p>
+
+<p>A new bash bug is &lsquo;bigger than Heartbleed&rsquo; and puts millions of websites.
+In short, Shellshock can take advantage of any server which call Bash.
+You can find a good insight into Shellshock <a href="http://lcamtuf.blogspot.co.il/2014/09/quick-notes-about-bash-bug-its-impact.html">on Michal Zalewski&rsquo;s blog</a>.</p>
+
+<p>A Bash patch is already available, but there is a bigger question:
+Why do you want  Bash on a production server in the first place?
+By its nature Bash is a dangerous beast, wouldn&rsquo;t it be better to keep him on the cage and off your system?</p>
+
+<p>What did you say?</p>
+
+<p>&ldquo;I need my Bash for troubleshooting?&rdquo;</p>
+
+<p>Do you now?</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/blog/2014/09/25/shellshock/">Read more&#8230;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -650,168 +706,6 @@ And when it is done:</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/blog/2014/08/14/redis-memonly/">Redis on OSv</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-08-14T09:26:31-07:00" pubdate data-updated="true">Aug 14<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><strong>By Glauber Costa and Don Marti</strong></p>
-
-<p>We&rsquo;re planning to attend the
-Linux Foundation&rsquo;s <a href="http://events.linuxfoundation.org/events/cloudopen-north-america">CloudOpen North America conference</a>.  Hope to see you there, and please come to our talk, &ldquo;<a href="http://lccona14.sched.org/event/4684a80dd37f200277e971133920a2d0">Beating the Virtualization Tax for NoSQL Workloads With OSv</a>.&rdquo;</p>
-
-<p>We&rsquo;ll be using a popular NoSQL database for our demo: Redis.  If you&rsquo;d like to follow along, you&rsquo;re welcome to clone and build Redis on OSv.  We&rsquo;re big Redis fans, because it&rsquo;s a fast, easy-to-administer, in-memory database that works with many useful data structures.</p>
-
-<h2>Redis A to Z</h2>
-
-<p><a href="http://redis.io/">Redis</a> is a remarkably useful piece of software.  People on the Internet talk about Redis a lot.  Here&rsquo;s what Google Suggest has to say about it: <strong>Atomic, benchmark, cluster, delete, expire, failover, gem, hash, incr, Java, key, list, master/slave, node.js, objects, Python, queue, Ruby, set, ttl, Ubuntu, &ldquo;vs. mongodb&rdquo;, Windows, XML, yum, zadd</strong>.  (<a href="http://redis.io/commands/ZADD">zadd</a> is a really cool command by the way.  A huge time-saver for maintaining &ldquo;scoreboard&rdquo; state for games and content-scoring applications.  Did we mention that we&rsquo;re Redis fans?)</p>
-
-<p>Redis fills a valuable niche between memcached and a full-scale NoSQL database such as Cassandra.  Although it&rsquo;s fast and perfectly usable as a simple key-value store, you can also use Redis to manage more featureful data structures such as sets and queues.</p>
-
-<p>It makes a great session cache, lightweight task queue, or a place to keep pre-rendered content or ephemeral data, and it&rsquo;s a <a href="http://highscalability.com/display/Search?moduleId=4876569&amp;searchQuery=redis">star at highscalability.com</a>.</p>
-
-<p>But you probably already know that.</p>
-
-<h2>Building Redis on OSv</h2>
-
-<p>Redis works normally on OSv except for one feature: the
-<a href="http://redis.io/commands/bgsave">BGSAVE</a>
-command.  A Redis background
-save depends on the operating system&rsquo;s
-<a href="http://en.wikipedia.org/wiki/Copy-on-write#Copy-on-write_in_virtual_memory_management">copy-on-write</a>
-functionity.  When you issue the BGSAVE
-command, the parent Redis process calls
-<a href="http://en.wikipedia.org/wiki/Fork_%28system_call%29">fork</a>,
-and the parent process keeps running while the child
-process saves the database state.</p>
-
-<p>Copy-on-write ensures that the child process sees
-a consistent set of data, while the parent gets its
-own copy of any page that it modifies.</p>
-
-<p>Because OSv has a single address space,
-that isn&rsquo;t an option here. OSv support Redis
-<a href="http://redis.io/commands/save">SAVE</a> but not BGSAVE. Other than that,
-running redis on OSv requires little effort. From the OSv source tree,
-all one should do is:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>make image=redis-memonly</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now you have a <code>usr.img</code> file, which you can run locally with OSv&rsquo;s <code>run.py</code>.  Behind the scenes, all that this build step is doing is to issue the application&rsquo;s <code>make</code>, with the right set of flags so redis is a shared library.  For more info on how to do that, see <a href="http://osv.io/blog/blog/2014/04/03/capstan/">our earlier example</a>.  of how to use the <code>-fPIC</code> and <code>-shared</code> options.</p>
-
-<h2>Is it fast?</h2>
-
-<p>We have been running redis on local machines to test many of its
-functionalities and help us mature OSv.  As with any piece of software, the
-result of course depends on many factors.  Because OSv is an operating system
-designed for the cloud, we wanted to showcase its performance running on Amazon
-EC2.</p>
-
-<p>To do that, we have selected the <a href="http://aws.amazon.com/ec2/instance-types/">c3.x8large</a> machines.  They feature 32 CPUs and
-60Gb of memory each. We are fully aware this is an overkill in the case
-of Redis &ndash; a single threaded application. However, those are the only machines
-that Amazon advertises as featuring 10Gb networking, and we didn&rsquo;t want the
-network to be a bottleneck for the sake of the benchmark. Also, smaller
-machines cannot be put in EC2 placement groups. It all boils down to the network!</p>
-
-<p>So in this benchmark, no more than two cores should be active at any given time &ndash; one for redis, one for network interrupt processing. In a real scenario, one could easily deploy in a smaller machine.</p>
-
-<h3>Benchmark setup</h3>
-
-<p>We have benchmarked redis&#8217; latest beta (beta-8) running both on OSv, and on an
-Ubuntu14 AMI. To do that, we have just launched a new AMI, selected
-Ubuntu14.04, and launched it. Once it launched, we have downloaded and compiled
-redis&#8217; latest, and moved the redis.conf used by OSv to the machine. The only
-difference in that configuration file from what is shipped with redis by
-default, is that we disable disk activity. As already explained,
-OSv currently do not support that, and to be fair, the Linux guest we are
-comparing against should not hit the disk either at any point.</p>
-
-<p>On ubuntu, redis was run with:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>numactl --physcpubind=1 redis-server ~/redis.conf</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Using numactl considerably reduces the standard deviation coming from the Linux
-scheduler moving the thread around.</p>
-
-<p>The <code>redis-benchmark</code> command was issued in another machine of the same type,
-running in the same zone and placement group.</p>
-
-<p>The two commands were:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>numactl --physcpubind=1 redis-benchmark --csv -h &lt;IP&gt; -c 50 -n 100000 -P 1</span></code></pre></td></tr></table></div></figure>
-
-
-<p>and later on, to demonstrate how OSv can handle larger messages,</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>numactl --physcpubind=1 redis-benchmark --csv -h &lt;IP&gt; -c 50 -n 100000 -P 16</span></code></pre></td></tr></table></div></figure>
-
-
-<p>What this last command does, is to exercise redis&#8217; <code>pipeline</code> feature, that
-can send multiple &ndash; in this case 16 &ndash; commands in the same packet. This will
-decrease the impact of the round trip time in the final figure.</p>
-
-<p>The difference can be clearly seen in the graph&hellip;</p>
-
-<p><a href="/blog/images/redis.png"><img src="/blog/images/redis.png" alt="Redis benchmark results" /></a></p>
-
-<p>Note that the LRANGE class of commands has a significantly different pattern
-than the other commands. In that command, the client sends a very short query,
-and receive a potentially very large reply, thereby exercising the transmission
-path, rather than the receive path of OSv. This table shows that our transmission
-path is lacking a bit of love, particularly when the response sizes grows (as the
-pipeline level increases)</p>
-
-<h2>Conclusions</h2>
-
-<p>OSv is a fast maturing, but not yet mature operating system, soon to be in beta
-phase. We have gaps to close, as can be seen in the case of LRANGE set of
-benchmarks. So far, we have focused our efforts in technologies around the
-receive path, and it has paid off: We can offer a level of performance far
-beyond what an out of the box distribution can. Some features that we
-architecturally lack, makes the use of Redis as a full-blown on-disk database
-challenging. But if you want to serve your load from memory, the OSv promise
-delivers: With OSv, you don&rsquo;t have to pay the virtualization tax.</p>
-
-<p>If you&rsquo;ll be at CloudOpen, you can <a href="http://lccona14.sched.org/event/4684a80dd37f200277e971133920a2d0">add our talk to your schedule now</a>.</p>
-
-<p>If you have any questions on running Redis or any other application, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get general updates by subscribing to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/blog/page/3/">&larr; Older</a>
@@ -829,6 +723,10 @@ delivers: With OSv, you don&rsquo;t have to pay the virtualization tax.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/blog/2014/12/02/docker-rocket/">Containers, Containers, Containers! More Options for the Cloud</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/blog/2014/11/17/eblug/">OSv Meetup at EBLUG: Intro Talk and Demo</a>
       </li>
     
@@ -842,10 +740,6 @@ delivers: With OSv, you don&rsquo;t have to pay the virtualization tax.</p>
     
       <li class="post">
         <a href="/blog/blog/2014/11/12/amazon/">On Stage Thursday at Amazon re:Invent</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/blog/2014/11/09/rpi/">Raspberry Pi at Amazon Re:invent</a>
       </li>
     
   </ul>
