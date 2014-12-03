@@ -13,7 +13,7 @@ Everybody who uses containers has probably heard about [Rocket](https://coreos.c
 
 The Docker technology has disrupted the cloud and datacenter field for the past year. The speed of penetration was amazing and unmatched in the industry. I can’t think of a similar case for such fast-paced adoption of the concept. Neither AWS, OpenStack, nor virtualization were adopted that fast. What made it that attractive for our community to adopt?
 
-Container technology was there for a lot of years. Even before containers, there has always been similar functionality, like Unix’s `chroot` and FreeBSD jails. However, Docker really changed the game with straightforward simplicity and usability. Docker contributed the following:
+Container technology was there for a lot of years. Even before containers, there has always been similar functionality, like Unix’s `chroot`. However, Docker really changed the game with straightforward simplicity and usability. Docker contributed the following:
 
  1.  A basic one-liner command line: `docker run`. It masked out all of the LXC complexities and even downloaded the image if needed.
 
