@@ -1,0 +1,70 @@
+---
+layout: post
+title: "Making spam vanish&hellip;in the CLOUD"
+date: 2014-12-04 14:10:31 -0800
+comments: true
+published: true
+categories: release
+---
+
+**By Don Marti**
+
+We knew that spammers control a lot of bandwidth, because botnets.  So, for a long time, people thought that fighting spam by just accepting and discarding huge amounts of it would be counterproductive. The spammers get bandwidth for free, and servers are expensive.
+
+There have been some interesting
+projects to 
+try to waste the spammer's bandwidth by fooling the sender into wasting precious bandwidth and CPU by forcing it to retransmit packets, reorder, and retransmit them.
+
+For example, see [Spam Cannibal](http://www.spamcannibal.org/cannibal.cgi). Other spam tarpits focused on a different part of the spam problem: trapping the address-harvesting part of the spam operation.  Address generators would build a dynamic site which has an infinite hierarchy of random pages, each containing a few bogus email addresses and links to more of these fake pages.  An example is [Sugarplum](http://www.devin.com/sugarplum/) by Devin Carraway.
+
+Sugarplum created pages such as [http://www.devin.com/peaches/lemons](this randomly generated page) and this [directory of people who want to buy herbal weight loss products](http://www.devin.com/peaches/lemons/disentangles/fingerboard) (psst. humans. Not really, just more spamtrap addresses. Don't tell the address-harvesting bots.)  
+
+But in most cases, for a long time, our only hope for fighting spam was to batten down the hatches.  Assume that the spammers control more computing power and bandwidth than we do, and just do the best we can to filter it.
+
+![vortex image](/images/vortex.jpeg)
+
+Is that the best we can do?
+
+<!--more-->
+
+## That was then, this is Cloud
+
+Is that still true?  Except in high-end "fiberhoods," the bandwidth available to end-user machines is stagnant.  Especially upstream bandwidth.  And, much as we like to complain about the security situation on commodity operating systems, it is getting somewhat better.  
+
+And cloud computing continues to be built out everywhere.  Now, lots of people have access to cheap or even free cloud VMs.  If you have extra unused cloud capacity, you can use part of it as a spam sink.
+
+## Do spammers still outnumber us?  Let's find out.
+
+This project is a simple way to build a stand-alone VM that accepts and drops all spam.
+
+Got a free account on a cloud provider, or extra capacity on your hypervisor?   Run a spam sink.  (If you're a cloud provider, you can stick spam sinks on all your spare IP addresses.)
+
+
+##How to use:
+
+1. Build a spamsink VM with "capstan build" (You can get the Capstan VM-building tool from the [https://github.com/cloudius-systems/capstan](Capstan project on GitHub).
+
+2. Deploy to your favorite private or public cloud.
+
+3. Point some MX records and spamtrap addresses at it.  You can run Sugarplum (above) to generate as many random addresses as you want.
+
+
+## To try it out locally:
+
+Build and run: `capstan build && capstan run -n bridge`
+
+OSv will print the IP address.  In another terminal, point the smtpsend client at it:
+
+`./smtpsend -n 100`
+
+
+
+## On GitHub
+
+A spamsink [GitHub repository](https://github.com/dmarti/spamsink) is up.  Pull requests welcome.
+
+For the latest cloud and OSv news, subscript to this blog's [feed](http://osv.io/blog/atom.xml), or follow [@CloudiusSystems](https://twitter.com/CloudiusSystems) on Twitter.
+
+_Vortex image: [Robert D Anderson for Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Vortex_in_draining_bottle_of_water.jpg)_
+
+
