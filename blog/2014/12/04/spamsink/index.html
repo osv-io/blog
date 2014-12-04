@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>New Dashboard Tab for Insight on Cassandra Virtual Appliances - OSv Blog</title>
+  <title>Making Spam Vanish&hellip;in the CLOUD - OSv Blog</title>
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="By Tzach Livyatan We are constantly looking for ways to improve the OSv virtual appliance experience. The latest improvement is an integrated &hellip;">
+  <meta name="description" content="By Don Marti We knew that spammers control a lot of bandwidth, because botnets. So, for a long time, people thought that fighting spam by just &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://osv.io/blog/blog/2014/09/18/cassandra-dashboard-tab">
+  <link rel="canonical" href="http://osv.io/blog/blog/2014/12/04/spamsink">
   <link href="/blog/favicon.ico" rel="icon">
   <link href="/blog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
@@ -107,7 +107,7 @@
         </script>
     </div>
 </div>
-<div class="mobile mobilePageTitle">New Dashboard tab for insight on Cassandra virtual appliances</div>
+<div class="mobile mobilePageTitle">Making spam vanish&hellip;in the CLOUD</div>
 
 
   <div id="main">
@@ -117,7 +117,7 @@
   
   <header>
     
-      <h1 class="entry-title">New Dashboard Tab for Insight on Cassandra Virtual Appliances</h1>
+      <h1 class="entry-title">Making Spam Vanish&hellip;in the CLOUD</h1>
     
     
       <p class="meta">
@@ -133,50 +133,70 @@
   
 
 
-<time datetime="2014-09-18T06:00:00-07:00" pubdate data-updated="true">Sep 18<span>th</span>, 2014</time>
+<time datetime="2014-12-04T14:10:31-08:00" pubdate data-updated="true">Dec 4<span>th</span>, 2014</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p><strong>By Tzach Livyatan</strong></p>
+<div class="entry-content"><p><strong>By Don Marti</strong></p>
 
-<p>We are constantly looking for ways to improve the OSv virtual appliance experience.  The latest improvement is an integrated dashboard, presenting a combination of:</p>
+<p>We knew that spammers control a lot of bandwidth, because botnets.  So, for a long time, people thought that fighting spam by just accepting and discarding huge amounts of it would be counterproductive. The spammers get bandwidth for free, and servers are expensive.</p>
 
-<ul>
-<li>OS related metrics (CPU, memory, threads, &hellip;)</li>
-<li>Profiling related metrics (trace points)</li>
-<li>JVM related metrics (heap, GC, &hellip;)</li>
-<li>Cassandra related metrics (latency, tasks, cluster status)</li>
-</ul>
+<p>There have been some interesting
+projects to
+try to waste the spammer&rsquo;s bandwidth by fooling the sender into wasting precious bandwidth and CPU by forcing it to retransmit packets, reorder, and retransmit them.</p>
+
+<p>For example, see <a href="http://www.spamcannibal.org/cannibal.cgi">Spam Cannibal</a>. Other spam tarpits focused on a different part of the spam problem: trapping the address-harvesting part of the spam operation.  Address generators would build a dynamic site which has an infinite hierarchy of random pages, each containing a few bogus email addresses and links to more of these fake pages.  An example is <a href="http://www.devin.com/sugarplum/">Sugarplum</a> by Devin Carraway.</p>
+
+<p>Sugarplum created pages such as <a href="this%20randomly%20generated%20page">http://www.devin.com/peaches/lemons</a> and this <a href="http://www.devin.com/peaches/lemons/disentangles/fingerboard">directory of people who want to buy herbal weight loss products</a> (psst. humans. Not really, just more spamtrap addresses. Don&rsquo;t tell the address-harvesting bots.)</p>
+
+<p>But in most cases, for a long time, our only hope for fighting spam was to batten down the hatches.  Assume that the spammers control more computing power and bandwidth than we do, and just do the best we can to filter it.</p>
+
+<p><img src="/blog/images/vortex.jpeg" alt="vortex image" /></p>
+
+<p>Is that the best we can do?</p>
+
+<!--more-->
 
 
-<p><img src="/blog/images/cassandra-tab.png" alt="tab" /></p>
+<h2>That was then, this is Cloud</h2>
 
-<!-- more -->
+<p>Is that still true?  Except in high-end &ldquo;fiberhoods,&rdquo; the bandwidth available to end-user machines is stagnant.  Especially upstream bandwidth.  And, much as we like to complain about the security situation on commodity operating systems, it is getting somewhat better.</p>
+
+<p>And cloud computing continues to be built out everywhere.  Now, lots of people have access to cheap or even free cloud VMs.  If you have extra unused cloud capacity, you can use part of it as a spam sink.</p>
+
+<h2>Do spammers still outnumber us?  Let&rsquo;s find out.</h2>
+
+<p>This project is a simple way to build a stand-alone VM that accepts and drops all spam.</p>
+
+<p>Got a free account on a cloud provider, or extra capacity on your hypervisor?   Run a spam sink.  (If you&rsquo;re a cloud provider, you can stick spam sinks on all your spare IP addresses.)</p>
+
+<h2>How to use:</h2>
+
+<ol>
+<li><p>Build a spamsink VM with &ldquo;capstan build&rdquo; (You can get the Capstan VM-building tool from the <a href="Capstan%20project%20on%20GitHub">https://github.com/cloudius-systems/capstan</a>.</p></li>
+<li><p>Deploy to your favorite private or public cloud.</p></li>
+<li><p>Point some MX records and spamtrap addresses at it.  You can run Sugarplum (above) to generate as many random addresses as you want.</p></li>
+</ol>
 
 
-<p>The dashboard is yet another example of using
-<a href="osv.io/api/swagger-ui/dist/index.html">REST API</a> to monitor and
-control OSv and
-OSv virtual appliances. These REST APIs are open for the
-user directly. In particular, the new Capstan tab takes advantage of the newly added
-<a href="http://osv.io/blog/blog/2014/08/26/jolokia-jmx-connectivity-in-osv/">Jolokia</a>
-connector, exposing JMX information over REST.
-The OSv REST API makes it simple to manage your OSv virtual appliance with <code>curl(1)</code> or your own script.</p>
+<h2>To try it out locally:</h2>
 
-<p>There are other great tools out there for JVM monitoring and profiling, like <a href="http://visualvm.java.net/">VisualVM</a>.
-The OSv dashboard is unique by unifying the end-to-end virtual appliances functionality:
-From the application to the JVM, down to the OS and HW status.</p>
+<p>Build and run: <code>capstan build &amp;&amp; capstan run -n bridge</code></p>
 
-<p>In particular, trace points allow a deep dive into the system execution, providing similar functionality on OSv to what <a href="https://en.wikipedia.org/wiki/DTrace">DTrace</a> does for Solaris.</p>
+<p>OSv will print the IP address.  In another terminal, point the smtpsend client at it:</p>
 
-<p>We are planing to provide similar application-level tabs for other OSv virtual appliances.
-Want to build a tab for your favorite application on OSv?
-Clone the <a href="https://github.com/cloudius-systems/osv-gui">osv-gui</a> repository and start submitting pull requests!</p>
+<p><code>./smtpsend -n 100</code></p>
 
-<p>You can keep up with the latest OSv news from this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or following <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+<h2>On GitHub</h2>
+
+<p>A spamsink <a href="https://github.com/dmarti/spamsink">GitHub repository</a> is up.  Pull requests welcome.</p>
+
+<p>For the latest cloud and OSv news, subscript to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+
+<p><em>Vortex image: <a href="https://commons.wikimedia.org/wiki/File:Vortex_in_draining_bottle_of_water.jpg">Robert D Anderson for Wikimedia Commons</a></em></p>
 </div>
 
 
@@ -199,12 +219,12 @@ Clone the <a href="https://github.com/cloudius-systems/osv-gui">osv-gui</a> repo
   
 
 
-<time datetime="2014-09-18T06:00:00-07:00" pubdate data-updated="true">Sep 18<span>th</span>, 2014</time>
+<time datetime="2014-12-04T14:10:31-08:00" pubdate data-updated="true">Dec 4<span>th</span>, 2014</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/blog/categories/cassandra/'>cassandra</a>, <a class='category' href='/blog/blog/categories/dashboard/'>dashboard</a>
+    <a class='category' href='/blog/blog/categories/release/'>release</a>
   
 </span>
 
@@ -234,10 +254,8 @@ Clone the <a href="https://github.com/cloudius-systems/osv-gui">osv-gui</a> repo
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/blog/2014/09/13/how-fast-can-you-run-4-vm/" title="Previous Post: Speed run: running 4 virtual appliances on your laptop in 5 seconds overall">&laquo; Speed run: running 4 virtual appliances on your laptop in 5 seconds overall</a>
+        <a class="basic-alignment left" href="/blog/blog/2014/12/02/docker-rocket/" title="Previous Post: Containers, containers, containers! More options for the cloud">&laquo; Containers, containers, containers! More options for the cloud</a>
       
-      
-        <a class="basic-alignment right" href="/blog/blog/2014/09/22/meetup/" title="Next Post: OSv Meetup group: Convert your application to a run-anywhere VM">OSv Meetup group: Convert your application to a run-anywhere VM &raquo;</a>
       
     </p>
   </footer>
@@ -320,8 +338,8 @@ Clone the <a href="https://github.com/cloudius-systems/osv-gui">osv-gui</a> repo
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://osv.io/blog/blog/2014/09/18/cassandra-dashboard-tab/';
-        var disqus_url = 'http://osv.io/blog/blog/2014/09/18/cassandra-dashboard-tab/';
+        var disqus_identifier = 'http://osv.io/blog/blog/2014/12/04/spamsink/';
+        var disqus_url = 'http://osv.io/blog/blog/2014/12/04/spamsink/';
         var disqus_script = 'embed.js';
       
     (function () {

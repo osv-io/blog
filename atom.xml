@@ -4,7 +4,7 @@
   <title><![CDATA[OSv Blog]]></title>
   <link href="http://osv.io/blog/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2014-12-03T08:52:33-08:00</updated>
+  <updated>2014-12-04T13:16:34-08:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -12,6 +12,71 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Making Spam Vanish&hellip;in the CLOUD]]></title>
+    <link href="http://osv.io/blog/blog/2014/12/04/spamsink/"/>
+    <updated>2014-12-04T14:10:31-08:00</updated>
+    <id>http://osv.io/blog/blog/2014/12/04/spamsink</id>
+    <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
+
+<p>We knew that spammers control a lot of bandwidth, because botnets.  So, for a long time, people thought that fighting spam by just accepting and discarding huge amounts of it would be counterproductive. The spammers get bandwidth for free, and servers are expensive.</p>
+
+<p>There have been some interesting
+projects to
+try to waste the spammer&rsquo;s bandwidth by fooling the sender into wasting precious bandwidth and CPU by forcing it to retransmit packets, reorder, and retransmit them.</p>
+
+<p>For example, see <a href="http://www.spamcannibal.org/cannibal.cgi">Spam Cannibal</a>. Other spam tarpits focused on a different part of the spam problem: trapping the address-harvesting part of the spam operation.  Address generators would build a dynamic site which has an infinite hierarchy of random pages, each containing a few bogus email addresses and links to more of these fake pages.  An example is <a href="http://www.devin.com/sugarplum/">Sugarplum</a> by Devin Carraway.</p>
+
+<p>Sugarplum created pages such as <a href="this%20randomly%20generated%20page">http://www.devin.com/peaches/lemons</a> and this <a href="http://www.devin.com/peaches/lemons/disentangles/fingerboard">directory of people who want to buy herbal weight loss products</a> (psst. humans. Not really, just more spamtrap addresses. Don&rsquo;t tell the address-harvesting bots.)</p>
+
+<p>But in most cases, for a long time, our only hope for fighting spam was to batten down the hatches.  Assume that the spammers control more computing power and bandwidth than we do, and just do the best we can to filter it.</p>
+
+<p><img src="http://osv.io/blog/images/vortex.jpeg" alt="vortex image" /></p>
+
+<p>Is that the best we can do?</p>
+
+<!--more-->
+
+
+<h2>That was then, this is Cloud</h2>
+
+<p>Is that still true?  Except in high-end &ldquo;fiberhoods,&rdquo; the bandwidth available to end-user machines is stagnant.  Especially upstream bandwidth.  And, much as we like to complain about the security situation on commodity operating systems, it is getting somewhat better.</p>
+
+<p>And cloud computing continues to be built out everywhere.  Now, lots of people have access to cheap or even free cloud VMs.  If you have extra unused cloud capacity, you can use part of it as a spam sink.</p>
+
+<h2>Do spammers still outnumber us?  Let&rsquo;s find out.</h2>
+
+<p>This project is a simple way to build a stand-alone VM that accepts and drops all spam.</p>
+
+<p>Got a free account on a cloud provider, or extra capacity on your hypervisor?   Run a spam sink.  (If you&rsquo;re a cloud provider, you can stick spam sinks on all your spare IP addresses.)</p>
+
+<h2>How to use:</h2>
+
+<ol>
+<li><p>Build a spamsink VM with &ldquo;capstan build&rdquo; (You can get the Capstan VM-building tool from the <a href="Capstan%20project%20on%20GitHub">https://github.com/cloudius-systems/capstan</a>.</p></li>
+<li><p>Deploy to your favorite private or public cloud.</p></li>
+<li><p>Point some MX records and spamtrap addresses at it.  You can run Sugarplum (above) to generate as many random addresses as you want.</p></li>
+</ol>
+
+
+<h2>To try it out locally:</h2>
+
+<p>Build and run: <code>capstan build &amp;&amp; capstan run -n bridge</code></p>
+
+<p>OSv will print the IP address.  In another terminal, point the smtpsend client at it:</p>
+
+<p><code>./smtpsend -n 100</code></p>
+
+<h2>On GitHub</h2>
+
+<p>A spamsink <a href="https://github.com/dmarti/spamsink">GitHub repository</a> is up.  Pull requests welcome.</p>
+
+<p>For the latest cloud and OSv news, subscript to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+
+<p><em>Vortex image: <a href="https://commons.wikimedia.org/wiki/File:Vortex_in_draining_bottle_of_water.jpg">Robert D Anderson for Wikimedia Commons</a></em></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Containers, Containers, Containers! More Options for the Cloud]]></title>
@@ -138,6 +203,8 @@ is the very thing that makes Docker attractive, its simplicity, is also a disadv
     <id>http://osv.io/blog/blog/2014/11/13/osv-private-beta</id>
     <content type="html"><![CDATA[<p>Cloudius Systems is introducing an early access version of OSv, the lightweight open-source OS optimized for large cloud workloads, on November 13.  <a href="http://osv.io/beta-release/">Beta program information</a> is now available.</p>
 
+<p><img src="http://www.cloudius-systems.com/images/mouse.jpeg" alt="lab mouse" /></p>
+
 <p>OSv can be used to minimize latency and reduce TCO for many workloads, especially horizontally scaled ones. The software is available as ready-to-run virtual machine images pre-configured to run popular NoSQL data stores such as Redis and Apache Cassandra, as well as in source code form.</p>
 
 <p>“OSv lets you take a project from a developer’s IDE to a flexible, multi-server deployment much faster,” said Dor Laor, CEO of Cloudius Systems.  “As customers require more and more throughput at lower and lower operating cost, we enable developers to use the agility of containers along with the proven security and management features known for in virtual machines.”</p>
@@ -146,11 +213,11 @@ is the very thing that makes Docker attractive, its simplicity, is also a disadv
 
 <p>&ldquo;OSv was designed with virtualization in mind,” said Cloudius Systems CTO, Avi Kivity.  “The OS overhead is minimized by a reduction of context switches, data copies, and inefficient constructs such as spinlocks.&rdquo; OSv virtual machines can be as small as 20MB, far smaller than Docker containers, and boot in less than one second.</p>
 
-<h2>About Cloudius Systems</h2>
-
-<p>Cloudius Systems is focused on allowing operating systems to better optimize CPU consumption and overhead memory.  OSV is designed to run a single application, resulting in unparalleled throughput and latency, minimizing operating costs by reducing the need for administration, template management, patching and tuning of applications. Cloudius Systems was founded in 2013 by the team that created the KVM hypervisor. For more information, please visit www.cloudius-systems.com.</p>
+<h2><a href="http://www.cloudius-systems.com/images/mouse.jpeg">Sign up for the OSv beta</a></h2>
 
 <p>You can keep up with the latest OSv news from this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.  Hope to see you at the show.</p>
+
+<p>Photo: <a href="http://commons.wikimedia.org/wiki/File:Lab_mouse_mg_3216.jpg">Rama for Wikimedia Commons</a></p>
 ]]></content>
   </entry>
   
@@ -932,27 +999,6 @@ And when it is done:</p>
 <p>This is just one small aspect of all the new and exciting manageability features that are in or coming to OSv. Over the next few months we hope to bring you additional aspects that will further enhance your deployment experience. Stay tuned.</p>
 
 <p>If you have any questions on OSv management, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get general updates by subscribing to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[OSv in the Spotlight at LinuxCon/CloudOpen 2014]]></title>
-    <link href="http://osv.io/blog/blog/2014/08/20/linuxcon-cloudopen/"/>
-    <updated>2014-08-20T16:10:31-07:00</updated>
-    <id>http://osv.io/blog/blog/2014/08/20/linuxcon-cloudopen</id>
-    <content type="html"><![CDATA[<p>While we relax and don&rsquo;t have to fix anything on our slides (really, they&rsquo;re all done), other speakers at the Linux Foundation&rsquo;s <a href="http://events.linuxfoundation.org/events/cloudopen-north-america">CloudOpen North America conference</a> in beautiful Chicago have some observations to make about OSv.</p>
-
-<p><img src="http://osv.io/blog/images/chicago-river.jpeg" alt="Chicago River" /></p>
-
-<p><strong>The Linux Foundation always picks great conference locations.</strong></p>
-
-<p><a href="http://lccona14.sched.org/speaker/rcpavlicek">Russell Pavlicek</a> from the Xen project mentioned several library OSs that run on Xen in his <a href="http://lccona14.sched.org/event/17fdf31e5913cc4ebd5cf1f2ec039aa0">talk on new Xen features</a>.  He called the concept &ldquo;one of the biggest advances in the cloud.&rdquo;  Earlier library OSs have shown how much performance and simplicity gains are available, and OSv is extending the idea to ordinary POSIX and Java applications.</p>
-
-<p><a href="http://lccona14.sched.org/speaker/mikeday">Mike Day</a> from IBM said, &ldquo;the engineers who write OSv are really good C++ coders,&rdquo; and called the project &ldquo;some of the finest C++ source code I&rsquo;ve ever seen&rdquo; in his <a href="http://lccona14.sched.org/event/434032efc316cc7aa98d4d590abda72e">talk on cloud operating systems for servers</a>.  He also had some praise for the <a href="http://osv.io/blog/blog/2014/04/19/spinlock-free/">spinlock-free way</a> that OSv handles mutexes, which as regular readers of this blog will know is important to prevent the dreaded lock-holder preemption problem.</p>
-
-<p>If you&rsquo;re at LinuxCon, excuse me, #linuxcon, please come over and say &ldquo;hi&rdquo; to the OSv speakers: Don Marti and Glauber Costa. Hope to see you at the event, and please come to &ldquo;<a href="http://lccona14.sched.org/event/4684a80dd37f200277e971133920a2d0">Beating the Virtualization Tax for NoSQL Workloads With OSv</a>&rdquo; on Friday at 10:45 in the Colorado room.   Otherwise, you can get general OSv updates by subscribing to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
-
-<p><strong>Chicago River photo: <a href="http://commons.wikimedia.org/wiki/File:Chicago_river_2004.jpg">Urban for Wikimedia Commons</a></strong></p>
 ]]></content>
   </entry>
   
