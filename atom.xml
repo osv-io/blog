@@ -4,7 +4,7 @@
   <title><![CDATA[OSv Blog]]></title>
   <link href="http://osv.io/blog/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2014-12-04T13:16:34-08:00</updated>
+  <updated>2014-12-04T17:33:58-08:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -85,7 +85,7 @@ try to waste the spammer&rsquo;s bandwidth by fooling the sender into wasting pr
     <id>http://osv.io/blog/blog/2014/12/02/docker-rocket</id>
     <content type="html"><![CDATA[<p><strong>By <a href="https://twitter.com/DorLaor/">Dor Laor</a></strong></p>
 
-<p>Everybody who uses containers has probably heard about <a href="https://coreos.com/blog/rocket">Rocket</a> by know. What does this <strike>fork</strike> re-implementation mean to the Docker community? Let’s dive in.</p>
+<p>Everybody who uses containers has probably heard about <a href="https://coreos.com/blog/rocket">Rocket</a> by now. What does this <strike>fork</strike> re-implementation mean to the Docker community? Let’s dive in.</p>
 
 <p>The Docker technology has disrupted the cloud and datacenter field for the past year. The speed of penetration was amazing and unmatched in the industry. I can’t think of a similar case for such fast-paced adoption of the concept. Neither AWS, OpenStack, nor virtualization were adopted that fast. What made it that attractive for our community to adopt?</p>
 
