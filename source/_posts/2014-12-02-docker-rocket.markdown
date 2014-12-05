@@ -9,7 +9,7 @@ categories: release
 
 **By [Dor Laor](https://twitter.com/DorLaor/)**
 
-Everybody who uses containers has probably heard about [Rocket](https://coreos.com/blog/rocket) by know. What does this <strike>fork</strike> re-implementation mean to the Docker community? Let’s dive in.
+Everybody who uses containers has probably heard about [Rocket](https://coreos.com/blog/rocket) by now. What does this <strike>fork</strike> re-implementation mean to the Docker community? Let’s dive in.
 
 The Docker technology has disrupted the cloud and datacenter field for the past year. The speed of penetration was amazing and unmatched in the industry. I can’t think of a similar case for such fast-paced adoption of the concept. Neither AWS, OpenStack, nor virtualization were adopted that fast. What made it that attractive for our community to adopt?
 
