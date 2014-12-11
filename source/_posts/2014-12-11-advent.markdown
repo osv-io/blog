@@ -1,0 +1,26 @@
+---
+layout: post
+title: "OSv on the QEMU Advent Calendar"
+date: 2014-12-11 14:10:31 -0800
+comments: true
+published: true
+categories: release
+---
+
+OSv is on the [QEMU Advent Calendar](http://www.qemu-advent-calendar.org/#day-11) with a ready-to-download VM image.
+
+[![day 11](/images/day11.png)](http://www.qemu-advent-calendar.org/#day-11)
+
+Not just a demo, it's a fully functional Redis data store with a web management console that you can try with a real Redis application.   There are more fun projects on the QEMU Advent Calendar site, too.
+
+<!--more-->
+
+Can someone make a VM that's even smaller than an OSv one?  Looks like the answer is yes.
+
+[![day 10](/images/day10.png)](http://www.qemu-advent-calendar.org/#day-10)
+
+Poor [Nyan Cat](http://www.nyan.cat/original), squashed to just 512 bytes (including a PC speaker version of the music) in the [Day 10 download](http://www.qemu-advent-calendar.org/#day-10) from Max Reitz.  There's also vintage retrocomputing, some near-future 64-bit ARM action, and more.  Check it out: [QEMU Advent Calendar](http://www.qemu-advent-calendar.org/).
+
+
+For the latest cloud and OSv news, subscript to this blog's [feed](http://osv.io/blog/atom.xml), or follow [@CloudiusSystems](https://twitter.com/CloudiusSystems) on Twitter.
+
