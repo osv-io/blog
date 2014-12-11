@@ -4,7 +4,7 @@
   <title><![CDATA[OSv Blog]]></title>
   <link href="http://osv.io/blog/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2014-12-04T17:33:58-08:00</updated>
+  <updated>2014-12-11T11:15:49-08:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -12,6 +12,30 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[OSv on the QEMU Advent Calendar]]></title>
+    <link href="http://osv.io/blog/blog/2014/12/11/advent/"/>
+    <updated>2014-12-11T14:10:31-08:00</updated>
+    <id>http://osv.io/blog/blog/2014/12/11/advent</id>
+    <content type="html"><![CDATA[<p>OSv is on the <a href="http://www.qemu-advent-calendar.org/#day-11">QEMU Advent Calendar</a> with a ready-to-download VM image.</p>
+
+<p><a href="http://www.qemu-advent-calendar.org/#day-11"><img src="http://osv.io/blog/images/day11.png" alt="day 11" /></a></p>
+
+<p>Not just a demo, it&rsquo;s a fully functional Redis data store with a web management console that you can try with a real Redis application.   There are more fun projects on the QEMU Advent Calendar site, too.</p>
+
+<!--more-->
+
+
+<p>Can someone make a VM that&rsquo;s even smaller than an OSv one?  Looks like the answer is yes.</p>
+
+<p><a href="http://www.qemu-advent-calendar.org/#day-10"><img src="http://osv.io/blog/images/day10.png" alt="day 10" /></a></p>
+
+<p>Poor <a href="http://www.nyan.cat/original">Nyan Cat</a>, squashed to just 512 bytes (including a PC speaker version of the music) in the <a href="http://www.qemu-advent-calendar.org/#day-10">Day 10 download</a> from Max Reitz.  There&rsquo;s also vintage retrocomputing, some near-future 64-bit ARM action, and more.  Check it out: <a href="http://www.qemu-advent-calendar.org/">QEMU Advent Calendar</a>.</p>
+
+<p>For the latest cloud and OSv news, subscript to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Making Spam Vanish&hellip;in the CLOUD]]></title>
@@ -892,113 +916,6 @@ The hypervisor plus OS part of the boot time is less than a second for all cases
 <p><a href="https://github.com/tgrabiec">Tomasz Grabiec</a> has written an informative page on how to configure your OSv instance, from setting the port for the management HTTP server to filling in the content of config files. Check it out.  (Naturally, it&rsquo;s a wiki, so feel free to fill in additional details if you like.)</p>
 
 <p>Want more info on cloud-init and related topics?  Join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get regular OSv updates by subscribing to this blog&rsquo;s feed, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Jolokia JMX Connectivity in OSv]]></title>
-    <link href="http://osv.io/blog/blog/2014/08/26/jolokia-jmx-connectivity-in-osv/"/>
-    <updated>2014-08-26T07:11:20-07:00</updated>
-    <id>http://osv.io/blog/blog/2014/08/26/jolokia-jmx-connectivity-in-osv</id>
-    <content type="html"><![CDATA[<p><strong>By Calle Wilund</strong></p>
-
-<p>OSv is a great way to run Java applications in the cloud, and it recently became just a little bit better. As you are probably aware, OSv exposes quite a bit of information and manageability options through its <a href="https://github.com/cloudius-systems/osv/wiki/The-RESTful-API">RESTful API</a>, accessible through the built-in HTTP server. More or less from its inception, this API has exposed various aspects of the JVM and the <a href="http://docs.oracle.com/javase/7/docs/technotes/guides/jmx/">Java Management Beans</a> provided.</p>
-
-<p>Recently we improved on this a bit by including the <a href="http://www.jolokia.org/">Jolokia</a> JMX-via-JSON-REST connector, providing full read/write access to the entire set of Java manageability attributes and operations. Now you no longer need to set up and secure separate JMX-over-RMI connectivity with your Java application to fully manage it.</p>
-
-<p>The Jolokia API is available via the OSv REST server at <nobr><code>http[s]://&lt;OSv host&gt;:&lt;port&gt;/jolokia</code></nobr>. You can explore this and other API:s via the <a href="https://github.com/cloudius-systems/osv/wiki/The-RESTful-API#using-the-swagger-ui">Swagger UI</a>.
-For a better understanding of the full <a href="http://www.jolokia.org/reference/html/protocol.html">Jolokia syntax</a>, I suggest reading through the <a href="http://www.jolokia.org/reference/html/index.html">reference manual</a>. In its simplest form, querying a Java Management Bean value from an OSv instance can be done like this:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; curl http://&lt;ip&gt;:&lt;port&gt;/jolokia/read/java.lang:type=Memory/HeapMemoryUsage</span></code></pre></td></tr></table></div></figure>
-
-
-<p>With the result of something like:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="p">{</span>   
-</span><span class='line'>  <span class="s2">&quot;timestamp&quot;</span>   <span class="o">:</span><span class="mi">1409065190</span><span class="p">,</span>
-</span><span class='line'>  <span class="s2">&quot;status&quot;</span>  <span class="o">:</span><span class="mi">200</span><span class="p">,</span>
-</span><span class='line'>  <span class="s2">&quot;request&quot;</span> <span class="o">:</span> <span class="p">{</span>
-</span><span class='line'>          <span class="s2">&quot;mbean&quot;</span>       <span class="o">:</span><span class="s2">&quot;java.lang:type=Memory&quot;</span><span class="p">,</span>
-</span><span class='line'>          <span class="s2">&quot;attribute&quot;</span>   <span class="o">:</span><span class="s2">&quot;HeapMemoryUsage&quot;</span><span class="p">,</span>
-</span><span class='line'>          <span class="s2">&quot;type&quot;</span>        <span class="o">:</span><span class="s2">&quot;read&quot;</span>
-</span><span class='line'>          <span class="p">},</span>
-</span><span class='line'>  <span class="s2">&quot;value&quot;</span>       <span class="o">:</span> <span class="p">{</span>
-</span><span class='line'>          <span class="s2">&quot;max&quot;</span>     <span class="o">:</span><span class="mi">1839202304</span><span class="p">,</span>
-</span><span class='line'>          <span class="s2">&quot;committed&quot;</span>   <span class="o">:</span><span class="mi">1839202304</span><span class="p">,</span>
-</span><span class='line'>          <span class="s2">&quot;init&quot;</span>        <span class="o">:</span><span class="mi">1918894080</span><span class="p">,</span>
-</span><span class='line'>          <span class="s2">&quot;used&quot;</span>        <span class="o">:</span><span class="mi">192117128</span>
-</span><span class='line'>          <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Jolokia provides a full syntax for packaging JMX bean information inside JSON objects, including the ability to batch requests.  It also provides client connector libraries for <a href="http://www.jolokia.org/client/java.html">Java</a>, <a href="http://www.jolokia.org/client/perl.html">Perl</a> and <a href="http://www.jolokia.org/client/javascript.html">JavaScript</a> to access them easily from (web) applications.</p>
-
-<h2>Important note about REST requests and browser security</h2>
-
-<p>Most browsers today enforce that resources such as REST queries may only be made to the same domain as the requesting web page. When you want to allow <a href="http://www.w3.org/TR/cors/">cross-domain requests</a> you need to either turn off this security feature in your browser (for Google Chrome you can run it with <code>--disable-web-security</code>, however if you use Firefox I do not know of any way to do it), or enable CORS in OSv.</p>
-
-<p>To do the latter, you need to provide a <code>httpserver</code> configuration section in your <a href="https://github.com/cloudius-systems/osv/wiki/Cloud-init">cloud init</a> settings. To simply allow all domains to make requests to the OSv APIs, add this to your configuration:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">httpserver</span><span class="p-Indicator">:</span>
-</span><span class='line'>    <span class="l-Scalar-Plain">access-allow</span><span class="p-Indicator">:</span> <span class="s">&#39;*&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And make this reachable through your cloud-init server. (Or use the EC2 simulator script provided with OSv).</p>
-
-<h2>A small demo</h2>
-
-<p>A small demo JavaScript application showing how to easily plot various JVM graphs from a running OSv instance can be found at <a href="https://github.com/elcallio/jolokia-demo">https://github.com/elcallio/jolokia-demo</a> (which is a modified fork of the <a href="https://github.com/nurkiewicz/token-bucket">Jolokia demo</a> created by Tomasz Nurkiewicz.</p>
-
-<p>To test the demo, simply clone the repository and edit the <a name="osvhost"><code>src/js/osvhost.js</code></a> to match the IP address and port for your OSv instance. (Don&rsquo;t forget to make sure that your OSv image includes the HTTP server).</p>
-
-<p>Since I am runnning OSv compiled from source, I simply go to my OSv source tree and type:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="p-Indicator">&gt;</span><span class="err"> make image=httpserver,mgmt</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><em>&hellip;&lt;chug, chug, chug></em>
-And when it is done:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="p-Indicator">&gt;</span><span class="err"> ./scripts/run.py --api</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This will build and start an almost empty image, containing only the HTTP server, <a href="https://github.com/cloudius-systems/osv/wiki/Cloud-init">cloud init support</a> and the Java-based shell (not a very interesting appliance, I admit, but you can pick any image you prefer). Running like this, the REST API is available from <code>http://localhost:8000</code>, so this is what I enter into <a href="#osvhost"><code>src/js/osvhost.js</code></a>.</p>
-
-<p>Then load the <code>jolokia-demo/src/index.html</code> in your favourite browser, and you should be greeted by this:</p>
-
-<p><img src="http://osv.io/blog/images/jolokia-demo.png" alt="screenshot" /></p>
-
-<p>As you can see, the demo provides the start of a small management console for Java with just a few lines of Javascript code, most of which actually deal with setting up the charts. Requesting and polling the actual data on the other hand is almost ridiculously easy.</p>
-
-<p>Having Jolokia integrated in the OSv manageability layer means that not only can you access all the JMX attributes parallel with the rest of the exposed OSv aspects, not having to modify Java appliances, but also that you only need to deal with <a href="https://github.com/cloudius-systems/osv/wiki/The-RESTful-API#configuring-ssl">securing a single service point</a>.</p>
-
-<p>This is just one small aspect of all the new and exciting manageability features that are in or coming to OSv. Over the next few months we hope to bring you additional aspects that will further enhance your deployment experience. Stay tuned.</p>
-
-<p>If you have any questions on OSv management, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get general updates by subscribing to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
 ]]></content>
   </entry>
   

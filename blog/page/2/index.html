@@ -9,7 +9,8 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="Glauber Costa and Don Marti are speaking at the JavaOne conference in San Francisco, on Tuesday, September 30. Hope to see you there. OSv: The &hellip;">
+  <meta name="description" content="By Glauber Costa Don Marti and I will soon be presenting OSv at JavaOne. We are excited about
+the conference, and thought we could give you a small &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -114,6 +115,135 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/blog/2014/09/26/ant/">Merge the OS Into Your App, Not the Other Way Around!</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-09-26T11:54:23-07:00" pubdate data-updated="true">Sep 26<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>By Glauber Costa</strong></p>
+
+<p>Don Marti and I will soon be presenting OSv at <a href="http://osv.io/blog/blog/2014/09/25/javaone/">JavaOne</a>. We are excited about
+the conference, and thought we could give you a small preview of what we will
+be talking about.</p>
+
+<p>As you already know, OSv is at the same time an operating system, and a
+library. It is as functional as an operating system, and as invisible as a
+library. This means that you shouldn&rsquo;t really install your app into OSv, but
+rather, merge them both naturally as a single entity.</p>
+
+<p>If you are using Java, there is a huge chance that one way or another, your
+project is built through Apache Ant, or similar tool.</p>
+
+<p>If you have Capstan, our image building tool, that merges nicely and
+beautifully with your Ant-based build process. Here is how:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;property name="hypervisor" value="qemu"/&gt;
+</span><span class='line'>&lt;basename property="vm-name" file="${basedir}"/&gt;
+</span><span class='line'>&lt;property name="capstanpath"
+</span><span class='line'>   value="${user.home}/.capstan/repository/${vm-name}"/&gt;
+</span><span class='line'>
+</span><span class='line'>&lt;target name="vm" depends="jar"&gt;
+</span><span class='line'>&lt;echo file="Capstanfile" append="false"&gt;
+</span><span class='line'>base:
+</span><span class='line'>   cloudius/osv-openjdk
+</span><span class='line'>cmdline:
+</span><span class='line'>  /java.so -jar ${jarname}
+</span><span class='line'>files:
+</span><span class='line'>  /${jarname}: build/jar/${jarname}&lt;/echo&gt;
+</span><span class='line'>&lt;exec executable="capstan"&gt;
+</span><span class='line'>    &lt;arg value="build"/&gt;
+</span><span class='line'>    &lt;arg value="-p"/&gt;
+</span><span class='line'>    &lt;arg value="${hypervisor}"/&gt;
+</span><span class='line'>&lt;/exec&gt;
+</span><span class='line'>&lt;copy tofile="HelloWorld.${hypervisor}"
+</span><span class='line'>   file="${capstanpath}/${vm-name}.${hypervisor}"/&gt;
+</span><span class='line'>&lt;delete file="Capstanfile"/&gt;
+</span><span class='line'>&lt;/target&gt;</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The snippet above assumes that you already have a &ldquo;jar&rdquo; target in your build.</p>
+
+<p>As you can guess from the image name, this example is a simple HelloWorld.  The
+code, together with the complete build.xml file, can be downloaded
+<a href="https://github.com/dmarti/OSvJavaOneDemo.git">on GitHub</a>.</p>
+
+<p>Adding that step to your existing build environment, allows you to have a first-class VM in a format consumable by QEMU/KVM. Booting in your hypervisor
+of choice, becomes just a matter of editing the file for the correct format.</p>
+
+<p>And after that? Fire up Capstan and enjoy your VM!</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>[glauber@localhost JavaOne]$ capstan run JavaOne
+</span><span class='line'>Created instance: JavaOne
+</span><span class='line'>OSv v0.12
+</span><span class='line'>eth0: 192.168.122.15
+</span><span class='line'>Hello World</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Alternatively, boot the HelloWorld.qcow2 image that was copied to the local
+directory, with any tool you want.</p>
+
+<p><strong>More info</strong></p>
+
+<p>Are you attending JavaOne? We will show you this and more, at <a href="https://oracleus.activeevents.com/2014/connect/sessionDetail.ww?SESSION_ID=4120">Parc 55 &ndash; Powell I/II, Tuesday the 30th (12:30 PM)</a></p>
+
+<p>For general questions on OSv, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get general updates by subscribing to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -571,140 +701,6 @@ cloud application, and each launched without terminating the others.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/blog/2014/08/26/jolokia-jmx-connectivity-in-osv/">Jolokia JMX Connectivity in OSv</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-08-26T07:11:20-07:00" pubdate data-updated="true">Aug 26<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><strong>By Calle Wilund</strong></p>
-
-<p>OSv is a great way to run Java applications in the cloud, and it recently became just a little bit better. As you are probably aware, OSv exposes quite a bit of information and manageability options through its <a href="https://github.com/cloudius-systems/osv/wiki/The-RESTful-API">RESTful API</a>, accessible through the built-in HTTP server. More or less from its inception, this API has exposed various aspects of the JVM and the <a href="http://docs.oracle.com/javase/7/docs/technotes/guides/jmx/">Java Management Beans</a> provided.</p>
-
-<p>Recently we improved on this a bit by including the <a href="http://www.jolokia.org/">Jolokia</a> JMX-via-JSON-REST connector, providing full read/write access to the entire set of Java manageability attributes and operations. Now you no longer need to set up and secure separate JMX-over-RMI connectivity with your Java application to fully manage it.</p>
-
-<p>The Jolokia API is available via the OSv REST server at <nobr><code>http[s]://&lt;OSv host&gt;:&lt;port&gt;/jolokia</code></nobr>. You can explore this and other API:s via the <a href="https://github.com/cloudius-systems/osv/wiki/The-RESTful-API#using-the-swagger-ui">Swagger UI</a>.
-For a better understanding of the full <a href="http://www.jolokia.org/reference/html/protocol.html">Jolokia syntax</a>, I suggest reading through the <a href="http://www.jolokia.org/reference/html/index.html">reference manual</a>. In its simplest form, querying a Java Management Bean value from an OSv instance can be done like this:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&gt; curl http://&lt;ip&gt;:&lt;port&gt;/jolokia/read/java.lang:type=Memory/HeapMemoryUsage</span></code></pre></td></tr></table></div></figure>
-
-
-<p>With the result of something like:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="p">{</span>   
-</span><span class='line'>  <span class="s2">&quot;timestamp&quot;</span>   <span class="o">:</span><span class="mi">1409065190</span><span class="p">,</span>
-</span><span class='line'>  <span class="s2">&quot;status&quot;</span>  <span class="o">:</span><span class="mi">200</span><span class="p">,</span>
-</span><span class='line'>  <span class="s2">&quot;request&quot;</span> <span class="o">:</span> <span class="p">{</span>
-</span><span class='line'>          <span class="s2">&quot;mbean&quot;</span>       <span class="o">:</span><span class="s2">&quot;java.lang:type=Memory&quot;</span><span class="p">,</span>
-</span><span class='line'>          <span class="s2">&quot;attribute&quot;</span>   <span class="o">:</span><span class="s2">&quot;HeapMemoryUsage&quot;</span><span class="p">,</span>
-</span><span class='line'>          <span class="s2">&quot;type&quot;</span>        <span class="o">:</span><span class="s2">&quot;read&quot;</span>
-</span><span class='line'>          <span class="p">},</span>
-</span><span class='line'>  <span class="s2">&quot;value&quot;</span>       <span class="o">:</span> <span class="p">{</span>
-</span><span class='line'>          <span class="s2">&quot;max&quot;</span>     <span class="o">:</span><span class="mi">1839202304</span><span class="p">,</span>
-</span><span class='line'>          <span class="s2">&quot;committed&quot;</span>   <span class="o">:</span><span class="mi">1839202304</span><span class="p">,</span>
-</span><span class='line'>          <span class="s2">&quot;init&quot;</span>        <span class="o">:</span><span class="mi">1918894080</span><span class="p">,</span>
-</span><span class='line'>          <span class="s2">&quot;used&quot;</span>        <span class="o">:</span><span class="mi">192117128</span>
-</span><span class='line'>          <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Jolokia provides a full syntax for packaging JMX bean information inside JSON objects, including the ability to batch requests.  It also provides client connector libraries for <a href="http://www.jolokia.org/client/java.html">Java</a>, <a href="http://www.jolokia.org/client/perl.html">Perl</a> and <a href="http://www.jolokia.org/client/javascript.html">JavaScript</a> to access them easily from (web) applications.</p>
-
-<h2>Important note about REST requests and browser security</h2>
-
-<p>Most browsers today enforce that resources such as REST queries may only be made to the same domain as the requesting web page. When you want to allow <a href="http://www.w3.org/TR/cors/">cross-domain requests</a> you need to either turn off this security feature in your browser (for Google Chrome you can run it with <code>--disable-web-security</code>, however if you use Firefox I do not know of any way to do it), or enable CORS in OSv.</p>
-
-<p>To do the latter, you need to provide a <code>httpserver</code> configuration section in your <a href="https://github.com/cloudius-systems/osv/wiki/Cloud-init">cloud init</a> settings. To simply allow all domains to make requests to the OSv APIs, add this to your configuration:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">httpserver</span><span class="p-Indicator">:</span>
-</span><span class='line'>    <span class="l-Scalar-Plain">access-allow</span><span class="p-Indicator">:</span> <span class="s">&#39;*&#39;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And make this reachable through your cloud-init server. (Or use the EC2 simulator script provided with OSv).</p>
-
-<h2>A small demo</h2>
-
-<p>A small demo JavaScript application showing how to easily plot various JVM graphs from a running OSv instance can be found at <a href="https://github.com/elcallio/jolokia-demo">https://github.com/elcallio/jolokia-demo</a> (which is a modified fork of the <a href="https://github.com/nurkiewicz/token-bucket">Jolokia demo</a> created by Tomasz Nurkiewicz.</p>
-
-<p>To test the demo, simply clone the repository and edit the <a name="osvhost"><code>src/js/osvhost.js</code></a> to match the IP address and port for your OSv instance. (Don&rsquo;t forget to make sure that your OSv image includes the HTTP server).</p>
-
-<p>Since I am runnning OSv compiled from source, I simply go to my OSv source tree and type:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="p-Indicator">&gt;</span><span class="err"> make image=httpserver,mgmt</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p><em>&hellip;&lt;chug, chug, chug></em>
-And when it is done:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="p-Indicator">&gt;</span><span class="err"> ./scripts/run.py --api</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This will build and start an almost empty image, containing only the HTTP server, <a href="https://github.com/cloudius-systems/osv/wiki/Cloud-init">cloud init support</a> and the Java-based shell (not a very interesting appliance, I admit, but you can pick any image you prefer). Running like this, the REST API is available from <code>http://localhost:8000</code>, so this is what I enter into <a href="#osvhost"><code>src/js/osvhost.js</code></a>.</p>
-
-<p>Then load the <code>jolokia-demo/src/index.html</code> in your favourite browser, and you should be greeted by this:</p>
-
-<p><img src="/blog/images/jolokia-demo.png" alt="screenshot" /></p>
-
-<p>As you can see, the demo provides the start of a small management console for Java with just a few lines of Javascript code, most of which actually deal with setting up the charts. Requesting and polling the actual data on the other hand is almost ridiculously easy.</p>
-
-<p>Having Jolokia integrated in the OSv manageability layer means that not only can you access all the JMX attributes parallel with the rest of the exposed OSv aspects, not having to modify Java appliances, but also that you only need to deal with <a href="https://github.com/cloudius-systems/osv/wiki/The-RESTful-API#configuring-ssl">securing a single service point</a>.</p>
-
-<p>This is just one small aspect of all the new and exciting manageability features that are in or coming to OSv. Over the next few months we hope to bring you additional aspects that will further enhance your deployment experience. Stay tuned.</p>
-
-<p>If you have any questions on OSv management, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get general updates by subscribing to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/blog/page/3/">&larr; Older</a>
@@ -722,6 +718,10 @@ And when it is done:</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/blog/2014/12/11/advent/">OSv on the QEMU Advent Calendar</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/blog/2014/12/04/spamsink/">Making Spam Vanish&hellip;in the CLOUD</a>
       </li>
     
@@ -735,10 +735,6 @@ And when it is done:</p>
     
       <li class="post">
         <a href="/blog/blog/2014/11/17/ssh-without-trusting-bastion-host/">SSH Tip: Connecting to a Private Network Without Trusting the Bastion Host</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/blog/2014/11/13/osv-private-beta/">OSv Early Access Private Beta</a>
       </li>
     
   </ul>
