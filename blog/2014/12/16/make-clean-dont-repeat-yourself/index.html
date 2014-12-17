@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: Java - OSv Blog</title>
+  <title>Image Building Tip: Make Clean Without Repeating Yourself - OSv Blog</title>
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="Category: java">
+  <meta name="description" content="By Don Marti What do we have to do in make clean? Delete all the files that can be regenerated that we don&rsquo;t need to keep around. What&rsquo;s &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://osv.io/blogblog/categories/java">
+  <link rel="canonical" href="http://osv.io/blog/blog/2014/12/16/make-clean-dont-repeat-yourself">
   <link href="/blog/favicon.ico" rel="icon">
   <link href="/blog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
@@ -107,56 +107,154 @@
         </script>
     </div>
 </div>
-<div class="mobile mobilePageTitle">Category: java</div>
+<div class="mobile mobilePageTitle">Image building tip: make clean without repeating yourself</div>
 
 
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Java</h1>
+    
+      <h1 class="entry-title">Image Building Tip: Make Clean Without Repeating Yourself</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-16T21:10:31-08:00" pubdate data-updated="true">Dec 16<span>th</span>, 2014</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p><strong>By Don Marti</strong></p>
 
-  
-  <h2>2014</h2>
+<p>What do we have to do in <code>make clean</code>?  Delete all the files that can be regenerated that we don&rsquo;t need to keep around.</p>
 
-<article>
-  
-<h1><a href="/blog/blog/2014/07/27/capstan-lein-template/">Running Clojure on OSv: Easier With a New Capstan Template</a></h1>
-<time datetime="2014-07-27T00:00:00-07:00" pubdate><span class='month'>Jul</span> <span class='day'>27</span> <span class='year'>2014</span></time>
+<p>What&rsquo;s listed in <code>.gitignore</code>?  All the files that can be regenerated that we don&rsquo;t need to keep around.</p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/blog/categories/capstan/'>capstan</a>, <a class='category' href='/blog/blog/categories/clojure/'>clojure</a>, <a class='category' href='/blog/blog/categories/java/'>java</a>, <a class='category' href='/blog/blog/categories/lein/'>lein</a></span>
-</footer>
+<p>Hey, wait a minute. It&rsquo;s not a good idea to repeat yourself, especially for me, since I have to &ldquo;start a project&rdquo; often for demo code.  So here&rsquo;s a way to keep track of all those extre files in one place, with a few lines in Makefile and one handy git command.</p>
+
+<!--more-->
 
 
-</article>
+<p>Here&rsquo;s the new <code>clean</code> target:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Remove anything listed in the .gitignore file.
+</span><span class='line'># Remove empty directories because they cannot be versioned.
+</span><span class='line'>clean :
+</span><span class='line'>        find . -path ./.git -prune -o -print0 | \
+</span><span class='line'>        git check-ignore -z --stdin | xargs -0 rm -f
+</span><span class='line'>        find . -depth -mindepth 1 -type d -print0 | \
+</span><span class='line'>        xargs -0 rmdir --ignore-fail-on-non-empty</span></code></pre></td></tr></table></div></figure>
 
 
+<p>In this case, we&rsquo;re just running a <code>find</code> on everything except the <code>.git</code> directory, and using the <a href="http://git-scm.com/docs/git-check-ignore">git check-ignore</a> command to see if they&rsquo;re ignorable by git.  If the answer is yes, then they&rsquo;re fine to remove&mdash;so no more keeping track of them in two places.</p>
 
-<article>
-  
-<h1><a href="/blog/blog/2014/07/21/generic-os-is-dead/">If Java Application Servers Are Dead, So Is the Operating System (in the Cloud)</a></h1>
-<time datetime="2014-07-21T00:00:00-07:00" pubdate><span class='month'>Jul</span> <span class='day'>21</span> <span class='year'>2014</span></time>
+<p>The second <code>find</code> is just to get rid of empty directories, which Git won&rsquo;t track anyway.  And the <code>-print0</code>, <code>-z</code>, and <code>-0</code> options in both lines are to use null characters between filenames, just to prevent weirdness if you end up with a file with a space in its name.</p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/blog/categories/as/'>AS</a>, <a class='category' href='/blog/blog/categories/java/'>java</a></span>
-</footer>
+<p>(To hook your regular Makefile up to build complete VMs, just use <a href="http://osv.io/capstan/">Capstan</a>. Get a complete VM, ready to run on any cloud, in only 7.5 to 9 seconds.)</p>
+
+<h2>What, is that it?</h2>
+
+<p>Fine, have a bonus tip.  If you&rsquo;re a fan of <a href="http://whatcolourisit.scn9a.org/">What colour is it</a>, the site that changes background color to match the current time, here&rsquo;s how to do the same thing on a GNOME desktop:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gsettings set org.gnome.desktop.background primary-color "#$(date +%H%M%S)"</span></code></pre></td></tr></table></div></figure>
 
 
-</article>
+<p>(Those of you on something other than Linux+GNOME, developer desktop tips for your setup are welcome.)</p>
 
+<p><em>For more tips and OSv news, subscribe to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</em></p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Cloudius Systems</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-16T21:10:31-08:00" pubdate data-updated="true">Dec 16<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/blog/categories/release/'>release</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+    <div class="addthis_toolbox addthis_default_style ">
+        
+        <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+        
+        
+        <a class="addthis_button_tweet"></a>
+        
+        
+        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+        
+        
+        <a class="addthis_counter addthis_pill_style"></a>
+        
+    </div>
+    
+    <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-5343e81a2e0c9bfa"></script>
+    
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/blog/2014/12/11/advent/" title="Previous Post: OSv on the QEMU Advent Calendar">&laquo; OSv on the QEMU Advent Calendar</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -228,7 +326,10 @@
       var disqus_shortname = 'osvblog';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://osv.io/blog/blog/2014/12/16/make-clean-dont-repeat-yourself/';
+        var disqus_url = 'http://osv.io/blog/blog/2014/12/16/make-clean-dont-repeat-yourself/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

@@ -4,7 +4,7 @@
   <title><![CDATA[OSv Blog]]></title>
   <link href="http://osv.io/blog/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2014-12-11T11:15:49-08:00</updated>
+  <updated>2014-12-16T22:08:07-08:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -12,6 +12,60 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Image Building Tip: Make Clean Without Repeating Yourself]]></title>
+    <link href="http://osv.io/blog/blog/2014/12/16/make-clean-dont-repeat-yourself/"/>
+    <updated>2014-12-16T21:10:31-08:00</updated>
+    <id>http://osv.io/blog/blog/2014/12/16/make-clean-dont-repeat-yourself</id>
+    <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
+
+<p>What do we have to do in <code>make clean</code>?  Delete all the files that can be regenerated that we don&rsquo;t need to keep around.</p>
+
+<p>What&rsquo;s listed in <code>.gitignore</code>?  All the files that can be regenerated that we don&rsquo;t need to keep around.</p>
+
+<p>Hey, wait a minute. It&rsquo;s not a good idea to repeat yourself, especially for me, since I have to &ldquo;start a project&rdquo; often for demo code.  So here&rsquo;s a way to keep track of all those extre files in one place, with a few lines in Makefile and one handy git command.</p>
+
+<!--more-->
+
+
+<p>Here&rsquo;s the new <code>clean</code> target:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'># Remove anything listed in the .gitignore file.
+</span><span class='line'># Remove empty directories because they cannot be versioned.
+</span><span class='line'>clean :
+</span><span class='line'>        find . -path ./.git -prune -o -print0 | \
+</span><span class='line'>        git check-ignore -z --stdin | xargs -0 rm -f
+</span><span class='line'>        find . -depth -mindepth 1 -type d -print0 | \
+</span><span class='line'>        xargs -0 rmdir --ignore-fail-on-non-empty</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In this case, we&rsquo;re just running a <code>find</code> on everything except the <code>.git</code> directory, and using the <a href="http://git-scm.com/docs/git-check-ignore">git check-ignore</a> command to see if they&rsquo;re ignorable by git.  If the answer is yes, then they&rsquo;re fine to remove&mdash;so no more keeping track of them in two places.</p>
+
+<p>The second <code>find</code> is just to get rid of empty directories, which Git won&rsquo;t track anyway.  And the <code>-print0</code>, <code>-z</code>, and <code>-0</code> options in both lines are to use null characters between filenames, just to prevent weirdness if you end up with a file with a space in its name.</p>
+
+<p>(To hook your regular Makefile up to build complete VMs, just use <a href="http://osv.io/capstan/">Capstan</a>. Get a complete VM, ready to run on any cloud, in only 7.5 to 9 seconds.)</p>
+
+<h2>What, is that it?</h2>
+
+<p>Fine, have a bonus tip.  If you&rsquo;re a fan of <a href="http://whatcolourisit.scn9a.org/">What colour is it</a>, the site that changes background color to match the current time, here&rsquo;s how to do the same thing on a GNOME desktop:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>gsettings set org.gnome.desktop.background primary-color "#$(date +%H%M%S)"</span></code></pre></td></tr></table></div></figure>
+
+
+<p>(Those of you on something other than Linux+GNOME, developer desktop tips for your setup are welcome.)</p>
+
+<p><em>For more tips and OSv news, subscribe to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</em></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[OSv on the QEMU Advent Calendar]]></title>
@@ -903,19 +957,6 @@ The hypervisor plus OS part of the boot time is less than a second for all cases
 <p>If you missed the chance to see Don Marti and Glauber Costa at Linuxcon/CloudOpen, please come see us, with bonus extra speaker <strong>Dor Laor</strong>.  Otherwise, you can keep up with the latest OSv news from this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
 
 <p>(Next up: <a href="http://www.xenproject.org/about/events/viewevent/120-xen-project-user-summit-2014.html">Xen Project User Summit</a> in New York City&hellip;)</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Wiki Watch: Cloud Init]]></title>
-    <link href="http://osv.io/blog/blog/2014/08/28/wiki-watch-cloud-init/"/>
-    <updated>2014-08-28T08:37:05-07:00</updated>
-    <id>http://osv.io/blog/blog/2014/08/28/wiki-watch-cloud-init</id>
-    <content type="html"><![CDATA[<p><a href="http://osv.io/blog/blog/2014/08/26/jolokia-jmx-connectivity-in-osv/">The previous blog article, on Jolokia</a> mentions a configuration item for cloud-init.  You may be asking, &ldquo;Cloud init?  How do I use that on OSv?&rdquo;  Well, good news.  For details on configuring OSv using the cloud init mechanism, check out our recently updated wiki page: <a href="https://github.com/cloudius-systems/osv/wiki/cloud-init">Cloud init</a>.</p>
-
-<p><a href="https://github.com/tgrabiec">Tomasz Grabiec</a> has written an informative page on how to configure your OSv instance, from setting the port for the management HTTP server to filling in the content of config files. Check it out.  (Naturally, it&rsquo;s a wiki, so feel free to fill in additional details if you like.)</p>
-
-<p>Want more info on cloud-init and related topics?  Join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get regular OSv updates by subscribing to this blog&rsquo;s feed, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
 ]]></content>
   </entry>
   

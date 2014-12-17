@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Release | OSv Blog]]></title>
   <link href="http://osv.io/blog/blog/categories/release/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2014-12-11T11:15:49-08:00</updated>
+  <updated>2014-12-16T22:08:07-08:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -12,6 +12,60 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Image Building Tip: Make Clean Without Repeating Yourself]]></title>
+    <link href="http://osv.io/blog/blog/2014/12/16/make-clean-dont-repeat-yourself/"/>
+    <updated>2014-12-16T21:10:31-08:00</updated>
+    <id>http://osv.io/blog/blog/2014/12/16/make-clean-dont-repeat-yourself</id>
+    <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
+
+<p>What do we have to do in <code>make clean</code>?  Delete all the files that can be regenerated that we don&rsquo;t need to keep around.</p>
+
+<p>What&rsquo;s listed in <code>.gitignore</code>?  All the files that can be regenerated that we don&rsquo;t need to keep around.</p>
+
+<p>Hey, wait a minute. It&rsquo;s not a good idea to repeat yourself, especially for me, since I have to &ldquo;start a project&rdquo; often for demo code.  So here&rsquo;s a way to keep track of all those extre files in one place, with a few lines in Makefile and one handy git command.</p>
+
+<!--more-->
+
+
+<p>Here&rsquo;s the new <code>clean</code> target:</p>
+
+<p>```</p>
+
+<h1>Remove anything listed in the .gitignore file.</h1>
+
+<h1>Remove empty directories because they cannot be versioned.</h1>
+
+<p>clean :</p>
+
+<pre><code>    find . -path ./.git -prune -o -print0 | \
+    git check-ignore -z --stdin | xargs -0 rm -f
+    find . -depth -mindepth 1 -type d -print0 | \
+    xargs -0 rmdir --ignore-fail-on-non-empty
+</code></pre>
+
+<p>```</p>
+
+<p>In this case, we&rsquo;re just running a <code>find</code> on everything except the <code>.git</code> directory, and using the <a href="http://git-scm.com/docs/git-check-ignore">git check-ignore</a> command to see if they&rsquo;re ignorable by git.  If the answer is yes, then they&rsquo;re fine to remove&mdash;so no more keeping track of them in two places.</p>
+
+<p>The second <code>find</code> is just to get rid of empty directories, which Git won&rsquo;t track anyway.  And the <code>-print0</code>, <code>-z</code>, and <code>-0</code> options in both lines are to use null characters between filenames, just to prevent weirdness if you end up with a file with a space in its name.</p>
+
+<p>(To hook your regular Makefile up to build complete VMs, just use <a href="http://osv.io/capstan/">Capstan</a>. Get a complete VM, ready to run on any cloud, in only 7.5 to 9 seconds.)</p>
+
+<h2>What, is that it?</h2>
+
+<p>Fine, have a bonus tip.  If you&rsquo;re a fan of <a href="http://whatcolourisit.scn9a.org/">What colour is it</a>, the site that changes background color to match the current time, here&rsquo;s how to do the same thing on a GNOME desktop:</p>
+
+<p><code>
+gsettings set org.gnome.desktop.background primary-color "#$(date +%H%M%S)"
+</code></p>
+
+<p>(Those of you on something other than Linux+GNOME, developer desktop tips for your setup are welcome.)</p>
+
+<p><em>For more tips and OSv news, subscribe to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</em></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[OSv on the QEMU Advent Calendar]]></title>
@@ -195,31 +249,6 @@ Host *.lab</p>
 <p>For more tips and OSv news, subscript to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
 
 <p><strong>Photo:</strong> <a href="http://www.flickr.com/photos/dfectuoso17/7013054091/">Security Hacker</a> by Santiago Zavala</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[OSv Early Access Private Beta]]></title>
-    <link href="http://osv.io/blog/blog/2014/11/13/osv-private-beta/"/>
-    <updated>2014-11-13T08:10:31-08:00</updated>
-    <id>http://osv.io/blog/blog/2014/11/13/osv-private-beta</id>
-    <content type="html"><![CDATA[<p>Cloudius Systems is introducing an early access version of OSv, the lightweight open-source OS optimized for large cloud workloads, on November 13.  <a href="http://osv.io/beta-release/">Beta program information</a> is now available.</p>
-
-<p><img src="http://www.cloudius-systems.com/images/mouse.jpeg" alt="lab mouse" /></p>
-
-<p>OSv can be used to minimize latency and reduce TCO for many workloads, especially horizontally scaled ones. The software is available as ready-to-run virtual machine images pre-configured to run popular NoSQL data stores such as Redis and Apache Cassandra, as well as in source code form.</p>
-
-<p>“OSv lets you take a project from a developer’s IDE to a flexible, multi-server deployment much faster,” said Dor Laor, CEO of Cloudius Systems.  “As customers require more and more throughput at lower and lower operating cost, we enable developers to use the agility of containers along with the proven security and management features known for in virtual machines.”</p>
-
-<p>Cloudius Systems’ early access release features an expanded Web API for management, along with performance improvements that increase efficiency, with an up to a 3.9x throughput gain. Unlike conventional operating systems with their diverse configuration files and complex user and memory management, OSv is designed to provide the minimum OS needed to run a single application at maximum performance in the cloud.</p>
-
-<p>&ldquo;OSv was designed with virtualization in mind,” said Cloudius Systems CTO, Avi Kivity.  “The OS overhead is minimized by a reduction of context switches, data copies, and inefficient constructs such as spinlocks.&rdquo; OSv virtual machines can be as small as 20MB, far smaller than Docker containers, and boot in less than one second.</p>
-
-<h2><a href="http://www.cloudius-systems.com/images/mouse.jpeg">Sign up for the OSv beta</a></h2>
-
-<p>You can keep up with the latest OSv news from this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.  Hope to see you at the show.</p>
-
-<p>Photo: <a href="http://commons.wikimedia.org/wiki/File:Lab_mouse_mg_3216.jpg">Rama for Wikimedia Commons</a></p>
 ]]></content>
   </entry>
   
