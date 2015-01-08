@@ -1,0 +1,18 @@
+---
+layout: post
+title: "OSv Meetup group in Bangalore, India"
+date: 2015-01-07 11:54:23 -0400
+comments: true
+published: true
+---
+
+So far, OSv [Meetups](http://www.meetup.com/OSv-Developer-Meetup/) have happened in Fremont and San Francisco, California, and Hertzeliya, Israel.  Next week, the Bangalore, India OSv Meetup is happening&mdash;details on the [Bangalore Meetup page]( http://www.meetup.com/OSv-Developer-Meetup-Bangalore/).
+
+![attendees](/images/meetup.jpg)
+_Attendees focus on building their applications on OSv in a California meetup last summer_
+
+The topic for the first meeting, on Sunday January 11, is an OSv code walkthrough.
+
+To get advance notice of future events please join the (California-based) [Meetup group](http://www.meetup.com/OSv-Developer-Meetup/) or the new
+[OSv Developer Meetup, Bangalore](http://www.meetup.com/OSv-Developer-Meetup-Bangalore/).   For general info, you can follow [@CloudiusSystems](https://twitter.com/CloudiusSystems) on Twitter.
+
