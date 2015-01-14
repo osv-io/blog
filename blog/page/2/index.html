@@ -9,7 +9,7 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="By Dor Laor If you use AWS or Rackspace, there is a good chance that you got affected by cloud-reboot. Ten percent of AWS machines were forced to &hellip;">
+  <meta name="description" content="Want to see us build a virtual machine for the Amazon cloud at the re:Invent show? Come on over to our booth (K14) and we&rsquo;ll show you. It&rsquo &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -114,6 +114,132 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/blog/2014/11/09/rpi/">Raspberry Pi at Amazon Re:invent</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-09T11:10:31-08:00" pubdate data-updated="true">Nov 9<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Want to see us build a virtual machine for the Amazon cloud at the <a href="https://reinvent.awsevents.com/">re:Invent show</a>?  Come on over to our booth (K14) and we&rsquo;ll show you.  It&rsquo;s simple to add a virtual appliance build step to any application build.</p>
+
+<p>Well, that took nine seconds.  What else can we do?  How about a hardware giveaway?  Since your virtual machines are going to take so little of your time, you should have plenty of time to play with a fun hardware kit.</p>
+
+<p><img src="/blog/images/rpi.jpeg" alt="Raspberry Pi media kit" /></p>
+
+<p>We&rsquo;ve got some <a href="http://www.mcmelectronics.com/product/83-16333RK">Raspberry Pi media kits</a> to give away.  Not just the board, this kit includes</p>
+
+<ul>
+<li><p>Raspberry Pi Model B+ Board</p></li>
+<li><p>8GB Operating System microSD Card</p></li>
+<li><p>Multicomp Black B+ Case</p></li>
+<li><p>Raspberry Pi Power Supply</p></li>
+<li><p>Wi-Pi Wireless Adapter</p></li>
+<li><p>3&#8217; HDMi Cable</p></li>
+<li><p>7&#8217; Ethernet Cable</p></li>
+</ul>
+
+
+<p>Just the thing for a home media center, or a starting point for a more ambitious project such as a <a href="http://www.retrobuiltgames.com/porta-pi-arcade-help/porta-pi-software-os-download/">vintage arcade</a>.</p>
+
+<p>Amazon re:Invent is sold out, but you can <a href="http://reinvent.awsevents.com/livestream-reg.html">sign up for streaming</a> if you&rsquo;re not able to make it.</p>
+
+<p>You can keep up with the latest OSv news from this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.  Hope to see you at the show.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/blog/2014/11/03/dashboard/">OSv 0.14 Alpha Includes Management Dashboard</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-03T21:10:31-08:00" pubdate data-updated="true">Nov 3<span>rd</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>By Tzach Livyatan</strong></p>
+
+<p>We are pleased to announce the OSv 0.14 Alpha Release.</p>
+
+<p>This is the first release to include the dashboard, a  browser-based UI for OSv and virtual appliance status.</p>
+
+<p><img src="http://osv.io/images/dashboard.png" alt="OSv dashboard" /></p>
+
+<p>The dashboard includes (among other features):</p>
+
+<ul>
+<li><p>Main tab with Memory, CPU, Disk</p></li>
+<li><p>Thread tab with interactive visualization of thread status and thread usage.
+You can select and search for particular thread by name.</p></li>
+<li><p>Trace tab, including frequency for each tracepoint. Selection by name and search are available.</p></li>
+<li><p>JVM tab for basic JVM information including memory and GC, when a JVM is installed.</p></li>
+<li><p>Virtual Appliance tab for information relevant to the particular appliance.
+Tabs for Cassandra and Tomcat are currently  available, with more to come.</p></li>
+</ul>
+
+
+<p>To build the dashboard, just includes httpserver in
+the module list.  For example:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ make -j 4 image=cassandra,httpserver</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Once the appliance is running, the dashboard is available on port 8000 by default.  (You can change the port using <a href="https://github.com/cloudius-systems/osv/wiki/cloud-init">cloud-init</a>.)</p>
+
+<p>The <a href="https://groups.google.com/forum/#!topic/osv-dev/tyFGw7NRudA">full 0.14 release announcement</a> is available on the osv-dev mailing list.
+You can keep up with the latest OSv news from this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -679,107 +805,6 @@ example.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/blog/2014/09/13/how-fast-can-you-run-4-vm/">Speed Run: Running 4 Virtual Appliances on Your Laptop in 5 Seconds Overall</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-09-13T23:30:00-07:00" pubdate data-updated="true">Sep 13<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><strong>By Dor Laor, Tzach Livyatan</strong></p>
-
-<p>In the following demo, Dor is running 4 different OSv base virtual appliances
-on his laptop:</p>
-
-<ul>
-<li>Redis</li>
-<li>Tomcat</li>
-<li>MySQL</li>
-<li>Cassandra</li>
-</ul>
-
-
-<p>Each virtual appliance is a full–blown VM, each with a pre-integrated
-cloud application, and each launched without terminating the others.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/blog/2014/09/13/how-fast-can-you-run-4-vm/">Read more&#8230;</a>
-    </footer>
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/blog/2014/09/10/cassandra-summit/">What&#8217;s the Big Deal About OSv at Cassandra Summit 2014?</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-09-10T16:10:31-07:00" pubdate data-updated="true">Sep 10<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><strong>Pop quiz: what does this graph show?</strong></p>
-
-<p><img src="/blog/images/mystery-graph.png" alt="graph" /></p>
-
-<p>If you&rsquo;d like a hint, here&rsquo;s some context.  It&rsquo;s from the upcoming <a href="http://www.cvent.com/events/cassandra-summit-2014/agenda-176f061a4b144525ae05f18cd9a9cb12.aspx">talk on Cassandra on OSv</a> at Cassandra Summit in San Francisco.</p>
-
-<p>We&rsquo;ve been picking up a bunch of Cassandra tips at the event so far.  And we&rsquo;re really looking forward to (a) tomorrow&rsquo;s talks from the administrators of large-scale Cassandra sites and (b) showing off a new useful thing that should make life much easier for Cassandra admins who know <code>curl</code>. Which would be&hellip;everyone?</p>
-
-<p>If you missed the chance to see Don Marti and Glauber Costa at Linuxcon/CloudOpen, please come see us, with bonus extra speaker <strong>Dor Laor</strong>.  Otherwise, you can keep up with the latest OSv news from this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
-
-<p>(Next up: <a href="http://www.xenproject.org/about/events/viewevent/120-xen-project-user-summit-2014.html">Xen Project User Summit</a> in New York City&hellip;)</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/blog/page/3/">&larr; Older</a>
@@ -797,6 +822,14 @@ cloud application, and each launched without terminating the others.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/blog/2015/01/14/performance-evaluation/">Unikernel Research at the University of Utah</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/blog/2015/01/07/meetup/">OSv Meetup Group in Bangalore, India</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/blog/2014/12/16/make-clean-dont-repeat-yourself/">Image Building Tip: Make Clean Without Repeating Yourself</a>
       </li>
     
@@ -806,14 +839,6 @@ cloud application, and each launched without terminating the others.</p>
     
       <li class="post">
         <a href="/blog/blog/2014/12/04/spamsink/">Making Spam Vanish&hellip;in the CLOUD</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/blog/2014/12/02/docker-rocket/">Containers, Containers, Containers! More Options for the Cloud</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/blog/2014/11/17/eblug/">OSv Meetup at EBLUG: Intro Talk and Demo</a>
       </li>
     
   </ul>

@@ -9,7 +9,9 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="By Don Marti What do we have to do in make clean? Delete all the files that can be regenerated that we don&rsquo;t need to keep around. What&rsquo;s &hellip;">
+  <meta name="description" content="Ian Briggs, Matt Day, Eric Eide, Yuankai Guo, and
+Peter Marheine are conducting performance research
+on unikernels, and have thoughtfully posted some &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -114,6 +116,114 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/blog/2015/01/14/performance-evaluation/">Unikernel Research at the University of Utah</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-01-14T15:54:23-08:00" pubdate data-updated="true">Jan 14<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Ian Briggs, Matt Day, Eric Eide, Yuankai Guo, and
+Peter Marheine are conducting performance research
+on unikernels, and have thoughtfully posted some
+preliminary work on OSv performance.</p>
+
+<p>The team tested OSv for DNS and HTTP, and got some
+encouraging results.</p>
+
+<p><a href="/blog/images/http-server-benchmark.png"><img src="/blog/images/http-server-benchmark.png" alt="HTTP server comparison" /></a></p>
+
+<p>The lighttpd web server on OSv performs consistently
+well up through 5000 requests/second.  And on DNS
+tests, Linux can sustain a response rate of about
+19000 per second, while OSv can handle approxi-
+mately 28000 requests per second, with slightly
+lower latency.</p>
+
+<p>The preliminary paper is
+<a href="http://www.cs.utah.edu/~peterm/prelim-osv-performance.pdf">Performance Evaluation of OSv for Server
+Applications</a>
+(<a href="/blog/images/prelim-osv-performance.pdf">local copy</a>).</p>
+
+<p>The researchers did run into a bug running OSv
+on Xen, so we&rsquo;re all looking forward to helping
+them track that down on the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing
+list</a>.
+In the meantime, watch this space, or follow
+<a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a>
+on Twitter, for more links to OS research in progress.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/blog/2015/01/07/meetup/">OSv Meetup Group in Bangalore, India</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-01-07T07:54:23-08:00" pubdate data-updated="true">Jan 7<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So far, OSv <a href="http://www.meetup.com/OSv-Developer-Meetup/">Meetups</a> have happened in Fremont and San Francisco, California, and Hertzeliya, Israel.  Next week, the Bangalore, India OSv Meetup is happening&mdash;details on the <a href="http://www.meetup.com/OSv-Developer-Meetup-Bangalore/">Bangalore Meetup page</a>.</p>
+
+<p><img src="/blog/images/meetup.jpg" alt="attendees" />
+<em>Attendees focus on building their applications on OSv in a California meetup last summer</em></p>
+
+<p>The topic for the first meeting, on Sunday January 11, is an OSv code walkthrough.</p>
+
+<p>To get advance notice of future events please join the (California-based) <a href="http://www.meetup.com/OSv-Developer-Meetup/">Meetup group</a> or the new
+<a href="http://www.meetup.com/OSv-Developer-Meetup-Bangalore/">OSv Developer Meetup, Bangalore</a>.   For general info, you can follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -551,132 +661,6 @@ We&rsquo;ve got some <a href="http://www.mcmelectronics.com/product/83-16333RK">
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/blog/2014/11/09/rpi/">Raspberry Pi at Amazon Re:invent</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-11-09T11:10:31-08:00" pubdate data-updated="true">Nov 9<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Want to see us build a virtual machine for the Amazon cloud at the <a href="https://reinvent.awsevents.com/">re:Invent show</a>?  Come on over to our booth (K14) and we&rsquo;ll show you.  It&rsquo;s simple to add a virtual appliance build step to any application build.</p>
-
-<p>Well, that took nine seconds.  What else can we do?  How about a hardware giveaway?  Since your virtual machines are going to take so little of your time, you should have plenty of time to play with a fun hardware kit.</p>
-
-<p><img src="/blog/images/rpi.jpeg" alt="Raspberry Pi media kit" /></p>
-
-<p>We&rsquo;ve got some <a href="http://www.mcmelectronics.com/product/83-16333RK">Raspberry Pi media kits</a> to give away.  Not just the board, this kit includes</p>
-
-<ul>
-<li><p>Raspberry Pi Model B+ Board</p></li>
-<li><p>8GB Operating System microSD Card</p></li>
-<li><p>Multicomp Black B+ Case</p></li>
-<li><p>Raspberry Pi Power Supply</p></li>
-<li><p>Wi-Pi Wireless Adapter</p></li>
-<li><p>3&#8217; HDMi Cable</p></li>
-<li><p>7&#8217; Ethernet Cable</p></li>
-</ul>
-
-
-<p>Just the thing for a home media center, or a starting point for a more ambitious project such as a <a href="http://www.retrobuiltgames.com/porta-pi-arcade-help/porta-pi-software-os-download/">vintage arcade</a>.</p>
-
-<p>Amazon re:Invent is sold out, but you can <a href="http://reinvent.awsevents.com/livestream-reg.html">sign up for streaming</a> if you&rsquo;re not able to make it.</p>
-
-<p>You can keep up with the latest OSv news from this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.  Hope to see you at the show.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/blog/2014/11/03/dashboard/">OSv 0.14 Alpha Includes Management Dashboard</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-11-03T21:10:31-08:00" pubdate data-updated="true">Nov 3<span>rd</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><strong>By Tzach Livyatan</strong></p>
-
-<p>We are pleased to announce the OSv 0.14 Alpha Release.</p>
-
-<p>This is the first release to include the dashboard, a  browser-based UI for OSv and virtual appliance status.</p>
-
-<p><img src="http://osv.io/images/dashboard.png" alt="OSv dashboard" /></p>
-
-<p>The dashboard includes (among other features):</p>
-
-<ul>
-<li><p>Main tab with Memory, CPU, Disk</p></li>
-<li><p>Thread tab with interactive visualization of thread status and thread usage.
-You can select and search for particular thread by name.</p></li>
-<li><p>Trace tab, including frequency for each tracepoint. Selection by name and search are available.</p></li>
-<li><p>JVM tab for basic JVM information including memory and GC, when a JVM is installed.</p></li>
-<li><p>Virtual Appliance tab for information relevant to the particular appliance.
-Tabs for Cassandra and Tomcat are currently  available, with more to come.</p></li>
-</ul>
-
-
-<p>To build the dashboard, just includes httpserver in
-the module list.  For example:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ make -j 4 image=cassandra,httpserver</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Once the appliance is running, the dashboard is available on port 8000 by default.  (You can change the port using <a href="https://github.com/cloudius-systems/osv/wiki/cloud-init">cloud-init</a>.)</p>
-
-<p>The <a href="https://groups.google.com/forum/#!topic/osv-dev/tyFGw7NRudA">full 0.14 release announcement</a> is available on the osv-dev mailing list.
-You can keep up with the latest OSv news from this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/blog/page/2/">&larr; Older</a>
@@ -692,6 +676,14 @@ You can keep up with the latest OSv news from this blog&rsquo;s <a href="http://
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/blog/2015/01/14/performance-evaluation/">Unikernel Research at the University of Utah</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/blog/2015/01/07/meetup/">OSv Meetup Group in Bangalore, India</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/blog/2014/12/16/make-clean-dont-repeat-yourself/">Image Building Tip: Make Clean Without Repeating Yourself</a>
       </li>
     
@@ -701,14 +693,6 @@ You can keep up with the latest OSv news from this blog&rsquo;s <a href="http://
     
       <li class="post">
         <a href="/blog/blog/2014/12/04/spamsink/">Making Spam Vanish&hellip;in the CLOUD</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/blog/2014/12/02/docker-rocket/">Containers, Containers, Containers! More Options for the Cloud</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/blog/2014/11/17/eblug/">OSv Meetup at EBLUG: Intro Talk and Demo</a>
       </li>
     
   </ul>
