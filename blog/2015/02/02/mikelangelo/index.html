@@ -5,11 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Category: Cassandra - OSv Blog</title>
+  <title>Researching the Future of the Cloud - OSv Blog</title>
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="Category: cassandra">
+  <meta name="description" content="By Nadav Har&#8217;El What will the IaaS cloud of the future look like? How can we improve the
+hypervisor to reduce the overhead it adds to virtual &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +19,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://osv.io/blogblog/categories/cassandra">
+  <link rel="canonical" href="http://osv.io/blog/blog/2015/02/02/mikelangelo">
   <link href="/blog/favicon.ico" rel="icon">
   <link href="/blog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
@@ -107,56 +108,177 @@
         </script>
     </div>
 </div>
-<div class="mobile mobilePageTitle">Category: cassandra</div>
+<div class="mobile mobilePageTitle">Researching the future of the cloud</div>
 
 
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Category: Cassandra</h1>
+    
+      <h1 class="entry-title">Researching the Future of the Cloud</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-02-02T10:54:23-08:00" pubdate data-updated="true">Feb 2<span>nd</span>, 2015</time>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives" class="category">
 
 
+<div class="entry-content"><p><strong>By Nadav Har&#8217;El</strong></p>
 
-  
-  <h2>2014</h2>
+<p>What will the IaaS cloud of the future look like? How can we improve the
+hypervisor to reduce the overhead it adds to virtual machines? How can we
+improve the operating system on each VM to make it faster, smaller, and
+more agile? How do we write applications that run more efficiently and
+conveniently on the modern cloud? How can we run on the cloud applications
+which traditionally required specialized hardware, such as supercomputers?</p>
 
-<article>
-  
-<h1><a href="/blog/blog/2014/09/18/cassandra-dashboard-tab/">New Dashboard Tab for Insight on Cassandra Virtual Appliances</a></h1>
-<time datetime="2014-09-18T06:00:00-07:00" pubdate><span class='month'>Sep</span> <span class='day'>18</span> <span class='year'>2014</span></time>
+<p><img src="/blog/images/mikelangelo.png" alt="Project Mikelangelo" /></p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/blog/categories/cassandra/'>cassandra</a>, <a class='category' href='/blog/blog/categories/dashboard/'>dashboard</a></span>
-</footer>
+<p>Cloudius Systems, together with eight leading industry and university
+partners, announced this month the <a href="http://mikelangelo.uni-goettingen.de/">Mikelangelo</a> research project, which
+sets out to answer exactly these questions. Mikelangelo is funded by the
+European Union&rsquo;s flagship research program, <a href="http://ec.europa.eu/programmes/horizon2020/">&ldquo;Horizon 2020&rdquo;</a>.</p>
 
+<p>Cloudius Systems brings to this project two significant technologies:</p>
 
-</article>
+<p>The first is OSv, our efficient and light-weight operating-system kernel
+optimized especially for VMs in the cloud. OSv can run existing Linux
+applications, but often with significantly improved performance and lower
+memory and disk footprint.</p>
 
+<p>Our second contribution to the cloud of the future is Seastar, a new
+framework for writing complex asynchronous applications while achieving
+optimal performance on modern machines. Seastar could be used to write
+the building blocks of modern user-facing cloud applications, such as
+HTTP servers, object caches and NoSQL databases, with staggering
+performance: Our prototype implementations already showed a 4-fold
+increase in server throughput compared to the commonly used alternatives,
+and linear scalability of performance on machines with up to 32 cores.</p>
 
+<p>The other companies which joined us in the Mikelangelo project are
+an exciting bunch, and include some ground-breaking European (and global)
+cloud researchers and practicioners:</p>
 
-<article>
-  
-<h1><a href="/blog/blog/2014/09/13/how-fast-can-you-run-4-vm/">Speed Run: Running 4 Virtual Appliances on Your Laptop in 5 Seconds Overall</a></h1>
-<time datetime="2014-09-13T23:30:00-07:00" pubdate><span class='month'>Sep</span> <span class='day'>13</span> <span class='year'>2014</span></time>
+<p>&nbsp;&bull; <a href="http://mikelangelo.uni-goettingen.de/?page_id=148">Huawei</a></p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/blog/blog/categories/capstan/'>capstan</a>, <a class='category' href='/blog/blog/categories/cassandra/'>cassandra</a>, <a class='category' href='/blog/blog/categories/mysql/'>mysql</a>, <a class='category' href='/blog/blog/categories/redis/'>redis</a>, <a class='category' href='/blog/blog/categories/tomcat/'>tomcat</a>, <a class='category' href='/blog/blog/categories/tools/'>tools</a></span>
-</footer>
+<p>&nbsp;&bull; <a href="http://mikelangelo.uni-goettingen.de/?page_id=132">IBM</a></p>
 
+<p>&nbsp;&bull; <a href="http://mikelangelo.uni-goettingen.de/?page_id=128">Intel</a></p>
 
-</article>
+<p>&nbsp;&bull; <a href="http://mikelangelo.uni-goettingen.de/?page_id=124">The University of Stuttgart&rsquo;s supercomputing center (HLRS)</a></p>
 
+<p>&nbsp;&bull; <a href="http://mikelangelo.uni-goettingen.de/?page_id=108">The University of Goettingen&rsquo;s computing center (GWDG)</a></p>
+
+<p>&nbsp;&bull; <a href="http://mikelangelo.uni-goettingen.de/?page_id=144">Ben Gurion University</a></p>
+
+<p>&nbsp;&bull; <a href="http://mikelangelo.uni-goettingen.de/?page_id=118">XLAB</a>, the coordinator of the project</p>
+
+<p>&nbsp;&bull; <a href="http://mikelangelo.uni-goettingen.de/?page_id=136">Pipistrel</a>, a light aircraft manufacturer</p>
+
+<p>Pipistrel&rsquo;s intended use case, of moving HPC jobs to the cloud, is
+particularly interesting. Pipistrel is an innovative manufacturer of
+light aircraft that holds <a href="http://www.pipistrel.si/media/achievements-and-awards">several cool world records</a>, and won NASA&rsquo;s
+2011 &ldquo;Green Flight Challenge&rdquo; by building an all-electric airplane
+achieving the equivalent of 400 miles per gallon per passenger.
+The aircraft design process involves numerous heavy numerical
+simulations. If a typical run requires 100 machines for two hours,
+running it on the cloud means they would not need to own 100 machines,
+and rather just pay for the computer time they use. Moreover, on the
+cloud they could just as easily deploy 200 machines, and finish the
+job in half the time, for exactly the same price!</p>
+
+<p>Last week, researchers from from all these partners met to kick off the
+project, and also enjoyed a visit to Ljubljana which, as its name implies,
+is a lovely city. The project will span 3 years, but we expect to see some
+encouraging results from the project&mdash;and from the individual partners
+comprising it&mdash;very soon. The future of the cloud looks very bright!</p>
+
+<p><em><a href="http://mikelangelo-project.eu/">The Mikelangelo Project&rsquo;s official site</a> is coming soon.</em></p>
+
+<p><strong>Watch this space (<a href="http://localhost:4000/blog/atom.xml">feed</a>), or follow
+<a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a>
+on Twitter, for more links to research in progress.</strong></p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Cloudius Systems</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-02-02T10:54:23-08:00" pubdate data-updated="true">Feb 2<span>nd</span>, 2015</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+    <div class="addthis_toolbox addthis_default_style ">
+        
+        <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+        
+        
+        <a class="addthis_button_tweet"></a>
+        
+        
+        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+        
+        
+        <a class="addthis_counter addthis_pill_style"></a>
+        
+    </div>
+    
+    <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-5343e81a2e0c9bfa"></script>
+    
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/blog/2015/01/14/performance-evaluation/" title="Previous Post: Unikernel research at the University of Utah">&laquo; Unikernel research at the University of Utah</a>
+      
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -228,7 +350,10 @@
       var disqus_shortname = 'osvblog';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://osv.io/blog/blog/2015/02/02/mikelangelo/';
+        var disqus_url = 'http://osv.io/blog/blog/2015/02/02/mikelangelo/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

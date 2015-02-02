@@ -9,9 +9,8 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="Ian Briggs, Matt Day, Eric Eide, Yuankai Guo, and
-Peter Marheine are conducting performance research
-on unikernels, and have thoughtfully posted some &hellip;">
+  <meta name="description" content="By Nadav Har&#8217;El What will the IaaS cloud of the future look like? How can we improve the
+hypervisor to reduce the overhead it adds to virtual &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -116,6 +115,116 @@ on unikernels, and have thoughtfully posted some &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/blog/2015/02/02/mikelangelo/">Researching the Future of the Cloud</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-02-02T10:54:23-08:00" pubdate data-updated="true">Feb 2<span>nd</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>By Nadav Har&#8217;El</strong></p>
+
+<p>What will the IaaS cloud of the future look like? How can we improve the
+hypervisor to reduce the overhead it adds to virtual machines? How can we
+improve the operating system on each VM to make it faster, smaller, and
+more agile? How do we write applications that run more efficiently and
+conveniently on the modern cloud? How can we run on the cloud applications
+which traditionally required specialized hardware, such as supercomputers?</p>
+
+<p><img src="/blog/images/mikelangelo.png" alt="Project Mikelangelo" /></p>
+
+<p>Cloudius Systems, together with eight leading industry and university
+partners, announced this month the <a href="http://mikelangelo.uni-goettingen.de/">Mikelangelo</a> research project, which
+sets out to answer exactly these questions. Mikelangelo is funded by the
+European Union&rsquo;s flagship research program, <a href="http://ec.europa.eu/programmes/horizon2020/">&ldquo;Horizon 2020&rdquo;</a>.</p>
+
+<p>Cloudius Systems brings to this project two significant technologies:</p>
+
+<p>The first is OSv, our efficient and light-weight operating-system kernel
+optimized especially for VMs in the cloud. OSv can run existing Linux
+applications, but often with significantly improved performance and lower
+memory and disk footprint.</p>
+
+<p>Our second contribution to the cloud of the future is Seastar, a new
+framework for writing complex asynchronous applications while achieving
+optimal performance on modern machines. Seastar could be used to write
+the building blocks of modern user-facing cloud applications, such as
+HTTP servers, object caches and NoSQL databases, with staggering
+performance: Our prototype implementations already showed a 4-fold
+increase in server throughput compared to the commonly used alternatives,
+and linear scalability of performance on machines with up to 32 cores.</p>
+
+<p>The other companies which joined us in the Mikelangelo project are
+an exciting bunch, and include some ground-breaking European (and global)
+cloud researchers and practicioners:</p>
+
+<p>&nbsp;&bull; <a href="http://mikelangelo.uni-goettingen.de/?page_id=148">Huawei</a></p>
+
+<p>&nbsp;&bull; <a href="http://mikelangelo.uni-goettingen.de/?page_id=132">IBM</a></p>
+
+<p>&nbsp;&bull; <a href="http://mikelangelo.uni-goettingen.de/?page_id=128">Intel</a></p>
+
+<p>&nbsp;&bull; <a href="http://mikelangelo.uni-goettingen.de/?page_id=124">The University of Stuttgart&rsquo;s supercomputing center (HLRS)</a></p>
+
+<p>&nbsp;&bull; <a href="http://mikelangelo.uni-goettingen.de/?page_id=108">The University of Goettingen&rsquo;s computing center (GWDG)</a></p>
+
+<p>&nbsp;&bull; <a href="http://mikelangelo.uni-goettingen.de/?page_id=144">Ben Gurion University</a></p>
+
+<p>&nbsp;&bull; <a href="http://mikelangelo.uni-goettingen.de/?page_id=118">XLAB</a>, the coordinator of the project</p>
+
+<p>&nbsp;&bull; <a href="http://mikelangelo.uni-goettingen.de/?page_id=136">Pipistrel</a>, a light aircraft manufacturer</p>
+
+<p>Pipistrel&rsquo;s intended use case, of moving HPC jobs to the cloud, is
+particularly interesting. Pipistrel is an innovative manufacturer of
+light aircraft that holds <a href="http://www.pipistrel.si/media/achievements-and-awards">several cool world records</a>, and won NASA&rsquo;s
+2011 &ldquo;Green Flight Challenge&rdquo; by building an all-electric airplane
+achieving the equivalent of 400 miles per gallon per passenger.
+The aircraft design process involves numerous heavy numerical
+simulations. If a typical run requires 100 machines for two hours,
+running it on the cloud means they would not need to own 100 machines,
+and rather just pay for the computer time they use. Moreover, on the
+cloud they could just as easily deploy 200 machines, and finish the
+job in half the time, for exactly the same price!</p>
+
+<p>Last week, researchers from from all these partners met to kick off the
+project, and also enjoyed a visit to Ljubljana which, as its name implies,
+is a lovely city. The project will span 3 years, but we expect to see some
+encouraging results from the project&mdash;and from the individual partners
+comprising it&mdash;very soon. The future of the cloud looks very bright!</p>
+
+<p><em><a href="http://mikelangelo-project.eu/">The Mikelangelo Project&rsquo;s official site</a> is coming soon.</em></p>
+
+<p><strong>Watch this space (<a href="http://localhost:4000/blog/atom.xml">feed</a>), or follow
+<a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a>
+on Twitter, for more links to research in progress.</strong></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -608,58 +717,6 @@ is the very thing that makes Docker attractive, its simplicity, is also a disadv
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/blog/2014/11/12/amazon/">On Stage Thursday at Amazon re:Invent</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-11-12T08:10:31-08:00" pubdate data-updated="true">Nov 12<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>If you&rsquo;re at the Amazon re:Invent show, don&rsquo;t miss <a href="https://www.portal.reinvent.awsevents.com/connect/sessionDetail.ww?SESSION_ID=9806">3rd Annual Startup Launches moderated by Werner Vogels</a>. Cloudius Systems CEO Dor Laor will be there, to talk about&hellip;.but we can&rsquo;t tell you that yet.</p>
-
-<ul>
-<li><p><strong>Who:</strong> Amazon.com CTO, Dr. Werner Vogels. and five guests</p></li>
-<li><p><strong>What:</strong> Learn how innovative new startups use the AWS cloud.</p></li>
-<li><p><strong>Where:</strong> Level 2 &ndash; Titian 2306</p></li>
-<li><p><strong>When:</strong> Thursday, Nov 13, 4:30 PM &ndash; 5:15 PM</p></li>
-<li><p><strong>Why:</strong> Knowledge, plus special discounts on new products and services.</p></li>
-</ul>
-
-
-<p>If you can&rsquo;t wait, come over to K14 in the exhibit hall for an OSv demo.
-We&rsquo;ve got some <a href="http://www.mcmelectronics.com/product/83-16333RK">Raspberry Pi media kits</a> to give away (to especially intense cloud users who need some real hardware to restore balance to their lives.)</p>
-
-<p><img src="/blog/images/kiosk.png" alt="demo pod" /><br><em>Unikernels don&rsquo;t need big heavyweight booths.</em></p>
-
-<p>You can keep up with the latest OSv news from this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.  Hope to see you at the show.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/blog/page/2/">&larr; Older</a>
@@ -675,6 +732,10 @@ We&rsquo;ve got some <a href="http://www.mcmelectronics.com/product/83-16333RK">
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/blog/2015/02/02/mikelangelo/">Researching the Future of the Cloud</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/blog/2015/01/14/performance-evaluation/">Unikernel Research at the University of Utah</a>
       </li>
     
@@ -688,10 +749,6 @@ We&rsquo;ve got some <a href="http://www.mcmelectronics.com/product/83-16333RK">
     
       <li class="post">
         <a href="/blog/blog/2014/12/11/advent/">OSv on the QEMU Advent Calendar</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/blog/2014/12/04/spamsink/">Making Spam Vanish&hellip;in the CLOUD</a>
       </li>
     
   </ul>

@@ -9,8 +9,7 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="By Tzach Livyatan (Spoiler: It&rsquo;s Apache Tomcat.) Capstan is a tool for rapidly building and running applications on OSv.
-As with Docker, &hellip;">
+  <meta name="description" content="What happens in that critical fraction of a second between when a virtual x86_64 system &ldquo;powers up&rdquo; and when it begins running operating &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -115,6 +114,56 @@ As with Docker, &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/blog/2014/07/11/osv-boot/">Inside the OSv Boot Process</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-07-11T08:37:05-07:00" pubdate data-updated="true">Jul 11<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>What happens in that critical fraction of a second between when a virtual x86_64 system &ldquo;powers up&rdquo; and when it begins running operating system code written in a high-level language?</p>
+
+<p>For a helpful walk-through, there&rsquo;s a new article on the OSv wiki, originally written by Elazar Leibovich.</p>
+
+<p><img src="/blog/images/pc-power.jpeg" alt="IBM PC power switch" /></p>
+
+<p><strong>The boot process for a modern VM traces its history back to the
+original IBM PC.</strong></p>
+
+<p>While some of the intricate startup steps are historic, the end result is an OSv boot time that&rsquo;s less than a second&mdash;an order of magnitude faster than a conventional multi-user OS.  To read (or contribute!) details,
+<a href="http://github.com/cloudius-systems/osv/wiki/OSv-early-boot-(MBR)">the &ldquo;OSv early boot&rdquo; article on the wiki.</a></p>
+
+<p>(photo: <a href="http://commons.wikimedia.org/wiki/File:XT-PC-Power-Supply-PCB-IMG_0436.JPG">Hans Haase for Wikimedia Commons</a>. Available under the Creative Commons Attribution-Share Alike 3.0 Unported license.)</p>
+
+<p>If you have any questions on OSv internals, or porting your application, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get general updates by subscribing to this blog&rsquo;s feed, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -852,52 +901,6 @@ is executing for you.)</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/blog/2014/04/25/meetup/">New OSv Meetup Group</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-04-25T08:54:23-07:00" pubdate data-updated="true">Apr 25<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><strong>By Don Marti</strong></p>
-
-<p>We held the first meeting of the OSv <a href="http://www.meetup.com/OSv-Developer-Meetup/">Meetup group</a> in San Francisco this week, and got 14 participants from the Apache, Big Data, and OSv communities, as well as a few meetup.com users interested in cloud computing who just came along serendipitously.</p>
-
-<p><img src="/blog/images/meetup.jpg" alt="attendees" /></p>
-
-<p>Thanks to our hosts at <a href="http://ohmdata.com/">OhmData</a> who made their groovy South of Market office space available, and thanks to our attendees for coming in to try out OSv.  Looking forward to seeing the results of your initial experiments.</p>
-
-<p>(For the users of VirtualBox on Mac OS who ran into the <a href="https://groups.google.com/forum/#!topic/osv-dev/yobHBsusLN8">&ldquo;assertion failed&rdquo; problem</a>, we&rsquo;re discussing that on the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a> now, so watch the list for an update.)</p>
-
-<p>To get advance notice of future events&mdash;both the free-form hands-on sessions like this one and an upcoming tech talk series&mdash;please join the <a href="http://www.meetup.com/OSv-Developer-Meetup/">Meetup group</a> or follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/blog/page/5/">&larr; Older</a>
@@ -915,6 +918,10 @@ is executing for you.)</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/blog/2015/02/02/mikelangelo/">Researching the Future of the Cloud</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/blog/2015/01/14/performance-evaluation/">Unikernel Research at the University of Utah</a>
       </li>
     
@@ -928,10 +935,6 @@ is executing for you.)</p>
     
       <li class="post">
         <a href="/blog/blog/2014/12/11/advent/">OSv on the QEMU Advent Calendar</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/blog/2014/12/04/spamsink/">Making Spam Vanish&hellip;in the CLOUD</a>
       </li>
     
   </ul>
