@@ -4,7 +4,7 @@
   <title><![CDATA[OSv Blog]]></title>
   <link href="http://osv.io/blog/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2015-02-02T11:18:59-08:00</updated>
+  <updated>2015-02-17T20:58:24-08:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -82,7 +82,7 @@ and rather just pay for the computer time they use. Moreover, on the
 cloud they could just as easily deploy 200 machines, and finish the
 job in half the time, for exactly the same price!</p>
 
-<p>Last week, researchers from from all these partners met to kick off the
+<p>Last week, researchers from all these partners met to kick off the
 project, and also enjoyed a visit to Ljubljana which, as its name implies,
 is a lovely city. The project will span 3 years, but we expect to see some
 encouraging results from the project&mdash;and from the individual partners
