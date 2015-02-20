@@ -4,7 +4,7 @@
   <title><![CDATA[OSv Blog]]></title>
   <link href="http://osv.io/blog/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2015-02-17T20:58:24-08:00</updated>
+  <updated>2015-02-20T07:02:11-08:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -12,6 +12,74 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Seastar]]></title>
+    <link href="http://osv.io/blog/blog/2015/02/20/seastar/"/>
+    <updated>2015-02-20T00:00:00-08:00</updated>
+    <id>http://osv.io/blog/blog/2015/02/20/seastar</id>
+    <content type="html"><![CDATA[<p>Today, we are releasing Seastar, a new open-source C++
+framework for extreme high-performance applications
+on OSv and Linux. Seastar brings a 5x throughput
+improvement to web-scale workloads, at millions of
+transactions per second on a single server, and is
+optimized for modern physical and virtual hardware.</p>
+
+<p><img src="http://www.seastar-project.org/img/memcache.png" alt="seastar Memcache graph" /></p>
+
+<p><em>Benchmark results are available from the <a href="http://www.seastar-project.org/">new Seastar
+project site</a>.</em></p>
+
+<p><strong>Today’s server hardware is <a href="http://danluu.com/new-cpu-features/">substantially different</a> from
+the machines for which today’s server software
+was written.</strong> Multi-core design and complex
+caching now require us to make new assumptions to
+get good performance.  And today’s more complex
+workloads, where many microservices interact to
+fulfil a single user request, are driving down the
+latencies required at all layers of the stack. On
+new hardware, the performance of standard workloads
+depends more on locking and coordination across cores
+than on performance of an individual core. And the
+full-featured network stack of a conventional OS can
+also use a majority of a server’s CPU cycles.</p>
+
+<p><strong>Seastar reaches linear scalability,</strong> as a
+function of core count, by taking a shard-per-core
+approach. SeaStar tasks do not depend on synchronous
+data exchange with other cores which is usually
+implemented by compare-exchange and similar locking
+schemes. Instead, each core owns its resources (RAM,
+NIC queue, CPU) and exchanges async messages with
+remote cores. Seastar includes its own user-space
+network stack, which runs on top of <a href="http://dpdk.org/">Data Plane
+Development Kit</a> (DPDK). All
+network communications can take place without system
+calls, and no data copying ever occurs. SeaStar is
+event-driven and supports writing non-blocking,
+asynchronous server code in a straightforward
+manner that facilitates debugging and reasoning
+about performance.</p>
+
+<p>Seastar is currently focused on high-throughput,
+low-latency network applications. For example,
+it is useful for NoSQL servers, for data caches
+such as memcached, and for high-performance HTTP
+serving. Seastar is available today, under the Apache
+license version 2.0.</p>
+
+<ul>
+<li><p><a href="http://www.seastar-project.org/">Seastar project site</a></p></li>
+<li><p><a href="https://github.com/cloudius-systems/seastar">Seastar repository on GitHub</a></p></li>
+<li><p><a href="https://groups.google.com/forum/?hl=en#!forum/seastar-dev">seastar-dev mailing list</a></p></li>
+</ul>
+
+
+<p><strong>Please follow
+<a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a>
+on Twitter for updates.</strong></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Researching the Future of the Cloud]]></title>
@@ -959,39 +1027,6 @@ pat on the shoulder :)</li>
 
 
 <p>You can keep up with the latest OSv news from this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or by following <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.  Questions always welcome on the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev</a> mailing list.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[OSv Meetup Group: Convert Your Application to a Run-anywhere VM]]></title>
-    <link href="http://osv.io/blog/blog/2014/09/22/meetup/"/>
-    <updated>2014-09-22T17:54:23-07:00</updated>
-    <id>http://osv.io/blog/blog/2014/09/22/meetup</id>
-    <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
-
-<p>Fast is better than slow. Simple is better than complex. And easily building a run-anywhere VM from a Java application is better than trying to figure out the whole OS business.</p>
-
-<p><a href="http://osv.io/">OSv</a> is the simple, fast OS platform designed to run one application in the cloud, without the complexity of old-school OSs with their local users, permissions, and sevices.</p>
-
-<p><strong>Who:</strong> You</p>
-
-<p><strong>What:</strong> Hands-on OSv hacking sesssion</p>
-
-<p><strong>Where:</strong> San Francisco, California, USA (see link for address)</p>
-
-<p><strong>When:</strong> 3pm-8pm Wednesday, September 24, 2014 (drop in any time)</p>
-
-<p><strong>Why:</strong> Get your application running in the cloud without the legacy OS complexity.</p>
-
-<p>OSv now includes the <a href="http://www.jolokia.org/">Jolokia</a> JMX-via-JSON-REST connector, providing full read/write access to the entire set of Java manageability attributes and operations. Now you no longer need to set up and secure separate JMX-over-RMI connectivity with your Java application to fully manage it. (<a href="http://osv.io/blog/blog/2014/08/26/jolokia-jmx-connectivity-in-osv/">details here</a>).</p>
-
-<p>Please join us for the next meeting of the OSv <a href="http://www.meetup.com/OSv-Developer-Meetup/">Meetup group</a> in San Francisco, and learn to do a quick, three-second build of a first-class OSv VM that will run on your platform of choice, whether it&rsquo;s VMware, VirtualBox, Amazon, Google, or KVM.</p>
-
-<p><img src="http://osv.io/blog/images/meetup.jpg" alt="attendees" /></p>
-
-<p>Bring your laptop and your favorite Java project, or just follow along.  We&rsquo;ll conclude with food and a few lightning talks and demos.</p>
-
-<p>Our hosts at <a href="http://ohmdata.com/">OhmData</a> are once again making their cool South of Market office space available.  If you&rsquo;re not already a member of the OSv <a href="http://www.meetup.com/OSv-Developer-Meetup/">Meetup group</a>, please join us for this hands-on session.  For general questions on OSv, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get general updates by subscribing to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
 ]]></content>
   </entry>
   

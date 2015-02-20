@@ -9,8 +9,9 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="By Nadav Har&#8217;El What will the IaaS cloud of the future look like? How can we improve the
-hypervisor to reduce the overhead it adds to virtual &hellip;">
+  <meta name="description" content="Today, we are releasing Seastar, a new open-source C++
+framework for extreme high-performance applications
+on OSv and Linux. Seastar brings a 5x &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -115,6 +116,101 @@ hypervisor to reduce the overhead it adds to virtual &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/blog/2015/02/20/seastar/">Seastar</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-02-20T00:00:00-08:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Today, we are releasing Seastar, a new open-source C++
+framework for extreme high-performance applications
+on OSv and Linux. Seastar brings a 5x throughput
+improvement to web-scale workloads, at millions of
+transactions per second on a single server, and is
+optimized for modern physical and virtual hardware.</p>
+
+<p><img src="http://www.seastar-project.org/img/memcache.png" alt="seastar Memcache graph" /></p>
+
+<p><em>Benchmark results are available from the <a href="http://www.seastar-project.org/">new Seastar
+project site</a>.</em></p>
+
+<p><strong>Today’s server hardware is <a href="http://danluu.com/new-cpu-features/">substantially different</a> from
+the machines for which today’s server software
+was written.</strong> Multi-core design and complex
+caching now require us to make new assumptions to
+get good performance.  And today’s more complex
+workloads, where many microservices interact to
+fulfil a single user request, are driving down the
+latencies required at all layers of the stack. On
+new hardware, the performance of standard workloads
+depends more on locking and coordination across cores
+than on performance of an individual core. And the
+full-featured network stack of a conventional OS can
+also use a majority of a server’s CPU cycles.</p>
+
+<p><strong>Seastar reaches linear scalability,</strong> as a
+function of core count, by taking a shard-per-core
+approach. SeaStar tasks do not depend on synchronous
+data exchange with other cores which is usually
+implemented by compare-exchange and similar locking
+schemes. Instead, each core owns its resources (RAM,
+NIC queue, CPU) and exchanges async messages with
+remote cores. Seastar includes its own user-space
+network stack, which runs on top of <a href="http://dpdk.org/">Data Plane
+Development Kit</a> (DPDK). All
+network communications can take place without system
+calls, and no data copying ever occurs. SeaStar is
+event-driven and supports writing non-blocking,
+asynchronous server code in a straightforward
+manner that facilitates debugging and reasoning
+about performance.</p>
+
+<p>Seastar is currently focused on high-throughput,
+low-latency network applications. For example,
+it is useful for NoSQL servers, for data caches
+such as memcached, and for high-performance HTTP
+serving. Seastar is available today, under the Apache
+license version 2.0.</p>
+
+<ul>
+<li><p><a href="http://www.seastar-project.org/">Seastar project site</a></p></li>
+<li><p><a href="https://github.com/cloudius-systems/seastar">Seastar repository on GitHub</a></p></li>
+<li><p><a href="https://groups.google.com/forum/?hl=en#!forum/seastar-dev">seastar-dev mailing list</a></p></li>
+</ul>
+
+
+<p><strong>Please follow
+<a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a>
+on Twitter for updates.</strong></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -665,58 +761,6 @@ is the very thing that makes Docker attractive, its simplicity, is also a disadv
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/blog/2014/11/13/osv-private-beta/">OSv Early Access Private Beta</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-11-13T08:10:31-08:00" pubdate data-updated="true">Nov 13<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Cloudius Systems is introducing an early access version of OSv, the lightweight open-source OS optimized for large cloud workloads, on November 13.  <a href="http://osv.io/beta-release/">Beta program information</a> is now available.</p>
-
-<p><img src="http://www.cloudius-systems.com/images/mouse.jpeg" alt="lab mouse" /></p>
-
-<p>OSv can be used to minimize latency and reduce TCO for many workloads, especially horizontally scaled ones. The software is available as ready-to-run virtual machine images pre-configured to run popular NoSQL data stores such as Redis and Apache Cassandra, as well as in source code form.</p>
-
-<p>“OSv lets you take a project from a developer’s IDE to a flexible, multi-server deployment much faster,” said Dor Laor, CEO of Cloudius Systems.  “As customers require more and more throughput at lower and lower operating cost, we enable developers to use the agility of containers along with the proven security and management features known for in virtual machines.”</p>
-
-<p>Cloudius Systems’ early access release features an expanded Web API for management, along with performance improvements that increase efficiency, with an up to a 3.9x throughput gain. Unlike conventional operating systems with their diverse configuration files and complex user and memory management, OSv is designed to provide the minimum OS needed to run a single application at maximum performance in the cloud.</p>
-
-<p>&ldquo;OSv was designed with virtualization in mind,” said Cloudius Systems CTO, Avi Kivity.  “The OS overhead is minimized by a reduction of context switches, data copies, and inefficient constructs such as spinlocks.&rdquo; OSv virtual machines can be as small as 20MB, far smaller than Docker containers, and boot in less than one second.</p>
-
-<h2><a href="http://www.cloudius-systems.com/images/mouse.jpeg">Sign up for the OSv beta</a></h2>
-
-<p>You can keep up with the latest OSv news from this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.  Hope to see you at the show.</p>
-
-<p>Photo: <a href="http://commons.wikimedia.org/wiki/File:Lab_mouse_mg_3216.jpg">Rama for Wikimedia Commons</a></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/blog/page/2/">&larr; Older</a>
@@ -732,6 +776,10 @@ is the very thing that makes Docker attractive, its simplicity, is also a disadv
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/blog/2015/02/20/seastar/">Seastar</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/blog/2015/02/02/mikelangelo/">Researching the Future of the Cloud</a>
       </li>
     
@@ -745,10 +793,6 @@ is the very thing that makes Docker attractive, its simplicity, is also a disadv
     
       <li class="post">
         <a href="/blog/blog/2014/12/16/make-clean-dont-repeat-yourself/">Image Building Tip: Make Clean Without Repeating Yourself</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/blog/2014/12/11/advent/">OSv on the QEMU Advent Calendar</a>
       </li>
     
   </ul>
