@@ -4,7 +4,7 @@
   <title><![CDATA[OSv Blog]]></title>
   <link href="http://osv.io/blog/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2015-02-20T07:02:11-08:00</updated>
+  <updated>2015-02-20T07:03:44-08:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -14,9 +14,9 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Seastar]]></title>
+    <title type="html"><![CDATA[Seastar: New C++ Framework for Web-scale Workloads]]></title>
     <link href="http://osv.io/blog/blog/2015/02/20/seastar/"/>
-    <updated>2015-02-20T00:00:00-08:00</updated>
+    <updated>2015-02-20T06:54:23-08:00</updated>
     <id>http://osv.io/blog/blog/2015/02/20/seastar</id>
     <content type="html"><![CDATA[<p>Today, we are releasing Seastar, a new open-source C++
 framework for extreme high-performance applications
