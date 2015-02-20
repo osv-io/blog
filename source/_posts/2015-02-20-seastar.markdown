@@ -1,0 +1,68 @@
+---
+layout: post
+title: "Seastar: new C++ framework for web-scale workloads"
+date: 2015-02-20 06:54:23 -0800
+comments: true
+published: true
+---
+
+Today, we are releasing Seastar, a new open-source C++
+framework for extreme high-performance applications
+on OSv and Linux. Seastar brings a 5x throughput
+improvement to web-scale workloads, at millions of
+transactions per second on a single server, and is
+optimized for modern physical and virtual hardware.
+
+![seastar Memcache graph](http://www.seastar-project.org/img/memcache.png)
+
+_Benchmark results are available from the [new Seastar
+project site](http://www.seastar-project.org/)._
+
+**Today’s server hardware is [substantially different](http://danluu.com/new-cpu-features/) from
+the machines for which today’s server software
+was written.** Multi-core design and complex
+caching now require us to make new assumptions to
+get good performance.  And today’s more complex
+workloads, where many microservices interact to
+fulfil a single user request, are driving down the
+latencies required at all layers of the stack. On
+new hardware, the performance of standard workloads
+depends more on locking and coordination across cores
+than on performance of an individual core. And the
+full-featured network stack of a conventional OS can
+also use a majority of a server’s CPU cycles.
+
+**Seastar reaches linear scalability,** as a
+function of core count, by taking a shard-per-core
+approach. SeaStar tasks do not depend on synchronous
+data exchange with other cores which is usually
+implemented by compare-exchange and similar locking
+schemes. Instead, each core owns its resources (RAM,
+NIC queue, CPU) and exchanges async messages with
+remote cores. Seastar includes its own user-space
+network stack, which runs on top of [Data Plane
+Development Kit](http://dpdk.org/) (DPDK). All
+network communications can take place without system
+calls, and no data copying ever occurs. SeaStar is
+event-driven and supports writing non-blocking,
+asynchronous server code in a straightforward
+manner that facilitates debugging and reasoning
+about performance.
+
+Seastar is currently focused on high-throughput,
+low-latency network applications. For example,
+it is useful for NoSQL servers, for data caches
+such as memcached, and for high-performance HTTP
+serving. Seastar is available today, under the Apache
+license version 2.0.
+
+ * [Seastar project site](http://www.seastar-project.org/)
+
+ * [Seastar repository on GitHub](https://github.com/cloudius-systems/seastar)
+
+ * [seastar-dev mailing list](https://groups.google.com/forum/?hl=en#!forum/seastar-dev)
+
+**Please follow
+[@CloudiusSystems](https://twitter.com/CloudiusSystems)
+on Twitter for updates.**
+
