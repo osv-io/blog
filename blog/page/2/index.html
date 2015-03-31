@@ -9,7 +9,7 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="Cloudius Systems is introducing an early access version of OSv, the lightweight open-source OS optimized for large cloud workloads, on November 13. &hellip;">
+  <meta name="description" content="By Nadav Har&#8217;El In a typical lab network configuration, one cannot just ssh or scp to the hosts behind the firewall (our company calls them &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -114,6 +114,63 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/blog/2014/11/17/ssh-without-trusting-bastion-host/">SSH Tip: Connecting to a Private Network Without Trusting the Bastion Host</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-17T14:10:31-08:00" pubdate data-updated="true">Nov 17<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>By Nadav Har&#8217;El</strong></p>
+
+<p>In a typical lab network configuration, one cannot just <code>ssh</code> or <code>scp</code> to the hosts behind the firewall (our company calls them after characters from Norse mythology: Loki, Muninn and friends).  Instead, you need to ssh to a bastion host, and from there connect to the internal systems.</p>
+
+<p><img src="/blog/images/ssh-user.jpeg" alt="ssh user" /><br><em>an ssh user connecting using a bastion host</em></p>
+
+<p>One can automate these two steps, with a command like</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ssh -t bastion.example.com ssh loki.lab.example.com</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And I guess some of you are already doing that. But this only works for ssh, not scp. One can do scp through an &ldquo;ssh tunnel&rdquo;, but this is really ugly to set up every time and to use.</p>
+
+<p>There is also a securty hole in this approach, because anyone who breaks into <code>bastion</code> (which is an external machine and thus exposed to the Internet) can then ssh from there to all the internal machines, or even hijack already-running ssh sessions.</p>
+
+<p>I finally found a much better solution, much easier to use and much more secure.</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/blog/2014/11/17/ssh-without-trusting-bastion-host/">Read more&#8230;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -748,54 +805,6 @@ By its nature Bash is a dangerous beast, wouldn&rsquo;t it be better to keep him
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/blog/2014/09/24/java-newrelic-agent/">Adding a NewRelic Agent to Your OSv Appliance</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-09-24T16:22:22-07:00" pubdate data-updated="true">Sep 24<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><strong>By Tzach Livyatan</strong></p>
-
-<p><a href="http://newrelic.com/">New Relic</a> is a popular real-time monitoring
-service for Web and mobile applications.</p>
-
-<p>In the following post I will describe how to add a New Relic
-monitoring agent to your OSv virtual appliance, using <a href="http://tomcat.apache.org/">Tomcat</a> as an
-example.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/blog/2014/09/24/java-newrelic-agent/">Read more&#8230;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/blog/page/3/">&larr; Older</a>
@@ -813,6 +822,10 @@ example.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/blog/2015/03/31/sdi/">Software-defined Interconnection: The Future of Internet Peering, Powered by OpenDaylight and OSv</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/blog/2015/02/20/seastar/">Seastar: New C++ Framework for Web-scale Workloads</a>
       </li>
     
@@ -826,10 +839,6 @@ example.</p>
     
       <li class="post">
         <a href="/blog/blog/2015/01/07/meetup/">OSv Meetup Group in Bangalore, India</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/blog/2014/12/16/make-clean-dont-repeat-yourself/">Image Building Tip: Make Clean Without Repeating Yourself</a>
       </li>
     
   </ul>

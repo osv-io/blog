@@ -9,9 +9,7 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="Today, we are releasing Seastar, a new open-source C++
-framework for extreme high-performance applications
-on OSv and Linux. Seastar brings a 5x &hellip;">
+  <meta name="description" content="By David Jorm and Don Marti Most users are aware of cloud computing as a general term behind such trends as &ldquo;Software as a Service,&rdquo; &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -116,6 +114,73 @@ on OSv and Linux. Seastar brings a 5x &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/blog/2015/03/31/sdi/">Software-defined Interconnection: The Future of Internet Peering, Powered by OpenDaylight and OSv</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-03-31T00:00:00-07:00" pubdate data-updated="true">Mar 31<span>st</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>By David Jorm and Don Marti</strong></p>
+
+<p>Most users are aware of cloud computing as a general term behind such trends as &ldquo;Software as a Service,&rdquo; where sites such as Salesforce.com can replace software run by a company IT department, or &ldquo;Infrastructure as a Service&rdquo; where virtual machines rented by the hour can replace conventional servers. But today, the technologies behind the cloud are changing the way that we connect the Internet at the most fundamental level, through Software Defined Interconnection (SDI).</p>
+
+<p><strong>What is SDI?</strong> A lot of manual work goes into hooking up the Internet between providers. The routers that send Internet traffic from one place to another can be configured to use &ldquo;paid transit&rdquo;, where a single provider will route packets to any destination. But the more Internet traffic you’re responsible for, the more you can benefit from another arrangement, called &ldquo;direct interconnection&rdquo; where you set up your company’s routers to directly connect to another company’s. Most networks will always need to buy transit from somebody; the best you can hope for is that a portion of your traffic bypasses the transit provider and is directly delivered to the destination. Maximizing the amount of traffic that is directly peered leads to better performance, lower latency, lower packet loss, and greater security.</p>
+
+<p>Today, most direct interconnection is typically set up manually, with a physical fiber cable connecting one organization’s network to another. Agreements to interconnect and peer are also reached manually, typically via email or face-to-face at peering conferences. When agreement is reached, network admins must ssh in to routers in order to manually configure such peering. It’s not efficient or scalable, and depends on individuals or select groups.</p>
+
+<p>Once an organization has agreed that they want to directly connect with another organization, how do you handle changes to router and switch configuration? Probably the same way you used to manage your httpd.conf back in the 1990s! Network managers ssh in, and update config manually. Some networks have sophisticated management tools, but for many, &ldquo;the state of the router is the canonical state.&rdquo;</p>
+
+<p><img src="http://www.cloudius-systems.com/images/iix_rack.png"
+ alt="Software-defined interconnection"></p>
+
+<p><em>Software-defined interconnection, under test in the IIX lab</em></p>
+
+<p>SDI aims to improve all that. The OpenDaylight project is a common platform for network management that facilitates breaking traditional network devices such as switches and routers into separate &ldquo;data plane&rdquo; devices that handle high traffic volume and &ldquo;control plane&rdquo; devices that do management. Because the control plane device, or software-defined networking (SDN) controller, does not have the extreme throughput requirements of the data plane, it’s easy to virtualize.</p>
+
+<p><strong>In the lab today</strong> IIX is currently prototyping this next generation of devices in the lab, while more traditional network gear runs in production. The prototype system uses an <a href="http://en.wikipedia.org/wiki/OpenFlow">OpenFlow switch</a> for data plane, and a separate OpenDaylight server for control plane. Switches rely on the SDN controller. In the event of an unknown packet, they forward it to the controller.</p>
+
+<p>No configuration changes are needed on the data plane hardware, only on the SDN controller, which can be a virtual machine. OpenDaylight manages both layer 2, switching, and layer 3, routing, and the same OpenDaylight APIs can be used to change configuration at both levels.</p>
+
+<p>OpenDaylight is a pure Java application. It only requires the ability to run a JVM on the virtual machine. For security and ease of management, it can be advantageous to run an individual controller per customer. This means a lightweight, easy-to-manage guest OS is a big advantage. With OSv, IIX can deploy identical simple VMs for each customer, and the OpenDaylight APIs can be used to configure each one appropriately.</p>
+
+<p>OSv’s high performance and low overhead allows for high density of VMs on standard physical hardware. And any compromise or configuration error should only affect one customer, because strong isolation is provided by a standard hypervisor, without the <a href="http://www.projectatomic.io/blog/2014/09/yet-another-reason-containers-don-t-contain-kernel-keyrings/">complex security model of containerization</a>.</p>
+
+<p><strong>Conclusion</strong> While Internet applications have gained from cloud technologies, the fundamental lower layers are still coming up to speed. OpenDaylight and OSv are bringing cloud economics to the lower levels of the stack.</p>
+
+<h2>About the authors</h2>
+
+<p><strong>David</strong> is a product security engineer based in Brisbane, Australia. He currently leads product security efforts for IIX, a software-defined interconnection company. David has been involved in the security industry for the last 15 years. During this time he has found high-impact and novel flaws in dozens of major Java components. He has worked for Red Hat&rsquo;s security team, led a Chinese startup that failed miserably, and wrote the core aviation meteorology system for the southern hemisphere. In his spare time he tries to stop his two Dachshunds from taking over the house.</p>
+
+<p><strong>Don</strong> is a technical marketing manager for Cloudius Systems, the OSv company. He has written for Linux Weekly News, Linux Journal, and other publications. He co-founded the Linux consulting firm Electric Lichen, which was acquired by VA Linux Systems. Don has served as president and vice president of the Silicon Valley Linux Users Group and on the program committees for Uselinux, Codecon, and LinuxWorld Conference and Expo.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -704,63 +769,6 @@ is the very thing that makes Docker attractive, its simplicity, is also a disadv
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/blog/2014/11/17/ssh-without-trusting-bastion-host/">SSH Tip: Connecting to a Private Network Without Trusting the Bastion Host</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-11-17T14:10:31-08:00" pubdate data-updated="true">Nov 17<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><strong>By Nadav Har&#8217;El</strong></p>
-
-<p>In a typical lab network configuration, one cannot just <code>ssh</code> or <code>scp</code> to the hosts behind the firewall (our company calls them after characters from Norse mythology: Loki, Muninn and friends).  Instead, you need to ssh to a bastion host, and from there connect to the internal systems.</p>
-
-<p><img src="/blog/images/ssh-user.jpeg" alt="ssh user" /><br><em>an ssh user connecting using a bastion host</em></p>
-
-<p>One can automate these two steps, with a command like</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ssh -t bastion.example.com ssh loki.lab.example.com</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And I guess some of you are already doing that. But this only works for ssh, not scp. One can do scp through an &ldquo;ssh tunnel&rdquo;, but this is really ugly to set up every time and to use.</p>
-
-<p>There is also a securty hole in this approach, because anyone who breaks into <code>bastion</code> (which is an external machine and thus exposed to the Internet) can then ssh from there to all the internal machines, or even hijack already-running ssh sessions.</p>
-
-<p>I finally found a much better solution, much easier to use and much more secure.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/blog/2014/11/17/ssh-without-trusting-bastion-host/">Read more&#8230;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/blog/page/2/">&larr; Older</a>
@@ -776,6 +784,10 @@ is the very thing that makes Docker attractive, its simplicity, is also a disadv
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/blog/2015/03/31/sdi/">Software-defined Interconnection: The Future of Internet Peering, Powered by OpenDaylight and OSv</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/blog/2015/02/20/seastar/">Seastar: New C++ Framework for Web-scale Workloads</a>
       </li>
     
@@ -789,10 +801,6 @@ is the very thing that makes Docker attractive, its simplicity, is also a disadv
     
       <li class="post">
         <a href="/blog/blog/2015/01/07/meetup/">OSv Meetup Group in Bangalore, India</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/blog/2014/12/16/make-clean-dont-repeat-yourself/">Image Building Tip: Make Clean Without Repeating Yourself</a>
       </li>
     
   </ul>

@@ -4,7 +4,7 @@
   <title><![CDATA[OSv Blog]]></title>
   <link href="http://osv.io/blog/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2015-03-16T14:50:04-07:00</updated>
+  <updated>2015-03-31T06:23:39-07:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -12,6 +12,46 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Software-defined Interconnection: The Future of Internet Peering, Powered by OpenDaylight and OSv]]></title>
+    <link href="http://osv.io/blog/blog/2015/03/31/sdi/"/>
+    <updated>2015-03-31T00:00:00-07:00</updated>
+    <id>http://osv.io/blog/blog/2015/03/31/sdi</id>
+    <content type="html"><![CDATA[<p><strong>By David Jorm and Don Marti</strong></p>
+
+<p>Most users are aware of cloud computing as a general term behind such trends as &ldquo;Software as a Service,&rdquo; where sites such as Salesforce.com can replace software run by a company IT department, or &ldquo;Infrastructure as a Service&rdquo; where virtual machines rented by the hour can replace conventional servers. But today, the technologies behind the cloud are changing the way that we connect the Internet at the most fundamental level, through Software Defined Interconnection (SDI).</p>
+
+<p><strong>What is SDI?</strong> A lot of manual work goes into hooking up the Internet between providers. The routers that send Internet traffic from one place to another can be configured to use &ldquo;paid transit&rdquo;, where a single provider will route packets to any destination. But the more Internet traffic you’re responsible for, the more you can benefit from another arrangement, called &ldquo;direct interconnection&rdquo; where you set up your company’s routers to directly connect to another company’s. Most networks will always need to buy transit from somebody; the best you can hope for is that a portion of your traffic bypasses the transit provider and is directly delivered to the destination. Maximizing the amount of traffic that is directly peered leads to better performance, lower latency, lower packet loss, and greater security.</p>
+
+<p>Today, most direct interconnection is typically set up manually, with a physical fiber cable connecting one organization’s network to another. Agreements to interconnect and peer are also reached manually, typically via email or face-to-face at peering conferences. When agreement is reached, network admins must ssh in to routers in order to manually configure such peering. It’s not efficient or scalable, and depends on individuals or select groups.</p>
+
+<p>Once an organization has agreed that they want to directly connect with another organization, how do you handle changes to router and switch configuration? Probably the same way you used to manage your httpd.conf back in the 1990s! Network managers ssh in, and update config manually. Some networks have sophisticated management tools, but for many, &ldquo;the state of the router is the canonical state.&rdquo;</p>
+
+<p><img src="http://www.cloudius-systems.com/images/iix_rack.png"
+ alt="Software-defined interconnection"></p>
+
+<p><em>Software-defined interconnection, under test in the IIX lab</em></p>
+
+<p>SDI aims to improve all that. The OpenDaylight project is a common platform for network management that facilitates breaking traditional network devices such as switches and routers into separate &ldquo;data plane&rdquo; devices that handle high traffic volume and &ldquo;control plane&rdquo; devices that do management. Because the control plane device, or software-defined networking (SDN) controller, does not have the extreme throughput requirements of the data plane, it’s easy to virtualize.</p>
+
+<p><strong>In the lab today</strong> IIX is currently prototyping this next generation of devices in the lab, while more traditional network gear runs in production. The prototype system uses an <a href="http://en.wikipedia.org/wiki/OpenFlow">OpenFlow switch</a> for data plane, and a separate OpenDaylight server for control plane. Switches rely on the SDN controller. In the event of an unknown packet, they forward it to the controller.</p>
+
+<p>No configuration changes are needed on the data plane hardware, only on the SDN controller, which can be a virtual machine. OpenDaylight manages both layer 2, switching, and layer 3, routing, and the same OpenDaylight APIs can be used to change configuration at both levels.</p>
+
+<p>OpenDaylight is a pure Java application. It only requires the ability to run a JVM on the virtual machine. For security and ease of management, it can be advantageous to run an individual controller per customer. This means a lightweight, easy-to-manage guest OS is a big advantage. With OSv, IIX can deploy identical simple VMs for each customer, and the OpenDaylight APIs can be used to configure each one appropriately.</p>
+
+<p>OSv’s high performance and low overhead allows for high density of VMs on standard physical hardware. And any compromise or configuration error should only affect one customer, because strong isolation is provided by a standard hypervisor, without the <a href="http://www.projectatomic.io/blog/2014/09/yet-another-reason-containers-don-t-contain-kernel-keyrings/">complex security model of containerization</a>.</p>
+
+<p><strong>Conclusion</strong> While Internet applications have gained from cloud technologies, the fundamental lower layers are still coming up to speed. OpenDaylight and OSv are bringing cloud economics to the lower levels of the stack.</p>
+
+<h2>About the authors</h2>
+
+<p><strong>David</strong> is a product security engineer based in Brisbane, Australia. He currently leads product security efforts for IIX, a software-defined interconnection company. David has been involved in the security industry for the last 15 years. During this time he has found high-impact and novel flaws in dozens of major Java components. He has worked for Red Hat&rsquo;s security team, led a Chinese startup that failed miserably, and wrote the core aviation meteorology system for the southern hemisphere. In his spare time he tries to stop his two Dachshunds from taking over the house.</p>
+
+<p><strong>Don</strong> is a technical marketing manager for Cloudius Systems, the OSv company. He has written for Linux Weekly News, Linux Journal, and other publications. He co-founded the Linux consulting firm Electric Lichen, which was acquired by VA Linux Systems. Don has served as president and vice president of the Silicon Valley Linux Users Group and on the program committees for Uselinux, Codecon, and LinuxWorld Conference and Expo.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Seastar: New C++ Framework for Web-scale Workloads]]></title>
@@ -899,134 +939,6 @@ OSv still supports a CLI, but its run outside the OS, and administrators can use
 <p><strong>More info</strong></p>
 
 <p>For general questions on OSv, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get general updates by subscribing to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Adding a NewRelic Agent to Your OSv Appliance]]></title>
-    <link href="http://osv.io/blog/blog/2014/09/24/java-newrelic-agent/"/>
-    <updated>2014-09-24T16:22:22-07:00</updated>
-    <id>http://osv.io/blog/blog/2014/09/24/java-newrelic-agent</id>
-    <content type="html"><![CDATA[<p><strong>By Tzach Livyatan</strong></p>
-
-<p><a href="http://newrelic.com/">New Relic</a> is a popular real-time monitoring
-service for Web and mobile applications.</p>
-
-<p>In the following post I will describe how to add a New Relic
-monitoring agent to your OSv virtual appliance, using <a href="http://tomcat.apache.org/">Tomcat</a> as an
-example.</p>
-
-<!-- more -->
-
-
-<p>As first step, go to the <a href="http://newrelic.com/">New Relic web site</a> and log in  or open an account.  Following the instructions on the site, you should be prompted to download two files:</p>
-
-<ul>
-<li>newrelic.yml</li>
-<li>newrelic.jar</li>
-</ul>
-
-
-<p>newrelic.yml should already have the your license key in it.
-If you downloaded the file
-<a href="http://download.newrelic.com/newrelic/java-agent/newrelic-agent/3.10.0/newrelic.yml">directly</a>,
-you should make sure to edit the license line.
-Make sure to update your application name in the same file. This name
-will be used in the New Relic GUI.</p>
-
-<p>There are two ways to build an OSv appliance:</p>
-
-<ol>
-<li>Using an OSv build from source</li>
-<li>Using <a href="https://github.com/cloudius-systems/capstan">Capstan</a></li>
-</ol>
-
-
-<p>The first requires cloning OSv source code with Git, as described
-<a href="https://github.com/cloudius-systems/osv-apps/tree/master/java-newrelic">here</a>.
-The second assumes you are familiar with <a href="https://github.com/cloudius-systems/capstan">Capstan</a> and is described below.</p>
-
-<h3>Using Capstan to add a NewRelic Agent</h3>
-
-<ul>
-<li>Create a new project directory</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>mkdir my-tomcat-with-newrelic
-</span><span class='line'>cd my-tomcat-with-newrelic</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>Copy newrelic.jar and newrelic.yml to this location</li>
-<li>Create a new <a href="https://github.com/cloudius-systems/capstan/blob/master/Documentation/Capstanfile.md">Capstanfile</a> with the following contents:</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>base: cloudius/osv-tomcat
-</span><span class='line'>
-</span><span class='line'>cmdline: &gt;
-</span><span class='line'>  /java.so
-</span><span class='line'>  -javaagent:/tools/newrelic.jar
-</span><span class='line'>  -cp /usr/tomcat/bin/bootstrap.jar:/usr/tomcat/bin/tomcat-juli.jar
-</span><span class='line'>  -Djava.util.logging.config.file=/usr/tomcat/conf/logging.properties
-</span><span class='line'>  -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
-</span><span class='line'>  -Dcatalina.base=/usr/tomcat
-</span><span class='line'>  -Dcatalina.home=/usr/tomcat
-</span><span class='line'>  -Djava.io.tmpdir=/usr/tomcat/temp
-</span><span class='line'>  org.apache.catalina.startup.Bootstrap
-</span><span class='line'>  start
-</span><span class='line'>
-</span><span class='line'>files:
-</span><span class='line'>  /tools/newrelic.jar: newrelic.jar
-</span><span class='line'>  /tools/newrelic.yml: newrelic.yml</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The base OSv image is <code>tomcat</code>, the cmdline include both Tomcat and
-  New Relic options, and the files are the two New Relic files: the JAR and the configuration file.</p>
-
-<ul>
-<li>build the image</li>
-</ul>
-
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>capstan build</span></code></pre></td></tr></table></div></figure>
-
-
-<p>You are done! you now have a ready VM with Tomcat and a New Relic agent.
-To run the image locally:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>capstan run -n bridge</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>Go to the New Relic web app, monitor your application, and give yourself a
-pat on the shoulder :)</li>
-</ul>
-
-
-<p>You can keep up with the latest OSv news from this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or by following <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.  Questions always welcome on the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev</a> mailing list.</p>
 ]]></content>
   </entry>
   
