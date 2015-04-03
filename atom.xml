@@ -4,7 +4,7 @@
   <title><![CDATA[OSv Blog]]></title>
   <link href="http://osv.io/blog/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2015-03-31T06:23:39-07:00</updated>
+  <updated>2015-04-03T15:21:04-07:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -12,6 +12,19 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Wiki Watch: CloudRouter Images Available]]></title>
+    <link href="http://osv.io/blog/blog/2015/04/03/cloudrouter/"/>
+    <updated>2015-04-03T00:00:00-07:00</updated>
+    <id>http://osv.io/blog/blog/2015/04/03/cloudrouter</id>
+    <content type="html"><![CDATA[<p>Interested in running the <a href="https://cloudrouter.org/">CloudRouter</a> VMs that we covered in <a href="http://localhost:4000/blog/blog/2015/03/31/sdi/">a blog post earlier this week?</a>  Details are available <a href="https://cloudrouter.atlassian.net/wiki/display/CPD/Running+CloudRouter+OSv+Images">on the CloudRouter wiki</a>. (Pre-built images are available <a href="https://repo.cloudrouter.org/">on the CloudRouter site</a>, or you can build one yourself with Capstan.)</p>
+
+<p>Questions on these or any other images are welcome, on the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  For more info on working with the CloudRouter project, see <a href="https://cloudrouter.org/community/">the CloudRouter community page</a>.</p>
+
+<p>For future updates, please follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Software-defined Interconnection: The Future of Internet Peering, Powered by OpenDaylight and OSv]]></title>
@@ -895,46 +908,6 @@ You can find the <a href="http://osv.io/api/swagger-ui/dist/index.html">current 
 Since <code>fork</code> is inherently not allowed, there is not way for a Shellshock-like bug to exist.
 Sure, bugs in OSv may still lead to code injection via the API, but the surface of attack is much smaller, and dangerous APIs can be easily disabled.
 OSv still supports a CLI, but its run outside the OS, and administrators can use the secure API to access it, just like everybody else.</p>
-
-<p><strong>More info</strong></p>
-
-<p>For general questions on OSv, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get general updates by subscribing to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Waking Up Late, After Bash Fixing Night]]></title>
-    <link href="http://osv.io/blog/blog/2014/09/25/security-is-a-journey-not-a-destination/"/>
-    <updated>2014-09-25T13:54:23-07:00</updated>
-    <id>http://osv.io/blog/blog/2014/09/25/security-is-a-journey-not-a-destination</id>
-    <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
-
-<p>Yesterday we found out about <a href="https://lwn.net/Articles/613032/">a remotely exploitable hole in bash</a> from our favorite Linux news sites.  For some of us, our schedules on the night of September 24th were disrupted, and not in a good way.</p>
-
-<p>It&rsquo;s true that my own Internet-facing code, while not perfect, isn&rsquo;t vulnerable.  But for one older web-based application I have to deal with, it&rsquo;s faster to install a new version of Bash than to trace through the code to make sure it isn&rsquo;t doing something bad, somewhere.</p>
-
-<p>Clearly this particular bug isn&rsquo;t a problem on OSv, because OSv doesn&rsquo;t run Bash.  The whole point of Bash is to <code>fork()</code> and <code>exec()</code> other processes, and OSv doesn&rsquo;t do all that.  Everything runs in one process, with no shell available or needed.</p>
-
-<p>As <a href="http://osv.io/blog/blog/2014/09/25/shellshock/">Tzach Livyatan points out</a>, managing OSv doesn&rsquo;t require a shell either.  There&rsquo;s one REST API for everything, from VM basics such as CPU and memory usage, up to <a href="http://osv.io/blog/blog/2014/08/26/jolokia-jmx-connectivity-in-osv/">JMX data from the application</a>.</p>
-
-<p>But it looks like Tzach is missing the main point.</p>
-
-<!-- more -->
-
-
-<p>The problem isn&rsquo;t so much that someone discovered a bug in Bash.  The problem is <em>what happened to the evening of September 24, 2014</em>?  A software bug should be something that you fix, test, check in the fix, and go home, not a full <a href="http://www.tor.com/stories/2009/12/overtime">night on duty</a>.</p>
-
-<p>I&rsquo;m starting to think that what&rsquo;s more important than any design advantages of OSv is the flow that it enables.   The size and, more important, simplicity of an OSv VM means that regenerating one is a matter of, let me time it&hellip; 9 seconds.  An OSv VM is a build artifact that I can crank out of my regular build system.</p>
-
-<p>It would be full of security hubris to say that OSv will never have to issue a security fix.  Yes, there are many fewer lines of code, and yes, the C++ experts on the development team will point to shorter, clearer programming constructs in which fewer old-school bugs can hide.  But every software project has to issue a fix sometimes.</p>
-
-<p>The question is how long it takes to get current and put the bug behind you.</p>
-
-<p><strong>Repeatable flow, from commit to deploy</strong></p>
-
-<p>At <a href="https://oracleus.activeevents.com/2014/connect/sessionDetail.ww?SESSION_ID=4120">JavaOne next week</a>, Glauber Costa and I will be speaking about <q>OSv: The Operating System Designed for Java and the Cloud</q>.  Glauber summed it up: <q>OSv is a library OS. Therefore, you can think of using it as being a way to boot a JVM directly into the cloud. Forget OS management: it’s your application and the end of the story.</q></p>
-
-<p>The <a href="https://www.gartner.com/doc/2831925/make-sdlc-agile-using-cloud">complexity of maintaining conventional OS environments</a> looks like just a time-suck for developers, not a big problem.  But simplicity matters on a Big Security Day.</p>
 
 <p><strong>More info</strong></p>
 

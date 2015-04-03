@@ -9,7 +9,7 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="By Nadav Har&#8217;El In a typical lab network configuration, one cannot just ssh or scp to the hosts behind the firewall (our company calls them &hellip;">
+  <meta name="description" content="By Don Marti OSv is the simple, fast OS platform designed to run one application in the cloud, without the complexity of old-school OSs with their &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -114,6 +114,60 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/blog/2014/11/17/eblug/">OSv Meetup at EBLUG: Intro Talk and Demo</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-17T16:54:23-08:00" pubdate data-updated="true">Nov 17<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>By Don Marti</strong></p>
+
+<p><a href="http://osv.io/">OSv</a> is the simple, fast OS platform designed to run one application in the cloud, without the complexity of old-school OSs with their local users, permissions, and sevices.  Come see what it&rsquo;s all about, and enjoy free food and drink from East Bay LUG sponsor, Hurricane Electric.</p>
+
+<p><a href="http://www.eblug.org/"><img src="http://www.eblug.org/images/eblugdev-logo-transparent-75px.png" alt="EBLUG logo" /></a></p>
+
+<p><strong>Who:</strong> Don Marti, OSv demo monkey</p>
+
+<p><strong>What:</strong> Introduction to OSv (with live 9-second build demo!)</p>
+
+<p><strong>Where:</strong> <a href="http://www.eblug.org/index.html">East Bay LUG, Fremont, California, USA</a></p>
+
+<p><strong>When:</strong> 7pm Wednesday, November 19, 2014</p>
+
+<p><strong>Why:</strong>  See the new dedicated cloud OS, without the big travel budget</p>
+
+<p>Please join us for the next <a href="http://www.eblug.org/index.html">EBLUG meeting</a>, co-located with the OSv <a href="http://www.meetup.com/OSv-Developer-Meetup/">Meetup group</a>, and get a rapid introduction to OSv, how it works, and where it&rsquo;s going.</p>
+
+<p>If you&rsquo;re not already a member of the OSv <a href="http://www.meetup.com/OSv-Developer-Meetup/">Meetup group</a>, please join.  For general questions on OSv, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get general updates by subscribing to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -754,57 +808,6 @@ By its nature Bash is a dangerous beast, wouldn&rsquo;t it be better to keep him
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/blog/2014/09/25/security-is-a-journey-not-a-destination/">Waking Up Late, After Bash Fixing Night</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-09-25T13:54:23-07:00" pubdate data-updated="true">Sep 25<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><strong>By Don Marti</strong></p>
-
-<p>Yesterday we found out about <a href="https://lwn.net/Articles/613032/">a remotely exploitable hole in bash</a> from our favorite Linux news sites.  For some of us, our schedules on the night of September 24th were disrupted, and not in a good way.</p>
-
-<p>It&rsquo;s true that my own Internet-facing code, while not perfect, isn&rsquo;t vulnerable.  But for one older web-based application I have to deal with, it&rsquo;s faster to install a new version of Bash than to trace through the code to make sure it isn&rsquo;t doing something bad, somewhere.</p>
-
-<p>Clearly this particular bug isn&rsquo;t a problem on OSv, because OSv doesn&rsquo;t run Bash.  The whole point of Bash is to <code>fork()</code> and <code>exec()</code> other processes, and OSv doesn&rsquo;t do all that.  Everything runs in one process, with no shell available or needed.</p>
-
-<p>As <a href="http://osv.io/blog/blog/2014/09/25/shellshock/">Tzach Livyatan points out</a>, managing OSv doesn&rsquo;t require a shell either.  There&rsquo;s one REST API for everything, from VM basics such as CPU and memory usage, up to <a href="http://osv.io/blog/blog/2014/08/26/jolokia-jmx-connectivity-in-osv/">JMX data from the application</a>.</p>
-
-<p>But it looks like Tzach is missing the main point.</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/blog/2014/09/25/security-is-a-journey-not-a-destination/">Read more&#8230;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/blog/page/3/">&larr; Older</a>
@@ -822,6 +825,10 @@ By its nature Bash is a dangerous beast, wouldn&rsquo;t it be better to keep him
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/blog/2015/04/03/cloudrouter/">Wiki Watch: CloudRouter Images Available</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/blog/2015/03/31/sdi/">Software-defined Interconnection: The Future of Internet Peering, Powered by OpenDaylight and OSv</a>
       </li>
     
@@ -835,10 +842,6 @@ By its nature Bash is a dangerous beast, wouldn&rsquo;t it be better to keep him
     
       <li class="post">
         <a href="/blog/blog/2015/01/14/performance-evaluation/">Unikernel Research at the University of Utah</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/blog/2015/01/07/meetup/">OSv Meetup Group in Bangalore, India</a>
       </li>
     
   </ul>
