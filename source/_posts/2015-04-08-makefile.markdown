@@ -1,0 +1,77 @@
+---
+layout: post
+title: "Re-\"make\"-ing OSv"
+date: 2015-04-08
+---
+
+[OSv 0.19](https://groups.google.com/forum/#!topic/osv-dev/x-E9YfzDz20) is out, with a rewrite of the build system. The old OSv build system was fairly complex, but the rewrite makes it simpler and faster.
+
+
+Simpler Makefile
+----------------
+
+The old OSv build system had several makefiles including each other, playing tricks with the current directory and `VPATH`, dynamically rewriting makefiles, and running submakes.
+
+The old `Makefile` was responsible not only for building the kernel, it also built tests, called various Python scripts to build modules for different applications, and carried out other tasks.
+
+In the new build system, there is just one "Makefile" for building the entire OSv kernel. Everything is in one file, and also better commented.
+
+
+
+Separate kernel building from application building
+--------------------------------------------------
+
+In the old build system, we used "make" to do everything from building the OSv kernel, building various applications, and building images containing OSv and a collection of applications. This complicated the `Makefile`, and resulted in unexpected build requirements. For example, building OSv always built some Java tests and thus required Maven and a working Internet connection).
+
+In the new system, `make` only builds the OSv kernel, and `scripts/build`
+build applications and images. In the future, you could use [Capstan](http://osv.io/capstan/) instead of `scripts/build` to make an image that you would like to manage with Capstan.
+
+Most `make` command lines that worked in the previous build system will
+continue to work unchanged with `scripts/build`. For example:
+
+	# build image with default OSv application
+	scripts/build
+
+	# build the rogue image
+	scripts/build image=rogue
+	# or
+	scripts/build modules=rogue
+
+	# clean kernel and all modules
+	scripts/build clean
+
+	# make parameters can also be given to build
+	scripts/build mode=debug
+
+	# build image with tests, and run them
+	scripts/build check
+
+&nbsp;
+
+Additional benefits of this rewrite include:
+
+1. Faster rebuilds. For example "touch loader.cc; scripts/build image=rogue"
+   takes just 6 seconds (14 seconds previously). make after "make clean"
+   (with ccache) is just 10 seconds (30 seconds previously).
+
+2. It should be fairly easy to add additional
+   build scripts which will build different types of images using the same
+   OSv kernel. One popularly requested option is to have the ability to
+   create a bootfs-only image, without ZFS.
+
+3. Some smaller improvements, like more accurate setting of the desired image size [(covered in issue #595)](https://github.com/cloudius-systems/osv/issues/595), and supporting setting CROSS_PREFIX without also needing to specify ARCH.  
+
+
+What happened to `make test`?
+-----------------------------
+
+The OSv test are a module like other modules - they won't be compiled unless someone builds the `tests` module. They will have a separate Makefile in `tests/`. The `ant` and `mvn` tools, both currently used in our makefile just for building tests, will no longer be run every time the kernel is compiled, but just when the "tests" module is being built. To build and run the tests:
+
+	scripts/build check
+
+
+Try it out
+----------
+
+The good news is that now, running `make` is faster, and the image build process is simpler and easier to extend. Check it out -- questions and comments welcome on the [osv-dev mailing list](https://groups.google.com/forum/#!forum/osv-dev).
+
