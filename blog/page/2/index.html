@@ -9,7 +9,7 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="By Don Marti OSv is the simple, fast OS platform designed to run one application in the cloud, without the complexity of old-school OSs with their &hellip;">
+  <meta name="description" content="By Dor Laor Everybody who uses containers has probably heard about Rocket by now. What does this fork re-implementation mean to the Docker community &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -114,6 +114,78 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/blog/2014/12/02/docker-rocket/">Containers, Containers, Containers! More Options for the Cloud</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-02T14:10:31-08:00" pubdate data-updated="true">Dec 2<span>nd</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>By <a href="https://twitter.com/DorLaor/">Dor Laor</a></strong></p>
+
+<p>Everybody who uses containers has probably heard about <a href="https://coreos.com/blog/rocket">Rocket</a> by now. What does this <strike>fork</strike> re-implementation mean to the Docker community? Let’s dive in.</p>
+
+<p>The Docker technology has disrupted the cloud and datacenter field for the past year. The speed of penetration was amazing and unmatched in the industry. I can’t think of a similar case for such fast-paced adoption of the concept. Neither AWS, OpenStack, nor virtualization were adopted that fast. What made it that attractive for our community to adopt?</p>
+
+<p>Container technology was there for a lot of years. Even before containers, there has always been similar functionality, like Unix’s <code>chroot</code>. However, Docker really changed the game with straightforward simplicity and usability. Docker contributed the following:</p>
+
+<ol>
+<li><p> A basic one-liner command line: <code>docker run</code>. It masked out all of the LXC complexities and even downloaded the image if needed.</p></li>
+<li><p>Straightforward image structure: It’s as simple as a directory.</p></li>
+<li><p>A public image repository, <a href="https://hub.docker.com/">Docker Hub</a>, where you can stash your images for future download, and employ an application-market concept.</p></li>
+</ol>
+
+
+<p>Docker had become the hottest thing in tech, sometimes way too hot for reality (otherwise, why would one deploy Docker in a VM, incurring two tiers of management pain?). Beyond Google and AWS, even mighty Microsoft wanted a piece of the pie. We couldn’t believe our eyes, what an amazing meritocracy (no sarcasm). All the vendors of the world unite around one simple format.</p>
+
+<p><img src="/blog/images/meritocracy.png" alt="" /></p>
+
+<p>Yesterday CoreOS released a fork-like bomb in the form of Rocket. The reason
+is the very thing that makes Docker attractive, its simplicity, is also a disadvantage since it’s too complex to harness for security, SLA and diverse workloads.  Apparently CoreOS didn’t manage to get the Docker team to change the mainline code for it.  I guess it’s more than a NIH thing (Not Invented Here) but some limitation of its structure.</p>
+
+<p><img src="/blog/images/fight-time.png" alt="" /></p>
+
+<p>This container diversity was expected although it saddens me to see it become an ugly fight:</p>
+
+<p><img src="/blog/images/docker-thread.png" alt="Twitter thread" /></p>
+
+<p>We believe that CoreOS has the upper hand when it comes to technology. Managing containers is straightforward, but these folks have the vehicle for deploying them. In addition they wrote cool distributed tools such as <code>etcd</code> and <code>fleet</code>. So while Docker controls the hub and the format, CoreOS leverages it to gain actual users (PR aside&hellip;)</p>
+
+<p>There is nothing to fear about Docker momentum, but it has finally met a reality factor and such competition is positive for innovation and speed as well. With all the fuss around Docker, lots of good features like LXC SLA, and buildpacks (the way Heroku and Cloud Foundry handle them) were dropped in the race for Docker compatibility. It was a nice surprise to see that great minds think alike, and just as Rocket uses <a href="https://github.com/coreos/rocket">several phases</a> in container creation, we do the same for OSv. We create an image by spinning up an empty VM (on any given hypervisor) that formats our ZFS filesystem and afterwards listens on ‘nc’ (netcat) to receive a stream of files from the host.</p>
+
+<p>One of the best things about OSv is that we enjoy the best of all worlds. On one hand, we are a library OS, as small as a single container, usually just a kernel, a runtime and an app. An OSv VM can weigh only 20MB, smaller than most containers. On the other hand, we leverage all of the hypervisor features, including live migration, multiple guest kernels on the same host, resource hotplug, isolation, SLA and more.</p>
+
+<p>Let the battle continue as we collect the best of breed features and embrace them as we’ve done with <a href="http://osv.io/capstan/">Capstan</a>, with our <a href="http://osv.io/blog/blog/2014/08/28/wiki-watch-cloud-init/">cloud-init integration</a>, with our <a href="http://osv.io/manageability/">RESTful APIs</a> and more.</p>
+
+<p><em>For the latest cloud and OSv news, subscript to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</em></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -753,61 +825,6 @@ directory, with any tool you want.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/blog/2014/09/25/shellshock/">Shellshock</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-09-25T15:54:23-07:00" pubdate data-updated="true">Sep 25<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><strong>By Tzach Livyatan</strong></p>
-
-<p>A new bash bug is &lsquo;bigger than Heartbleed&rsquo; and puts millions of websites.
-In short, Shellshock can take advantage of any server which call Bash.
-You can find a good insight into Shellshock <a href="http://lcamtuf.blogspot.co.il/2014/09/quick-notes-about-bash-bug-its-impact.html">on Michal Zalewski&rsquo;s blog</a>.</p>
-
-<p>A Bash patch is already available, but there is a bigger question:
-Why do you want  Bash on a production server in the first place?
-By its nature Bash is a dangerous beast, wouldn&rsquo;t it be better to keep him on the cage and off your system?</p>
-
-<p>What did you say?</p>
-
-<p>&ldquo;I need my Bash for troubleshooting?&rdquo;</p>
-
-<p>Do you now?</p>
-
-</div>
-  
-  
-    <footer>
-      <a rel="full-article" href="/blog/blog/2014/09/25/shellshock/">Read more&#8230;</a>
-    </footer>
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/blog/page/3/">&larr; Older</a>
@@ -825,6 +842,10 @@ By its nature Bash is a dangerous beast, wouldn&rsquo;t it be better to keep him
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/blog/2015/04/08/makefile/">Re-&#8220;make&#8221;-ing OSv</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/blog/2015/04/03/cloudrouter/">Wiki Watch: CloudRouter Images Available</a>
       </li>
     
@@ -838,10 +859,6 @@ By its nature Bash is a dangerous beast, wouldn&rsquo;t it be better to keep him
     
       <li class="post">
         <a href="/blog/blog/2015/02/02/mikelangelo/">Researching the Future of the Cloud</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/blog/2015/01/14/performance-evaluation/">Unikernel Research at the University of Utah</a>
       </li>
     
   </ul>

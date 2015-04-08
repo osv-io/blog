@@ -4,7 +4,7 @@
   <title><![CDATA[OSv Blog]]></title>
   <link href="http://osv.io/blog/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2015-04-03T15:21:04-07:00</updated>
+  <updated>2015-04-08T10:44:15-07:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -12,6 +12,78 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Re-"make"-ing OSv]]></title>
+    <link href="http://osv.io/blog/blog/2015/04/08/makefile/"/>
+    <updated>2015-04-08T00:00:00-07:00</updated>
+    <id>http://osv.io/blog/blog/2015/04/08/makefile</id>
+    <content type="html"><![CDATA[<p><a href="https://groups.google.com/forum/#!topic/osv-dev/x-E9YfzDz20">OSv 0.19</a> is out, with a rewrite of the build system. The old OSv build system was fairly complex, but the rewrite makes it simpler and faster.</p>
+
+<h2>Simpler Makefile</h2>
+
+<p>The old OSv build system had several makefiles including each other, playing tricks with the current directory and <code>VPATH</code>, dynamically rewriting makefiles, and running submakes.</p>
+
+<p>The old <code>Makefile</code> was responsible not only for building the kernel, it also built tests, called various Python scripts to build modules for different applications, and carried out other tasks.</p>
+
+<p>In the new build system, there is just one &ldquo;Makefile&rdquo; for building the entire OSv kernel. Everything is in one file, and also better commented.</p>
+
+<h2>Separate kernel building from application building</h2>
+
+<p>In the old build system, we used &ldquo;make&rdquo; to do everything from building the OSv kernel, building various applications, and building images containing OSv and a collection of applications. This complicated the <code>Makefile</code>, and resulted in unexpected build requirements. For example, building OSv always built some Java tests and thus required Maven and a working Internet connection).</p>
+
+<p>In the new system, <code>make</code> only builds the OSv kernel, and <code>scripts/build</code>
+build applications and images. In the future, you could use <a href="http://osv.io/capstan/">Capstan</a> instead of <code>scripts/build</code> to make an image that you would like to manage with Capstan.</p>
+
+<p>Most <code>make</code> command lines that worked in the previous build system will
+continue to work unchanged with <code>scripts/build</code>. For example:</p>
+
+<pre><code># build image with default OSv application
+scripts/build
+
+# build the rogue image
+scripts/build image=rogue
+# or
+scripts/build modules=rogue
+
+# clean kernel and all modules
+scripts/build clean
+
+# make parameters can also be given to build
+scripts/build mode=debug
+
+# build image with tests, and run them
+scripts/build check
+</code></pre>
+
+<p>&nbsp;</p>
+
+<p>Additional benefits of this rewrite include:</p>
+
+<ol>
+<li><p>Faster rebuilds. For example &ldquo;touch loader.cc; scripts/build image=rogue&rdquo;
+takes just 6 seconds (14 seconds previously). make after &ldquo;make clean&rdquo;
+(with ccache) is just 10 seconds (30 seconds previously).</p></li>
+<li><p>It should be fairly easy to add additional
+build scripts which will build different types of images using the same
+OSv kernel. One popularly requested option is to have the ability to
+create a bootfs-only image, without ZFS.</p></li>
+<li><p>Some smaller improvements, like more accurate setting of the desired image size <a href="https://github.com/cloudius-systems/osv/issues/595">(covered in issue #595)</a>, and supporting setting CROSS_PREFIX without also needing to specify ARCH.</p></li>
+</ol>
+
+
+<h2>What happened to <code>make test</code>?</h2>
+
+<p>The OSv test are a module like other modules &ndash; they won&rsquo;t be compiled unless someone builds the <code>tests</code> module. They will have a separate Makefile in <code>tests/</code>. The <code>ant</code> and <code>mvn</code> tools, both currently used in our makefile just for building tests, will no longer be run every time the kernel is compiled, but just when the &ldquo;tests&rdquo; module is being built. To build and run the tests:</p>
+
+<pre><code>scripts/build check
+</code></pre>
+
+<h2>Try it out</h2>
+
+<p>The good news is that now, running <code>make</code> is faster, and the image build process is simpler and easier to extend. Check it out &mdash; questions and comments welcome on the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Wiki Watch: CloudRouter Images Available]]></title>
@@ -866,52 +938,6 @@ directory, with any tool you want.</p>
 <p>We&rsquo;ll demonstrate a nine-second build of a VM from a Java project.  Hope to see you there.</p>
 
 <p>You can keep up with the latest OSv news from this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Shellshock]]></title>
-    <link href="http://osv.io/blog/blog/2014/09/25/shellshock/"/>
-    <updated>2014-09-25T15:54:23-07:00</updated>
-    <id>http://osv.io/blog/blog/2014/09/25/shellshock</id>
-    <content type="html"><![CDATA[<p><strong>By Tzach Livyatan</strong></p>
-
-<p>A new bash bug is &lsquo;bigger than Heartbleed&rsquo; and puts millions of websites.
-In short, Shellshock can take advantage of any server which call Bash.
-You can find a good insight into Shellshock <a href="http://lcamtuf.blogspot.co.il/2014/09/quick-notes-about-bash-bug-its-impact.html">on Michal Zalewski&rsquo;s blog</a>.</p>
-
-<p>A Bash patch is already available, but there is a bigger question:
-Why do you want  Bash on a production server in the first place?
-By its nature Bash is a dangerous beast, wouldn&rsquo;t it be better to keep him on the cage and off your system?</p>
-
-<p>What did you say?</p>
-
-<p>&ldquo;I need my Bash for troubleshooting?&rdquo;</p>
-
-<p>Do you now?</p>
-
-<!-- more -->
-
-
-<p>I assume your production server already writes logs and send traps to to a remote machine.
-If not, you probably do not have many production servers.
-What if in addition you had a secure remote REST API which allows you to probe files, get traces and any other information element you need?
-Do you still need Bash?
-And if you don&rsquo;t, than wouldn&rsquo;t it be better not to have it on the first place?</p>
-
-<p>Don Marti <a href="http://osv.io/blog/blog/2014/09/25/security-is-a-journey-not-a-destination/">writes</a> that the need for fast, reliable VM builds is the important lesson from this bug, but I disagree. Why not just remove the shell from the server?</p>
-
-<p>OSv takes a different approach from other OSs on the subject.
-Recognizing that most cloud servers only run one application, it is designed to run one and only one process.
-Every interaction with OSv is done via a set of REST APIs, over SSL.
-You can find the <a href="http://osv.io/api/swagger-ui/dist/index.html">current list of supported endpoints</a> on the OSv site.
-Since <code>fork</code> is inherently not allowed, there is not way for a Shellshock-like bug to exist.
-Sure, bugs in OSv may still lead to code injection via the API, but the surface of attack is much smaller, and dangerous APIs can be easily disabled.
-OSv still supports a CLI, but its run outside the OS, and administrators can use the secure API to access it, just like everybody else.</p>
-
-<p><strong>More info</strong></p>
-
-<p>For general questions on OSv, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get general updates by subscribing to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
 ]]></content>
   </entry>
   

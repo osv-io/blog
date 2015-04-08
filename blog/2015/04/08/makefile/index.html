@@ -5,12 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Nadav Har’El Presenting OSv at USENIX June 19th - OSv Blog</title>
+  <title>Re-"make"-ing OSv - OSv Blog</title>
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="By Don Marti If you&rsquo;re attending the USENIX Annual Technical Conference, be sure not to miss
-&ldquo;OSv—Optimizing the Operating System for &hellip;">
+  <meta name="description" content="OSv 0.19 is out, with a rewrite of the build system. The old OSv build system was fairly complex, but the rewrite makes it simpler and faster. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://osv.io/blog/blog/2014/06/18/usenix-atc">
+  <link rel="canonical" href="http://osv.io/blog/blog/2015/04/08/makefile">
   <link href="/blog/favicon.ico" rel="icon">
   <link href="/blog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
@@ -108,7 +107,7 @@
         </script>
     </div>
 </div>
-<div class="mobile mobilePageTitle">Nadav Har’El presenting OSv at USENIX June 19th</div>
+<div class="mobile mobilePageTitle">Re-"make"-ing OSv</div>
 
 
   <div id="main">
@@ -118,7 +117,7 @@
   
   <header>
     
-      <h1 class="entry-title">Nadav Har’El Presenting OSv at USENIX June 19th</h1>
+      <h1 class="entry-title">Re-"make"-ing OSv</h1>
     
     
       <p class="meta">
@@ -134,27 +133,77 @@
   
 
 
-<time datetime="2014-06-18T08:54:23-07:00" pubdate data-updated="true">Jun 18<span>th</span>, 2014</time>
+<time datetime="2015-04-08T00:00:00-07:00" pubdate data-updated="true">Apr 8<span>th</span>, 2015</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p><strong>By Don Marti</strong></p>
+<div class="entry-content"><p><a href="https://groups.google.com/forum/#!topic/osv-dev/x-E9YfzDz20">OSv 0.19</a> is out, with a rewrite of the build system. The old OSv build system was fairly complex, but the rewrite makes it simpler and faster.</p>
 
-<p>If you&rsquo;re attending the USENIX Annual Technical Conference, be sure not to miss
-<a href="https://www.usenix.org/conference/atc14/technical-sessions/presentation/kivity">&ldquo;OSv—Optimizing the Operating System for Virtual Machines&rdquo; </a>. Nadav Har&#8217;El will be presenting tomorrow at 10:40 AM.</p>
+<h2>Simpler Makefile</h2>
 
-<p>Here&rsquo;s a quick preview of some of the performance results that Nadav will show:</p>
+<p>The old OSv build system had several makefiles including each other, playing tricks with the current directory and <code>VPATH</code>, dynamically rewriting makefiles, and running submakes.</p>
 
-<p><img src="/blog/images/usenix-paper.png" alt="table from upcoming paper" /></p>
+<p>The old <code>Makefile</code> was responsible not only for building the kernel, it also built tests, called various Python scripts to build modules for different applications, and carried out other tasks.</p>
 
-<p>It&rsquo;s also your opportunity to ask Nadav some hard questions.</p>
+<p>In the new build system, there is just one &ldquo;Makefile&rdquo; for building the entire OSv kernel. Everything is in one file, and also better commented.</p>
 
-<p>If you&rsquo;re not at USENIX this year, you can still get a copy of the paper.</p>
+<h2>Separate kernel building from application building</h2>
 
-<p>Thanks to the USENIX open access policy, the paper is scheduled to go Open Access on the day of the event. To get an alert from us when it&rsquo;s up, please follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems on Twitter</a>.</p>
+<p>In the old build system, we used &ldquo;make&rdquo; to do everything from building the OSv kernel, building various applications, and building images containing OSv and a collection of applications. This complicated the <code>Makefile</code>, and resulted in unexpected build requirements. For example, building OSv always built some Java tests and thus required Maven and a working Internet connection).</p>
+
+<p>In the new system, <code>make</code> only builds the OSv kernel, and <code>scripts/build</code>
+build applications and images. In the future, you could use <a href="http://osv.io/capstan/">Capstan</a> instead of <code>scripts/build</code> to make an image that you would like to manage with Capstan.</p>
+
+<p>Most <code>make</code> command lines that worked in the previous build system will
+continue to work unchanged with <code>scripts/build</code>. For example:</p>
+
+<pre><code># build image with default OSv application
+scripts/build
+
+# build the rogue image
+scripts/build image=rogue
+# or
+scripts/build modules=rogue
+
+# clean kernel and all modules
+scripts/build clean
+
+# make parameters can also be given to build
+scripts/build mode=debug
+
+# build image with tests, and run them
+scripts/build check
+</code></pre>
+
+<p>&nbsp;</p>
+
+<p>Additional benefits of this rewrite include:</p>
+
+<ol>
+<li><p>Faster rebuilds. For example &ldquo;touch loader.cc; scripts/build image=rogue&rdquo;
+takes just 6 seconds (14 seconds previously). make after &ldquo;make clean&rdquo;
+(with ccache) is just 10 seconds (30 seconds previously).</p></li>
+<li><p>It should be fairly easy to add additional
+build scripts which will build different types of images using the same
+OSv kernel. One popularly requested option is to have the ability to
+create a bootfs-only image, without ZFS.</p></li>
+<li><p>Some smaller improvements, like more accurate setting of the desired image size <a href="https://github.com/cloudius-systems/osv/issues/595">(covered in issue #595)</a>, and supporting setting CROSS_PREFIX without also needing to specify ARCH.</p></li>
+</ol>
+
+
+<h2>What happened to <code>make test</code>?</h2>
+
+<p>The OSv test are a module like other modules &ndash; they won&rsquo;t be compiled unless someone builds the <code>tests</code> module. They will have a separate Makefile in <code>tests/</code>. The <code>ant</code> and <code>mvn</code> tools, both currently used in our makefile just for building tests, will no longer be run every time the kernel is compiled, but just when the &ldquo;tests&rdquo; module is being built. To build and run the tests:</p>
+
+<pre><code>scripts/build check
+</code></pre>
+
+<h2>Try it out</h2>
+
+<p>The good news is that now, running <code>make</code> is faster, and the image build process is simpler and easier to extend. Check it out &mdash; questions and comments welcome on the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.</p>
 </div>
 
 
@@ -177,7 +226,7 @@
   
 
 
-<time datetime="2014-06-18T08:54:23-07:00" pubdate data-updated="true">Jun 18<span>th</span>, 2014</time>
+<time datetime="2015-04-08T00:00:00-07:00" pubdate data-updated="true">Apr 8<span>th</span>, 2015</time>
       
 
 
@@ -206,20 +255,12 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/blog/2014/06/06/capstan-push/" title="Previous Post: Using Capstan with local OSv images">&laquo; Using Capstan with local OSv images</a>
+        <a class="basic-alignment left" href="/blog/blog/2015/04/03/cloudrouter/" title="Previous Post: Wiki watch: CloudRouter images available">&laquo; Wiki watch: CloudRouter images available</a>
       
-      
-        <a class="basic-alignment right" href="/blog/blog/2014/06/19/containers-hypervisors-part-1/" title="Next Post: Hypervisors are dead, long live the hypervisor (part 1)">Hypervisors are dead, long live the hypervisor (part 1) &raquo;</a>
       
     </p>
   </footer>
 </article>
-
-  <section>
-    <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-  </section>
 
 </div>
 
@@ -291,10 +332,7 @@
       var disqus_shortname = 'osvblog';
       
         
-        // var disqus_developer = 1;
-        var disqus_identifier = 'http://osv.io/blog/blog/2014/06/18/usenix-atc/';
-        var disqus_url = 'http://osv.io/blog/blog/2014/06/18/usenix-atc/';
-        var disqus_script = 'embed.js';
+        var disqus_script = 'count.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

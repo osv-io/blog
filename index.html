@@ -9,7 +9,7 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="Interested in running the CloudRouter VMs that we covered in a blog post earlier this week? Details are available on the CloudRouter wiki. (Pre-built &hellip;">
+  <meta name="description" content="OSv 0.19 is out, with a rewrite of the build system. The old OSv build system was fairly complex, but the rewrite makes it simpler and faster. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -114,6 +114,105 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/blog/2015/04/08/makefile/">Re-&#8220;make&#8221;-ing OSv</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-04-08T00:00:00-07:00" pubdate data-updated="true">Apr 8<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><a href="https://groups.google.com/forum/#!topic/osv-dev/x-E9YfzDz20">OSv 0.19</a> is out, with a rewrite of the build system. The old OSv build system was fairly complex, but the rewrite makes it simpler and faster.</p>
+
+<h2>Simpler Makefile</h2>
+
+<p>The old OSv build system had several makefiles including each other, playing tricks with the current directory and <code>VPATH</code>, dynamically rewriting makefiles, and running submakes.</p>
+
+<p>The old <code>Makefile</code> was responsible not only for building the kernel, it also built tests, called various Python scripts to build modules for different applications, and carried out other tasks.</p>
+
+<p>In the new build system, there is just one &ldquo;Makefile&rdquo; for building the entire OSv kernel. Everything is in one file, and also better commented.</p>
+
+<h2>Separate kernel building from application building</h2>
+
+<p>In the old build system, we used &ldquo;make&rdquo; to do everything from building the OSv kernel, building various applications, and building images containing OSv and a collection of applications. This complicated the <code>Makefile</code>, and resulted in unexpected build requirements. For example, building OSv always built some Java tests and thus required Maven and a working Internet connection).</p>
+
+<p>In the new system, <code>make</code> only builds the OSv kernel, and <code>scripts/build</code>
+build applications and images. In the future, you could use <a href="http://osv.io/capstan/">Capstan</a> instead of <code>scripts/build</code> to make an image that you would like to manage with Capstan.</p>
+
+<p>Most <code>make</code> command lines that worked in the previous build system will
+continue to work unchanged with <code>scripts/build</code>. For example:</p>
+
+<pre><code># build image with default OSv application
+scripts/build
+
+# build the rogue image
+scripts/build image=rogue
+# or
+scripts/build modules=rogue
+
+# clean kernel and all modules
+scripts/build clean
+
+# make parameters can also be given to build
+scripts/build mode=debug
+
+# build image with tests, and run them
+scripts/build check
+</code></pre>
+
+<p>&nbsp;</p>
+
+<p>Additional benefits of this rewrite include:</p>
+
+<ol>
+<li><p>Faster rebuilds. For example &ldquo;touch loader.cc; scripts/build image=rogue&rdquo;
+takes just 6 seconds (14 seconds previously). make after &ldquo;make clean&rdquo;
+(with ccache) is just 10 seconds (30 seconds previously).</p></li>
+<li><p>It should be fairly easy to add additional
+build scripts which will build different types of images using the same
+OSv kernel. One popularly requested option is to have the ability to
+create a bootfs-only image, without ZFS.</p></li>
+<li><p>Some smaller improvements, like more accurate setting of the desired image size <a href="https://github.com/cloudius-systems/osv/issues/595">(covered in issue #595)</a>, and supporting setting CROSS_PREFIX without also needing to specify ARCH.</p></li>
+</ol>
+
+
+<h2>What happened to <code>make test</code>?</h2>
+
+<p>The OSv test are a module like other modules &ndash; they won&rsquo;t be compiled unless someone builds the <code>tests</code> module. They will have a separate Makefile in <code>tests/</code>. The <code>ant</code> and <code>mvn</code> tools, both currently used in our makefile just for building tests, will no longer be run every time the kernel is compiled, but just when the &ldquo;tests&rdquo; module is being built. To build and run the tests:</p>
+
+<pre><code>scripts/build check
+</code></pre>
+
+<h2>Try it out</h2>
+
+<p>The good news is that now, running <code>make</code> is faster, and the image build process is simpler and easier to extend. Check it out &mdash; questions and comments welcome on the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -683,78 +782,6 @@ try to waste the spammer&rsquo;s bandwidth by fooling the sender into wasting pr
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/blog/2014/12/02/docker-rocket/">Containers, Containers, Containers! More Options for the Cloud</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-12-02T14:10:31-08:00" pubdate data-updated="true">Dec 2<span>nd</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><strong>By <a href="https://twitter.com/DorLaor/">Dor Laor</a></strong></p>
-
-<p>Everybody who uses containers has probably heard about <a href="https://coreos.com/blog/rocket">Rocket</a> by now. What does this <strike>fork</strike> re-implementation mean to the Docker community? Let’s dive in.</p>
-
-<p>The Docker technology has disrupted the cloud and datacenter field for the past year. The speed of penetration was amazing and unmatched in the industry. I can’t think of a similar case for such fast-paced adoption of the concept. Neither AWS, OpenStack, nor virtualization were adopted that fast. What made it that attractive for our community to adopt?</p>
-
-<p>Container technology was there for a lot of years. Even before containers, there has always been similar functionality, like Unix’s <code>chroot</code>. However, Docker really changed the game with straightforward simplicity and usability. Docker contributed the following:</p>
-
-<ol>
-<li><p> A basic one-liner command line: <code>docker run</code>. It masked out all of the LXC complexities and even downloaded the image if needed.</p></li>
-<li><p>Straightforward image structure: It’s as simple as a directory.</p></li>
-<li><p>A public image repository, <a href="https://hub.docker.com/">Docker Hub</a>, where you can stash your images for future download, and employ an application-market concept.</p></li>
-</ol>
-
-
-<p>Docker had become the hottest thing in tech, sometimes way too hot for reality (otherwise, why would one deploy Docker in a VM, incurring two tiers of management pain?). Beyond Google and AWS, even mighty Microsoft wanted a piece of the pie. We couldn’t believe our eyes, what an amazing meritocracy (no sarcasm). All the vendors of the world unite around one simple format.</p>
-
-<p><img src="/blog/images/meritocracy.png" alt="" /></p>
-
-<p>Yesterday CoreOS released a fork-like bomb in the form of Rocket. The reason
-is the very thing that makes Docker attractive, its simplicity, is also a disadvantage since it’s too complex to harness for security, SLA and diverse workloads.  Apparently CoreOS didn’t manage to get the Docker team to change the mainline code for it.  I guess it’s more than a NIH thing (Not Invented Here) but some limitation of its structure.</p>
-
-<p><img src="/blog/images/fight-time.png" alt="" /></p>
-
-<p>This container diversity was expected although it saddens me to see it become an ugly fight:</p>
-
-<p><img src="/blog/images/docker-thread.png" alt="Twitter thread" /></p>
-
-<p>We believe that CoreOS has the upper hand when it comes to technology. Managing containers is straightforward, but these folks have the vehicle for deploying them. In addition they wrote cool distributed tools such as <code>etcd</code> and <code>fleet</code>. So while Docker controls the hub and the format, CoreOS leverages it to gain actual users (PR aside&hellip;)</p>
-
-<p>There is nothing to fear about Docker momentum, but it has finally met a reality factor and such competition is positive for innovation and speed as well. With all the fuss around Docker, lots of good features like LXC SLA, and buildpacks (the way Heroku and Cloud Foundry handle them) were dropped in the race for Docker compatibility. It was a nice surprise to see that great minds think alike, and just as Rocket uses <a href="https://github.com/coreos/rocket">several phases</a> in container creation, we do the same for OSv. We create an image by spinning up an empty VM (on any given hypervisor) that formats our ZFS filesystem and afterwards listens on ‘nc’ (netcat) to receive a stream of files from the host.</p>
-
-<p>One of the best things about OSv is that we enjoy the best of all worlds. On one hand, we are a library OS, as small as a single container, usually just a kernel, a runtime and an app. An OSv VM can weigh only 20MB, smaller than most containers. On the other hand, we leverage all of the hypervisor features, including live migration, multiple guest kernels on the same host, resource hotplug, isolation, SLA and more.</p>
-
-<p>Let the battle continue as we collect the best of breed features and embrace them as we’ve done with <a href="http://osv.io/capstan/">Capstan</a>, with our <a href="http://osv.io/blog/blog/2014/08/28/wiki-watch-cloud-init/">cloud-init integration</a>, with our <a href="http://osv.io/manageability/">RESTful APIs</a> and more.</p>
-
-<p><em>For the latest cloud and OSv news, subscript to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</em></p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/blog/page/2/">&larr; Older</a>
@@ -770,6 +797,10 @@ is the very thing that makes Docker attractive, its simplicity, is also a disadv
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/blog/2015/04/08/makefile/">Re-&#8220;make&#8221;-ing OSv</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/blog/2015/04/03/cloudrouter/">Wiki Watch: CloudRouter Images Available</a>
       </li>
     
@@ -783,10 +814,6 @@ is the very thing that makes Docker attractive, its simplicity, is also a disadv
     
       <li class="post">
         <a href="/blog/blog/2015/02/02/mikelangelo/">Researching the Future of the Cloud</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/blog/2015/01/14/performance-evaluation/">Unikernel Research at the University of Utah</a>
       </li>
     
   </ul>
