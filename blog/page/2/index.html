@@ -9,7 +9,7 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="By Dor Laor Everybody who uses containers has probably heard about Rocket by now. What does this fork re-implementation mean to the Docker community &hellip;">
+  <meta name="description" content="By Don Marti We knew that spammers control a lot of bandwidth, because botnets. So, for a long time, people thought that fighting spam by just &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -114,6 +114,63 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/blog/2014/12/04/spamsink/">Making Spam Vanish&hellip;in the CLOUD</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-12-04T14:10:31-08:00" pubdate data-updated="true">Dec 4<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>By Don Marti</strong></p>
+
+<p>We knew that spammers control a lot of bandwidth, because botnets.  So, for a long time, people thought that fighting spam by just accepting and discarding huge amounts of it would be counterproductive. The spammers get bandwidth for free, and servers are expensive.</p>
+
+<p>There have been some interesting
+projects to
+try to waste the spammer&rsquo;s bandwidth by fooling the sender into wasting precious bandwidth and CPU by forcing it to retransmit packets, reorder, and retransmit them.</p>
+
+<p>For example, see <a href="http://www.spamcannibal.org/cannibal.cgi">Spam Cannibal</a>. Other spam tarpits focused on a different part of the spam problem: trapping the address-harvesting part of the spam operation.  Address generators would build a dynamic site which has an infinite hierarchy of random pages, each containing a few bogus email addresses and links to more of these fake pages.  An example is <a href="http://www.devin.com/sugarplum/">Sugarplum</a> by Devin Carraway.</p>
+
+<p>Sugarplum created pages such as <a href="this%20randomly%20generated%20page">http://www.devin.com/peaches/lemons</a> and this <a href="http://www.devin.com/peaches/lemons/disentangles/fingerboard">directory of people who want to buy herbal weight loss products</a> (psst. humans. Not really, just more spamtrap addresses. Don&rsquo;t tell the address-harvesting bots.)</p>
+
+<p>But in most cases, for a long time, our only hope for fighting spam was to batten down the hatches.  Assume that the spammers control more computing power and bandwidth than we do, and just do the best we can to filter it.</p>
+
+<p><img src="/blog/images/vortex.jpeg" alt="vortex image" /></p>
+
+<p>Is that the best we can do?</p>
+
+</div>
+  
+  
+    <footer>
+      <a rel="full-article" href="/blog/blog/2014/12/04/spamsink/">Read more&#8230;</a>
+    </footer>
+  
+
+
+    </article>
   
   
     <article>
@@ -777,54 +834,6 @@ directory, with any tool you want.</p>
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/blog/2014/09/25/javaone/">OSv at JavaOne</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-09-25T17:10:31-07:00" pubdate data-updated="true">Sep 25<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><img src="/blog/images/speaking-at-javaone.jpg" alt="speaking at JavaOne" /></p>
-
-<p>Glauber Costa and Don Marti are speaking at the JavaOne conference in San Francisco, on Tuesday, September 30.  Hope to see you there.</p>
-
-<p><a href="https://oracleus.activeevents.com/2014/connect/sessionDetail.ww?SESSION_ID=4120">OSv: The Operating System Designed for Java and the Cloud</a></p>
-
-<p>Here&rsquo;s what you&rsquo;re in for:</p>
-
-<blockquote><p>A lot of the cloud discussion centers around which hypervisors are the best and which management tools will simplify our life the most. But is it the whole story? When problems are addressed from the lower and higher layers, the middleman—the guest operating system—is usually left behind. This changes with OSv, an operating system designed from the ground up to run Java applications in the cloud. OSv is a library OS. Therefore, you can think of using it as being a way to boot a JVM directly into the cloud. Forget OS management: it’s your application and the end of the story. Besides explaining the architecture, this presentation demonstrates how designing an OS with Java in mind can benefit the Java ecosystem.</p></blockquote>
-
-<p>We&rsquo;ll demonstrate a nine-second build of a VM from a Java project.  Hope to see you there.</p>
-
-<p>You can keep up with the latest OSv news from this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/blog/page/3/">&larr; Older</a>
@@ -842,6 +851,10 @@ directory, with any tool you want.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/blog/2015/04/27/docker/">Building OSv Images Using Docker</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/blog/2015/04/08/makefile/">Re-&#8220;make&#8221;-ing OSv</a>
       </li>
     
@@ -855,10 +868,6 @@ directory, with any tool you want.</p>
     
       <li class="post">
         <a href="/blog/blog/2015/02/20/seastar/">Seastar: New C++ Framework for Web-scale Workloads</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/blog/2015/02/02/mikelangelo/">Researching the Future of the Cloud</a>
       </li>
     
   </ul>
