@@ -4,7 +4,7 @@
   <title><![CDATA[OSv Blog]]></title>
   <link href="http://osv.io/blog/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2015-04-27T16:38:06-07:00</updated>
+  <updated>2015-05-18T16:13:00-07:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -473,7 +473,7 @@ which traditionally required specialized hardware, such as supercomputers?</p>
 <p><img src="http://osv.io/blog/images/mikelangelo.png" alt="Project Mikelangelo" /></p>
 
 <p>Cloudius Systems, together with eight leading industry and university
-partners, announced this month the <a href="http://mikelangelo.uni-goettingen.de/">Mikelangelo</a> research project, which
+partners, announced this month the <a href="http://mikelangelo-project.eu/">Mikelangelo</a> research project, which
 sets out to answer exactly these questions. Mikelangelo is funded by the
 European Union&rsquo;s flagship research program, <a href="http://ec.europa.eu/programmes/horizon2020/">&ldquo;Horizon 2020&rdquo;</a>.</p>
 
@@ -497,21 +497,21 @@ and linear scalability of performance on machines with up to 32 cores.</p>
 an exciting bunch, and include some ground-breaking European (and global)
 cloud researchers and practicioners:</p>
 
-<p>&nbsp;&bull; <a href="http://mikelangelo.uni-goettingen.de/?page_id=148">Huawei</a></p>
+<p>&nbsp;&bull; <a href="http://www.mikelangelo-project.eu/consortium/huawei/">Huawei</a></p>
 
-<p>&nbsp;&bull; <a href="http://mikelangelo.uni-goettingen.de/?page_id=132">IBM</a></p>
+<p>&nbsp;&bull; <a href="http://www.mikelangelo-project.eu/consortium/ibm/">IBM</a></p>
 
-<p>&nbsp;&bull; <a href="http://mikelangelo.uni-goettingen.de/?page_id=128">Intel</a></p>
+<p>&nbsp;&bull; <a href="http://www.mikelangelo-project.eu/consortium/intel/">Intel</a></p>
 
-<p>&nbsp;&bull; <a href="http://mikelangelo.uni-goettingen.de/?page_id=124">The University of Stuttgart&rsquo;s supercomputing center (HLRS)</a></p>
+<p>&nbsp;&bull; <a href="http://www.mikelangelo-project.eu/consortium/hlrs/">The University of Stuttgart&rsquo;s supercomputing center (HLRS)</a></p>
 
-<p>&nbsp;&bull; <a href="http://mikelangelo.uni-goettingen.de/?page_id=108">The University of Goettingen&rsquo;s computing center (GWDG)</a></p>
+<p>&nbsp;&bull; <a href="http://www.mikelangelo-project.eu/consortium/gwdg/">The University of Goettingen&rsquo;s computing center (GWDG)</a></p>
 
-<p>&nbsp;&bull; <a href="http://mikelangelo.uni-goettingen.de/?page_id=144">Ben Gurion University</a></p>
+<p>&nbsp;&bull; <a href="http://www.mikelangelo-project.eu/consortium/ben-gurion-university/">Ben-Gurion University</a></p>
 
-<p>&nbsp;&bull; <a href="http://mikelangelo.uni-goettingen.de/?page_id=118">XLAB</a>, the coordinator of the project</p>
+<p>&nbsp;&bull; <a href="http://www.mikelangelo-project.eu/consortium/xlab/">XLAB</a>, the coordinator of the project</p>
 
-<p>&nbsp;&bull; <a href="http://mikelangelo.uni-goettingen.de/?page_id=136">Pipistrel</a>, a light aircraft manufacturer</p>
+<p>&nbsp;&bull; <a href="http://www.mikelangelo-project.eu/consortium/pipistrel/">Pipistrel</a>, a light aircraft manufacturer</p>
 
 <p>Pipistrel&rsquo;s intended use case, of moving HPC jobs to the cloud, is
 particularly interesting. Pipistrel is an innovative manufacturer of
@@ -531,7 +531,7 @@ is a lovely city. The project will span 3 years, but we expect to see some
 encouraging results from the project&mdash;and from the individual partners
 comprising it&mdash;very soon. The future of the cloud looks very bright!</p>
 
-<p><em><a href="http://mikelangelo-project.eu/">The Mikelangelo Project&rsquo;s official site</a> is coming soon.</em></p>
+<p><em>Visit <a href="http://mikelangelo-project.eu/">The Mikelangelo Project&rsquo;s official site</a> for updates.</em></p>
 
 <p><strong>Watch this space (<a href="http://localhost:4000/blog/atom.xml">feed</a>), or follow
 <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a>
