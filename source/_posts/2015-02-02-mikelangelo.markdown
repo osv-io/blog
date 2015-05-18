@@ -18,7 +18,7 @@ which traditionally required specialized hardware, such as supercomputers?
 ![Project Mikelangelo](/images/mikelangelo.png)
 
 Cloudius Systems, together with eight leading industry and university
-partners, announced this month the [Mikelangelo](http://mikelangelo.uni-goettingen.de/) research project, which
+partners, announced this month the [Mikelangelo](http://mikelangelo-project.eu/) research project, which
 sets out to answer exactly these questions. Mikelangelo is funded by the
 European Union's flagship research program, ["Horizon 2020"](http://ec.europa.eu/programmes/horizon2020/).
 
@@ -42,22 +42,21 @@ The other companies which joined us in the Mikelangelo project are
 an exciting bunch, and include some ground-breaking European (and global)
 cloud researchers and practicioners:
 
-&nbsp;&bull; [Huawei](http://mikelangelo.uni-goettingen.de/?page_id=148)
+&nbsp;&bull; [Huawei](http://www.mikelangelo-project.eu/consortium/huawei/)
 
-&nbsp;&bull; [IBM](http://mikelangelo.uni-goettingen.de/?page_id=132)
+&nbsp;&bull; [IBM](http://www.mikelangelo-project.eu/consortium/ibm/)
 
-&nbsp;&bull; [Intel](http://mikelangelo.uni-goettingen.de/?page_id=128)
+&nbsp;&bull; [Intel](http://www.mikelangelo-project.eu/consortium/intel/)
 
-&nbsp;&bull; [The University of Stuttgart's supercomputing center (HLRS)](http://mikelangelo.uni-goettingen.de/?page_id=124) 
+&nbsp;&bull; [The University of Stuttgart's supercomputing center (HLRS)](http://www.mikelangelo-project.eu/consortium/hlrs/)
 
-&nbsp;&bull; [The University of Goettingen's computing center (GWDG)](http://mikelangelo.uni-goettingen.de/?page_id=108)
+&nbsp;&bull; [The University of Goettingen's computing center (GWDG)](http://www.mikelangelo-project.eu/consortium/gwdg/)
 
-&nbsp;&bull; [Ben Gurion University](http://mikelangelo.uni-goettingen.de/?page_id=144)
+&nbsp;&bull; [Ben-Gurion University](http://www.mikelangelo-project.eu/consortium/ben-gurion-university/)
 
-&nbsp;&bull; [XLAB](http://mikelangelo.uni-goettingen.de/?page_id=118), the coordinator of the project
+&nbsp;&bull; [XLAB](http://www.mikelangelo-project.eu/consortium/xlab/), the coordinator of the project
 
-&nbsp;&bull; [Pipistrel](http://mikelangelo.uni-goettingen.de/?page_id=136), a light aircraft manufacturer
-
+&nbsp;&bull; [Pipistrel](http://www.mikelangelo-project.eu/consortium/pipistrel/), a light aircraft manufacturer
 
 Pipistrel's intended use case, of moving HPC jobs to the cloud, is
 particularly interesting. Pipistrel is an innovative manufacturer of
@@ -77,7 +76,7 @@ is a lovely city. The project will span 3 years, but we expect to see some
 encouraging results from the project&mdash;and from the individual partners
 comprising it&mdash;very soon. The future of the cloud looks very bright!
 
-_[The Mikelangelo Project's official site](http://mikelangelo-project.eu/) is coming soon._
+_Visit [The Mikelangelo Project's official site](http://mikelangelo-project.eu/) for updates._
 
 **Watch this space ([feed](http://localhost:4000/blog/atom.xml)), or follow
 [@CloudiusSystems](https://twitter.com/CloudiusSystems)
