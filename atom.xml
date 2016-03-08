@@ -4,7 +4,7 @@
   <title><![CDATA[OSv Blog]]></title>
   <link href="http://osv.io/blog/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2016-03-08T14:51:21-08:00</updated>
+  <updated>2016-03-08T14:56:26-08:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -12,6 +12,35 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Project Mikelangelo Update]]></title>
+    <link href="http://osv.io/blog/blog/2016/03/08/project-mikelangelo/"/>
+    <updated>2016-03-08T06:00:00-08:00</updated>
+    <id>http://osv.io/blog/blog/2016/03/08/project-mikelangelo</id>
+    <content type="html"><![CDATA[<p><strong>By Nadav Har’El</strong></p>
+
+<p>A year ago, we reported (see <a href="http://osv.io/blog/blog/2015/02/02/mikelangelo/">Researching the Future of the Cloud</a>) that ScyllaDB and eight other industrial and academic partners started the <a href="https://www.mikelangelo-project.eu/">MIKELANGELO</a> research project. MIKELANGELO is a three-year research project sponsored by the European Commission&rsquo;s <a href="http://ec.europa.eu/programmes/horizon2020/">Horizon 2020</a> program. The goal of MIKELANGELO is to make the cloud more useful for a wider range of applications, and in particular make it easier and faster to run high-performance computing (HPC) and I/O-intensive applications in the cloud.</p>
+
+<p><img src="http://www.scylladb.com/img/project-mikelangelo-logos.png" alt="company logos" /></p>
+
+<p>Last week, representatives of all MIKELANGELO partners (see company logos above, and group photo below) met with the Horizon 2020 reviewers in Brussels to present the progress of the project during the last year. The reviewers were pleased with the project’s progress, and especially pointed out its technical innovations.</p>
+
+<p><img src="http://www.scylladb.com/img/project-mikelangelo-people.jpeg" alt="project participants group photo" /></p>
+
+<p>Represented by Benoît Canet and yours truly, ScyllaDB presented <a href="http://www.seastar-project.org/">Seastar</a>, our new C++ framework for efficient yet complex server applications. We demonstrated the sort of amazing performance improvements which Seastar can bring, with ScyllaDB &ndash; our implementation of the familiar NoSQL database <a href="http://cassandra.apache.org">Apache Cassandra</a> with the Seastar framework. In the specific use case we demonstrated, an equal mixture of reads and writes, ScyllaDB was 7 times faster (!) than Cassandra. And we didn’t even pick ScyllaDB’s best benchmark to demonstrate  (we’d seen even better speedups in several other use cases). Seastar-based middleware applications such as ScyllaDB hold the promise of making it significantly easier and cheaper to deploy large-scale Web or Mobile applications in the cloud.</p>
+
+<p>Another innovation that ScyllaDB brought to the MIKELANGELO project is <a href="http://osv.io/">OSv</a>, our Linux-compatible kernel specially designed and optimized for running on cloud VMs. Several partners demonstrated running their applications on OSv. One of the cool use cases was aerodynamic simulations done by <a href="http://www.xlab.si/">XLAB</a> and Pipistrel. <a href="http://www.pipistrel.si/">Pipistrel</a> is a designer and manufacturer of innovative and award-winning light aircraft (like the one in the picture below), and running their CFD simulations on the cloud, using OSv VMs and various automation tools developed by XLAB, will significantly simplify their simulation workflow and make it easier for them to experiment with new aircraft designs.</p>
+
+<p><img src="http://www.scylladb.com/img/aircraft.jpeg" alt="Pipistrel aircraft photo" /></p>
+
+<p>Other partners presented their own exciting developments: Huawei implemented RDMA virtualization for KVM, which allows an application spread across multiple VMs on multiple hosts to communicate using RDMA (remote direct-memory-access) hardware in the host. In a network-intensive benchmark, virtualized RDMA improved performance 5-fold. IBM presented improvements to their earlier <a href="http://www.harel.org.il/nadav/homepage/papers/11760-atc13-harel.pdf">ELVIS</a> research, which allow varying the number of cores dedicated to servicing I/O, and achieve incredible amounts of I/O bandwidth in VMs. Ben-Gurion University security researchers implemented a scary “cache side-channel attack” where one VM can steal secret keys from another VM sharing the same host. Obviously their next research step will be stopping such attacks! Intel developed a telemetry framework called “snap” to collect and to analyse all sorts of measurements by all the different cloud components &ndash; VM operating systems, hypervisors, and individual applications. HLRS and GWDG, the super-computer centers of the universities of Stuttgart and Göttingen, respectively, built the clouds on which the other partners’ developments will be run, and brought in use cases of their own.</p>
+
+<p>Like ScyllaDB, all partners in the MIKELANGELO project believe in openness, so all technologies mentioned above have already been released as open-source. We’re looking forward to the next year of the MIKELANGELO project, when all these exciting technologies will continue to improve separately, as well as be integrated together to form the better, faster, and more secure cloud of the future.</p>
+
+<p><strong>For more updates, follow the <a href="http://www.scylladb.com/blog/">ScyllaDB blog</a>.</strong></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Building OSv Images Using Docker]]></title>
@@ -1065,108 +1094,6 @@ Hold your horses; Ksplice probably hadn’t been integrated to Xen and Ksplice i
 <p>Enough rants for one day, now let’s get back to <a href="https://twitter.com/search?q=%23osv">#OSv</a> and make it shine some more.</p>
 
 <p><em>For more info on OSv, please follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</em></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Merge the OS Into Your App, Not the Other Way Around!]]></title>
-    <link href="http://osv.io/blog/blog/2014/09/26/ant/"/>
-    <updated>2014-09-26T11:54:23-07:00</updated>
-    <id>http://osv.io/blog/blog/2014/09/26/ant</id>
-    <content type="html"><![CDATA[<p><strong>By Glauber Costa</strong></p>
-
-<p>Don Marti and I will soon be presenting OSv at <a href="http://osv.io/blog/blog/2014/09/25/javaone/">JavaOne</a>. We are excited about
-the conference, and thought we could give you a small preview of what we will
-be talking about.</p>
-
-<p>As you already know, OSv is at the same time an operating system, and a
-library. It is as functional as an operating system, and as invisible as a
-library. This means that you shouldn&rsquo;t really install your app into OSv, but
-rather, merge them both naturally as a single entity.</p>
-
-<p>If you are using Java, there is a huge chance that one way or another, your
-project is built through Apache Ant, or similar tool.</p>
-
-<p>If you have Capstan, our image building tool, that merges nicely and
-beautifully with your Ant-based build process. Here is how:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;property name="hypervisor" value="qemu"/&gt;
-</span><span class='line'>&lt;basename property="vm-name" file="${basedir}"/&gt;
-</span><span class='line'>&lt;property name="capstanpath"
-</span><span class='line'>   value="${user.home}/.capstan/repository/${vm-name}"/&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;target name="vm" depends="jar"&gt;
-</span><span class='line'>&lt;echo file="Capstanfile" append="false"&gt;
-</span><span class='line'>base:
-</span><span class='line'>   cloudius/osv-openjdk
-</span><span class='line'>cmdline:
-</span><span class='line'>  /java.so -jar ${jarname}
-</span><span class='line'>files:
-</span><span class='line'>  /${jarname}: build/jar/${jarname}&lt;/echo&gt;
-</span><span class='line'>&lt;exec executable="capstan"&gt;
-</span><span class='line'>    &lt;arg value="build"/&gt;
-</span><span class='line'>    &lt;arg value="-p"/&gt;
-</span><span class='line'>    &lt;arg value="${hypervisor}"/&gt;
-</span><span class='line'>&lt;/exec&gt;
-</span><span class='line'>&lt;copy tofile="HelloWorld.${hypervisor}"
-</span><span class='line'>   file="${capstanpath}/${vm-name}.${hypervisor}"/&gt;
-</span><span class='line'>&lt;delete file="Capstanfile"/&gt;
-</span><span class='line'>&lt;/target&gt;</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The snippet above assumes that you already have a &ldquo;jar&rdquo; target in your build.</p>
-
-<p>As you can guess from the image name, this example is a simple HelloWorld.  The
-code, together with the complete build.xml file, can be downloaded
-<a href="https://github.com/dmarti/OSvJavaOneDemo.git">on GitHub</a>.</p>
-
-<p>Adding that step to your existing build environment, allows you to have a first-class VM in a format consumable by QEMU/KVM. Booting in your hypervisor
-of choice, becomes just a matter of editing the file for the correct format.</p>
-
-<p>And after that? Fire up Capstan and enjoy your VM!</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[glauber@localhost JavaOne]$ capstan run JavaOne
-</span><span class='line'>Created instance: JavaOne
-</span><span class='line'>OSv v0.12
-</span><span class='line'>eth0: 192.168.122.15
-</span><span class='line'>Hello World</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Alternatively, boot the HelloWorld.qcow2 image that was copied to the local
-directory, with any tool you want.</p>
-
-<p><strong>More info</strong></p>
-
-<p>Are you attending JavaOne? We will show you this and more, at <a href="https://oracleus.activeevents.com/2014/connect/sessionDetail.ww?SESSION_ID=4120">Parc 55 &ndash; Powell I/II, Tuesday the 30th (12:30 PM)</a></p>
-
-<p>For general questions on OSv, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get general updates by subscribing to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
 ]]></content>
   </entry>
   

@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>SSH Tip: Connecting to a Private Network Without Trusting the Bastion Host - OSv Blog</title>
+  <title>Project Mikelangelo Update - OSv Blog</title>
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="By Nadav Har&#8217;El In a typical lab network configuration, one cannot just ssh or scp to the hosts behind the firewall (our company calls them &hellip;">
+  <meta name="description" content="By Nadav Har’El A year ago, we reported (see Researching the Future of the Cloud) that ScyllaDB and eight other industrial and academic partners &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://osv.io/blog/blog/2014/11/17/ssh-without-trusting-bastion-host">
+  <link rel="canonical" href="http://osv.io/blog/blog/2016/03/08/project-mikelangelo">
   <link href="/blog/favicon.ico" rel="icon">
   <link href="/blog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
@@ -107,7 +107,7 @@
         </script>
     </div>
 </div>
-<div class="mobile mobilePageTitle">SSH tip: connecting to a private network without trusting the bastion host</div>
+<div class="mobile mobilePageTitle">Project Mikelangelo update</div>
 
 
   <div id="main">
@@ -117,7 +117,7 @@
   
   <header>
     
-      <h1 class="entry-title">SSH Tip: Connecting to a Private Network Without Trusting the Bastion Host</h1>
+      <h1 class="entry-title">Project Mikelangelo Update</h1>
     
     
       <p class="meta">
@@ -133,51 +133,34 @@
   
 
 
-<time datetime="2014-11-17T14:10:31-08:00" pubdate data-updated="true">Nov 17<span>th</span>, 2014</time>
+<time datetime="2016-03-08T06:00:00-08:00" pubdate data-updated="true">Mar 8<span>th</span>, 2016</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p><strong>By Nadav Har&#8217;El</strong></p>
+<div class="entry-content"><p><strong>By Nadav Har’El</strong></p>
 
-<p>In a typical lab network configuration, one cannot just <code>ssh</code> or <code>scp</code> to the hosts behind the firewall (our company calls them after characters from Norse mythology: Loki, Muninn and friends).  Instead, you need to ssh to a bastion host, and from there connect to the internal systems.</p>
+<p>A year ago, we reported (see <a href="http://osv.io/blog/blog/2015/02/02/mikelangelo/">Researching the Future of the Cloud</a>) that ScyllaDB and eight other industrial and academic partners started the <a href="https://www.mikelangelo-project.eu/">MIKELANGELO</a> research project. MIKELANGELO is a three-year research project sponsored by the European Commission&rsquo;s <a href="http://ec.europa.eu/programmes/horizon2020/">Horizon 2020</a> program. The goal of MIKELANGELO is to make the cloud more useful for a wider range of applications, and in particular make it easier and faster to run high-performance computing (HPC) and I/O-intensive applications in the cloud.</p>
 
-<p><img src="/blog/images/ssh-user.jpeg" alt="ssh user" /><br><em>an ssh user connecting using a bastion host</em></p>
+<p><img src="http://www.scylladb.com/img/project-mikelangelo-logos.png" alt="company logos" /></p>
 
-<p>One can automate these two steps, with a command like</p>
+<p>Last week, representatives of all MIKELANGELO partners (see company logos above, and group photo below) met with the Horizon 2020 reviewers in Brussels to present the progress of the project during the last year. The reviewers were pleased with the project’s progress, and especially pointed out its technical innovations.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>ssh -t bastion.example.com ssh loki.lab.example.com</span></code></pre></td></tr></table></div></figure>
+<p><img src="http://www.scylladb.com/img/project-mikelangelo-people.jpeg" alt="project participants group photo" /></p>
 
+<p>Represented by Benoît Canet and yours truly, ScyllaDB presented <a href="http://www.seastar-project.org/">Seastar</a>, our new C++ framework for efficient yet complex server applications. We demonstrated the sort of amazing performance improvements which Seastar can bring, with ScyllaDB &ndash; our implementation of the familiar NoSQL database <a href="http://cassandra.apache.org">Apache Cassandra</a> with the Seastar framework. In the specific use case we demonstrated, an equal mixture of reads and writes, ScyllaDB was 7 times faster (!) than Cassandra. And we didn’t even pick ScyllaDB’s best benchmark to demonstrate  (we’d seen even better speedups in several other use cases). Seastar-based middleware applications such as ScyllaDB hold the promise of making it significantly easier and cheaper to deploy large-scale Web or Mobile applications in the cloud.</p>
 
-<p>And I guess some of you are already doing that. But this only works for ssh, not scp. One can do scp through an &ldquo;ssh tunnel&rdquo;, but this is really ugly to set up every time and to use.</p>
+<p>Another innovation that ScyllaDB brought to the MIKELANGELO project is <a href="http://osv.io/">OSv</a>, our Linux-compatible kernel specially designed and optimized for running on cloud VMs. Several partners demonstrated running their applications on OSv. One of the cool use cases was aerodynamic simulations done by <a href="http://www.xlab.si/">XLAB</a> and Pipistrel. <a href="http://www.pipistrel.si/">Pipistrel</a> is a designer and manufacturer of innovative and award-winning light aircraft (like the one in the picture below), and running their CFD simulations on the cloud, using OSv VMs and various automation tools developed by XLAB, will significantly simplify their simulation workflow and make it easier for them to experiment with new aircraft designs.</p>
 
-<p>There is also a securty hole in this approach, because anyone who breaks into <code>bastion</code> (which is an external machine and thus exposed to the Internet) can then ssh from there to all the internal machines, or even hijack already-running ssh sessions.</p>
+<p><img src="http://www.scylladb.com/img/aircraft.jpeg" alt="Pipistrel aircraft photo" /></p>
 
-<p>I finally found a much better solution, much easier to use and much more secure.</p>
+<p>Other partners presented their own exciting developments: Huawei implemented RDMA virtualization for KVM, which allows an application spread across multiple VMs on multiple hosts to communicate using RDMA (remote direct-memory-access) hardware in the host. In a network-intensive benchmark, virtualized RDMA improved performance 5-fold. IBM presented improvements to their earlier <a href="http://www.harel.org.il/nadav/homepage/papers/11760-atc13-harel.pdf">ELVIS</a> research, which allow varying the number of cores dedicated to servicing I/O, and achieve incredible amounts of I/O bandwidth in VMs. Ben-Gurion University security researchers implemented a scary “cache side-channel attack” where one VM can steal secret keys from another VM sharing the same host. Obviously their next research step will be stopping such attacks! Intel developed a telemetry framework called “snap” to collect and to analyse all sorts of measurements by all the different cloud components &ndash; VM operating systems, hypervisors, and individual applications. HLRS and GWDG, the super-computer centers of the universities of Stuttgart and Göttingen, respectively, built the clouds on which the other partners’ developments will be run, and brought in use cases of their own.</p>
 
-<!--more-->
+<p>Like ScyllaDB, all partners in the MIKELANGELO project believe in openness, so all technologies mentioned above have already been released as open-source. We’re looking forward to the next year of the MIKELANGELO project, when all these exciting technologies will continue to improve separately, as well as be integrated together to form the better, faster, and more secure cloud of the future.</p>
 
-
-<p>Just add to your <code>~/.ssh/config</code> the following incantation:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>Host *.lab
-</span><span class='line'>        ProxyCommand ssh -q bastion.example.com nc `basename %h .lab` 22</span></code></pre></td></tr></table></div></figure>
-
-
-<p>And now, you can <code>ssh</code> or <code>scp</code> directly to <code>loki.lab</code>, or <code>muninn.lab</code> or whatever, without any hassles, as if Loki and Muninn are actual machines on your LAN.</p>
-
-<p>This trick works like this: To connect to the remote host, ssh normally just connects a socket to port 22 of the remote host. When the &ldquo;ProxyCommand&rdquo; is set, this command is used instead. The command above will ssh to <code>bastion.example.com</code> and from there connect (using <code>nc</code>) to loki&rsquo;s port 22. Your own ssh will do the ssh protocol with Loki over this connection.</p>
-
-<p>This solution, beyond being extremely convenient, also has an interesting security feature:  we&rsquo;ll no longer need to trust <code>bastion.example.com</code>. The classic &ldquo;ssh from your laptop to <code>bastion</code> to <code>loki</code>&rdquo; solution suffered from a problem that if someone broke into <code>bastion</code>, they could also break into <code>loki</code> &ndash; by using the private keys stored on <code>bastion</code>, or by hijacking the second leg of the ssh chain (and possibly injecting whatever commands it wanted into this session!). With this new solution, <code>bastion</code> is just acting as a stupid pipe for encypted data between my laptop and Loki &ndash; it cannot hijack the connection, and it doesn&rsquo;t have any private keys needed to initiate a connection to Loki on its own.</p>
-
-<p>For more tips and OSv news, subscript to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
-
-<p><strong>Photo:</strong> <a href="http://www.flickr.com/photos/dfectuoso17/7013054091/">Security Hacker</a> by Santiago Zavala</p>
+<p><strong>For more updates, follow the <a href="http://www.scylladb.com/blog/">ScyllaDB blog</a>.</strong></p>
 </div>
 
 
@@ -200,14 +183,8 @@
   
 
 
-<time datetime="2014-11-17T14:10:31-08:00" pubdate data-updated="true">Nov 17<span>th</span>, 2014</time>
+<time datetime="2016-03-08T06:00:00-08:00" pubdate data-updated="true">Mar 8<span>th</span>, 2016</time>
       
-
-<span class="categories">
-  
-    <a class='category' href='/blog/blog/categories/release/'>release</a>
-  
-</span>
 
 
     </p>
@@ -235,10 +212,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/blog/2014/11/13/osv-private-beta/" title="Previous Post: OSv Early Access Private Beta">&laquo; OSv Early Access Private Beta</a>
+        <a class="basic-alignment left" href="/blog/blog/2015/04/27/docker/" title="Previous Post: Building OSv images using Docker">&laquo; Building OSv images using Docker</a>
       
-      
-        <a class="basic-alignment right" href="/blog/blog/2014/11/17/eblug/" title="Next Post: OSv Meetup at EBLUG: intro talk and demo">OSv Meetup at EBLUG: intro talk and demo &raquo;</a>
       
     </p>
   </footer>
@@ -321,8 +296,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://osv.io/blog/blog/2014/11/17/ssh-without-trusting-bastion-host/';
-        var disqus_url = 'http://osv.io/blog/blog/2014/11/17/ssh-without-trusting-bastion-host/';
+        var disqus_identifier = 'http://osv.io/blog/blog/2016/03/08/project-mikelangelo/';
+        var disqus_url = 'http://osv.io/blog/blog/2016/03/08/project-mikelangelo/';
         var disqus_script = 'embed.js';
       
     (function () {
