@@ -4,7 +4,7 @@
   <title><![CDATA[OSv Blog]]></title>
   <link href="http://osv.io/blog/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2016-03-08T14:56:26-08:00</updated>
+  <updated>2016-04-21T12:47:13-07:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -12,6 +12,159 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[NFS on OSv or “How I Learned to Stop Worrying About Memory Allocations and Love the Unikernel”]]></title>
+    <link href="http://osv.io/blog/blog/2016/04/21/nfs-on-osv/"/>
+    <updated>2016-04-21T07:00:00-07:00</updated>
+    <id>http://osv.io/blog/blog/2016/04/21/nfs-on-osv</id>
+    <content type="html"><![CDATA[<p><strong>By Benoît Canet and Don Marti</strong></p>
+
+<h2>A new type of OSv workload</h2>
+
+<p>The MIKELANGELO project aims to bring High Performance Computing (HPC) to the cloud. HPC traditionally involves bleeding edge technologies, including lots of CPU cores, <a href="http://www.infinibandta.org/">Infiniband</a> interconnects between nodes, <a href="https://en.wikipedia.org/wiki/Message_Passing_Interface">MPI</a> libraries for message passing, and, surprise&mdash;NFS, a very old timer of the UNIX universe.</p>
+
+<p>In an HPC context this networked filesystem is used to get the data inside the compute node before doing the raw computation, and then to extract the data from the compute node.</p>
+
+<h2>Some OSv NFS requirements</h2>
+
+<p>For HPC NFS is a must,  so we worked to make it happen. We had some key requirements:</p>
+
+<ul>
+<li>The NFS driver must go reasonably fast</li>
+<li>The implementation of the NFS driver must be done very quickly to meet the schedule of the rest of the MIKELANGELO project</li>
+<li>There is no FUSE (Filesystem in User Space) implementation in OSv</li>
+<li>OSv is a C++ unikernel, so the implementation must make full usage of its power</li>
+<li>The implementation must use the OSv VFS (Virtual File System) layer, and so be transparent for the application</li>
+</ul>
+
+
+<h2>Considering alternatives</h2>
+
+<p>The first possibility that we can exclude right away is doing an NFS implementation from scratch. This subproject is simply too short on time.</p>
+
+<p>The second possibility is to leverage an implementation from an existing mainstream kernel and simply port it to OSv. The pro would be code reuse, but this comes with a lot of cons.</p>
+
+<ul>
+<li>Some implementation licenses do not match well with the unikernel concept where everything can be considered a derived work of the core kernel</li>
+<li>Every operating system has its own flavor of VFS. The NFS subproject would be at risk of writing wrappers around another operating system’s VFS idiosyncrasies</li>
+<li>Most mainstream kernel memory allocators are very specific and complex, which would leads to more insane wrappers.</li>
+</ul>
+
+
+<p>The third possibility would be to use some userspace NFS implementation, as their code is usually straightforward POSIX and they provide a nice API designed to be embedded easily in another application. But wait! Didn’t we just say the implementation must be in the VFS, right in the middle of the OSv kernel? There is no FUSE on OSv.</p>
+
+<h2>Enter the Unikernel</h2>
+
+<p>Traditional UNIX-like operating system implementations are split in two:</p>
+
+<ul>
+<li><strong>Kernel space:</strong> a kernel doing the low level plumbing everyone else will use</li>
+<li><strong>User space:</strong> a bunch of applications using the facilities provided by the kernel in order to accomplish some tasks for the user</li>
+</ul>
+
+
+<p>One twist of this split is that kernel space and user space memory addresses are totally separated by using the MMU (Memory Management Unit) hardware of the processor. It also usually implies two totally different sets of programing APIs, one for kernel space and one for user space, and needless to say a lot of memory copies each time some data must cross the frontier from kernel space to userspace.</p>
+
+<p>A unikernel such as OSv is different. There is only one big address space and only one set of programing APIs. Therefore you can use POSIX and Linux userspace APIs right in an OSv driver. So no API wrappers to write and no memory copies.</p>
+
+<p>Another straightforward consequence of this is that standard memory management functions including malloc(), posix_memalign(), free() and friends, will just work inside an OSv driver. There are no separate kernel-level functions for managing memory, so no memory allocator wrappers needed.</p>
+
+<h2>Meet libnfs</h2>
+
+<p><a href="https://github.com/sahlberg/libnfs">libnfs</a>, by Ronnie Sahlberg, is a user space NFS implementation for Linux, designed to be embedded easilly in an application.</p>
+
+<p>It’s already used in successful programs like Fabrice Bellard’s <a href="http://wiki.qemu.org/Main_Page">QEMU</a>, and the author is an established open source developer who will not disappear in a snap.</p>
+
+<p>Last by not last, the libnfs license is LGPL. So far so good.</p>
+
+<h2>The implementation phase</h2>
+
+<p>The implementation phase went fast for a networked filesystem. Reviewing went smoothly thanks to Nadav Har’El’s help, and the final post on the osv-devel mailing list was the following:</p>
+
+<p><a href="https://groups.google.com/forum/#!topic/osv-dev/ACSim3AFSAQ">OSV nfs client</a></p>
+
+<p>Some extra days were spent to fix the occasional bugs and polish the result and now the MIKELANGELO HPC developers have a working NFS client.</p>
+
+<h2>Some code highlights</h2>
+
+<h3>Almost 1:1 mapping</h3>
+
+<p>Given the unikernel nature of OSv, an useful system call like truncate(), used to adjust the size of a file, boils down to</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">static</span> <span class="kt">int</span> <span class="n">nfs_op_truncate</span><span class="p">(</span><span class="k">struct</span> <span class="n">vnode</span> <span class="o">*</span><span class="n">vp</span><span class="p">,</span> <span class="n">off_t</span> <span class="n">length</span><span class="p">)</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>   <span class="kt">int</span> <span class="n">err_no</span><span class="p">;</span>
+</span><span class='line'>   <span class="k">auto</span> <span class="n">nfs</span> <span class="o">=</span> <span class="n">get_nfs_context</span><span class="p">(</span><span class="n">vp</span><span class="p">,</span> <span class="n">err_no</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="k">if</span> <span class="p">(</span><span class="n">err_no</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>       <span class="k">return</span> <span class="n">err_no</span><span class="p">;</span>
+</span><span class='line'>   <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="n">nfs_truncate</span><span class="p">(</span><span class="n">nfs</span><span class="p">,</span> <span class="n">get_node_name</span><span class="p">(</span><span class="n">vp</span><span class="p">),</span> <span class="n">length</span><span class="p">);</span>
+</span><span class='line'>   <span class="k">if</span> <span class="p">(</span><span class="n">ret</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>       <span class="k">return</span> <span class="o">-</span><span class="n">ret</span><span class="p">;</span>
+</span><span class='line'>   <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="n">vp</span><span class="o">-&gt;</span><span class="n">v_size</span> <span class="o">=</span> <span class="n">length</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>OSv allowed us to implement this syscall with a very thin shim without involving any additional memory allocation wrapper.</p>
+
+<h3>C++ empowers you to do powerful things in kernel code</h3>
+
+<p>One of the known limitation of libnfs is that it’s not thread-safe. See this <a href="https://groups.google.com/forum/#!msg/libnfs/3Oct9Zvv7D8/vkN9wBp6V0YJ">mailing list posting on multithreading and preformance</a>.  OSv is threaded&mdash;so heavily threaded that there is no concept of a process in OSv, just threads. Clearly this is a problem, but OSv is written in modern C++, which provides us with modern tools.</p>
+
+<p>This single line allows us to work around the libnfs single threaded limitation.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">thread_local</span> <span class="n">std</span><span class="o">::</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span>
+</span><span class='line'>                               <span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="n">mount_context</span><span class="o">&gt;&gt;</span> <span class="n">_map</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here the code makes an associative map between the mount point (the place in the filesystem hierarchy where the remote filesystem appears) and the libnfs <code>mount_context</code>.</p>
+
+<p>The one twist to notice here is <code>thread_local</code>: this single C++ keyword automatically makes a separate instance of this map per thread. The consequence is that every thread/mount point pair can have its own separate <code>mount_context</code>. Although an individual <code>mount_context</code> is not thread-safe, that is no longer an issue.</p>
+
+<h2>Conclusion</h2>
+
+<p>As we have seen here, the OSv unikernel is different in a lot of good ways, and allows you to write kernel code fast.</p>
+
+<ul>
+<li>Standard POSIX functions just work in the kernel.</li>
+<li>C++, which is not used in other kernels, comes with blessings.</li>
+</ul>
+
+
+<p>Scylla will keep improving OSv with the various MIKELANGELO partners, and we should see exciting new hot technologies like vRDMA on OSv in the not so distant future.</p>
+
+<p>The <a href="https://www.mikelangelo-project.eu/">MIKELANGELO</a> research project is a three-year research project sponsored by the European Commission&rsquo;s <a href="http://ec.europa.eu/programmes/horizon2020/">Horizon 2020</a> program. The goal of MIKELANGELO is to make the cloud more useful for a wider range of applications, and in particular make it easier and faster to run high-performance computing (HPC) and I/O-intensive applications in the cloud. For project updates, visit the <a href="https://www.mikelangelo-project.eu/">MIKELANGELO site</a>, or subscribe to this blog’s <a href="http://www.scylladb.com/feed.xml">RSS feed</a>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Project Mikelangelo Update]]></title>
@@ -1001,99 +1154,6 @@ the module list.  For example:</p>
 
 <p>The <a href="https://groups.google.com/forum/#!topic/osv-dev/tyFGw7NRudA">full 0.14 release announcement</a> is available on the osv-dev mailing list.
 You can keep up with the latest OSv news from this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[A Cloud Wake-up Call]]></title>
-    <link href="http://osv.io/blog/blog/2014/10/03/cloud-reboot/"/>
-    <updated>2014-10-03T17:54:23-07:00</updated>
-    <id>http://osv.io/blog/blog/2014/10/03/cloud-reboot</id>
-    <content type="html"><![CDATA[<p><strong>By Dor Laor</strong></p>
-
-<p>If you use AWS or Rackspace, there is a good chance that you got affected by <a href="https://gigaom.com/2014/09/24/yikes-big-amazon-web-services-reboot-on-the-way/">cloud-reboot</a>. Ten percent of AWS machines were forced to reboot during the weekend period due to a simple bug that created a security vulnerability. The reboot could have been prevented/mitigated through the use of sophisticated but handy tools. Such tools have existed for years but few people use them.</p>
-
-<p>Let’s take a closer look at the particular problem and proceed toward a call for action for usage of additional, fantastic low-level features that are hardly being used by IaaS/PaaS vendors.</p>
-
-<p>The cloud-reboot trigger is a tiny off-by-12kb xen hypervisor bug. A simple Model Specific Register check had a wrong limit as you can observe in the
-<a href="http://xenbits.xen.org/xsa/xsa108.patch">fix</a> for the <a href="http://xenbits.xen.org/xsa/advisory-108.html">security vulnerability</a>:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>-    case MSR_IA32_APICBASE_MSR ... MSR_IA32_APICBASE_MSR + 0x3ff:
-</span><span class='line'>+    case MSR_IA32_APICBASE_MSR ... MSR_IA32_APICBASE_MSR + 0xff:</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The vulnerability allows an attacker to either crash the hypervisor or retrieve data about other tenants. It’s really a long shot since the memory probably belongs to Xen addresses but in theory one can get lucky and read someone else’s passwords/keys.</p>
-
-<p>Kudos to Amazon and Rackspace for being on the safe side. The fix is a huge hassle and pain for such a small chance of being successfully targeted. Kudos for Xen (and the other hypervisor vendors) for developing mature hypervisors that these events are that rare.</p>
-
-<p>Now how could an IaaS vendor mitigate the problem without a reboot?</p>
-
-<h2>Option #1 &ndash; Dynamic Code Patching</h2>
-
-<p>Dynamic code patch technology for running-code has been available for years. Initially it was <a href="http://en.wikipedia.org/wiki/Ksplice">KSplice</a>, and
-that was recently followed by <a href="https://github.com/dynup/kpatch">KPatch</a>. Lean cloud providers <a href="https://twitter.com/extramsp/status/18715823586">reported KSplice deployment for Xen 4 years ago!</a></p>
-
-<p><img src="http://osv.io/blog/images/extramsp.png" alt="Cloud provider announces Ksplice support, on Twitter" /></p>
-
-<p>XSA-108, the cloud-reboot bug, could have been the perfect candidate for this.
-Hold your horses; Ksplice probably hadn’t been integrated to Xen and Ksplice is only applicable to dom-0. However, didn’t they see it coming? Now 10% of the Internet needs a reboot because no one picked it up. Let’s see whether a quick developer group will come to the rescue.  Ouch.</p>
-
-<h2>Option #2 &ndash; Live migration</h2>
-
-<p>Look ma, no hands&hellip;live migrate the VMs from an old hypervisor version to a patched hypervisor without service interruption.</p>
-
-<p>At Red Hat, I managed the KVM and Xen development teams. We were heavily invested in live migration development. A great deal of thought was given to cross-release migration, resulting in the ability to migrate a VM running on KVM version x to version x+y.  Sometimes even the opposite direction was allowed. We maintained a huge matrix of migration options which included the preservation of the virtual-hardware version. This means that a KVM hypervisor can represent a variety of virtual-hardware versions (combo of cpu+devices) and keep the ABI (Application Binary Interface) compatible across KVM releases and live migration events.</p>
-
-<p>Live migration was constantly optimized to reduce the effect on the running-workloads as well as to minimize downtime to few msecs. Smart compression, hot-page-transfer prioritization, and even more adventurous post-copy migration were deployed.</p>
-
-<p>To my surprise, several years and millions of hypervisors later, most cloud providers do not implement live migration. That’s rather unfortunate for a couple of reasons:</p>
-
-<ul>
-<li><p><strong>Live migration allows maintenance mode.</strong> The host can be taken down while the VMs are being migrated to a different host</p></li>
-<li><p><strong>Dynamic load balancing</strong> It’s possible to over-provision resources such as cpu, network, memory, etc in order to increase virtual server density. In case of load, live migrate VMs balance the host resources. Over-provisioning can reduce the cloud-bills dramatically; for a theoretical example, check the cost of a <a href="http://aws.amazon.com/ec2/instance-types/">t2-micro</a> instance.</p></li>
-</ul>
-
-
-<p>A leading cloud provider does use live migration, mainly because it uses shared storage for the VMs and the migration is just about the VM RAM. Other IaaS vendors use local storage but the &lsquo;excuse&rsquo; does not hold since for long it is possible to live migration local storage too . Sophisticated scenarios are supported; for example, a VM template image can reside on shared storage. There is no need to copy the image to the local disk when the VM is provisioned. Instead, the VM starts execution locally while its disk is remote. On the fly the disk requests are served from the network while a background task transfers the entire disk to the local hypervisor. In a similar way, live migration of a VM with local storage can takes place.</p>
-
-<p>Even open source projects such as Openstack and CloudFoundry do not support live migration. After all the time and effort invested in capturing the state of the virtual machine hardware state, it’s pretty sad that the feature isn’t enabled in practice and only data center solutions like vCenter and RHEV support it. Just to finalize this rant, please allow me to enclose the type of data a live migration captures:</p>
-
-<ul>
-<li>Complete configuration of the virtual hardware setup</li>
-<li>State of all CPU registers (General purpose, FPU, SIMD, MSRs,..)</li>
-<li>State of the interrupt controllers</li>
-<li>State of the disk drive (Registers, in-flight IO, interrupts)</li>
-<li>State of the network cards (Registers, in-flight IO, interrupts)</li>
-<li>State of all other devices &ndash; keyboard, mouse, USB, GPU, etc</li>
-</ul>
-
-
-<p>Modern hypervisors manage to deal with the above complexity and send GBs of data underneath the guest execution. In turn, the cloud management software needs only to find a target host and evacuate the source host (in the case of hardware/software maintenance or a bit more sophisticated for load balancing needs). This is a fair deal, now please, go implement it.</p>
-
-<h2>&lt;wake up call continues></h2>
-
-<p>Since I started with two important OS features that aren’t implemented (dynamic patching and live migration), let me add to the list the following:</p>
-
-<ul>
-<li><strong>Hot (un) plug of memory and cpu</strong> This is a pure scale-up scenario. You start a small VM and if there is a need, add virtual CPUs and/or memory to the mix. Most OS’s and hypervisors support it.  Imagine you run a c3.8xlarge during the day, and at night you unplug resources to form a c3.large VM which costs 1/16 as much.</li>
-</ul>
-
-
-<p>Imagine you’re running a JVM application that needs an immediate garbage collection (GC). Today, the application will experience a Stop-The-World phase which will translate into downtime that can go up to several seconds (a function of heap size).  Instead, such a VM can ask to hot plug additional RAM and CPUs 1 second before it really needs to pause. The JVM may use even a silly copy garbage collector to copy the live objects from the original RAM block to newer hotplugged-RAM blocks and unplug the old block entirely (using the extra vCPUs to accelerate the action).</p>
-
-<ul>
-<li><p><strong>Trusted boot/computing</strong> Trusted Computing is a technology to keep the integrity of an operating system, which is based on a secure chip such as “TPM (Trusted Platform Module)” and/or Intel’s TXT technology: Trusted Execution Technology provides a hardware based root of trust to ensure that a platform boots with a known good configuration of firmware, BIOS, virtual machine monitor, and operating system, forming a fully signed and secure stack.</p></li>
-<li><p><strong>Fast VM provision time</strong> <a href="http://osv.io/">OSv</a> boots in under 1 second! However it takes significantly more time to provision a VM.  If the hypervisor and the OS can boot that fast, I see no reason for the hypervisor management code to be slower.</p></li>
-</ul>
-
-
-<h2>&lt;/wake up call continues></h2>
-
-<p>Enough rants for one day, now let’s get back to <a href="https://twitter.com/search?q=%23osv">#OSv</a> and make it shine some more.</p>
-
-<p><em>For more info on OSv, please follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</em></p>
 ]]></content>
   </entry>
   
