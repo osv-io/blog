@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Release | OSv Blog]]></title>
-  <link href="http://osv.io/blog/blog/categories/release/atom.xml" rel="self"/>
-  <link href="http://osv.io/blog/"/>
-  <updated>2017-04-20T09:42:12+03:00</updated>
-  <id>http://osv.io/blog/</id>
+  <link href="http://blog.osv.io//github/blog/categories/release/atom.xml" rel="self"/>
+  <link href="http://blog.osv.io//github/"/>
+  <updated>2017-04-20T10:31:28+03:00</updated>
+  <id>http://blog.osv.io//github/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Image Building Tip: Make Clean Without Repeating Yourself]]></title>
-    <link href="http://osv.io/blog/blog/2014/12/17/make-clean-dont-repeat-yourself/"/>
+    <link href="http://blog.osv.io//github/blog/2014/12/17/make-clean-dont-repeat-yourself/"/>
     <updated>2014-12-17T07:10:31+02:00</updated>
-    <id>http://osv.io/blog/blog/2014/12/17/make-clean-dont-repeat-yourself</id>
+    <id>http://blog.osv.io//github/blog/2014/12/17/make-clean-dont-repeat-yourself</id>
     <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
 
 <p>What do we have to do in <code>make clean</code>?  Delete all the files that can be regenerated that we don&rsquo;t need to keep around.</p>
@@ -69,9 +69,9 @@ gsettings set org.gnome.desktop.background primary-color "#$(date +%H%M%S)"
   
   <entry>
     <title type="html"><![CDATA[OSv on the QEMU Advent Calendar]]></title>
-    <link href="http://osv.io/blog/blog/2014/12/12/advent/"/>
+    <link href="http://blog.osv.io//github/blog/2014/12/12/advent/"/>
     <updated>2014-12-12T00:10:31+02:00</updated>
-    <id>http://osv.io/blog/blog/2014/12/12/advent</id>
+    <id>http://blog.osv.io//github/blog/2014/12/12/advent</id>
     <content type="html"><![CDATA[<p>OSv is on the <a href="http://www.qemu-advent-calendar.org/#day-11">QEMU Advent Calendar</a> with a ready-to-download VM image.</p>
 
 <p><a href="http://www.qemu-advent-calendar.org/#day-11"><img src="/images/day11.png" alt="day 11" /></a></p>
@@ -93,9 +93,9 @@ gsettings set org.gnome.desktop.background primary-color "#$(date +%H%M%S)"
   
   <entry>
     <title type="html"><![CDATA[Making Spam Vanish&hellip;in the CLOUD]]></title>
-    <link href="http://osv.io/blog/blog/2014/12/05/spamsink/"/>
+    <link href="http://blog.osv.io//github/blog/2014/12/05/spamsink/"/>
     <updated>2014-12-05T00:10:31+02:00</updated>
-    <id>http://osv.io/blog/blog/2014/12/05/spamsink</id>
+    <id>http://blog.osv.io//github/blog/2014/12/05/spamsink</id>
     <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
 
 <p>We knew that spammers control a lot of bandwidth, because botnets.  So, for a long time, people thought that fighting spam by just accepting and discarding huge amounts of it would be counterproductive. The spammers get bandwidth for free, and servers are expensive.</p>
@@ -158,9 +158,9 @@ try to waste the spammer&rsquo;s bandwidth by fooling the sender into wasting pr
   
   <entry>
     <title type="html"><![CDATA[Containers, Containers, Containers! More Options for the Cloud]]></title>
-    <link href="http://osv.io/blog/blog/2014/12/03/docker-rocket/"/>
+    <link href="http://blog.osv.io//github/blog/2014/12/03/docker-rocket/"/>
     <updated>2014-12-03T00:10:31+02:00</updated>
-    <id>http://osv.io/blog/blog/2014/12/03/docker-rocket</id>
+    <id>http://blog.osv.io//github/blog/2014/12/03/docker-rocket</id>
     <content type="html"><![CDATA[<p><strong>By <a href="https://twitter.com/DorLaor/">Dor Laor</a></strong></p>
 
 <p>Everybody who uses containers has probably heard about <a href="https://coreos.com/blog/rocket">Rocket</a> by now. What does this <strike>fork</strike> re-implementation mean to the Docker community? Let’s dive in.</p>
@@ -203,9 +203,9 @@ is the very thing that makes Docker attractive, its simplicity, is also a disadv
   
   <entry>
     <title type="html"><![CDATA[SSH Tip: Connecting to a Private Network Without Trusting the Bastion Host]]></title>
-    <link href="http://osv.io/blog/blog/2014/11/18/ssh-without-trusting-bastion-host/"/>
+    <link href="http://blog.osv.io//github/blog/2014/11/18/ssh-without-trusting-bastion-host/"/>
     <updated>2014-11-18T00:10:31+02:00</updated>
-    <id>http://osv.io/blog/blog/2014/11/18/ssh-without-trusting-bastion-host</id>
+    <id>http://blog.osv.io//github/blog/2014/11/18/ssh-without-trusting-bastion-host</id>
     <content type="html"><![CDATA[<p><strong>By Nadav Har'El</strong></p>
 
 <p>In a typical lab network configuration, one cannot just <code>ssh</code> or <code>scp</code> to the hosts behind the firewall (our company calls them after characters from Norse mythology: Loki, Muninn and friends).  Instead, you need to ssh to a bastion host, and from there connect to the internal systems.</p>

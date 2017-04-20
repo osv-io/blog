@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Clojure | OSv Blog]]></title>
-  <link href="http://osv.io/blog/blog/categories/clojure/atom.xml" rel="self"/>
-  <link href="http://osv.io/blog/"/>
-  <updated>2017-04-20T09:42:12+03:00</updated>
-  <id>http://osv.io/blog/</id>
+  <link href="http://blog.osv.io//github/blog/categories/clojure/atom.xml" rel="self"/>
+  <link href="http://blog.osv.io//github/"/>
+  <updated>2017-04-20T10:31:28+03:00</updated>
+  <id>http://blog.osv.io//github/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Running Clojure on OSv: Easier With a New Capstan Template]]></title>
-    <link href="http://osv.io/blog/blog/2014/07/27/capstan-lein-template/"/>
+    <link href="http://blog.osv.io//github/blog/2014/07/27/capstan-lein-template/"/>
     <updated>2014-07-27T00:00:00+03:00</updated>
-    <id>http://osv.io/blog/blog/2014/07/27/capstan-lein-template</id>
+    <id>http://blog.osv.io//github/blog/2014/07/27/capstan-lein-template</id>
     <content type="html"><![CDATA[<p>Clojure developers usually do not care too much about the underlying OS.
 The low-level differences between Linux, Mac OS, and even Microsoft Windows are abstracted away by the JVM.</p>
 
@@ -70,9 +70,9 @@ You can get updates on by subscribing to the <a href="http://osv.io/blog/atom.xm
   
   <entry>
     <title type="html"><![CDATA[Riemann - a Clojure Application on OSv]]></title>
-    <link href="http://osv.io/blog/blog/2014/04/22/riemann-on-osv/"/>
+    <link href="http://blog.osv.io//github/blog/2014/04/22/riemann-on-osv/"/>
     <updated>2014-04-22T19:00:00+03:00</updated>
-    <id>http://osv.io/blog/blog/2014/04/22/riemann-on-osv</id>
+    <id>http://blog.osv.io//github/blog/2014/04/22/riemann-on-osv</id>
     <content type="html"><![CDATA[<p><strong>By Tzach Livyatan</strong></p>
 
 <p>Clojure applications run on the JVM, so they&rsquo;re usually simple to run on OSv.  We have <a href="https://github.com/tzach/capstan-example-clojure">hello world in Clojure</a> running, but this time I wanted to port a real, non-toy, Clojure application. I chose <a href="http://riemann.io">Riemann</a>, a widely-used application for aggregating system events (and more).</p>

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Events | OSv Blog]]></title>
-  <link href="http://osv.io/blog/blog/categories/events/atom.xml" rel="self"/>
-  <link href="http://osv.io/blog/"/>
-  <updated>2017-04-20T09:42:12+03:00</updated>
-  <id>http://osv.io/blog/</id>
+  <link href="http://blog.osv.io//github/blog/categories/events/atom.xml" rel="self"/>
+  <link href="http://blog.osv.io//github/"/>
+  <updated>2017-04-20T10:31:28+03:00</updated>
+  <id>http://blog.osv.io//github/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[OSv at JavaOne]]></title>
-    <link href="http://osv.io/blog/blog/2014/09/26/javaone/"/>
+    <link href="http://blog.osv.io//github/blog/2014/09/26/javaone/"/>
     <updated>2014-09-26T03:10:31+03:00</updated>
-    <id>http://osv.io/blog/blog/2014/09/26/javaone</id>
+    <id>http://blog.osv.io//github/blog/2014/09/26/javaone</id>
     <content type="html"><![CDATA[<p><img src="/images/speaking-at-javaone.jpg" alt="speaking at JavaOne" /></p>
 
 <p>Glauber Costa and Don Marti are speaking at the JavaOne conference in San Francisco, on Tuesday, September 30.  Hope to see you there.</p>
@@ -36,9 +36,9 @@
   
   <entry>
     <title type="html"><![CDATA[What's the Big Deal About OSv at Cassandra Summit 2014?]]></title>
-    <link href="http://osv.io/blog/blog/2014/09/11/cassandra-summit/"/>
+    <link href="http://blog.osv.io//github/blog/2014/09/11/cassandra-summit/"/>
     <updated>2014-09-11T02:10:31+03:00</updated>
-    <id>http://osv.io/blog/blog/2014/09/11/cassandra-summit</id>
+    <id>http://blog.osv.io//github/blog/2014/09/11/cassandra-summit</id>
     <content type="html"><![CDATA[<p><strong>Pop quiz: what does this graph show?</strong></p>
 
 <p><img src="/images/mystery-graph.png" alt="graph" /></p>
@@ -55,9 +55,9 @@
   
   <entry>
     <title type="html"><![CDATA[OSv in the Spotlight at LinuxCon/CloudOpen 2014]]></title>
-    <link href="http://osv.io/blog/blog/2014/08/21/linuxcon-cloudopen/"/>
+    <link href="http://blog.osv.io//github/blog/2014/08/21/linuxcon-cloudopen/"/>
     <updated>2014-08-21T02:10:31+03:00</updated>
-    <id>http://osv.io/blog/blog/2014/08/21/linuxcon-cloudopen</id>
+    <id>http://blog.osv.io//github/blog/2014/08/21/linuxcon-cloudopen</id>
     <content type="html"><![CDATA[<p>While we relax and don&rsquo;t have to fix anything on our slides (really, they&rsquo;re all done), other speakers at the Linux Foundation&rsquo;s <a href="http://events.linuxfoundation.org/events/cloudopen-north-america">CloudOpen North America conference</a> in beautiful Chicago have some observations to make about OSv.</p>
 
 <p><img src="/images/chicago-river.jpeg" alt="Chicago River" /></p>

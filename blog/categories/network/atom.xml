@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Network | OSv Blog]]></title>
-  <link href="http://osv.io/blog/blog/categories/network/atom.xml" rel="self"/>
-  <link href="http://osv.io/blog/"/>
-  <updated>2017-04-20T09:42:12+03:00</updated>
-  <id>http://osv.io/blog/</id>
+  <link href="http://blog.osv.io//github/blog/categories/network/atom.xml" rel="self"/>
+  <link href="http://blog.osv.io//github/"/>
+  <updated>2017-04-20T10:31:28+03:00</updated>
+  <id>http://blog.osv.io//github/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Bridged Networking With Capstan]]></title>
-    <link href="http://osv.io/blog/blog/2014/05/07/capstan-bridge/"/>
+    <link href="http://blog.osv.io//github/blog/2014/05/07/capstan-bridge/"/>
     <updated>2014-05-07T18:37:05+03:00</updated>
-    <id>http://osv.io/blog/blog/2014/05/07/capstan-bridge</id>
+    <id>http://blog.osv.io//github/blog/2014/05/07/capstan-bridge</id>
     <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
 
 <p>New versions of <a href="https://github.com/cloudius-systems/capstan">Capstan</a> are making it simpler to run OSv virtual machines in a production configuration, by adding more control of network options.  A useful new feature, which helps deal with the <a href="https://github.com/cloudius-systems/osv/wiki/Running-OSv-image-under-KVM-QEMU">details of bringing up networking</a>, is the <code>-n</code> option.</p>

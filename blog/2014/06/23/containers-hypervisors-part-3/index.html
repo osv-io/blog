@@ -18,14 +18,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://osv.io/blog/blog/2014/06/23/containers-hypervisors-part-3">
-  <link href="/blog/favicon.ico" rel="icon">
-  <link href="/blog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link rel="canonical" href="http://blog.osv.io//github/blog/2014/06/23/containers-hypervisors-part-3">
+  <link href="/favicon.ico" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
-  <script src="/blog/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
-  <script src="/blog/javascripts/octopress.js" type="text/javascript"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
 <!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -52,8 +52,8 @@
     <div class="topMenu">
         <ul class="nav menu">
             <li><a href="http://osv.io">Home</a></li>
-            <li class=""><a href="/blog/">Blog</a></li>
-            <li class=""><a href="/blog/blog/archives">Archives</a></li>
+            <li class=""><a href="/">Blog</a></li>
+            <li class=""><a href="/blog/archives">Archives</a></li>
         </ul>
         <ul class="subscription" data-subscription="rss">
             <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
@@ -62,7 +62,7 @@
         
         <form action="https://www.google.com/search" method="get">
             <fieldset role="search">
-                <input type="hidden" name="q" value="site:osv.io/blog" />
+                <input type="hidden" name="q" value="site:blog.osv.io//github" />
                 <input class="search" type="text" name="q" results="0" placeholder="Search"/>
             </fieldset>
         </form>
@@ -156,7 +156,7 @@
 
 <p>In the eight years since the release of Intel VMX, the silicon has kept getting better and better at moving the costs of virtualization into hardware. Enterprise customers have been demanding lower virtualization overhead for as long as hypervisors have been a thing, and the best minds of the CPU industry are working on it. With nested page tables and other features coming “for free” on the processor, virtualization overhead is being squeezed closer and closer to parity with bare metal.</p>
 
-<p><img src="/blog/images/duplication.png" alt="typical cloud stack with duplication" /></p>
+<p><img src="/images/duplication.png" alt="typical cloud stack with duplication" /></p>
 
 <p><strong>Typical cloud stacks have duplicate functionality at the hypervisor, guest OS, and application levels.</strong></p>
 
@@ -168,7 +168,7 @@
 
 <p>To date (June 2014), OSv provides 4x better performance for Memcache, a 40% gain with Apache Tomcat, and a 20% gain with Cassandra and SPECjbb. These results are based on our alpha versions, and are likely to improve as we complete the optimizations remaining on our roadmap.</p>
 
-<p><img src="/blog/images/workloads.png" alt="OSv example workloads" /></p>
+<p><img src="/images/workloads.png" alt="OSv example workloads" /></p>
 
 <p><strong>OSv runs many key cloud workloads with low overhead and high performance.</strong></p>
 
@@ -194,7 +194,7 @@
 
 <p>Lastly, we like to point out we are not against containers. Container technology is awesome when used for the right scenario. As there are cases for public transportation versus private cars, the same applies to devops. Both containers and OSv excel, in different domains. Here is a simple flow chart that can guide you with your choices:</p>
 
-<p><a href="/blog/images/flowchart.png"><img src="/blog/images/flowchart.png" alt="Guest OS selection flowchart" /></a></p>
+<p><a href="/images/flowchart.png"><img src="/images/flowchart.png" alt="Guest OS selection flowchart" /></a></p>
 
 <p>Using OSv on ubiquitous, secure, full-featured hypervisors is the way to keep performance up, costs down, and options open. We had to completely reinvent the guest OS to do it&mdash;but now that we have it, OSv is available to build on. Please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a> for technical info, or follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems on Twitter</a> for the latest news.</p>
 
@@ -251,10 +251,10 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/blog/2014/06/19/containers-hypervisors-part-2/" title="Previous Post: Hypervisors are dead, long live the hypervisor (part 2)">&laquo; Hypervisors are dead, long live the hypervisor (part 2)</a>
+        <a class="basic-alignment left" href="/blog/2014/06/19/containers-hypervisors-part-2/" title="Previous Post: Hypervisors are dead, long live the hypervisor (part 2)">&laquo; Hypervisors are dead, long live the hypervisor (part 2)</a>
       
       
-        <a class="basic-alignment right" href="/blog/blog/2014/07/01/s3stat/" title="Next Post: What is the most popular OSv virtual appliance?">What is the most popular OSv virtual appliance? &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2014/07/01/s3stat/" title="Next Post: What is the most popular OSv virtual appliance?">What is the most popular OSv virtual appliance? &raquo;</a>
       
     </p>
   </footer>
@@ -275,23 +275,23 @@
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/blog/2016/04/21/nfs-on-osv/">NFS on OSv or “How I Learned to Stop Worrying About Memory Allocations and Love the Unikernel”</a>
+        <a href="/blog/2016/04/21/nfs-on-osv/">NFS on OSv or “How I Learned to Stop Worrying About Memory Allocations and Love the Unikernel”</a>
       </li>
     
       <li class="post">
-        <a href="/blog/blog/2016/03/08/project-mikelangelo/">Project Mikelangelo Update</a>
+        <a href="/blog/2016/03/08/project-mikelangelo/">Project Mikelangelo Update</a>
       </li>
     
       <li class="post">
-        <a href="/blog/blog/2015/04/27/docker/">Building OSv Images Using Docker</a>
+        <a href="/blog/2015/04/27/docker/">Building OSv Images Using Docker</a>
       </li>
     
       <li class="post">
-        <a href="/blog/blog/2015/04/08/makefile/">Re-"make"-ing OSv</a>
+        <a href="/blog/2015/04/08/makefile/">Re-"make"-ing OSv</a>
       </li>
     
       <li class="post">
-        <a href="/blog/blog/2015/04/03/cloudrouter/">Wiki Watch: CloudRouter Images Available</a>
+        <a href="/blog/2015/04/03/cloudrouter/">Wiki Watch: CloudRouter Images Available</a>
       </li>
     
   </ul>
@@ -337,8 +337,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://osv.io/blog/blog/2014/06/23/containers-hypervisors-part-3/';
-        var disqus_url = 'http://osv.io/blog/blog/2014/06/23/containers-hypervisors-part-3/';
+        var disqus_identifier = 'http://blog.osv.io//github/blog/2014/06/23/containers-hypervisors-part-3/';
+        var disqus_url = 'http://blog.osv.io//github/blog/2014/06/23/containers-hypervisors-part-3/';
         var disqus_script = 'embed.js';
       
     (function () {

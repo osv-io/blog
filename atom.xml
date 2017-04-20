@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[OSv Blog]]></title>
-  <link href="http://osv.io/blog/atom.xml" rel="self"/>
-  <link href="http://osv.io/blog/"/>
-  <updated>2017-04-20T09:42:12+03:00</updated>
-  <id>http://osv.io/blog/</id>
+  <link href="http://blog.osv.io//github/atom.xml" rel="self"/>
+  <link href="http://blog.osv.io//github/"/>
+  <updated>2017-04-20T10:31:28+03:00</updated>
+  <id>http://blog.osv.io//github/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[NFS on OSv or “How I Learned to Stop Worrying About Memory Allocations and Love the Unikernel”]]></title>
-    <link href="http://osv.io/blog/blog/2016/04/21/nfs-on-osv/"/>
+    <link href="http://blog.osv.io//github/blog/2016/04/21/nfs-on-osv/"/>
     <updated>2016-04-21T17:00:00+03:00</updated>
-    <id>http://osv.io/blog/blog/2016/04/21/nfs-on-osv</id>
+    <id>http://blog.osv.io//github/blog/2016/04/21/nfs-on-osv</id>
     <content type="html"><![CDATA[<p><strong>By Benoît Canet and Don Marti</strong></p>
 
 <h2>A new type of OSv workload</h2>
@@ -168,9 +168,9 @@
   
   <entry>
     <title type="html"><![CDATA[Project Mikelangelo Update]]></title>
-    <link href="http://osv.io/blog/blog/2016/03/08/project-mikelangelo/"/>
+    <link href="http://blog.osv.io//github/blog/2016/03/08/project-mikelangelo/"/>
     <updated>2016-03-08T16:00:00+02:00</updated>
-    <id>http://osv.io/blog/blog/2016/03/08/project-mikelangelo</id>
+    <id>http://blog.osv.io//github/blog/2016/03/08/project-mikelangelo</id>
     <content type="html"><![CDATA[<p><strong>By Nadav Har’El</strong></p>
 
 <p>A year ago, we reported (see <a href="http://osv.io/blog/blog/2015/02/02/mikelangelo/">Researching the Future of the Cloud</a>) that ScyllaDB and eight other industrial and academic partners started the <a href="https://www.mikelangelo-project.eu/">MIKELANGELO</a> research project. MIKELANGELO is a three-year research project sponsored by the European Commission&rsquo;s <a href="http://ec.europa.eu/programmes/horizon2020/">Horizon 2020</a> program. The goal of MIKELANGELO is to make the cloud more useful for a wider range of applications, and in particular make it easier and faster to run high-performance computing (HPC) and I/O-intensive applications in the cloud.</p>
@@ -197,9 +197,9 @@
   
   <entry>
     <title type="html"><![CDATA[Building OSv Images Using Docker]]></title>
-    <link href="http://osv.io/blog/blog/2015/04/27/docker/"/>
+    <link href="http://blog.osv.io//github/blog/2015/04/27/docker/"/>
     <updated>2015-04-27T00:00:00+03:00</updated>
-    <id>http://osv.io/blog/blog/2015/04/27/docker</id>
+    <id>http://blog.osv.io//github/blog/2015/04/27/docker</id>
     <content type="html"><![CDATA[<p><strong>By David Jorm and Don Marti</strong></p>
 
 <h2>Why build OSv images under Docker?</h2>
@@ -447,9 +447,9 @@
   
   <entry>
     <title type="html"><![CDATA[Re-"make"-ing OSv]]></title>
-    <link href="http://osv.io/blog/blog/2015/04/08/makefile/"/>
+    <link href="http://blog.osv.io//github/blog/2015/04/08/makefile/"/>
     <updated>2015-04-08T00:00:00+03:00</updated>
-    <id>http://osv.io/blog/blog/2015/04/08/makefile</id>
+    <id>http://blog.osv.io//github/blog/2015/04/08/makefile</id>
     <content type="html"><![CDATA[<p><a href="https://groups.google.com/forum/#!topic/osv-dev/x-E9YfzDz20">OSv 0.19</a> is out, with a rewrite of the build system. The old OSv build system was fairly complex, but the rewrite makes it simpler and faster.</p>
 
 <h2>Simpler Makefile</h2>
@@ -519,9 +519,9 @@ create a bootfs-only image, without ZFS.</p></li>
   
   <entry>
     <title type="html"><![CDATA[Wiki Watch: CloudRouter Images Available]]></title>
-    <link href="http://osv.io/blog/blog/2015/04/03/cloudrouter/"/>
+    <link href="http://blog.osv.io//github/blog/2015/04/03/cloudrouter/"/>
     <updated>2015-04-03T00:00:00+03:00</updated>
-    <id>http://osv.io/blog/blog/2015/04/03/cloudrouter</id>
+    <id>http://blog.osv.io//github/blog/2015/04/03/cloudrouter</id>
     <content type="html"><![CDATA[<p>Interested in running the <a href="https://cloudrouter.org/">CloudRouter</a> VMs that we covered in <a href="http://localhost:4000/blog/blog/2015/03/31/sdi/">a blog post earlier this week?</a>  Details are available <a href="https://cloudrouter.atlassian.net/wiki/display/CPD/Running+CloudRouter+OSv+Images">on the CloudRouter wiki</a>. (Pre-built images are available <a href="https://repo.cloudrouter.org/">on the CloudRouter site</a>, or you can build one yourself with Capstan.)</p>
 
 <p>Questions on these or any other images are welcome, on the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  For more info on working with the CloudRouter project, see <a href="https://cloudrouter.org/community/">the CloudRouter community page</a>.</p>
@@ -532,9 +532,9 @@ create a bootfs-only image, without ZFS.</p></li>
   
   <entry>
     <title type="html"><![CDATA[Software-defined Interconnection: The Future of Internet Peering, Powered by OpenDaylight and OSv]]></title>
-    <link href="http://osv.io/blog/blog/2015/03/31/sdi/"/>
+    <link href="http://blog.osv.io//github/blog/2015/03/31/sdi/"/>
     <updated>2015-03-31T00:00:00+03:00</updated>
-    <id>http://osv.io/blog/blog/2015/03/31/sdi</id>
+    <id>http://blog.osv.io//github/blog/2015/03/31/sdi</id>
     <content type="html"><![CDATA[<p><strong>By David Jorm and Don Marti</strong></p>
 
 <p>Most users are aware of cloud computing as a general term behind such trends as &ldquo;Software as a Service,&rdquo; where sites such as Salesforce.com can replace software run by a company IT department, or &ldquo;Infrastructure as a Service&rdquo; where virtual machines rented by the hour can replace conventional servers. But today, the technologies behind the cloud are changing the way that we connect the Internet at the most fundamental level, through Software Defined Interconnection (SDI).</p>
@@ -572,9 +572,9 @@ create a bootfs-only image, without ZFS.</p></li>
   
   <entry>
     <title type="html"><![CDATA[Seastar: New C++ Framework for Web-scale Workloads]]></title>
-    <link href="http://osv.io/blog/blog/2015/02/20/seastar/"/>
+    <link href="http://blog.osv.io//github/blog/2015/02/20/seastar/"/>
     <updated>2015-02-20T16:54:23+02:00</updated>
-    <id>http://osv.io/blog/blog/2015/02/20/seastar</id>
+    <id>http://blog.osv.io//github/blog/2015/02/20/seastar</id>
     <content type="html"><![CDATA[<p>Today, we are releasing Seastar, a new open-source C++
 framework for extreme high-performance applications
 on OSv and Linux. Seastar brings a 5x throughput
@@ -640,9 +640,9 @@ on Twitter for updates.</strong></p>
   
   <entry>
     <title type="html"><![CDATA[Researching the Future of the Cloud]]></title>
-    <link href="http://osv.io/blog/blog/2015/02/02/mikelangelo/"/>
+    <link href="http://blog.osv.io//github/blog/2015/02/02/mikelangelo/"/>
     <updated>2015-02-02T20:54:23+02:00</updated>
-    <id>http://osv.io/blog/blog/2015/02/02/mikelangelo</id>
+    <id>http://blog.osv.io//github/blog/2015/02/02/mikelangelo</id>
     <content type="html"><![CDATA[<p><strong>By Nadav Har&#8217;El</strong></p>
 
 <p>What will the IaaS cloud of the future look like? How can we improve the
@@ -652,7 +652,7 @@ more agile? How do we write applications that run more efficiently and
 conveniently on the modern cloud? How can we run on the cloud applications
 which traditionally required specialized hardware, such as supercomputers?</p>
 
-<p><img src="http://osv.io/blog/images/mikelangelo.png" alt="Project Mikelangelo" /></p>
+<p><img src="http://blog.osv.io//github/images/mikelangelo.png" alt="Project Mikelangelo" /></p>
 
 <p>Cloudius Systems, together with eight leading industry and university
 partners, announced this month the <a href="http://mikelangelo-project.eu/">Mikelangelo</a> research project, which
@@ -723,9 +723,9 @@ on Twitter, for more links to research in progress.</strong></p>
   
   <entry>
     <title type="html"><![CDATA[Unikernel Research at the University of Utah]]></title>
-    <link href="http://osv.io/blog/blog/2015/01/15/performance-evaluation/"/>
+    <link href="http://blog.osv.io//github/blog/2015/01/15/performance-evaluation/"/>
     <updated>2015-01-15T01:54:23+02:00</updated>
-    <id>http://osv.io/blog/blog/2015/01/15/performance-evaluation</id>
+    <id>http://blog.osv.io//github/blog/2015/01/15/performance-evaluation</id>
     <content type="html"><![CDATA[<p>Ian Briggs, Matt Day, Eric Eide, Yuankai Guo, and
 Peter Marheine are conducting performance research
 on unikernels, and have thoughtfully posted some
@@ -734,7 +734,7 @@ preliminary work on OSv performance.</p>
 <p>The team tested OSv for DNS and HTTP, and got some
 encouraging results.</p>
 
-<p><a href="http://osv.io/blog/images/http-server-benchmark.png"><img src="http://osv.io/blog/images/http-server-benchmark.png" alt="HTTP server comparison" /></a></p>
+<p><a href="http://blog.osv.io//github/images/http-server-benchmark.png"><img src="http://blog.osv.io//github/images/http-server-benchmark.png" alt="HTTP server comparison" /></a></p>
 
 <p>The lighttpd web server on OSv performs consistently
 well up through 5000 requests/second.  And on DNS
@@ -745,7 +745,7 @@ lower latency.</p>
 <p>The preliminary paper is
 <a href="http://www.cs.utah.edu/~peterm/prelim-osv-performance.pdf">Performance Evaluation of OSv for Server
 Applications</a>
-(<a href="http://osv.io/blog/images/prelim-osv-performance.pdf">local copy</a>).</p>
+(<a href="http://blog.osv.io//github/images/prelim-osv-performance.pdf">local copy</a>).</p>
 
 <p>The researchers did run into a bug running OSv
 on Xen, so we&rsquo;re all looking forward to helping
@@ -759,12 +759,12 @@ on Twitter, for more links to OS research in progress.</p>
   
   <entry>
     <title type="html"><![CDATA[OSv Meetup Group in Bangalore, India]]></title>
-    <link href="http://osv.io/blog/blog/2015/01/07/meetup/"/>
+    <link href="http://blog.osv.io//github/blog/2015/01/07/meetup/"/>
     <updated>2015-01-07T17:54:23+02:00</updated>
-    <id>http://osv.io/blog/blog/2015/01/07/meetup</id>
+    <id>http://blog.osv.io//github/blog/2015/01/07/meetup</id>
     <content type="html"><![CDATA[<p>So far, OSv <a href="http://www.meetup.com/OSv-Developer-Meetup/">Meetups</a> have happened in Fremont and San Francisco, California, and Hertzeliya, Israel.  Next week, the Bangalore, India OSv Meetup is happening&mdash;details on the <a href="http://www.meetup.com/OSv-Developer-Meetup-Bangalore/">Bangalore Meetup page</a>.</p>
 
-<p><img src="http://osv.io/blog/images/meetup.jpg" alt="attendees" />
+<p><img src="http://blog.osv.io//github/images/meetup.jpg" alt="attendees" />
 <em>Attendees focus on building their applications on OSv in a California meetup last summer</em></p>
 
 <p>The topic for the first meeting, on Sunday January 11, is an OSv code walkthrough.</p>
@@ -776,9 +776,9 @@ on Twitter, for more links to OS research in progress.</p>
   
   <entry>
     <title type="html"><![CDATA[Image Building Tip: Make Clean Without Repeating Yourself]]></title>
-    <link href="http://osv.io/blog/blog/2014/12/17/make-clean-dont-repeat-yourself/"/>
+    <link href="http://blog.osv.io//github/blog/2014/12/17/make-clean-dont-repeat-yourself/"/>
     <updated>2014-12-17T07:10:31+02:00</updated>
-    <id>http://osv.io/blog/blog/2014/12/17/make-clean-dont-repeat-yourself</id>
+    <id>http://blog.osv.io//github/blog/2014/12/17/make-clean-dont-repeat-yourself</id>
     <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
 
 <p>What do we have to do in <code>make clean</code>?  Delete all the files that can be regenerated that we don&rsquo;t need to keep around.</p>
@@ -830,12 +830,12 @@ on Twitter, for more links to OS research in progress.</p>
   
   <entry>
     <title type="html"><![CDATA[OSv on the QEMU Advent Calendar]]></title>
-    <link href="http://osv.io/blog/blog/2014/12/12/advent/"/>
+    <link href="http://blog.osv.io//github/blog/2014/12/12/advent/"/>
     <updated>2014-12-12T00:10:31+02:00</updated>
-    <id>http://osv.io/blog/blog/2014/12/12/advent</id>
+    <id>http://blog.osv.io//github/blog/2014/12/12/advent</id>
     <content type="html"><![CDATA[<p>OSv is on the <a href="http://www.qemu-advent-calendar.org/#day-11">QEMU Advent Calendar</a> with a ready-to-download VM image.</p>
 
-<p><a href="http://www.qemu-advent-calendar.org/#day-11"><img src="http://osv.io/blog/images/day11.png" alt="day 11" /></a></p>
+<p><a href="http://www.qemu-advent-calendar.org/#day-11"><img src="http://blog.osv.io//github/images/day11.png" alt="day 11" /></a></p>
 
 <p>Not just a demo, it&rsquo;s a fully functional Redis data store with a web management console that you can try with a real Redis application.   There are more fun projects on the QEMU Advent Calendar site, too.</p>
 
@@ -844,7 +844,7 @@ on Twitter, for more links to OS research in progress.</p>
 
 <p>Can someone make a VM that&rsquo;s even smaller than an OSv one?  Looks like the answer is yes.</p>
 
-<p><a href="http://www.qemu-advent-calendar.org/#day-10"><img src="http://osv.io/blog/images/day10.png" alt="day 10" /></a></p>
+<p><a href="http://www.qemu-advent-calendar.org/#day-10"><img src="http://blog.osv.io//github/images/day10.png" alt="day 10" /></a></p>
 
 <p>Poor <a href="http://www.nyan.cat/original">Nyan Cat</a>, squashed to just 512 bytes (including a PC speaker version of the music) in the <a href="http://www.qemu-advent-calendar.org/#day-10">Day 10 download</a> from Max Reitz.  There&rsquo;s also vintage retrocomputing, some near-future 64-bit ARM action, and more.  Check it out: <a href="http://www.qemu-advent-calendar.org/">QEMU Advent Calendar</a>.</p>
 
@@ -854,9 +854,9 @@ on Twitter, for more links to OS research in progress.</p>
   
   <entry>
     <title type="html"><![CDATA[Making Spam Vanish&hellip;in the CLOUD]]></title>
-    <link href="http://osv.io/blog/blog/2014/12/05/spamsink/"/>
+    <link href="http://blog.osv.io//github/blog/2014/12/05/spamsink/"/>
     <updated>2014-12-05T00:10:31+02:00</updated>
-    <id>http://osv.io/blog/blog/2014/12/05/spamsink</id>
+    <id>http://blog.osv.io//github/blog/2014/12/05/spamsink</id>
     <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
 
 <p>We knew that spammers control a lot of bandwidth, because botnets.  So, for a long time, people thought that fighting spam by just accepting and discarding huge amounts of it would be counterproductive. The spammers get bandwidth for free, and servers are expensive.</p>
@@ -871,7 +871,7 @@ try to waste the spammer&rsquo;s bandwidth by fooling the sender into wasting pr
 
 <p>But in most cases, for a long time, our only hope for fighting spam was to batten down the hatches.  Assume that the spammers control more computing power and bandwidth than we do, and just do the best we can to filter it.</p>
 
-<p><img src="http://osv.io/blog/images/vortex.jpeg" alt="vortex image" /></p>
+<p><img src="http://blog.osv.io//github/images/vortex.jpeg" alt="vortex image" /></p>
 
 <p>Is that the best we can do?</p>
 
@@ -919,9 +919,9 @@ try to waste the spammer&rsquo;s bandwidth by fooling the sender into wasting pr
   
   <entry>
     <title type="html"><![CDATA[Containers, Containers, Containers! More Options for the Cloud]]></title>
-    <link href="http://osv.io/blog/blog/2014/12/03/docker-rocket/"/>
+    <link href="http://blog.osv.io//github/blog/2014/12/03/docker-rocket/"/>
     <updated>2014-12-03T00:10:31+02:00</updated>
-    <id>http://osv.io/blog/blog/2014/12/03/docker-rocket</id>
+    <id>http://blog.osv.io//github/blog/2014/12/03/docker-rocket</id>
     <content type="html"><![CDATA[<p><strong>By <a href="https://twitter.com/DorLaor/">Dor Laor</a></strong></p>
 
 <p>Everybody who uses containers has probably heard about <a href="https://coreos.com/blog/rocket">Rocket</a> by now. What does this <strike>fork</strike> re-implementation mean to the Docker community? Let’s dive in.</p>
@@ -939,16 +939,16 @@ try to waste the spammer&rsquo;s bandwidth by fooling the sender into wasting pr
 
 <p>Docker had become the hottest thing in tech, sometimes way too hot for reality (otherwise, why would one deploy Docker in a VM, incurring two tiers of management pain?). Beyond Google and AWS, even mighty Microsoft wanted a piece of the pie. We couldn’t believe our eyes, what an amazing meritocracy (no sarcasm). All the vendors of the world unite around one simple format.</p>
 
-<p><img src="http://osv.io/blog/images/meritocracy.png" alt="" /></p>
+<p><img src="http://blog.osv.io//github/images/meritocracy.png" alt="" /></p>
 
 <p>Yesterday CoreOS released a fork-like bomb in the form of Rocket. The reason
 is the very thing that makes Docker attractive, its simplicity, is also a disadvantage since it’s too complex to harness for security, SLA and diverse workloads.  Apparently CoreOS didn’t manage to get the Docker team to change the mainline code for it.  I guess it’s more than a NIH thing (Not Invented Here) but some limitation of its structure.</p>
 
-<p><img src="http://osv.io/blog/images/fight-time.png" alt="" /></p>
+<p><img src="http://blog.osv.io//github/images/fight-time.png" alt="" /></p>
 
 <p>This container diversity was expected although it saddens me to see it become an ugly fight:</p>
 
-<p><img src="http://osv.io/blog/images/docker-thread.png" alt="Twitter thread" /></p>
+<p><img src="http://blog.osv.io//github/images/docker-thread.png" alt="Twitter thread" /></p>
 
 <p>We believe that CoreOS has the upper hand when it comes to technology. Managing containers is straightforward, but these folks have the vehicle for deploying them. In addition they wrote cool distributed tools such as <code>etcd</code> and <code>fleet</code>. So while Docker controls the hub and the format, CoreOS leverages it to gain actual users (PR aside&hellip;)</p>
 
@@ -964,9 +964,9 @@ is the very thing that makes Docker attractive, its simplicity, is also a disadv
   
   <entry>
     <title type="html"><![CDATA[OSv Meetup at EBLUG: Intro Talk and Demo]]></title>
-    <link href="http://osv.io/blog/blog/2014/11/18/eblug/"/>
+    <link href="http://blog.osv.io//github/blog/2014/11/18/eblug/"/>
     <updated>2014-11-18T02:54:23+02:00</updated>
-    <id>http://osv.io/blog/blog/2014/11/18/eblug</id>
+    <id>http://blog.osv.io//github/blog/2014/11/18/eblug</id>
     <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
 
 <p><a href="http://osv.io/">OSv</a> is the simple, fast OS platform designed to run one application in the cloud, without the complexity of old-school OSs with their local users, permissions, and sevices.  Come see what it&rsquo;s all about, and enjoy free food and drink from East Bay LUG sponsor, Hurricane Electric.</p>
@@ -991,14 +991,14 @@ is the very thing that makes Docker attractive, its simplicity, is also a disadv
   
   <entry>
     <title type="html"><![CDATA[SSH Tip: Connecting to a Private Network Without Trusting the Bastion Host]]></title>
-    <link href="http://osv.io/blog/blog/2014/11/18/ssh-without-trusting-bastion-host/"/>
+    <link href="http://blog.osv.io//github/blog/2014/11/18/ssh-without-trusting-bastion-host/"/>
     <updated>2014-11-18T00:10:31+02:00</updated>
-    <id>http://osv.io/blog/blog/2014/11/18/ssh-without-trusting-bastion-host</id>
+    <id>http://blog.osv.io//github/blog/2014/11/18/ssh-without-trusting-bastion-host</id>
     <content type="html"><![CDATA[<p><strong>By Nadav Har&#8217;El</strong></p>
 
 <p>In a typical lab network configuration, one cannot just <code>ssh</code> or <code>scp</code> to the hosts behind the firewall (our company calls them after characters from Norse mythology: Loki, Muninn and friends).  Instead, you need to ssh to a bastion host, and from there connect to the internal systems.</p>
 
-<p><img src="http://osv.io/blog/images/ssh-user.jpeg" alt="ssh user" /><br><em>an ssh user connecting using a bastion host</em></p>
+<p><img src="http://blog.osv.io//github/images/ssh-user.jpeg" alt="ssh user" /><br><em>an ssh user connecting using a bastion host</em></p>
 
 <p>One can automate these two steps, with a command like</p>
 
@@ -1037,9 +1037,9 @@ is the very thing that makes Docker attractive, its simplicity, is also a disadv
   
   <entry>
     <title type="html"><![CDATA[OSv Early Access Private Beta]]></title>
-    <link href="http://osv.io/blog/blog/2014/11/13/osv-private-beta/"/>
+    <link href="http://blog.osv.io//github/blog/2014/11/13/osv-private-beta/"/>
     <updated>2014-11-13T18:10:31+02:00</updated>
-    <id>http://osv.io/blog/blog/2014/11/13/osv-private-beta</id>
+    <id>http://blog.osv.io//github/blog/2014/11/13/osv-private-beta</id>
     <content type="html"><![CDATA[<p>Cloudius Systems is introducing an early access version of OSv, the lightweight open-source OS optimized for large cloud workloads, on November 13.  <a href="http://osv.io/beta-release/">Beta program information</a> is now available.</p>
 
 <p><img src="http://www.cloudius-systems.com/images/mouse.jpeg" alt="lab mouse" /></p>
@@ -1062,9 +1062,9 @@ is the very thing that makes Docker attractive, its simplicity, is also a disadv
   
   <entry>
     <title type="html"><![CDATA[On Stage Thursday at Amazon re:Invent]]></title>
-    <link href="http://osv.io/blog/blog/2014/11/12/amazon/"/>
+    <link href="http://blog.osv.io//github/blog/2014/11/12/amazon/"/>
     <updated>2014-11-12T18:10:31+02:00</updated>
-    <id>http://osv.io/blog/blog/2014/11/12/amazon</id>
+    <id>http://blog.osv.io//github/blog/2014/11/12/amazon</id>
     <content type="html"><![CDATA[<p>If you&rsquo;re at the Amazon re:Invent show, don&rsquo;t miss <a href="https://www.portal.reinvent.awsevents.com/connect/sessionDetail.ww?SESSION_ID=9806">3rd Annual Startup Launches moderated by Werner Vogels</a>. Cloudius Systems CEO Dor Laor will be there, to talk about&hellip;.but we can&rsquo;t tell you that yet.</p>
 
 <ul>
@@ -1079,7 +1079,7 @@ is the very thing that makes Docker attractive, its simplicity, is also a disadv
 <p>If you can&rsquo;t wait, come over to K14 in the exhibit hall for an OSv demo.
 We&rsquo;ve got some <a href="http://www.mcmelectronics.com/product/83-16333RK">Raspberry Pi media kits</a> to give away (to especially intense cloud users who need some real hardware to restore balance to their lives.)</p>
 
-<p><img src="http://osv.io/blog/images/kiosk.png" alt="demo pod" /><br><em>Unikernels don&rsquo;t need big heavyweight booths.</em></p>
+<p><img src="http://blog.osv.io//github/images/kiosk.png" alt="demo pod" /><br><em>Unikernels don&rsquo;t need big heavyweight booths.</em></p>
 
 <p>You can keep up with the latest OSv news from this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.  Hope to see you at the show.</p>
 ]]></content>
@@ -1087,14 +1087,14 @@ We&rsquo;ve got some <a href="http://www.mcmelectronics.com/product/83-16333RK">
   
   <entry>
     <title type="html"><![CDATA[Raspberry Pi at Amazon Re:invent]]></title>
-    <link href="http://osv.io/blog/blog/2014/11/09/rpi/"/>
+    <link href="http://blog.osv.io//github/blog/2014/11/09/rpi/"/>
     <updated>2014-11-09T21:10:31+02:00</updated>
-    <id>http://osv.io/blog/blog/2014/11/09/rpi</id>
+    <id>http://blog.osv.io//github/blog/2014/11/09/rpi</id>
     <content type="html"><![CDATA[<p>Want to see us build a virtual machine for the Amazon cloud at the <a href="https://reinvent.awsevents.com/">re:Invent show</a>?  Come on over to our booth (K14) and we&rsquo;ll show you.  It&rsquo;s simple to add a virtual appliance build step to any application build.</p>
 
 <p>Well, that took nine seconds.  What else can we do?  How about a hardware giveaway?  Since your virtual machines are going to take so little of your time, you should have plenty of time to play with a fun hardware kit.</p>
 
-<p><img src="http://osv.io/blog/images/rpi.jpeg" alt="Raspberry Pi media kit" /></p>
+<p><img src="http://blog.osv.io//github/images/rpi.jpeg" alt="Raspberry Pi media kit" /></p>
 
 <p>We&rsquo;ve got some <a href="http://www.mcmelectronics.com/product/83-16333RK">Raspberry Pi media kits</a> to give away.  Not just the board, this kit includes</p>
 
@@ -1119,9 +1119,9 @@ We&rsquo;ve got some <a href="http://www.mcmelectronics.com/product/83-16333RK">
   
   <entry>
     <title type="html"><![CDATA[OSv 0.14 Alpha Includes Management Dashboard]]></title>
-    <link href="http://osv.io/blog/blog/2014/11/04/dashboard/"/>
+    <link href="http://blog.osv.io//github/blog/2014/11/04/dashboard/"/>
     <updated>2014-11-04T07:10:31+02:00</updated>
-    <id>http://osv.io/blog/blog/2014/11/04/dashboard</id>
+    <id>http://blog.osv.io//github/blog/2014/11/04/dashboard</id>
     <content type="html"><![CDATA[<p><strong>By Tzach Livyatan</strong></p>
 
 <p>We are pleased to announce the OSv 0.14 Alpha Release.</p>

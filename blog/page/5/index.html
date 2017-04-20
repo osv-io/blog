@@ -18,14 +18,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://osv.io/blog/blog/page/5">
-  <link href="/blog/favicon.ico" rel="icon">
-  <link href="/blog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link rel="canonical" href="http://blog.osv.io//github/blog/page/5">
+  <link href="/favicon.ico" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
-  <script src="/blog/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
-  <script src="/blog/javascripts/octopress.js" type="text/javascript"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
 <!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -52,8 +52,8 @@
     <div class="topMenu">
         <ul class="nav menu">
             <li><a href="http://osv.io">Home</a></li>
-            <li class=""><a href="/blog/">Blog</a></li>
-            <li class=""><a href="/blog/blog/archives">Archives</a></li>
+            <li class=""><a href="/">Blog</a></li>
+            <li class=""><a href="/blog/archives">Archives</a></li>
         </ul>
         <ul class="subscription" data-subscription="rss">
             <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
@@ -62,7 +62,7 @@
         
         <form action="https://www.google.com/search" method="get">
             <fieldset role="search">
-                <input type="hidden" name="q" value="site:osv.io/blog" />
+                <input type="hidden" name="q" value="site:blog.osv.io//github" />
                 <input class="search" type="text" name="q" results="0" placeholder="Search"/>
             </fieldset>
         </form>
@@ -120,7 +120,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/blog/2014/06/19/containers-hypervisors-part-2/">Hypervisors Are Dead, Long Live the Hypervisor (Part 2)</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/06/19/containers-hypervisors-part-2/">Hypervisors Are Dead, Long Live the Hypervisor (Part 2)</a></h1>
     
     
       <p class="meta">
@@ -169,7 +169,7 @@
 a. Public image repository &ndash; immediate search and download of containers pre-loaded with dependencies, and
 b. Dead-simple execution &ndash; a one-liner command for running a container.</p>
 
-<p><img src="/blog/images/docker.png" alt="Docker diagram" /></p>
+<p><img src="/images/docker.png" alt="Docker diagram" /></p>
 
 <p><strong><a href="https://www.docker.io/the_whole_story/">Docker gives container users a simple build process and a public repository system.</a></strong></p>
 
@@ -217,7 +217,7 @@ Today there isn&rsquo;t a switch or a storage system without VM integration or V
 
 <p>The long history of hypervisors means that the industry has developed a huge collection of tools for real-world administration needs.</p>
 
-<p><img src="/blog/images/esx2.jpg" alt="CPM monitoring in VMware" /></p>
+<p><img src="/images/esx2.jpg" alt="CPM monitoring in VMware" /></p>
 
 <p><strong><a href="http://robertmorannet.blogspot.com/2010/08/vmware-vsphere-screenshots.html">Blogger Robert Moran shows a screenshot of CPU monitoring in VMware’s vSphere</a>.</strong></p>
 
@@ -263,7 +263,7 @@ The first stage would be to gain control of the application within the container
 
 <blockquote><p>With containers you&rsquo;re starting with everything open and then going around trying to close all the holes; if you miss even a single one, bam, you lose. With VMs, you start with almost everything closed, and selectively open things up; that makes a big difference.</p></blockquote>
 
-<p><strong>This is part 2 of a 3-part series.</strong> Please subscribe to our <a href="/blog/atom.xml">feed</a> or follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> to get a notification when part 3 is available.</p>
+<p><strong>This is part 2 of a 3-part series.</strong> Please subscribe to our <a href="/atom.xml">feed</a> or follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> to get a notification when part 3 is available.</p>
 </div>
   
   
@@ -276,7 +276,7 @@ The first stage would be to gain control of the application within the container
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/blog/2014/06/19/containers-hypervisors-part-1/">Hypervisors Are Dead, Long Live the Hypervisor (Part 1)</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/06/19/containers-hypervisors-part-1/">Hypervisors Are Dead, Long Live the Hypervisor (Part 1)</a></h1>
     
     
       <p class="meta">
@@ -315,13 +315,13 @@ The first stage would be to gain control of the application within the container
 
 <p>What is virtualization anyway?</p>
 
-<p><img src="/blog/images/virtualization.png" alt="Virtualization diagram" /></p>
+<p><img src="/images/virtualization.png" alt="Virtualization diagram" /></p>
 
 <p>A hypervisor is a software component (potentially assisted by hardware) that allows us to run multiple operating systems on the same physical machine. The overlay OS is called the guest OS or simply, a Virtual Machine (VM). The guest OS may not even be aware it is running on virtual hardware.</p>
 
 <p>The interface between the guest and the host is the hardware specification. It covers the CPU itself and any other hardware devices, from BIOS to NICs, SCSI adapters, GPUs and memory.</p>
 
-<p><img src="/blog/images/IBM360-67AtUmichWithMikeAlexander.jpg" alt="IBM System/360" /></p>
+<p><img src="/images/IBM360-67AtUmichWithMikeAlexander.jpg" alt="IBM System/360" /></p>
 
 <p><strong>IBM, together with MIT and the University of Michigan, pioneered hypervisor technology on System/360 and System/370 mainframes, beginning in the 1960s.</strong></p>
 
@@ -331,11 +331,11 @@ The first stage would be to gain control of the application within the container
 
 <p>Virtualization didn’t make it to commodity systems until the <a href="http://www.vmware.com/company/news/mediaresource/milestones">release of VMware Workstation in 1999</a>. In the early 2000s, hypervisors were based on pure software and were mostly useful for development and testing.  VMware initially used a technique called dynamic translation to intercept privileged operations by the guest operating system. When the guest accessed “hardware”, VMWare rewrote the instructions on the fly, to protect itself from the guest and isolate guests from each other.</p>
 
-<p><img src="/blog/images/vmware-logo.png" alt="VMware logo" /></p>
+<p><img src="/images/vmware-logo.png" alt="VMware logo" /></p>
 
 <p>Later on, the open source Xen hypervisor project coined the term paravirtualization (PV). PV guests, which have to be specially modified to run on a PV host, do not execute privileged instructions themselves but ask the hypervisor to do it on their behalf.</p>
 
-<p><img src="/blog/images/xen-logo.png" alt="Xen logo" /></p>
+<p><img src="/images/xen-logo.png" alt="Xen logo" /></p>
 
 <p>Eventually, Intel, AMD and ARM implemented support for virtualization extensions. A special host mode allows running guest code on the bare CPU, getting near 100% of bare metal throughput for CPU-intensive workloads. In parallel, the memory management and the IO path received attention as well with technologies such as nested paging (virtual memory), virtual interrupt controllers, single-root I/O virtualization (SRIOV) and other optimizations.</p>
 
@@ -355,7 +355,7 @@ The first stage would be to gain control of the application within the container
 
 <p>However, in order to virtualize your workload, one must deploy a full fledged guest operating system onto every VM instance. This new layer is a burden in terms of management and in terms of performance overhead. We’ll look at one of the other approaches to compartmentalization next time: containers.</p>
 
-<p><strong>This is part 1 of a 3-part series.</strong>  <a href="http://osv.io/blog/blog/2014/06/19/containers-hypervisors-part-2/">Part 2 is now available</a>.  Please subscribe to our <a href="/blog/atom.xml">feed</a> or follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> to get a notification of future posts.</p>
+<p><strong>This is part 1 of a 3-part series.</strong>  <a href="http://osv.io/blog/blog/2014/06/19/containers-hypervisors-part-2/">Part 2 is now available</a>.  Please subscribe to our <a href="/atom.xml">feed</a> or follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> to get a notification of future posts.</p>
 
 <p>Photo credit, IBM 360: <a href="http://commons.wikimedia.org/wiki/File:IBM360-67AtUmichWithMikeAlexander.jpg">Dave Mills for Wikimedia Commons</a></p>
 </div>
@@ -370,7 +370,7 @@ The first stage would be to gain control of the application within the container
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/blog/2014/06/18/usenix-atc/">Nadav Har’El Presenting OSv at USENIX June 19th</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/06/18/usenix-atc/">Nadav Har’El Presenting OSv at USENIX June 19th</a></h1>
     
     
       <p class="meta">
@@ -400,7 +400,7 @@ The first stage would be to gain control of the application within the container
 
 <p>Here&rsquo;s a quick preview of some of the performance results that Nadav will show:</p>
 
-<p><img src="/blog/images/usenix-paper.png" alt="table from upcoming paper" /></p>
+<p><img src="/images/usenix-paper.png" alt="table from upcoming paper" /></p>
 
 <p>It&rsquo;s also your opportunity to ask Nadav some hard questions.</p>
 
@@ -419,7 +419,7 @@ The first stage would be to gain control of the application within the container
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/blog/2014/06/06/capstan-push/">Using Capstan With Local OSv Images</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/06/06/capstan-push/">Using Capstan With Local OSv Images</a></h1>
     
     
       <p class="meta">
@@ -475,7 +475,7 @@ The first stage would be to gain control of the application within the container
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/blog/2014/05/19/usenix-atc/">OSv Paper Coming to USENIX in June</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/05/19/usenix-atc/">OSv Paper Coming to USENIX in June</a></h1>
     
     
       <p class="meta">
@@ -533,7 +533,7 @@ in Philadelphia!</p>
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/blog/2014/05/13/osv-on-64-bit-arm/">Interview: OSv on 64-bit ARM Systems</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/05/13/osv-on-64-bit-arm/">Interview: OSv on 64-bit ARM Systems</a></h1>
     
     
       <p class="meta">
@@ -611,15 +611,15 @@ and Raspberry Pis?</strong></p>
 
 <h2>About</h2>
 
-<p><img src="/blog/images/Paul_Mundt.jpg" alt="Paul Mundt" /></p>
+<p><img src="/images/Paul_Mundt.jpg" alt="Paul Mundt" /></p>
 
 <p><strong>Paul Mundt</strong> is the CTO of OS &amp; Virtualization at Huawei’s European Research Center in Munich, Germany, where he manages the Euler department (including OS &amp; Virtualization R&amp;D, as well as new CPU development and support). Paul first joined Huawei at the beginning of 2013 as the Chief Architect of Huawei’s Server OS division, responsible for overall architecture and strategy. Prior to that, as the Linux Kernel Architect at Renesas in Tokyo, Paul was responsible for leading the Linux group within Renesas for seven years, establishing both the initial strategy and vision while taking the group from zero in-house support or upstream engagement to supporting hundreds of different CPUs across the entire MCU/MPU spectrum and becoming a consistent top-10 contributor to the Linux kernel, which carries on to this day. He has more than 15 years of Linux kernel development experience, across a diverse range of domains (HPC, embedded, enterprise, carrier grade), and has spent most of that time as the maintainer of various subsystems (primarily in the areas of core kernel infrastructure, CPU architectures, memory management, and file systems). He previously organized and chaired the Memory Management Working Group within the CE Linux Forum, where he advocated the convergence of Enterprise and Embedded technologies, resulting in the creation of Asymmetric NUMA, as well as early transparent superpage/large TLB adoption. He is a voting member of the OASIS Virtual I/O Device (VIRTIO) Technical Committee and the HSA Foundation.</p>
 
-<p><img src="/blog/images/Jani_Kokkonen.jpg" alt="Jani Kokkonen" /></p>
+<p><img src="/images/Jani_Kokkonen.jpg" alt="Jani Kokkonen" /></p>
 
 <p><strong>Jani Kokkonen</strong> received his master’s degree in 2000 from the Technical University of Helsinki, Finland. He went to pursue research and development job in Nokia Networks. The work concentrated in research of different transport technologies on various radio access networks. This was followed by research and development activities on virtualization technologies on 3GPP radio and core network elements. Work consisted also evaluation of hardware extensions for virtualization support on various embedded multicore chips. He has been as virtualization architect in Huawei ERC Euler Department since September 2011. The work in Huawei has concentrated on research and development on QEMU/KVM on ARM and Intel platforms varying from CPU to network technologies, with his most recent effort focusing on ARM64 memory management where he is responsible for the MMU backend in the Aarch64 OSv port, as well as leading the OSv team. He is a member of the OASIS Virtual I/O Device (VIRTIO) Technical Committee and the Multicore Association.</p>
 
-<p><img src="/blog/images/Claudio_Fontana.jpg" alt="Claudio Fontana" /></p>
+<p><img src="/images/Claudio_Fontana.jpg" alt="Claudio Fontana" /></p>
 
 <p><strong>Claudio Fontana</strong> received his Laurea in Computer Science in 2005 at the University of Trento, Italy, discussing a thesis on frameworks for the evaluation of taxonomy matching algorithms. He went on to pursue a software engineering opportunity in Zurich, where he worked on medium-scale (100s hosts) distributed systems. This was followed by a software engineering position in Amsterdam, working on messaging, routing, firewalls and billing systems. He has been with Huawei since December 2011. He is currently working in the virtualization area (Linux/KVM/QEMU). He is part of the early enablement effort for the ARM 64bit architecture (ARMv8 AArch64), and has been a maintainer and contributor of Free and Open Source projects, lately involving mostly QEMU binary translation (as QEMU Aarch64 TCG maintainer) and the OSv Operating System (as Aarch64 maintainer). He also spent some time as a member of Linaro&rsquo;s Virtualization team, where he focused on early Aarch64 enablement.</p>
 
@@ -638,7 +638,7 @@ and Raspberry Pis?</strong></p>
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/blog/2014/05/07/capstan-bridge/">Bridged Networking With Capstan</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/05/07/capstan-bridge/">Bridged Networking With Capstan</a></h1>
     
     
       <p class="meta">
@@ -702,7 +702,7 @@ is executing for you.)</p>
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/blog/2014/04/25/meetup/">New OSv Meetup Group</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/04/25/meetup/">New OSv Meetup Group</a></h1>
     
     
       <p class="meta">
@@ -729,7 +729,7 @@ is executing for you.)</p>
 
 <p>We held the first meeting of the OSv <a href="http://www.meetup.com/OSv-Developer-Meetup/">Meetup group</a> in San Francisco this week, and got 14 participants from the Apache, Big Data, and OSv communities, as well as a few meetup.com users interested in cloud computing who just came along serendipitously.</p>
 
-<p><img src="/blog/images/meetup.jpg" alt="attendees" /></p>
+<p><img src="/images/meetup.jpg" alt="attendees" /></p>
 
 <p>Thanks to our hosts at <a href="http://ohmdata.com/">OhmData</a> who made their groovy South of Market office space available, and thanks to our attendees for coming in to try out OSv.  Looking forward to seeing the results of your initial experiments.</p>
 
@@ -748,7 +748,7 @@ is executing for you.)</p>
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/blog/2014/04/22/riemann-on-osv/">Riemann - a Clojure Application on OSv</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/04/22/riemann-on-osv/">Riemann - a Clojure Application on OSv</a></h1>
     
     
       <p class="meta">
@@ -781,7 +781,7 @@ is executing for you.)</p>
   
   
     <footer>
-      <a rel="full-article" href="/blog/blog/2014/04/22/riemann-on-osv/">Read more&#8230;</a>
+      <a rel="full-article" href="/blog/2014/04/22/riemann-on-osv/">Read more&#8230;</a>
     </footer>
   
 
@@ -793,7 +793,7 @@ is executing for you.)</p>
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/blog/2014/04/19/spinlock-free/">Spinlock-free OS Design for Virtualization</a></h1>
+      <h1 class="entry-title"><a href="/blog/2014/04/19/spinlock-free/">Spinlock-free OS Design for Virtualization</a></h1>
     
     
       <p class="meta">
@@ -822,7 +822,7 @@ is executing for you.)</p>
 
 <p>In any situation where code running on multiple CPUs might read or write the  same data, typical SMP operating systems use spinlocks. One CPU acquires the lock using an atomic test-and-set operation, and other CPUs that need the data must execute a busy-loop until they can acquire the lock themselves. Can I have the data? No. Can I have the data? No. Can I have the data? No. When an OS runs on bare hardware, a spinlock might just waste a little electricity. OS developers often use other more sophisticated locking techniques where they can, and try to reserve spinlocks for short-term locking of critical items.</p>
 
-<p><img src="/blog/images/apachecon.jpg" alt="OSv hacking at Apachecon 2014" /> <i>Getting some high-performance web applications running on OSv at ApacheCON 2014</i></p>
+<p><img src="/images/apachecon.jpg" alt="OSv hacking at Apachecon 2014" /> <i>Getting some high-performance web applications running on OSv at ApacheCON 2014</i></p>
 
 <p>The problem comes in when you add virtualization. A physical CPU that holds a spinlock is actually working. The other CPUs in the system, “spinning” away waiting for the lock, are at least waiting for something that’s actually in progress. On a well-designed OS, the lock holder will be done quickly. When the OS is running under virtualization, though, it’s another story. The hypervisor might pause a virtual CPU at times when the guest OS can’t predict. As <a href="http://www.betriebssysteme.org/Aktivitaeten/Treffen/2008-Garching/Programm/docs/Abstract_Friebel.pdf">Thomas Friebel and Sebastian Biemueller described</a> (PDF) in “How to Deal with Lock Holder Preemption”,</p>
 
@@ -848,11 +848,11 @@ is executing for you.)</p>
   
   <div class="pagination">
     
-      <a class="prev" href="/blog/blog/page/6/">&larr; Older</a>
+      <a class="prev" href="/blog/page/6/">&larr; Older</a>
     
-    <a href="/blog/blog/archives">Blog Archives</a>
+    <a href="/blog/archives">Blog Archives</a>
     
-    <a class="next" href="/blog/blog/page/4/">Newer &rarr;</a>
+    <a class="next" href="/blog/page/4/">Newer &rarr;</a>
     
   </div>
 </div>
@@ -863,23 +863,23 @@ is executing for you.)</p>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/blog/2016/04/21/nfs-on-osv/">NFS on OSv or “How I Learned to Stop Worrying About Memory Allocations and Love the Unikernel”</a>
+        <a href="/blog/2016/04/21/nfs-on-osv/">NFS on OSv or “How I Learned to Stop Worrying About Memory Allocations and Love the Unikernel”</a>
       </li>
     
       <li class="post">
-        <a href="/blog/blog/2016/03/08/project-mikelangelo/">Project Mikelangelo Update</a>
+        <a href="/blog/2016/03/08/project-mikelangelo/">Project Mikelangelo Update</a>
       </li>
     
       <li class="post">
-        <a href="/blog/blog/2015/04/27/docker/">Building OSv Images Using Docker</a>
+        <a href="/blog/2015/04/27/docker/">Building OSv Images Using Docker</a>
       </li>
     
       <li class="post">
-        <a href="/blog/blog/2015/04/08/makefile/">Re-&#8220;make&#8221;-ing OSv</a>
+        <a href="/blog/2015/04/08/makefile/">Re-&#8220;make&#8221;-ing OSv</a>
       </li>
     
       <li class="post">
-        <a href="/blog/blog/2015/04/03/cloudrouter/">Wiki Watch: CloudRouter Images Available</a>
+        <a href="/blog/2015/04/03/cloudrouter/">Wiki Watch: CloudRouter Images Available</a>
       </li>
     
   </ul>
