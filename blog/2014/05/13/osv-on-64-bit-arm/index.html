@@ -1,0 +1,399 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Interview: OSv on 64-bit ARM Systems - OSv Blog</title>
+  <meta name="author" content="Cloudius Systems">
+
+  
+  <meta name="description" content="Q&amp;A with Paul Mundt, Jani Kokkonen, and Claudio Fontana Paul Mundt is CTO of OS &amp; Virtualization at Huawei, while Jani and Claudio are both &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://osv.io/blog/blog/2014/05/13/osv-on-64-bit-arm">
+  <link href="/blog/favicon.ico" rel="icon">
+  <link href="/blog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
+  <script src="/blog/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/blog/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+<!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="http://osv.io/js/cycle.js"></script>
+<script src="http://osv.io/js/js.js" language="javascript"></script-->
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-43975320-1', 'osv.io');
+  ga('send', 'pageview');
+</script>
+
+  
+
+</head>
+
+<body   >
+  <div class="wrap">
+  <div class="header"> <a class="logo" href="http://osv.io"><img src="http://osv.io/images/logo.jpg" /> </a>
+    <div class="topMenu">
+        <ul class="nav menu">
+            <li><a href="http://osv.io">Home</a></li>
+            <li class=""><a href="/blog/">Blog</a></li>
+            <li class=""><a href="/blog/blog/archives">Archives</a></li>
+        </ul>
+        <ul class="subscription" data-subscription="rss">
+            <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+            
+        </ul>
+        
+        <form action="https://www.google.com/search" method="get">
+            <fieldset role="search">
+                <input type="hidden" name="q" value="site:osv.io/blog" />
+                <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+            </fieldset>
+        </form>
+        
+    </div>
+</div>
+<div class="mobile header">
+    <a class="logo" href="http://osv.io/">
+        <img src="http://osv.io/images/mobileLogo.jpg"/>
+    </a>
+
+    <div class="mobile-topMenu">
+        <a href="javascript:void(0)" class="mobileMenuLink">&nbsp;</a>
+        <div class="theMobileMenu">
+            <ul class="nav menu">
+                <li class=""><a href="" >Home</a></li>
+                <li class="deeper parent"><a href="/users" >Users</a>
+                    <ul class="nav-child unstyled small">
+                        
+                    </ul>
+                </li>
+                <li class="deeper parent"><a href="/dev" >Development</a>
+                    <ul class="nav-child unstyled small">
+                        
+                    </ul>
+                </li>
+                <li class="deeper parent"><a href="/community" >Community</a>
+                    <ul class="nav-child unstyled small">
+                        
+                    </ul>
+                </li>
+                <li><a href="/contact/" >Contact</a></li>
+            </ul>
+        </div>
+        <script>
+            jQuery(document).ready(function(e) {
+                $('.mobileMenuLink').click(function(e) {
+                    $(this).toggleClass('active');
+                    $('.theMobileMenu').slideToggle();
+                });
+            });
+        </script>
+    </div>
+</div>
+<div class="mobile mobilePageTitle">Interview: OSv on 64-bit ARM systems</div>
+
+
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Interview: OSv on 64-bit ARM Systems</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-13T06:54:23+03:00" pubdate data-updated="true">May 13<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h2>Q&amp;A with Paul Mundt,  Jani Kokkonen, and Claudio Fontana</h2>
+
+<p>Paul Mundt is CTO of OS &amp; Virtualization at Huawei, while Jani and Claudio are both Virtualization Architects on Huawei&rsquo;s virtualization team. All are based in Munich, which is the headquarters for Huawei’s European Research Center. The company also has a team of OSv developers in Hangzhou, China, who are focused on adaptation of OSv to Huawei&rsquo;s x86-based enterprise servers.</p>
+
+<p><strong>Q: ARM processors are everywhere.  What are the important differences
+between the Aarch64 hardware that you&rsquo;re targeting with the OSv port and
+the garden-variety ARM processors that we have in our phones, toasters,
+and Raspberry Pis?</strong></p>
+
+<p>Other than the relatively obvious architectural differences in going from a 32-bit to a 64-bit architecture (more general purpose registers, address space, etc), there are quite a number of fundamental changes in v8 that considerably clean up the architecture in contrast to earlier versions.</p>
+
+<p>One of the more substantial changes is the new exception and privilege model, with 4 exception levels now taking the place of v7&rsquo;s assortment of processor modes. The new privilege levels are much more in line with conventional CPU privilege rings (eg, x86), even though for whatever reason the numbering has been inverted &mdash; now with EL3 being the most privileged, and EL0 being the least.</p>
+
+<p>Of specific relevance to the OSv port, through its heavy use of C++11/C1x atomic operations and memory model, are the improvements to the CPU&rsquo;s own memory and concurrency model. In contrast to x86, v7 and earlier adopt a weak memory model for better energy efficiency, but have always been terrible at sequentially consistent (SC) atomics as a result. In v8, the weak memory model has been retained, but special attention has also been paid to improving the deficiencies in SC atomics, resulting in the addition of load-acquire/store-release instruction pairs that work across the entire spectrum of general purpose and exclusive loads/stores. This places the architecture in direct alignment with the emerging standardization occurring in C++11/C1x, and has simplified much of the porting work in this area.</p>
+
+<p>Beyond this (while not strictly v8-specific) there are also a new range of virtualization extensions to the interrupt controller that we can take advantage of, but unfortunately this part of the IP is not yet finalized and remains under NDA.</p>
+
+<p>As our semiconductor company (HiSilicon) produces its own Aarch64 CPUs, we have also made a number of our own changes to the microarchitecture to better fit our workloads, especially in the areas of the cache and virtual memory system architecture, virtualization extensions, interconnects, and so on.</p>
+
+<p><strong>Q: What class of applications is your team planning to run on OSv?</strong></p>
+
+<p>We see many different potential applications for OSv within Huawei. While OSv is primarily touted as a lightweight cloud OS, the area that is more interesting for my team is its potential as a lightweight kernel for running individual applications directly on the hypervisor, as well as its ability to be used as an I/O or compute node kernel in the dataplane through virtio.</p>
+
+<p>Tight coupling of the JVM to the hypervisor is also an area that we are interested in, particularly as we look to new directions in heterogeneous computing emerging through OpenJDK Sumatra, Aparapi, and the on-going work by the HSA Foundation in which we are also engaged.</p>
+
+<p>Over the next year or so we also expect to see the JVM support maturing, to the point where it should also become possible to run some of the heavier weight big data stacks, but there is a long way to go first.</p>
+
+<p><strong>Q:  When you&rsquo;re considering using OSv as a lightweight kernel for running applications directly on the hypervisor, are you considering using it  without a local filesystem?  (I understand OSv can boot in about 1/10th the time without ZFS.)</strong></p>
+
+<p>ZFS is indeed quite heavyweight for our needs, and indeed, up until this stage in the porting effort we have largely been able to avoid it, but this will obviously not be the long-term case as we look to a solution we can bring to our customers.</p>
+
+<p>In addition to the boot time issues you have mentioned, the ZFS adaptive replacement cache (ARC) and page cache interactivity problems with large mmap()&rsquo;s is an area of concern for some of our potential users, so this is something that we are also closely monitoring, particularly as we think about other ways we might utilize OSv for other applications in the future.</p>
+
+<p>That being said, at the moment we basically see a few different directions to go on the file system side (and by extension, the VFS layer) for our more immediate applications:</p>
+
+<p>1) Simple in-memory file systems with substantially reduced functionality that we can use for scenarios like dataplane applications or I/O nodes where we need no persistent storage. In these cases as we don&rsquo;t even need to support file I/O, we will likely be carrying out some customization and optimizations in this area. This is obviously in contrast to the compute node and control plane side, which we primarily intend to run under Linux in parallel for now.</p>
+
+<p>2) Adaptation for phase change and other non-volatile memories. OSv has a much lighter weight stack with no real legacy at the moment, so fits the role of testbed quite well in terms of experimenting with the best way to tie these technologies in for different deployment scenarios, particularly under a layer of virtualization. In the long run we would naturally expect the results of this work to transfer to the Linux kernel, too.</p>
+
+<p>3) Global and distributed filesystems &mdash; initially across OSv instances, and then across to Linux. This also has implications for the underlying transport mechanisms, particularly as we look to things like lightweight paravirtualized RDMA and inter-VM communication.</p>
+
+<p><strong>Q:  Which hypervisor or hypervisors are you using?</strong></p>
+
+<p>While Huawei is actively engaged across many different hypervisors, as my department (in which most of us have a Linux kernel development background) is quite focused on working close to the metal and on performance related issues, KVM is our primary focus.</p>
+
+<p>We have previously done a fair bit of work with guest OS real-time, inter-VM communications, and I/O virtualization enhancements on ARM, so continuing with KVM also makes the most sense for us and our customers.</p>
+
+<p>As one of the main focuses for my OS team is in heterogeneous computing, we also aim to leverage and contribute to much of the work surrounding accelerator, domain processor, and heterogeneous system architecture virtualization under KVM, although much of this is tied up in various European Union framework programmes (eg, FP7-ICT, H2020) at the moment. OSv will also continue to play an important role in these areas as we move forward.</p>
+
+<p><strong>Q: Anything else that you would like to add?</strong></p>
+
+<p>Only that now is an exciting time to be in OSv development. The OS has a lot of potential and is still very much in its infancy, which also makes it an excellent target for trying out new technical directions. I would also encourage people who are not necessarily cloud-focused to look at the broader potential for the system, as there&rsquo;s certainly a lot of interesting development to get involved in.</p>
+
+<h2>About</h2>
+
+<p><img src="/blog/images/Paul_Mundt.jpg" alt="Paul Mundt" /></p>
+
+<p><strong>Paul Mundt</strong> is the CTO of OS &amp; Virtualization at Huawei’s European Research Center in Munich, Germany, where he manages the Euler department (including OS &amp; Virtualization R&amp;D, as well as new CPU development and support). Paul first joined Huawei at the beginning of 2013 as the Chief Architect of Huawei’s Server OS division, responsible for overall architecture and strategy. Prior to that, as the Linux Kernel Architect at Renesas in Tokyo, Paul was responsible for leading the Linux group within Renesas for seven years, establishing both the initial strategy and vision while taking the group from zero in-house support or upstream engagement to supporting hundreds of different CPUs across the entire MCU/MPU spectrum and becoming a consistent top-10 contributor to the Linux kernel, which carries on to this day. He has more than 15 years of Linux kernel development experience, across a diverse range of domains (HPC, embedded, enterprise, carrier grade), and has spent most of that time as the maintainer of various subsystems (primarily in the areas of core kernel infrastructure, CPU architectures, memory management, and file systems). He previously organized and chaired the Memory Management Working Group within the CE Linux Forum, where he advocated the convergence of Enterprise and Embedded technologies, resulting in the creation of Asymmetric NUMA, as well as early transparent superpage/large TLB adoption. He is a voting member of the OASIS Virtual I/O Device (VIRTIO) Technical Committee and the HSA Foundation.</p>
+
+<p><img src="/blog/images/Jani_Kokkonen.jpg" alt="Jani Kokkonen" /></p>
+
+<p><strong>Jani Kokkonen</strong> received his master’s degree in 2000 from the Technical University of Helsinki, Finland. He went to pursue research and development job in Nokia Networks. The work concentrated in research of different transport technologies on various radio access networks. This was followed by research and development activities on virtualization technologies on 3GPP radio and core network elements. Work consisted also evaluation of hardware extensions for virtualization support on various embedded multicore chips. He has been as virtualization architect in Huawei ERC Euler Department since September 2011. The work in Huawei has concentrated on research and development on QEMU/KVM on ARM and Intel platforms varying from CPU to network technologies, with his most recent effort focusing on ARM64 memory management where he is responsible for the MMU backend in the Aarch64 OSv port, as well as leading the OSv team. He is a member of the OASIS Virtual I/O Device (VIRTIO) Technical Committee and the Multicore Association.</p>
+
+<p><img src="/blog/images/Claudio_Fontana.jpg" alt="Claudio Fontana" /></p>
+
+<p><strong>Claudio Fontana</strong> received his Laurea in Computer Science in 2005 at the University of Trento, Italy, discussing a thesis on frameworks for the evaluation of taxonomy matching algorithms. He went on to pursue a software engineering opportunity in Zurich, where he worked on medium-scale (100s hosts) distributed systems. This was followed by a software engineering position in Amsterdam, working on messaging, routing, firewalls and billing systems. He has been with Huawei since December 2011. He is currently working in the virtualization area (Linux/KVM/QEMU). He is part of the early enablement effort for the ARM 64bit architecture (ARMv8 AArch64), and has been a maintainer and contributor of Free and Open Source projects, lately involving mostly QEMU binary translation (as QEMU Aarch64 TCG maintainer) and the OSv Operating System (as Aarch64 maintainer). He also spent some time as a member of Linaro&rsquo;s Virtualization team, where he focused on early Aarch64 enablement.</p>
+
+<h2>For more information</h2>
+
+<p>To keep up with the progress of OSv on ARM (and x86_64 too), join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a> or follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Cloudius Systems</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-05-13T06:54:23+03:00" pubdate data-updated="true">May 13<span>th</span>, 2014</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+    <div class="addthis_toolbox addthis_default_style ">
+        
+        <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+        
+        
+        <a class="addthis_button_tweet"></a>
+        
+        
+        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+        
+        
+        <a class="addthis_counter addthis_pill_style"></a>
+        
+    </div>
+    
+    <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-5343e81a2e0c9bfa"></script>
+    
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/blog/2014/05/07/capstan-bridge/" title="Previous Post: Bridged networking with Capstan">&laquo; Bridged networking with Capstan</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/blog/2014/05/19/usenix-atc/" title="Next Post: OSv paper coming to USENIX in June">OSv paper coming to USENIX in June &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/blog/2016/04/21/nfs-on-osv/">NFS on OSv or “How I Learned to Stop Worrying About Memory Allocations and Love the Unikernel”</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/blog/2016/03/08/project-mikelangelo/">Project Mikelangelo Update</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/blog/2015/04/27/docker/">Building OSv Images Using Docker</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/blog/2015/04/08/makefile/">Re-"make"-ing OSv</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/blog/2015/04/03/cloudrouter/">Wiki Watch: CloudRouter Images Available</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  </div>
+  <div class="footer">
+    <div class="wrapf">
+
+
+        <div class="custom"  >
+            <p><a href="http://www.cloudius-systems.com"><img style="margin-top: 30px;" src="http://osv.io/images/footerLogo.jpg" alt="" width="380" height="38" /></a></p></div>
+
+
+
+        <div class="custom social"  >
+            <p><a href="https://plus.google.com/107787008629542080430" rel="publisher">Google+</a></p></div>
+
+
+
+        <div class="custom CloudIcon"  >
+            <p><a href="/index.php"><img src="http://osv.io/images/footerCloudIcon.jpg" width="57" height="33" alt="footerCloudIcon" /></a></p></div>
+
+        <div class="clr"></div>
+    </div>
+</div>
+
+
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'osvblog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://osv.io/blog/blog/2014/05/13/osv-on-64-bit-arm/';
+        var disqus_url = 'http://osv.io/blog/blog/2014/05/13/osv-on-64-bit-arm/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

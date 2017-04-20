@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Redis | OSv Blog]]></title>
   <link href="http://osv.io/blog/blog/categories/redis/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2016-04-21T12:47:13-07:00</updated>
+  <updated>2017-04-20T09:42:12+03:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Speed Run: Running 4 Virtual Appliances on Your Laptop in 5 Seconds Overall]]></title>
-    <link href="http://osv.io/blog/blog/2014/09/13/how-fast-can-you-run-4-vm/"/>
-    <updated>2014-09-13T23:30:00-07:00</updated>
-    <id>http://osv.io/blog/blog/2014/09/13/how-fast-can-you-run-4-vm</id>
+    <link href="http://osv.io/blog/blog/2014/09/14/how-fast-can-you-run-4-vm/"/>
+    <updated>2014-09-14T09:30:00+03:00</updated>
+    <id>http://osv.io/blog/blog/2014/09/14/how-fast-can-you-run-4-vm</id>
     <content type="html"><![CDATA[<p><strong>By Dor Laor, Tzach Livyatan</strong></p>
 
 <p>In the following demo, Dor is running 4 different OSv base virtual appliances

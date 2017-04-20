@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Management | OSv Blog]]></title>
   <link href="http://osv.io/blog/blog/categories/management/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2016-04-21T12:47:13-07:00</updated>
+  <updated>2017-04-20T09:42:12+03:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Wiki Watch: Cloud Init]]></title>
     <link href="http://osv.io/blog/blog/2014/08/28/wiki-watch-cloud-init/"/>
-    <updated>2014-08-28T08:37:05-07:00</updated>
+    <updated>2014-08-28T18:37:05+03:00</updated>
     <id>http://osv.io/blog/blog/2014/08/28/wiki-watch-cloud-init</id>
     <content type="html"><![CDATA[<p><a href="http://osv.io/blog/blog/2014/08/26/jolokia-jmx-connectivity-in-osv/">The previous blog article, on Jolokia</a> mentions a configuration item for cloud-init.  You may be asking, &ldquo;Cloud init?  How do I use that on OSv?&rdquo;  Well, good news.  For details on configuring OSv using the cloud init mechanism, check out our recently updated wiki page: <a href="https://github.com/cloudius-systems/osv/wiki/cloud-init">Cloud init</a>.</p>
 

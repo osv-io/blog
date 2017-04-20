@@ -1,0 +1,373 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>SSH Tip: Connecting to a Private Network Without Trusting the Bastion Host - OSv Blog</title>
+  <meta name="author" content="Cloudius Systems">
+
+  
+  <meta name="description" content="By Nadav Har&#8217;El In a typical lab network configuration, one cannot just ssh or scp to the hosts behind the firewall (our company calls them &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://osv.io/blog/blog/2014/11/18/ssh-without-trusting-bastion-host">
+  <link href="/blog/favicon.ico" rel="icon">
+  <link href="/blog/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
+  <script src="/blog/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/blog/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+<!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="http://osv.io/js/cycle.js"></script>
+<script src="http://osv.io/js/js.js" language="javascript"></script-->
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-43975320-1', 'osv.io');
+  ga('send', 'pageview');
+</script>
+
+  
+
+</head>
+
+<body   >
+  <div class="wrap">
+  <div class="header"> <a class="logo" href="http://osv.io"><img src="http://osv.io/images/logo.jpg" /> </a>
+    <div class="topMenu">
+        <ul class="nav menu">
+            <li><a href="http://osv.io">Home</a></li>
+            <li class=""><a href="/blog/">Blog</a></li>
+            <li class=""><a href="/blog/blog/archives">Archives</a></li>
+        </ul>
+        <ul class="subscription" data-subscription="rss">
+            <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+            
+        </ul>
+        
+        <form action="https://www.google.com/search" method="get">
+            <fieldset role="search">
+                <input type="hidden" name="q" value="site:osv.io/blog" />
+                <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+            </fieldset>
+        </form>
+        
+    </div>
+</div>
+<div class="mobile header">
+    <a class="logo" href="http://osv.io/">
+        <img src="http://osv.io/images/mobileLogo.jpg"/>
+    </a>
+
+    <div class="mobile-topMenu">
+        <a href="javascript:void(0)" class="mobileMenuLink">&nbsp;</a>
+        <div class="theMobileMenu">
+            <ul class="nav menu">
+                <li class=""><a href="" >Home</a></li>
+                <li class="deeper parent"><a href="/users" >Users</a>
+                    <ul class="nav-child unstyled small">
+                        
+                    </ul>
+                </li>
+                <li class="deeper parent"><a href="/dev" >Development</a>
+                    <ul class="nav-child unstyled small">
+                        
+                    </ul>
+                </li>
+                <li class="deeper parent"><a href="/community" >Community</a>
+                    <ul class="nav-child unstyled small">
+                        
+                    </ul>
+                </li>
+                <li><a href="/contact/" >Contact</a></li>
+            </ul>
+        </div>
+        <script>
+            jQuery(document).ready(function(e) {
+                $('.mobileMenuLink').click(function(e) {
+                    $(this).toggleClass('active');
+                    $('.theMobileMenu').slideToggle();
+                });
+            });
+        </script>
+    </div>
+</div>
+<div class="mobile mobilePageTitle">SSH tip: connecting to a private network without trusting the bastion host</div>
+
+
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">SSH Tip: Connecting to a Private Network Without Trusting the Bastion Host</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-18T00:10:31+02:00" pubdate data-updated="true">Nov 18<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><strong>By Nadav Har&#8217;El</strong></p>
+
+<p>In a typical lab network configuration, one cannot just <code>ssh</code> or <code>scp</code> to the hosts behind the firewall (our company calls them after characters from Norse mythology: Loki, Muninn and friends).  Instead, you need to ssh to a bastion host, and from there connect to the internal systems.</p>
+
+<p><img src="/blog/images/ssh-user.jpeg" alt="ssh user" /><br><em>an ssh user connecting using a bastion host</em></p>
+
+<p>One can automate these two steps, with a command like</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>ssh -t bastion.example.com ssh loki.lab.example.com</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And I guess some of you are already doing that. But this only works for ssh, not scp. One can do scp through an &ldquo;ssh tunnel&rdquo;, but this is really ugly to set up every time and to use.</p>
+
+<p>There is also a securty hole in this approach, because anyone who breaks into <code>bastion</code> (which is an external machine and thus exposed to the Internet) can then ssh from there to all the internal machines, or even hijack already-running ssh sessions.</p>
+
+<p>I finally found a much better solution, much easier to use and much more secure.</p>
+
+<!--more-->
+
+
+<p>Just add to your <code>~/.ssh/config</code> the following incantation:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Host *.lab
+</span><span class='line'>        ProxyCommand ssh -q bastion.example.com nc `basename %h .lab` 22</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And now, you can <code>ssh</code> or <code>scp</code> directly to <code>loki.lab</code>, or <code>muninn.lab</code> or whatever, without any hassles, as if Loki and Muninn are actual machines on your LAN.</p>
+
+<p>This trick works like this: To connect to the remote host, ssh normally just connects a socket to port 22 of the remote host. When the &ldquo;ProxyCommand&rdquo; is set, this command is used instead. The command above will ssh to <code>bastion.example.com</code> and from there connect (using <code>nc</code>) to loki&rsquo;s port 22. Your own ssh will do the ssh protocol with Loki over this connection.</p>
+
+<p>This solution, beyond being extremely convenient, also has an interesting security feature:  we&rsquo;ll no longer need to trust <code>bastion.example.com</code>. The classic &ldquo;ssh from your laptop to <code>bastion</code> to <code>loki</code>&rdquo; solution suffered from a problem that if someone broke into <code>bastion</code>, they could also break into <code>loki</code> &ndash; by using the private keys stored on <code>bastion</code>, or by hijacking the second leg of the ssh chain (and possibly injecting whatever commands it wanted into this session!). With this new solution, <code>bastion</code> is just acting as a stupid pipe for encypted data between my laptop and Loki &ndash; it cannot hijack the connection, and it doesn&rsquo;t have any private keys needed to initiate a connection to Loki on its own.</p>
+
+<p>For more tips and OSv news, subscript to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+
+<p><strong>Photo:</strong> <a href="http://www.flickr.com/photos/dfectuoso17/7013054091/">Security Hacker</a> by Santiago Zavala</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Cloudius Systems</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-11-18T00:10:31+02:00" pubdate data-updated="true">Nov 18<span>th</span>, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/blog/categories/release/'>release</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+    <div class="addthis_toolbox addthis_default_style ">
+        
+        <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+        
+        
+        <a class="addthis_button_tweet"></a>
+        
+        
+        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+        
+        
+        <a class="addthis_counter addthis_pill_style"></a>
+        
+    </div>
+    
+    <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-5343e81a2e0c9bfa"></script>
+    
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/blog/2014/11/13/osv-private-beta/" title="Previous Post: OSv Early Access Private Beta">&laquo; OSv Early Access Private Beta</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/blog/2014/11/18/eblug/" title="Next Post: OSv Meetup at EBLUG: intro talk and demo">OSv Meetup at EBLUG: intro talk and demo &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/blog/2016/04/21/nfs-on-osv/">NFS on OSv or “How I Learned to Stop Worrying About Memory Allocations and Love the Unikernel”</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/blog/2016/03/08/project-mikelangelo/">Project Mikelangelo Update</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/blog/2015/04/27/docker/">Building OSv Images Using Docker</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/blog/2015/04/08/makefile/">Re-"make"-ing OSv</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/blog/2015/04/03/cloudrouter/">Wiki Watch: CloudRouter Images Available</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  </div>
+  <div class="footer">
+    <div class="wrapf">
+
+
+        <div class="custom"  >
+            <p><a href="http://www.cloudius-systems.com"><img style="margin-top: 30px;" src="http://osv.io/images/footerLogo.jpg" alt="" width="380" height="38" /></a></p></div>
+
+
+
+        <div class="custom social"  >
+            <p><a href="https://plus.google.com/107787008629542080430" rel="publisher">Google+</a></p></div>
+
+
+
+        <div class="custom CloudIcon"  >
+            <p><a href="/index.php"><img src="http://osv.io/images/footerCloudIcon.jpg" width="57" height="33" alt="footerCloudIcon" /></a></p></div>
+
+        <div class="clr"></div>
+    </div>
+</div>
+
+
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'osvblog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://osv.io/blog/blog/2014/11/18/ssh-without-trusting-bastion-host/';
+        var disqus_url = 'http://osv.io/blog/blog/2014/11/18/ssh-without-trusting-bastion-host/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

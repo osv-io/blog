@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Newrelic | OSv Blog]]></title>
   <link href="http://osv.io/blog/blog/categories/newrelic/atom.xml" rel="self"/>
   <link href="http://osv.io/blog/"/>
-  <updated>2016-04-21T12:47:13-07:00</updated>
+  <updated>2017-04-20T09:42:12+03:00</updated>
   <id>http://osv.io/blog/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Adding a NewRelic Agent to Your OSv Appliance]]></title>
-    <link href="http://osv.io/blog/blog/2014/09/24/java-newrelic-agent/"/>
-    <updated>2014-09-24T16:22:22-07:00</updated>
-    <id>http://osv.io/blog/blog/2014/09/24/java-newrelic-agent</id>
+    <link href="http://osv.io/blog/blog/2014/09/25/java-newrelic-agent/"/>
+    <updated>2014-09-25T02:22:22+03:00</updated>
+    <id>http://osv.io/blog/blog/2014/09/25/java-newrelic-agent</id>
     <content type="html"><![CDATA[<p><strong>By Tzach Livyatan</strong></p>
 
 <p><a href="http://newrelic.com/">New Relic</a> is a popular real-time monitoring
