@@ -4,7 +4,7 @@
   <title><![CDATA[OSv Blog]]></title>
   <link href="http://blog.osv.io//github/atom.xml" rel="self"/>
   <link href="http://blog.osv.io//github/"/>
-  <updated>2017-06-12T20:52:13+03:00</updated>
+  <updated>2017-06-12T21:20:41+03:00</updated>
   <id>http://blog.osv.io//github/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -14,15 +14,13 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Serverless Computing With Osv]]></title>
+    <title type="html"><![CDATA[Serverless Computing With OSv]]></title>
     <link href="http://blog.osv.io//github/blog/2017/06/12/serverless-computing-with-OSv/"/>
-    <updated>2017-06-12T00:00:00+03:00</updated>
+    <updated>2017-06-12T17:00:00+03:00</updated>
     <id>http://blog.osv.io//github/blog/2017/06/12/serverless-computing-with-OSv</id>
-    <content type="html"><![CDATA[<h1>Serverless computing with OSv</h1>
+    <content type="html"><![CDATA[<p><strong> By: Nadav Har&#8217;El, Benoît Canet </strong></p>
 
-<h2>By: Nadav Har&#8217;El, Benoît Canet</h2>
-
-<h2>Serverless computing, a.k.a. Function-as-a-Service</h2>
+<p><strong> Serverless computing, a.k.a. Function-as-a-Service </strong></p>
 
 <p>The traditional approach to implementing applications on the cloud is the IaaS (Infrastructure-as-a-Service) approach. In a IaaS cloud, application authors rent virtual machines and install their own software to run their application. However, when an application needs, for example, a database, the application writer often does not have the necessary expertise to choose the database, install it, configure and tweak it, and dynamically change the number of VMs running this database. This is where the &ldquo;PaaS&rdquo; (Platform-as-a-Service) cloud steps in: The PaaS cloud does not give application writers virtual machines, but rather a new platform with various services. One of these services can be a database service: The application makes database requests &ndash; could be one each second or a million each second &ndash; and does not have to care or worry whether one machine, or 1000 machines, are actually needed to provide this service. The cloud provider charges the application owner for these requests, and the amount of work they actually do.</p>
 
