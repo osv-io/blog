@@ -1,7 +1,14 @@
-# Serverless computing with OSv
-## By: Nadav Har'El, Benoît Canet
+---
+layout: post
+title: "Serverless computing with OSv"
+date: 2017-06-12 06:00:00 -0800
+comments: true
+published: true
+---
 
-## Serverless computing, a.k.a. Function-as-a-Service
+** By: Nadav Har'El, Benoît Canet **
+
+** Serverless computing, a.k.a. Function-as-a-Service **
 
 The traditional approach to implementing applications on the cloud is the IaaS (Infrastructure-as-a-Service) approach. In a IaaS cloud, application authors rent virtual machines and install their own software to run their application. However, when an application needs, for example, a database, the application writer often does not have the necessary expertise to choose the database, install it, configure and tweak it, and dynamically change the number of VMs running this database. This is where the "PaaS" (Platform-as-a-Service) cloud steps in: The PaaS cloud does not give application writers virtual machines, but rather a new platform with various services. One of these services can be a database service: The application makes database requests - could be one each second or a million each second - and does not have to care or worry whether one machine, or 1000 machines, are actually needed to provide this service. The cloud provider charges the application owner for these requests, and the amount of work they actually do.
 
