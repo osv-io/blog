@@ -4,7 +4,7 @@
   <title><![CDATA[OSv Blog]]></title>
   <link href="http://blog.osv.io//github/atom.xml" rel="self"/>
   <link href="http://blog.osv.io//github/"/>
-  <updated>2017-04-20T10:31:28+03:00</updated>
+  <updated>2017-06-12T20:52:13+03:00</updated>
   <id>http://blog.osv.io//github/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
@@ -12,6 +12,57 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Serverless Computing With Osv]]></title>
+    <link href="http://blog.osv.io//github/blog/2017/06/12/serverless-computing-with-OSv/"/>
+    <updated>2017-06-12T00:00:00+03:00</updated>
+    <id>http://blog.osv.io//github/blog/2017/06/12/serverless-computing-with-OSv</id>
+    <content type="html"><![CDATA[<h1>Serverless computing with OSv</h1>
+
+<h2>By: Nadav Har&#8217;El, Benoît Canet</h2>
+
+<h2>Serverless computing, a.k.a. Function-as-a-Service</h2>
+
+<p>The traditional approach to implementing applications on the cloud is the IaaS (Infrastructure-as-a-Service) approach. In a IaaS cloud, application authors rent virtual machines and install their own software to run their application. However, when an application needs, for example, a database, the application writer often does not have the necessary expertise to choose the database, install it, configure and tweak it, and dynamically change the number of VMs running this database. This is where the &ldquo;PaaS&rdquo; (Platform-as-a-Service) cloud steps in: The PaaS cloud does not give application writers virtual machines, but rather a new platform with various services. One of these services can be a database service: The application makes database requests &ndash; could be one each second or a million each second &ndash; and does not have to care or worry whether one machine, or 1000 machines, are actually needed to provide this service. The cloud provider charges the application owner for these requests, and the amount of work they actually do.</p>
+
+<p>But it is not enough that the PaaS cloud provides building blocks such as databases, queue services, object stores, and so on. An application also needs glue code combining all these building blocks into the operation which the application needs to do. So even on PaaS, application writers start virtual machines to run this glue code. Yes, again VMs and all the problems associated with them (installation, scaling, etc.). But recently, there is a trend towards a <strong>serverless</strong> PaaS cloud, where the application developer does <strong>not</strong> need to rent VMs. Instead, the cloud provides Function-as-a-Service (FaaS). FaaS implementations (such as Amazon Lambda, Google Cloud Functions or Microsoft Azure Functions), run short functions which the application author writes in high-level languages like Javascript or Java, in response to certain events. These functions in turn use the various PaaS services (such as database requests) to perform their job. The application author is freed from worrying how or where these functions are run &ndash; it is up to cloud implementation to ensure that whether one or a million of these functions need to run per second, they will get the necessary resources to do so.</p>
+
+<h2>Implementation, and why OSv is a winner</h2>
+
+<p>How could function-as-a-service be implemented by the cloud provider?</p>
+
+<p>It is very inefficient to start a VM for every invocation of a function, which could last for a fraction of a second. A more reasonable approach is to start a VM running the runtime environment, e.g., Node.js or Java, and then send to it many different requests. But if we were to start a single instance of the runtime environment to run the functions of many different clients, this would carry significant security risks: An exploit found in the runtime implementation may lead to one application being able to view or modify the functions run by another application.</p>
+
+<p>So instead of having one VM serve multiple applications of different clients, it is safer to start separate VMs for each application: A single VM will run multiple functions before shutting down, but all of these functions will be the same one, or at least belong to the same application. Having a VM dedicated to the application and its small set of functions also makes it more efficient to run these functions &ndash; this VM can load and compile the functions and relevant libraries once, before running the same function or functions many times. Having the VM dedicated to the client also makes it easier to charge the client by actual CPU usage and memory usage of the VMs started for him.</p>
+
+<p>But the hard part of this implementation is scaling: When the number of functions being run by one application changes from second to second, we also need to change the number of VMs dedicated to running these functions. Leaving behind too many of these VMs as spares cost money as resources (especially memory) are being wasted. Moreover, in the event of cloud bursting &ndash; a sudden unexpected burst of requests, we may need to start many more VMs than we had previously. For these two reasons, it is very important that we are able to boot and shut down these function-running VMs as quickly as possible, preferably in a fraction of a second.</p>
+
+<p>OSv, similar to other unikernels, boots and shuts down very quickly. But what makes OSv a better fit for this use case than any of the other unikernels is the fact that it can run unmodified Linux executables, and in particular the complex run-time environments and languages we wish FaaS to support, such as Node.js and Java, as well as user-provided native code.</p>
+
+<p>A FaaS implementation using OSv might work as follows:</p>
+
+<ol>
+<li>When the FaaS needs to run a certain application&rsquo;s function, if a VM belonging to this application is ready to accept more requests, we send it the request to run the function. Otherwise, when all the application&rsquo;s VMs are busy, we start a new VM:</li>
+<li>Starting a new VM will take only a fraction of a second. Beyond OSv&rsquo;s quick boot, another reason for this quickness is that the VM image will not have to be sent over the network: All these VMs, regardless of which application they work for, boot from the same identical  image (containing OSv, Node.js or Java, and the FaaS glue), and the image is immutable &ndash; these VMs cannot write back to it. This immutable image also means that for this use case, OSv does not need the read-write ZFS file system, and that further reduces OSv&rsquo;s boot time and memory overhead.</li>
+<li>To ensure that the end-user doesn&rsquo;t experience even a fraction-of-a-second latency when a new VM is started, we may choose to preemptively start new VMs as soon as the existing VMs are about to get filled up, before they actually do get filled up. The fact we can start new VMs very quickly allows us to keep the number of spare VMs low.</li>
+<li>When the rate of function executions for a particular application diminishes, the FaaS system will stop sending new requests to some of the VMs, and very soon such VMs will become idle and can be shut down. OSv&rsquo;s shutdown is very quick, but in this case we don&rsquo;t even have to bother with a clean shutdown &ndash; we can stop an idle VM instantaneously because we know there is not even a disk needed to be flushed.</li>
+</ol>
+
+
+<p>Existing FaaS implementations, like Amazon&rsquo;s Lambda, charge the application for each function&rsquo;s wall-clock run time (and in large 100ms ticks). Paying for idle time makes it very expensive to run functions which need to make a request, wait for its response, and do something with it. We&rsquo;ve seen bloggers recommend working around this problem by tricks such as starting multiple unrelated requests in the same lambda and then waiting for all of them to respond. We believe, however, that FaaS needs to have more natural support for functions which block, which we believe will be the typical use of FaaS. This natural support could be done with Node.js&rsquo;s futures and continuations (the application starts an asynchronous operation, and runs a non-blocking function when it completes. <a href="https://serverless.com">https://serverless.com</a> does this on Amazon Lambda), or alternatively by the implementation transparently running multiple application functions in parallel on the same VM. In any case, the client should pay only for actual CPU time used by the function or VM bringup, as well as for the memory used by those VMs.</p>
+
+<p>Note that although the FaaS implementation we propose is very scalable, at the low end of the scale &ndash; e.g., just one request each second &ndash; it is not cost-effective: It does not make sense to bring up the VM and the runtime environment each second, as a better part of that second will be wasted just for this bringup; The alternative is to leave the VM up but idle most of the time. In either case, the memory required by the runtime enviroment will be reserved for the application continuously, so the cost of this memory will put a lower limit on the price of low-usage function. Note that if the function&rsquo;s usage becomes even lower &ndash; say just once a minute &ndash; it again becomes a cost-effective option to bring the VMs up and down each time.</p>
+
+<h2>Epilogue</h2>
+
+<p>We believe that the difficulties of running code on VMs will drive more and more application developers to look for alternatives for running their code, alternatives such as Function-as-a-Service (FaaS). We already explored this and related directions in the past in <a href="http://nadav.harel.org.il/homepage/papers/paas-2013.pdf">this paper from 2013</a>.</p>
+
+<p>We showed in this post that it makes sense to implement FaaS on top of VMs, and that OSv is a better fit for running those VMs than either Linux or other unikernels. That is because OSv has the unique combination of allowing very fast boot and instantaneous shutdowns, at the same time as being able to run the complex runtime environments we wish to support (such as Node.js and Java).</p>
+
+<p>An OSv-based implementation of FaaS will support &ldquo;cloud bursting&rdquo; &ndash; an unexpected, sudden, increase of load on a single application, thanks to our ability to boot many new OSv VMs very quickly. Cloud bursting is one of the important use cases being considered by the MIKELANGELO project, a European H2020 research project which the authors of this post contribute to, and which is based on OSv as we previously announced.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[NFS on OSv or “How I Learned to Stop Worrying About Memory Allocations and Love the Unikernel”]]></title>
@@ -1114,46 +1165,6 @@ We&rsquo;ve got some <a href="http://www.mcmelectronics.com/product/83-16333RK">
 <p>Amazon re:Invent is sold out, but you can <a href="http://reinvent.awsevents.com/livestream-reg.html">sign up for streaming</a> if you&rsquo;re not able to make it.</p>
 
 <p>You can keep up with the latest OSv news from this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.  Hope to see you at the show.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[OSv 0.14 Alpha Includes Management Dashboard]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/11/04/dashboard/"/>
-    <updated>2014-11-04T07:10:31+02:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/11/04/dashboard</id>
-    <content type="html"><![CDATA[<p><strong>By Tzach Livyatan</strong></p>
-
-<p>We are pleased to announce the OSv 0.14 Alpha Release.</p>
-
-<p>This is the first release to include the dashboard, a  browser-based UI for OSv and virtual appliance status.</p>
-
-<p><img src="http://osv.io/images/dashboard.png" alt="OSv dashboard" /></p>
-
-<p>The dashboard includes (among other features):</p>
-
-<ul>
-<li><p>Main tab with Memory, CPU, Disk</p></li>
-<li><p>Thread tab with interactive visualization of thread status and thread usage.
-You can select and search for particular thread by name.</p></li>
-<li><p>Trace tab, including frequency for each tracepoint. Selection by name and search are available.</p></li>
-<li><p>JVM tab for basic JVM information including memory and GC, when a JVM is installed.</p></li>
-<li><p>Virtual Appliance tab for information relevant to the particular appliance.
-Tabs for Cassandra and Tomcat are currently  available, with more to come.</p></li>
-</ul>
-
-
-<p>To build the dashboard, just includes httpserver in
-the module list.  For example:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ make -j 4 image=cassandra,httpserver</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Once the appliance is running, the dashboard is available on port 8000 by default.  (You can change the port using <a href="https://github.com/cloudius-systems/osv/wiki/cloud-init">cloud-init</a>.)</p>
-
-<p>The <a href="https://groups.google.com/forum/#!topic/osv-dev/tyFGw7NRudA">full 0.14 release announcement</a> is available on the osv-dev mailing list.
-You can keep up with the latest OSv news from this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
 ]]></content>
   </entry>
   

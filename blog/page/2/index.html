@@ -9,7 +9,7 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="By Don Marti What do we have to do in make clean? Delete all the files that can be regenerated that we don&rsquo;t need to keep around. What&rsquo;s &hellip;">
+  <meta name="description" content="So far, OSv Meetups have happened in Fremont and San Francisco, California, and Hertzeliya, Israel. Next week, the Bangalore, India OSv Meetup is &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -114,6 +114,50 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/01/07/meetup/">OSv Meetup Group in Bangalore, India</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-01-07T17:54:23+02:00" pubdate data-updated="true">Jan 7<span>th</span>, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So far, OSv <a href="http://www.meetup.com/OSv-Developer-Meetup/">Meetups</a> have happened in Fremont and San Francisco, California, and Hertzeliya, Israel.  Next week, the Bangalore, India OSv Meetup is happening&mdash;details on the <a href="http://www.meetup.com/OSv-Developer-Meetup-Bangalore/">Bangalore Meetup page</a>.</p>
+
+<p><img src="/images/meetup.jpg" alt="attendees" />
+<em>Attendees focus on building their applications on OSv in a California meetup last summer</em></p>
+
+<p>The topic for the first meeting, on Sunday January 11, is an OSv code walkthrough.</p>
+
+<p>To get advance notice of future events please join the (California-based) <a href="http://www.meetup.com/OSv-Developer-Meetup/">Meetup group</a> or the new
+<a href="http://www.meetup.com/OSv-Developer-Meetup-Bangalore/">OSv Developer Meetup, Bangalore</a>.   For general info, you can follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -610,73 +654,6 @@ We&rsquo;ve got some <a href="http://www.mcmelectronics.com/product/83-16333RK">
 
     </article>
   
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2014/11/04/dashboard/">OSv 0.14 Alpha Includes Management Dashboard</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2014-11-04T07:10:31+02:00" pubdate data-updated="true">Nov 4<span>th</span>, 2014</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p><strong>By Tzach Livyatan</strong></p>
-
-<p>We are pleased to announce the OSv 0.14 Alpha Release.</p>
-
-<p>This is the first release to include the dashboard, a  browser-based UI for OSv and virtual appliance status.</p>
-
-<p><img src="http://osv.io/images/dashboard.png" alt="OSv dashboard" /></p>
-
-<p>The dashboard includes (among other features):</p>
-
-<ul>
-<li><p>Main tab with Memory, CPU, Disk</p></li>
-<li><p>Thread tab with interactive visualization of thread status and thread usage.
-You can select and search for particular thread by name.</p></li>
-<li><p>Trace tab, including frequency for each tracepoint. Selection by name and search are available.</p></li>
-<li><p>JVM tab for basic JVM information including memory and GC, when a JVM is installed.</p></li>
-<li><p>Virtual Appliance tab for information relevant to the particular appliance.
-Tabs for Cassandra and Tomcat are currently  available, with more to come.</p></li>
-</ul>
-
-
-<p>To build the dashboard, just includes httpserver in
-the module list.  For example:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ make -j 4 image=cassandra,httpserver</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Once the appliance is running, the dashboard is available on port 8000 by default.  (You can change the port using <a href="https://github.com/cloudius-systems/osv/wiki/cloud-init">cloud-init</a>.)</p>
-
-<p>The <a href="https://groups.google.com/forum/#!topic/osv-dev/tyFGw7NRudA">full 0.14 release announcement</a> is available on the osv-dev mailing list.
-You can keep up with the latest OSv news from this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
-</div>
-  
-  
-
-
-    </article>
-  
   <div class="pagination">
     
       <a class="prev" href="/blog/page/3/">&larr; Older</a>
@@ -694,6 +671,10 @@ You can keep up with the latest OSv news from this blog&rsquo;s <a href="http://
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2017/06/12/serverless-computing-with-OSv/">Serverless Computing With Osv</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/04/21/nfs-on-osv/">NFS on OSv or “How I Learned to Stop Worrying About Memory Allocations and Love the Unikernel”</a>
       </li>
     
@@ -707,10 +688,6 @@ You can keep up with the latest OSv news from this blog&rsquo;s <a href="http://
     
       <li class="post">
         <a href="/blog/2015/04/08/makefile/">Re-&#8220;make&#8221;-ing OSv</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/04/03/cloudrouter/">Wiki Watch: CloudRouter Images Available</a>
       </li>
     
   </ul>
