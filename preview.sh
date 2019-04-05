@@ -1,12 +1,4 @@
-#!/usr/bin/bash -e
+#!/bin/sh
 
-which bundle > /dev/null
-which rake > /dev/null
-which git > /dev/null
-
-echo -n "On branch "
-git branch | grep '^*'
-
-bundle exec rake generate
-bundle exec rake preview
+bundle exec jekyll serve -w --config _config.yml,preview_config.yml
 
