@@ -191,3 +191,5 @@ ERR
   end
 
 end
+
+I18n.config.available_locales = :en
