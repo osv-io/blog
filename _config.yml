@@ -95,6 +95,6 @@ main_site: http://osv.io
 addthis_button: true
 addthis_profile_id: ra-5343e81a2e0c9bfa
 
-plugins: [jekyll-paginate] 
+plugins: [jekyll-paginate,jekyll-sitemap] 
 
 exclude: ['README.markdown', 'Gemfile.lock', 'Gemfile', 'CHANGELOG.markdown', 'preview_config.yml', 'preview.sh', 'Rakefile', 'plugins', 'octopress.iml']
