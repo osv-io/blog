@@ -193,3 +193,4 @@ ERR
 end
 
 I18n.config.available_locales = :en
+Liquid::Template.register_filter(Jekyll::Filters)
