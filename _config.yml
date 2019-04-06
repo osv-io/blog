@@ -27,7 +27,7 @@ email:
 
 # If publishing to a subdirectory as in http://site.com/project set 'root: /project'
 paginate_path: /blog/page:num/
-permalink: /blog/:year/:month/:day/:title.html
+permalink: /blog/:year/:month/:day/:title/
 code_dir: downloads/code
 category_dir: blog/categories
 markdown: kramdown
