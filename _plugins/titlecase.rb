@@ -34,3 +34,11 @@ class String
     replace(smart_capitalize)
   end
 end
+
+module TitlecaseFilter
+  def titlecase(input)
+    input.titlecase
+  end
+end
+
+Liquid::Template.register_filter(TitlecaseFilter)
