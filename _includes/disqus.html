@@ -6,8 +6,8 @@
         {% comment %} `page.comments` can be only be set to true on pages/posts, so we embed the comments here. {% endcomment %}
         // var disqus_developer = 1;
       {% assign page_url = page.url | remove: ".html" %}
-        var disqus_identifier = 'http://blog.osv.io//github/blog{{ page_url }}/';
-        var disqus_url = 'http://blog.osv.io//github/blog{{ page_url }}/';
+        var disqus_identifier = 'http://blog.osv.io//github{{ page_url }}/';
+        var disqus_url = 'http://blog.osv.io//github{{ page_url }}/';
         var disqus_script = 'embed.js';
       {% else %}
         {% comment %} As `page.comments` is empty, we must be on the index page. {% endcomment %}
