@@ -61,23 +61,34 @@ Reset paging the OSv way -> cr4, cr3 (root table) and cr0 registers are critical
 * reference https://github.com/cloudius-systems/osv/blob/master/arch/x64/vmlinux-boot64.S - vmlinux_entry64
 
 ```asm
-mov $BOOT_CR4, %rax
-mov %rax, %cr4
+vmlinux_entry64:
+    # The address of boot_params struct is passed in RSI
+    # register so pass it to extract_linux_boot_params fuction
+    # which will extract cmdline and memory information and verify
+    # that loader.elf was indeed called as Linux 64-bit vmlinux ELF
+    mov %rsi, %rdi
+    call extract_linux_boot_params
 
-lea ident_pt_l4, %rax
-mov %rax, %cr3
+    # Even though we are in 64-bit long mode we need to reset
+    # page tables and other CPU settings the way OSv expects it
+    mov $BOOT_CR4, %rax
+    mov %rax, %cr4
 
-mov $0xc0000080, %ecx
-mov $0x00000900, %eax
-xor %edx, %edx
-wrmsr
+    lea ident_pt_l4, %rax
+    mov %rax, %cr3
 
-mov $BOOT_CR0, %rax
-mov %rax, %cr0
+    mov $0xc0000080, %ecx
+    mov $0x00000900, %eax
+    xor %edx, %edx
+    wrmsr
 
-mov $OSV_KERNEL_BASE, %rbp
-mov $0x1000, %rbx
-jmp start64
+    mov $BOOT_CR0, %rax
+    mov %rax, %cr0
+
+    # Join common 64-bit boot logic by jumping to start64 label
+    mov $OSV_KERNEL_BASE, %rbp
+    mov $0x1000, %rbx
+    jmp start64
 ```
 
 Bolek
