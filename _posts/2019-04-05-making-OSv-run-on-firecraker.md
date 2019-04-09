@@ -60,7 +60,7 @@ Reset paging the OSv way -> cr4, cr3 (root table) and cr0 registers are critical
 * cr4 - controls protected mode settings including enabling PAE
 * reference https://github.com/cloudius-systems/osv/blob/master/arch/x64/vmlinux-boot64.S - vmlinux_entry64
 
-```
+```asm
 mov $BOOT_CR4, %rax
 mov %rax, %cr4
 
