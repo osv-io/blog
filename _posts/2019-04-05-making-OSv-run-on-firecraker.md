@@ -60,15 +60,15 @@ Reset paging the OSv way -> cr4, cr3 (root table) and cr0 registers are critical
 * cr4 - controls protected mode settings including enabling PAE
 * reference https://github.com/cloudius-systems/osv/blob/master/arch/x64/vmlinux-boot64.S - vmlinux_entry64
 
-{% highlight nasm %}
+```
 mov $BOOT_CR4, %rax
 mov %rax, %cr4
 
 lea ident_pt_l4, %rax
 mov %rax, %cr3
 
-mov $0xc0000080, %ecx ; EFER MSR number
-mov $0x00000900, %eax ; Set LME = 1
+mov $0xc0000080, %ecx
+mov $0x00000900, %eax
 xor %edx, %edx
 wrmsr
 
@@ -78,7 +78,7 @@ mov %rax, %cr0
 mov $OSV_KERNEL_BASE, %rbp
 mov $0x1000, %rbx
 jmp start64
-{% endhighlight %}
+```
 
 Bolek
 In order boot Linux kernel firecracker loads the vmlinux 64-bit ELF file, inspects its headers and based on one of the parameters (maybe name it?) copies ELF content (segments or sections?) into memory at 0x200000 address. In order to make 
