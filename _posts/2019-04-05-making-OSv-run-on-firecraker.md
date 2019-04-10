@@ -62,34 +62,33 @@ At the end based on many trial-and-error attempts I came to conclusion that vmli
 The code below is slightly modified version of [vmlinux_entry64 in vmlinux-boot64.S](https://github.com/cloudius-systems/osv/blob/master/arch/x64/vmlinux-boot64.S) that implemennts the steps described above.
 
 ```asm
-vmlinux_entry64:
-    # The address of boot_params struct is passed in RSI
-    # register so pass it to extract_linux_boot_params fuction
-    # which will extract cmdline and memory information and verify
-    # that loader.elf was indeed called as Linux 64-bit vmlinux ELF
-    mov %rsi, %rdi
-    call extract_linux_boot_params
+# The address of boot_params struct is passed in RSI
+# register so pass it to extract_linux_boot_params fuction
+# which will extract cmdline and memory information and verify
+# that loader.elf was indeed called as Linux 64-bit vmlinux ELF
+mov %rsi, %rdi
+call extract_linux_boot_params
 
-    # Even though we are in 64-bit long mode we need to reset
-    # page tables and other CPU settings the way OSv expects it
-    mov $BOOT_CR4, %rax
-    mov %rax, %cr4
+# Even though we are in 64-bit long mode we need to reset
+# page tables and other CPU settings the way OSv expects it
+mov $BOOT_CR4, %rax
+mov %rax, %cr4
 
-    lea ident_pt_l4, %rax
-    mov %rax, %cr3
+lea ident_pt_l4, %rax
+mov %rax, %cr3
 
-    mov $0xc0000080, %ecx
-    mov $0x00000900, %eax
-    xor %edx, %edx
-    wrmsr
+mov $0xc0000080, %ecx
+mov $0x00000900, %eax
+xor %edx, %edx
+wrmsr
 
-    mov $BOOT_CR0, %rax
-    mov %rax, %cr0
+mov $BOOT_CR0, %rax
+mov %rax, %cr0
 
-    # Join common 64-bit boot logic by jumping to start64 label
-    mov $OSV_KERNEL_BASE, %rbp
-    mov $0x1000, %rbx
-    jmp start64
+# Join common 64-bit boot logic by jumping to start64 label
+mov $OSV_KERNEL_BASE, %rbp
+mov $0x1000, %rbx
+jmp start64
 ```
 As you can see making OSv boot on Firecracker was the most tricky part of whole exercise.
 
@@ -174,6 +173,13 @@ Firecracker does not implement ACPI which is used by OSv to implement power hand
 
 Tell what was most critical (boot) ad most labor intesive (virtio).
 
+Show bootchart and talk about possible improvements:
+* boot time (hard to shave off 5ms) -> possibly smaller loader.elf
+* less memory (now 18MB)
+* study performance -> block device faster, but network slower than with QEMU -> look if some major optimizations missing in vring due to modern<->legacy
+
 Mention that Firecracker team is working on ARM version. And OSv already has partial support for arm. Anyone interested to make it boot.
 
 Metion this work should hopefully make it easies to boot on NEMU ad QEMU 4.0 with direct boot. Possibly easier to implement Virtio 1.1.
+
+Finally list of patches chronologically.
