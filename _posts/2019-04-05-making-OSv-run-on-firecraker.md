@@ -18,7 +18,7 @@ Describe what firecracker is in terms of KVM and emulated paravirtual devices [h
 Can run on Linu on bare-metal Intel based hardware or Nitro-based EC2 instance like i3.metal.
 ...
 
-If you want to hear more about what it took to enhance OSv to make it **boot in 5ms** on Firecracker, please read remaining part of this article. In the next paragraph I will describe the implementation strategy I arrived at. In the following three paragraphs I will focus on what I had to change in relevant areas - .... Finally I will describe epology
+If you want to hear more about what it took to enhance OSv to make it **boot in 5ms** on Firecracker, please read remaining part of this article. In the next paragraph I will describe the implementation strategy I arrived at. In the following three paragraphs I will focus on what I had to change in relevant areas - .... Finally I will describe what the outcome of this exercise is and what possible things we could improve and benefit from in future are.
 
 ## Implementation Strategy
 
@@ -53,11 +53,11 @@ So what exactly new vmlinux_entry64 should do? Firecracker sets up VMs to 64-bit
 ---> 
 Luckily the segmentation (explain - typically in long mode it is setup as flat ..) is setup same way.
 
-At the end based on many trial-and-error attempt I came to conclusion that vmlinux_entry64 should do following:
-1. Extract command line and memory information from Linux boot_params structure whose address is passed in by Firecracker in RSI register (please see [extract_linux_boot_params](https://github.com/cloudius-systems/osv/blob/c8395118cb580f2395cac6c53999feb217fd2c2f/arch/x64/vmlinux.cc#L41-L93) for details).
-2. Reset CR0 and CR4 control registers to reset global CPU feaures OSv way.
-3. Reset CR3 register to point to OSv PML4 table mapping first 1GB of memory with 2BM medium size pages one-to-one.
-4. Jump to start64 to complete boot process and start OSv.
+At the end based on many trial-and-error attempts I came to conclusion that vmlinux_entry64 should do following:
+1. Extract command line and memory information from Linux boot_params structure whose address is passed in by Firecracker in RSI register and copy to another place structured same way as if OSv booted through boot16.S (please see [extract_linux_boot_params](https://github.com/cloudius-systems/osv/blob/c8395118cb580f2395cac6c53999feb217fd2c2f/arch/x64/vmlinux.cc#L41-L93) for details).
+2. Reset CR0 and CR4 control registers to reset global CPU feaures OSv way (-> refer to some wiki for control registered explanation).
+3. Reset CR3 register to point to OSv PML4 table mapping first 1GB of memory with 2BM medium size pages one-to-one (refer ->).
+4. Finally jump to start64 to complete boot process and start OSv.
  
 The code below is slightly modified version of [vmlinux_entry64 in vmlinux-boot64.S](https://github.com/cloudius-systems/osv/blob/master/arch/x64/vmlinux-boot64.S) that implemennts the steps described above.
 
@@ -91,11 +91,14 @@ vmlinux_entry64:
     mov $0x1000, %rbx
     jmp start64
 ```
+As you can see making OSv boot on Firecracker was the most tricky part of whole exercise.
 
 ## Virtio
-Brief introduction to VirtIO
+Unlike booting process enhancing virtio layer in OSv was not as tricky and hard to debug, but it was most labor itennsive and required a lot of research (reading the spec and Linux code as an example)
 
-Firecracker implements mmio flavor of virtio which was modeled after PCI in behavior but different configuration. OSv was missing mmio implementation but what was worse it implemented legacy version (pre 1.0) of virtio. So two things had to be done - refactor OSv virtio layer to support both legacy and modern PCI devices and implement virtio mmio:
+Before diving into let me first introduce Virt IO and why we need it. Specifies how hypervisor should implement paravirtual devices for block, net, etc and how guest should interact with them and in a most efficient way to minimize number of exits from guest to hypervisor (quote something?). Point to spec from 2016. 
+
+Firecracker implements mmio flavor of virtio which was modeled after PCI in behavior but different configuration. To my dispair OSv ufortunnatel was missing mmio implementation. On top of that to make things work it implemented the legacy (pre 1.0) version of virtio before it was finalized in 2016. So two things had to be done - refactor OSv virtio layer to support both legacy and modern PCI devices and implement virtio mmio:
 * Virtio device interface class
 * Virtio pci modern and legacy device class
 * Delegate to normal pci device
@@ -103,7 +106,7 @@ Firecracker implements mmio flavor of virtio which was modeled after PCI in beha
 
 Most differences between PCI modern and legacy is the initialization and configuration phase. Special register for configuration.
 
-OSv has two orthogonal but related layers of abstraction in this matter - driver and device interface class. The virtio_driver is a generalization and virtio::blk, virtio::net,  are specializations for each type of virtio driver. Unfortunately virtio_driver implementation tied it to a pci::device class so in order to now support mmio device we had to refactor it. There were two options - somehow use multiple inheritance to ??? or introduce virtio_device class to represent transport layer and make virtio_driver to talk to it. First option would have big ripple efffect and nasty ...
+OSv has two orthogonal but related layers of abstraction in this matter - driver and device interface class. The virtio_driver is a generalization and virtio::blk, virtio::net, ... are specializations for each type of virtio driver. Unfortunately virtio_driver implementation tied it to a pci::device class so in order to now support mmio device we had to refactor it. There were two options - somehow use multiple inheritance to ??? or introduce virtio_device class to represent transport layer and make virtio_driver to talk to it. First option would have big ripple efffect and nasty ...
 
 OR: we have two problems - virtio_driver is tied to pci::device and virtio_driver implements legacy interface vs modern per virtio spec. 
 
@@ -158,6 +161,8 @@ Describe more what happens in this diagram.
 
 ## ACPI
 
+The last and simplest part of the exercise was to fill in the gaps in OSv to make it deal with situation when ACPI (link what it is) is missing.
+
 Firecracker does not implement ACPI which is used by OSv to implement power handling and to discover CPUs. Instead OSv had to be changed to boot without ACPI and read CPU info from MP table … 
 * modify OSv to detect if ACPI present
 * in relevant places (CPU detection, power off) instead of aborting if ACPI not present simply continue and provide alternative solution
@@ -170,3 +175,5 @@ Firecracker does not implement ACPI which is used by OSv to implement power hand
 Tell what was most critical (boot) ad most labor intesive (virtio).
 
 Mention that Firecracker team is working on ARM version. And OSv already has partial support for arm. Anyone interested to make it boot.
+
+Metion this work should hopefully make it easies to boot on NEMU ad QEMU 4.0 with direct boot. Possibly easier to implement Virtio 1.1.
