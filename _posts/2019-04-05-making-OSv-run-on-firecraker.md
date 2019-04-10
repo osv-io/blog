@@ -77,6 +77,9 @@ mov %rax, %cr4
 lea ident_pt_l4, %rax
 mov %rax, %cr3
 
+# Enable long mode by writing to EFER register (look at https://wiki.osdev.org/Model_Specific_Registers)
+# Use wrmsr instruction to write value 0x00000900 [placed in register EAX] (b1001 0000 0000, bits LME (Long Mode Enable) and NXE (No-Execute Enable) set)
+# to register EFER indexed by ECX register value 0xc0000080
 mov $0xc0000080, %ecx
 mov $0x00000900, %eax
 xor %edx, %edx
