@@ -158,6 +158,8 @@ Describe more what happens in this diagram.
 
 ```
 
+Mention how virtio mmio devices are passed in command line and how OSv parses them out to probe for the devices. Also mention optimization to skip PCI enumeration by passing special flag - saves 4 ms.
+
 ## ACPI
 
 The last and simplest part of the exercise was to fill in the gaps in OSv to make it deal with situation when ACPI (link what it is) is missing.
