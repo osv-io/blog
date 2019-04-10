@@ -46,21 +46,20 @@ Originally OSv has been designed to boot in 16-bit mode (aka **real mode**) and 
 [Describe firecracker Linux]
 [review] Firecracker on other hand expects image to be a vmlinux 64-bit ELF file and loads it in RAM at address specified by ELF header field ???. Firecracker also sets VM state which means all relevant registers to 64-bit mode per what Linux expects (function ??? from readelf) including paging. [What is paging and why important?] As you can see firecracker bypasses both 16- and 32-bit mode and passes command line and e820 memory info at zero page. 
 
-So the challenge is - how do we modify booting logic to support booting OSv as 64-bit vmlinux format ELF and at the same time retain ability to boot in real mode using traditional usr.img image file. First we need to replace current 32-bit entry point **start32** of loader.elf with a 64-bit one - **vmlinux_entry64** - that will be called by Firecracker (which will also load loader.elf in memory at 0x200000 as ELF header demands). At the same time we also need to change memory placement of start32 to be at some fixed offset so that boot16.S knows where to jump to. 
+So the challenge is - how do we modify booting logic to support booting OSv as 64-bit vmlinux format ELF and at the same time retain ability to boot in real mode using traditional usr.img image file. For sure we need to replace current 32-bit entry point **start32** of loader.elf with a 64-bit one - **vmlinux_entry64** - that will be called by Firecracker (which will also load loader.elf in memory at 0x200000 as ELF header demands). At the same time we also need to change memory placement of start32 to be at some fixed offset so that boot16.S knows where to jump to. 
 
-So what exactly new vmlinux_entry64 should do? Firecracker sets up VMs to 64-bit state and OSv already provided 64-bit [start64](https://github.com/cloudius-systems/osv/blob/c8395118cb580f2395cac6c53999feb217fd2c2f/arch/x64/boot.S#L100-L119) function so one could ask - why not simply jump to it and be done with it?. Unfortunately this would not work (as I tested) because of different mamory paging and CPU setup between what Linux and OSv expects (and Firecracker sets up for Linux). So possibly vmlinux_entry64 needs to reset memory pagig and CPU the OSv way? Luckily the segmentation (explain - does not matter in long mode (1:1)) is setup same way.
- 
+So what exactly new vmlinux_entry64 should do? Firecracker sets up VMs to 64-bit state but OSv already provided 64-bit [start64](https://github.com/cloudius-systems/osv/blob/c8395118cb580f2395cac6c53999feb217fd2c2f/arch/x64/boot.S#L100-L119) function so one could ask - why not simply jump to it and be done with it?. Unfortunately this would not work (as I tested) because of different mamory paging and CPU setup between what Linux and OSv expects (and Firecracker sets up for Linux). So possibly vmlinux_entry64 needs to reset memory pagig and CPU the OSv way? Alteratively vmlinux_entry64 could switch back to protected and jump to start32 and let it setup VM OSv way. I tried that as well but it did not work for some reason.
+
 ---> 
- 
-So somehow we need to make OSv also look like vmlinux and read passed in cmdline and memory information and continue in 64 bit more, but also set CPU settings including paging to the way OSv expects. One way would be to switch back to protected and jump to OSv start32 and let it set machine OSv way. Another is to tweak only necessary control registers - c0, cr3 and cr4
+Luckily the segmentation (explain - typically in long mode it is setup as flat ..) is setup same way.
 
-Steps:
-Make loader.elf start address be 64 bit code (now is 32 bit) -> support 2 entry points
-Reset paging the OSv way -> cr4, cr3 (root table) and cr0 registers are critical (control registers that control and change general behavior of CPU)
-* cr0 - 31-st bit enables paging 
-* cr3 - sets address of hierarchical paging directory
-* cr4 - controls protected mode settings including enabling PAE
-* reference https://github.com/cloudius-systems/osv/blob/master/arch/x64/vmlinux-boot64.S - vmlinux_entry64
+At the end based on many trial-and-error attempt I came to conclusion that vmlinux_entry64 should do following:
+1. Extract command line and memory information from Linux boot_params structure whose address is passed in by Firecracker in RSI register (please see [extract_linux_boot_params](https://github.com/cloudius-systems/osv/blob/c8395118cb580f2395cac6c53999feb217fd2c2f/arch/x64/vmlinux.cc#L41-L93) for details).
+2. Reset CR0 and CR4 control registers to reset global CPU feaures OSv way.
+3. Reset CR3 register to point to OSv PML4 table mapping first 1GB of memory with 2BM medium size pages one-to-one.
+4. Jump to start64 to complete boot process and start OSv.
+ 
+The code below is slightly modified version of [vmlinux_entry64 in vmlinux-boot64.S](https://github.com/cloudius-systems/osv/blob/master/arch/x64/vmlinux-boot64.S) that implemennts the steps described above.
 
 ```asm
 vmlinux_entry64:
@@ -92,9 +91,6 @@ vmlinux_entry64:
     mov $0x1000, %rbx
     jmp start64
 ```
-
-Bolek
-In order boot Linux kernel firecracker loads the vmlinux 64-bit ELF file, inspects its headers and based on one of the parameters (maybe name it?) copies ELF content (segments or sections?) into memory at 0x200000 address. In order to make 
 
 ## Virtio
 Brief introduction to VirtIO
