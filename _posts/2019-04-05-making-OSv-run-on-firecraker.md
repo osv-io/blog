@@ -51,7 +51,7 @@ So the challenge is - how do we modify booting logic to support booting OSv as 6
 So what exactly new vmlinux_entry64 should do? Firecracker sets up VMs to 64-bit state but OSv already provided 64-bit [start64](https://github.com/cloudius-systems/osv/blob/c8395118cb580f2395cac6c53999feb217fd2c2f/arch/x64/boot.S#L100-L119) function so one could ask - why not simply jump to it and be done with it?. Unfortunately this would not work (as I tested) because of different mamory paging and CPU setup between what Linux and OSv expects (and Firecracker sets up for Linux). So possibly vmlinux_entry64 needs to reset memory pagig and CPU the OSv way? Alteratively vmlinux_entry64 could switch back to protected and jump to start32 and let it setup VM OSv way. I tried that as well but it did not work for some reason.
 
 ---> 
-Luckily the segmentation (explain - typically in long mode it is setup as flat ..) is setup same way.
+Luckily the segmentation (explain - typically in long mode it is setup as *flat memory model*) is setup same way.
 
 At the end based on many trial-and-error attempts I came to conclusion that vmlinux_entry64 should do following:
 1. Extract command line and memory information from Linux boot_params structure whose address is passed in by Firecracker in RSI register and copy to another place structured same way as if OSv booted through boot16.S (please see [extract_linux_boot_params](https://github.com/cloudius-systems/osv/blob/c8395118cb580f2395cac6c53999feb217fd2c2f/arch/x64/vmlinux.cc#L41-L93) for details).
@@ -78,7 +78,7 @@ lea ident_pt_l4, %rax
 mov %rax, %cr3
 
 # Enable long mode by writing to EFER register (look at https://wiki.osdev.org/Model_Specific_Registers)
-# Use wrmsr instruction to write value 0x00000900 [placed in register EAX] (b1001 0000 0000, bits LME (Long Mode Enable) and NXE (No-Execute Enable) set)
+# Use wrmsr instruction to write value 0x00000900 [placed in register EAX] (b1001 0000 0000, bits 8:LME (Long Mode Enable) and 11:NXE (No-Execute Enable) set)
 # to register EFER indexed by ECX register value 0xc0000080
 mov $0xc0000080, %ecx
 mov $0x00000900, %eax
