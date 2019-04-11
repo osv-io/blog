@@ -100,24 +100,12 @@ Unlike booting process enhancing virtio layer in OSv was not as tricky and hard 
 
 Before diving into let me first introduce Virt IO and why we need it. Specifies how hypervisor should implement paravirtual devices for block, net, etc and how guest should interact with them and in a most efficient way to minimize number of exits from guest to hypervisor (quote something?). Point to spec from 2016. 
 
-Firecracker implements mmio flavor of virtio which was modeled after PCI in behavior but different configuration. To my dispair OSv ufortunnatel was missing mmio implementation. On top of that to make things work it implemented the legacy (pre 1.0) version of virtio before it was finalized in 2016. So two things had to be done - refactor OSv virtio layer to support both legacy and modern PCI devices and implement virtio mmio:
-* Virtio device interface class
-* Virtio pci modern and legacy device class
-* Delegate to normal pci device
-* Virtio mmio device class
+--> Most differences between PCI modern and legacy is the initialization and configuration phase. Special register for configuration.
 
-Most differences between PCI modern and legacy is the initialization and configuration phase. Special register for configuration.
+Firecracker implements virtio mmio block and net devices. The mmio (memory-mapped IO) flavor of virtio is really a different transport layer which was modeled after PCI one and differs mainly in how devices are cofigured and innitialized. To my dispair OSv was missing mmio implementation. On top of that to make things worse it implemented the legacy (pre 1.0) version of virtio before it was finalized in 2016. So two things had to be done - refactor OSv virtio layer to support both legacy and modern PCI devices and implement virtio mmio. 
 
-OSv has two orthogonal but related layers of abstraction in this matter - driver and device interface class. The virtio_driver is a generalization and virtio::blk, virtio::net, ... are specializations for each type of virtio driver. Unfortunately virtio_driver implementation tied it to a pci::device class so in order to now support mmio device we had to refactor it. There were two options - somehow use multiple inheritance to ??? or introduce virtio_device class to represent transport layer and make virtio_driver to talk to it. First option would have big ripple efffect and nasty ...
+In order to design and immplement the changes first we need to understand existing implementation of virtio layer. OSv has two orthogonal but related layers of abstraction in this matter - driver and device interface class. The virtio_driver is a generalization and virtio::blk, virtio::net, ... are specializations for each type of virtio driver. Unfortunately virtio_driver implementation tied it to a pci::device class so in order to now support mmio device we had to refactor it. Here is the ascii art of what it looked:
 
-OR: we have two problems - virtio_driver is tied to pci::device and virtio_driver implements legacy interface vs modern per virtio spec. 
-
-virtio_device class method is_modern() is used only in one place during initialization to skip step 5 & 6 for legacy.
-
-Important: why bother implementing modern pci device? Becuase we can then test most logic handling modern virtio device as Firecracker mmio is a modern one. Also because presumabely it will be easier to support [VirtIO 1.1 spec](https://docs.oasis-open.org/virtio/virtio/v1.1/csprd01/virtio-v1.1-csprd01.html) once finalized (for good overview see [here](https://archive.fosdem.org/2018/schedule/event/virtio/attachments/slides/2167/export/events/attachments/virtio/slides/2167/fosdem_virtio1_1.pdf)).
-
-Ascii art to show old and new class hierarchies and dependencies between driver and device including all virtio_driver subclasses.  
-As you can guess virtio_driver also implements virtio device logic which we need to extract as a seperate abstraction.
 ```
 
  hw_device <|---
@@ -134,6 +122,27 @@ As you can guess virtio_driver also implements virtio device logic which we need
                                            |-- virtio::rng
 
 ```
+
+
+....
+
+
+There were two options - somehow use multiple inheritance to ??? or introduce virtio_device class to represent transport layer and make virtio_driver to talk to it. First option would have big ripple efffect and nasty ...
+
+* Virtio device interface class
+* Virtio pci modern and legacy device class
+* Delegate to normal pci device
+* Virtio mmio device class
+
+OR: we have two problems - virtio_driver is tied to pci::device and virtio_driver implements legacy interface vs modern per virtio spec. 
+
+virtio_device class method is_modern() is used only in one place during initialization to skip step 5 & 6 for legacy.
+
+Important: why bother implementing modern pci device? Becuase we can then test most logic handling modern virtio device as Firecracker mmio is a modern one. Also because presumabely it will be easier to support [VirtIO 1.1 spec](https://docs.oasis-open.org/virtio/virtio/v1.1/csprd01/virtio-v1.1-csprd01.html) once finalized (for good overview see [here](https://archive.fosdem.org/2018/schedule/event/virtio/attachments/slides/2167/export/events/attachments/virtio/slides/2167/fosdem_virtio1_1.pdf)).
+
+Ascii art to show old and new class hierarchies and dependencies between driver and device including all virtio_driver subclasses.  
+As you can guess virtio_driver also implements virtio device logic which we need to extract as a seperate abstraction.
+
 
 Composition to link to a pci_device and delegate to it in many cases. 
 Describe more what happens in this diagram.
