@@ -126,25 +126,15 @@ In order to design and implement correct changes first I had to understand exist
 
 ....
 
-As you can tell from the above description  (cont)    Unfortunately virtio_driver interacts directly with pci::device so in order to add support of MMIO devices I had to refactor it to make it transport agnostic. There were two options - somehow use multiple inheritance to ??? or introduce virtio_device class to represent transport layer and make virtio_driver to talk to it. First option would have big ripple efffect and nasty ...
+As you can tell from the graphics above virtio_driver interacts directly with [pci::device](https://github.com/cloudius-systems/osv/blob/25209d81f7b872111beb02ab9758f0d86898ec6b/drivers/pci-device.hh) so in order to add support of MMIO devices I had to refactor it to make it transport agnostic. From all the options I took into consideration the least invasive and most flexible one involved crearing new abstraction - virtio_device - to model virtio device. To that end I ended up heavily refactoring virtio_driver class and defining following new classes:
 
-* Virtio device interface class
-* Virtio pci modern and legacy device class
-* Delegate to normal pci device
-* Virtio mmio device class
+* [virtio::virtio_device](https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio-device.hh) - abstract class to model interface of virtio device intended to be used by refactored [virtio::virtio_driver](https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio.hh)
+* [virtio::virtio_pci_device](https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio-pci-device.hh#L65-L93) - base class with common logic for virtio PCI devices
+* [virtio::virtio_legacy_pci_device](https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio-pci-device.hh#L95-L135) - class implementing legacy PCI device
+* [virtio::virtio_modern_pci_device](https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio-pci-device.hh#L198-L288) - class implementing modern PCI device
+* [virtio::mmio_device](https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio-mmio.hh) - class implementing mmio device
 
-OR: we have two problems - virtio_driver is tied to pci::device and virtio_driver implements legacy interface vs modern per virtio spec. 
-
-virtio_device class method is_modern() is used only in one place during initialization to skip step 5 & 6 for legacy.
-
-Important: why bother implementing modern pci device? Becuase we can then test most logic handling modern virtio device as Firecracker mmio is a modern one. Also because presumabely it will be easier to support [VirtIO 1.1 spec](https://docs.oasis-open.org/virtio/virtio/v1.1/csprd01/virtio-v1.1-csprd01.html) once finalized (for good overview see [here](https://archive.fosdem.org/2018/schedule/event/virtio/attachments/slides/2167/export/events/attachments/virtio/slides/2167/fosdem_virtio1_1.pdf)).
-
-Ascii art to show old and new class hierarchies and dependencies between driver and device including all virtio_driver subclasses.  
-As you can guess virtio_driver also implements virtio device logic which we need to extract as a seperate abstraction.
-
-
-Composition to link to a pci_device and delegate to it in many cases. 
-Describe more what happens in this diagram.
+For better illustration of the changes and relationship between new and old classes please see ascii-art UML-like class diagram below:
 ```
 
                |-- pci::function <|--- pci::device
@@ -168,6 +158,17 @@ Describe more what happens in this diagram.
                                            |-- virtio::rng
 
 ```
+
+The benefit of using composition between virtio_pci_device and pci_device ..
+virtio_device class method is_modern() is used only in one place during initialization to skip step 5 & 6 for legacy.
+
+Important: why bother implementing modern pci device? Becuase we can then test most logic handling modern virtio device as Firecracker mmio is a modern one. Also because presumabely it will be easier to support [VirtIO 1.1 spec](https://docs.oasis-open.org/virtio/virtio/v1.1/csprd01/virtio-v1.1-csprd01.html) once finalized (for good overview see [here](https://archive.fosdem.org/2018/schedule/event/virtio/attachments/slides/2167/export/events/attachments/virtio/slides/2167/fosdem_virtio1_1.pdf)).
+
+Ascii art to show old and new class hierarchies and dependencies between driver and device including all virtio_driver subclasses.  
+As you can guess virtio_driver also implements virtio device logic which we need to extract as a seperate abstraction.
+
+
+Composition to link to a pci_device and delegate to it in many cases. 
 
 Mention how virtio mmio devices are passed in command line and how OSv parses them out to probe for the devices. Also mention optimization to skip PCI enumeration by passing special flag - saves 4 ms.
 
