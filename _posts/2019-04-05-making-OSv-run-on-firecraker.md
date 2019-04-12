@@ -8,6 +8,11 @@ published: true
 
 **By: Waldek Kozaczuk**
 
+Remaining:
+- Fill in blanks in all places
+- Add reference links to any acronyms/terms that may not be understood by a reader (read from their perspective)
+- Read my commits descriptions
+
 ## Firecracker
 
 [Firecracker](https://firecracker-microvm.github.io/) is a new light KVM-based hypervisor written in Rust and announced during last AWS re:Invent in 2018.
@@ -126,13 +131,15 @@ In order to design and implement correct changes first I had to understand exist
 
 ....
 
-As you can tell from the graphics above virtio_driver interacts directly with [pci::device](https://github.com/cloudius-systems/osv/blob/25209d81f7b872111beb02ab9758f0d86898ec6b/drivers/pci-device.hh) so in order to add support of MMIO devices I had to refactor it to make it transport agnostic. From all the options I took into consideration the least invasive and most flexible one involved crearing new abstraction - virtio_device - to model virtio device. To that end I ended up heavily refactoring virtio_driver class and defining following new classes:
+As you can tell from the graphics above virtio_driver interacts directly with [pci::device](https://github.com/cloudius-systems/osv/blob/25209d81f7b872111beb02ab9758f0d86898ec6b/drivers/pci-device.hh) so in order to add support of MMIO devices I had to refactor it to make it transport agnostic. From all the options I took into consideration the least invasive and most flexible one involved crearing new abstraction to model virtio device. To that end I ended up heavily refactoring virtio_driver class and defining following new virtual device classes:
 
 * [virtio::virtio_device](https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio-device.hh) - abstract class to model interface of virtio device intended to be used by refactored [virtio::virtio_driver](https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio.hh)
-* [virtio::virtio_pci_device](https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio-pci-device.hh#L65-L93) - base class with common logic for virtio PCI devices
+* [virtio::virtio_pci_device](https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio-pci-device.hh#L65-L93) - base class implementing common virtio PCI logic that delegates to pci_device
 * [virtio::virtio_legacy_pci_device](https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio-pci-device.hh#L95-L135) - class implementing legacy PCI device
 * [virtio::virtio_modern_pci_device](https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio-pci-device.hh#L198-L288) - class implementing modern PCI device
 * [virtio::mmio_device](https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio-mmio.hh) - class implementing mmio device
+
+The method is_modern() declared in virtio_device class and overridden in the subclasses is used in few places virtio_driver and its subclasses to drive initialization to skip step 5 & 6 for legacy (poprawic te zdanie).
 
 For better illustration of the changes and relationship between new and old classes please see ascii-art UML-like class diagram below:
 ```
@@ -159,22 +166,15 @@ For better illustration of the changes and relationship between new and old clas
 
 ```
 
-The benefit of using composition between virtio_pci_device and pci_device ..
-virtio_device class method is_modern() is used only in one place during initialization to skip step 5 & 6 for legacy.
+To recap most of the coding went into major refactoring virtio_driver class to make it transport agnostic and delegate to virtio_device, extracting out PCI logic from virtio_driver into virtio_pci_device and virtio_legacy_pci_device and finally implementing new virtio_modern_pci_device and virtio::mmio_device classes. Thanks to this approach the changes to subclasses of virtio_driver (virtio::net, virtio::block, etc) were pretty minimal and one of the critical classes - [virtio::vring](https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio-vring.hh) - stayed pretty much intact.
 
-Important: why bother implementing modern pci device? Becuase we can then test most logic handling modern virtio device as Firecracker mmio is a modern one. Also because presumabely it will be easier to support [VirtIO 1.1 spec](https://docs.oasis-open.org/virtio/virtio/v1.1/csprd01/virtio-v1.1-csprd01.html) once finalized (for good overview see [here](https://archive.fosdem.org/2018/schedule/event/virtio/attachments/slides/2167/export/events/attachments/virtio/slides/2167/fosdem_virtio1_1.pdf)).
+Big motivation for implementing modern virtio pci device (as opposed to only ?implementing legacy one) was to have a way to exercice and test modern virtio device with QEMU. That way I could have extra confidence the most heavy refactoring in virtio_driver was correct even before trying with Firecracker which exposes mmio device as modern one as well. Also there is great chance it will make easier enhancing virtio layer to support new [VirtIO 1.1 spec](https://docs.oasis-open.org/virtio/virtio/v1.1/csprd01/virtio-v1.1-csprd01.html) once finalized (for good overview see [here](https://archive.fosdem.org/2018/schedule/event/virtio/attachments/slides/2167/export/events/attachments/virtio/slides/2167/fosdem_virtio1_1.pdf)).
 
-Ascii art to show old and new class hierarchies and dependencies between driver and device including all virtio_driver subclasses.  
-As you can guess virtio_driver also implements virtio device logic which we need to extract as a seperate abstraction.
-
-
-Composition to link to a pci_device and delegate to it in many cases. 
-
-Mention how virtio mmio devices are passed in command line and how OSv parses them out to probe for the devices. Also mention optimization to skip PCI enumeration by passing special flag - saves 4 ms.
+Lastly given that mmio devices cannot be detected in similar fashion as PCI ones and instead are passed by Firecracker as part of command line in format Linux kernel expects, I also had to enhance OSv command line parsing logic [to extract correct configuration bits](https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio-mmio.cc#L140-L214). On top of that I added boot parameter to skip PCI enumeration and that way save extra 4-5 ms of boot time.
 
 ## ACPI
 
-The last and simplest part of the exercise was to fill in the gaps in OSv to make it deal with situation when ACPI (link what it is) is missing.
+The last and simplest part of the exercise was to fill in the gaps in OSv to make it deal with situation when ACPI (link what it is) is unavailable.
 
 Firecracker does not implement ACPI which is used by OSv to implement power handling and to discover CPUs. Instead OSv had to be changed to boot without ACPI and read CPU info from MP table … 
 * modify OSv to detect if ACPI present
