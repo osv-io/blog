@@ -12,6 +12,7 @@ Remaining:
 - Fill in blanks in all places
 - Add reference links to any acronyms/terms that may not be understood by a reader (read from their perspective)
 - Read my commits descriptions
+- Point to a Wiki page to run OSv on firecracker
 
 ## Firecracker
 
@@ -19,37 +20,34 @@ Remaining:
 
 ...
 Starts in 5ms, 2MB image, speed Linux in 125 ms
-Describe what firecracker is in terms of KVM and emulated paravirtual devices [here?]
+Describe what firecracker is in terms of KVM and emulated paravirtual devices [here?] Which are not implemented - no PCI and ACPI.
 Can run on Linu on bare-metal Intel based hardware or Nitro-based EC2 instance like i3.metal.
 ...
 
-If you want to hear more about what it took to enhance OSv to make it **boot in 5ms** on Firecracker, please read remaining part of this article. In the next paragraph I will describe the implementation strategy I arrived at. In the following three paragraphs I will focus on what I had to change in relevant areas - .... Finally I will describe what the outcome of this exercise is and what possible things we could improve and benefit from in future are.
+If you want to hear more about what it took to enhance OSv to make it **boot in 5ms** on Firecracker, please read remaining part of this article. In the next paragraph I will describe the implementation strategy I arrived at. In the following three paragraphs I will focus on what I had to change in relevant areas - booting process, VirtIO and ACPI. Finally in the epilogue I will describe the outcome of this exercise and possible improvements we can make and benefit from in future.
 
 ## Implementation Strategy
 
-OSv implements virtio drivers and is very well supported on QEMU/KVM. Given Firecracker is based on [KVM](https://www.kernel.org/doc/ols/2007/ols2007v1-pages-225-230.pdf) and implements virtio drivers, at first it seamed OSv might boot and run on it out of the box with some small modifications. As first experiments and more resarch showed the task in reality was not as trivial. The initial attempts to boot OSv on Firecracker caused KVM exit and OSv did not even print its first status boot message.
+OSv implements virtio drivers and is very well supported on QEMU/KVM. Given Firecracker is based on [KVM](https://www.kernel.org/doc/ols/2007/ols2007v1-pages-225-230.pdf) and implements virtio drivers, at first it seamed OSv might boot and run on it out of the box with some small modifications. As first experiments and more research showed, the task in reality was not as trivial. The initial attempts to boot OSv on Firecracker caused KVM exit and OSv did not even print its first boot message.
 
-For starters do we even understand which OSv artifact to use as an argument of  **/boot-source** API call? It cannot be usr.img or its derivative used with QEMU as Firecracker expects 64-bit ELF (Executable and Linking Format) vmlinux kernel. The closest to it in OSv-land is loader.elf which even though is a 64-bit ELF file it has 32-bit entry point start32. Finally given there is no debugger you can connect with how do you even start figuring out where stuff breaks?
+For starters I had to identify which OSv artifact to use as an argument to **/boot-source** API call. It could not be plain usr.img or its derivative used with QEMU as Firecracker expects 64-bit ELF (Executable and Linking Format) vmlinux kernel. The closest to it in OSv-land is loader.elf (enclosed inside of usr.img) - 64-bit ELF file with 32-bit entry point **start32**. Finally given it is not possible to connect to OSv running on Firecracker with gdb (like it is possible with QEMU), I could not use this technique to figure out where stuff breaks.
 
-It became clear to me that I should focus first on making OSv boot on Firecracker without any block and networking device. Luckily OSv can boot of RAMFS image ... 
+It became clear to me I should first focus on making OSv boot on Firecracker without block and networking devices. Luckily OSv can be built with RamFS where application code is placed in **bootfs** part of loader.elf. 
 
-Write more about virtio mmio - not the same as what OSv implemented - give hint it will be harder than what I thought
+Then I should enhance VirtIO layer to make it support block and networking devices with MMIO transport. Initially these changes seemed very reasonable to implement but they turned way more involved in the end. 
 
-Finally ACPI
+Finally I had to tweak some parts of OSv to make it work without [ACPI](https://wiki.osdev.org/ACPI) (Advanced Configuration and Power Interface) if unavailable.
 
-Plan:
-* Make OSv boot without ...
-* Enhance OSv to support 
-* ACPI ...
+Next three paragraphs describe each step of this plan in detail.
 
 ## Booting
 
-In order to make OSv boot on Firecracker first we need to understand how current OSv booting process works.
+In order to make OSv boot on Firecracker first I had to fully understand how current OSv booting process works.
 
-Originally OSv has been designed to boot in 16-bit mode (aka **real mode**) and expects hypervisor to load MBR (Master Boot Record) which is first 512 bytes of OSv image at address 0x7c00 and execute it by jumping to that address. A this point OSv bootloader ([code](https://github.com/cloudius-systems/osv/blob/master/arch/x64/boot16.S) in these 512 bytes) loads command line found in next 63.5 KB of the image using interrupt 13. Then it loads remaining part of the image which is lzloader.elf (loader.elf and decompression logic) at address 0x100000 in 32KB chunks using interrupt 13 and switching back and forth between real and protected mode. Then it reads size of available RAM using e820 other interrupt. Eventually it jumps to [the code in the beginning of 1st MB that decompresses](https://github.com/cloudius-systems/osv/blob/c8395118cb580f2395cac6c53999feb217fd2c2f/fastlz/lzloader.cc#L30-L79) lzloader.elf in 1MB chunks starting from the tail and going backwards. Eventually after loader.elf is placed in memory at the adress 0x200000 (2nd MB), logic in boot16.S switches to **protected mode** and jumps to start32 to prepare to switch to **long mode** (64-bit). Please note that start32 is a 32-bit entry point of otherwise 64-bit loader.elf. For more details please read [this Wiki]().
+Originally OSv had been designed to boot in 16-bit mode (aka **real mode**) when it expects hypervisor to load MBR (Master Boot Record), which is first 512 bytes of OSv image, at address 0x7c00 and execute it by jumping to that address. A this point OSv bootloader ([code](https://github.com/cloudius-systems/osv/blob/master/arch/x64/boot16.S) in these 512 bytes) loads command line found in next 63.5 KB of the image using [interrupt 0x13](https://wiki.osdev.org/ATA_in_x86_RealMode_(BIOS)#LBA_in_Extended_Mode). Then it loads remaining part of the image which is lzloader.elf (loader.elf + decompression logic) at address 0x100000 in 32KB chunks using the interrupt 0x13 and switching back and forth between real and protected mode. Next it reads size of available RAM using [the 0x15 interrupt](http://www.uruk.org/orig-grub/mem64mb.html) and jumps to [the code in the beginning of 1st MB that de-compresses](https://github.com/cloudius-systems/osv/blob/c8395118cb580f2395cac6c53999feb217fd2c2f/fastlz/lzloader.cc#L30-L79) lzloader.elf in 1MB chunks starting from the tail and going backwards. Eventually after loader.elf is placed in memory at the adress 0x200000 (2nd MB), logic in boot16.S switches to **protected mode** and jumps to start32 to prepare to switch to **long mode** (64-bit). Please note that start32 is a 32-bit entry point of otherwise 64-bit loader.elf. For more details please read [this Wiki](https://github.com/cloudius-systems/osv/wiki/OSv-early-boot-(MBR)).
 
-[Describe firecracker Linux]
-[review] Firecracker on other hand expects image to be a vmlinux 64-bit ELF file and loads it in RAM at address specified by ELF header field ???. Firecracker also sets VM state which means all relevant registers to 64-bit mode per what Linux expects (function ??? from readelf) including paging. [What is paging and why important?] As you can see firecracker bypasses both 16- and 32-bit mode and passes command line and e820 memory info at zero page. 
+[Describe firecracker Linux ?]
+Firecracker on other hand expects image to be a vmlinux 64-bit ELF file which gets loaded in RAM at the address specified by ELF header field ???. Firecracker also sets VM state which means all relevant registers to 64-bit mode per what Linux expects (function ??? from readelf) including paging. [What is paging and why important?] As you can see firecracker bypasses both 16- and 32-bit mode and passes command line and e820 memory info at zero page. 
 
 So the challenge is - how do we modify booting logic to support booting OSv as 64-bit vmlinux format ELF and at the same time retain ability to boot in real mode using traditional usr.img image file. For sure we need to replace current 32-bit entry point **start32** of loader.elf with a 64-bit one - **vmlinux_entry64** - that will be called by Firecracker (which will also load loader.elf in memory at 0x200000 as ELF header demands). At the same time we also need to change memory placement of start32 to be at some fixed offset so that boot16.S knows where to jump to. 
 
@@ -101,13 +99,13 @@ jmp start64
 As you can see making OSv boot on Firecracker was the most tricky part of whole exercise.
 
 ## Virtio
-Unlike booting process enhancing virtio layer in OSv was not as tricky and hard to debug, but it was most labor itennsive and required a lot of research (reading the spec and Linux code as an example)
+Unlike booting process enhancing virtio layer in OSv was not as tricky and hard to debug, but it was the most labor itensive and required a lot of research (reading the spec and Linux code for comparison).
 
 Before diving in let us first get a glimpse of VirtIO and its purpose. [VirtIO specification](http://docs.oasis-open.org/virtio/virtio/v1.0/virtio-v1.0.html) defines standard virtual (sometimes called paravirtual) devices including networking, block, scsi ones. It effectively dictates how hypervisor (host) should expose those devices as well as how guest should detect, configure and interact with them in runtime in form of a driver. The objective is to define devices that can operate in most efficient way and minimize number of costly (performance wise) exits from guest to host.
 
 --> Most differences between PCI modern and legacy is the initialization and configuration phase. Special register for configuration.
 
-Firecracker implements virtio mmio block and net devices. The mmio (memory-mapped IO) is one of three VirtIO transport layers (MMIO, PCI, CCW) and was modeled after PCI and differs mainly in how mmio devices are cofigured and initialized. Unfortunately to my dispair OSv only implemented PCI transport and was missing mmio implementation. On top of that to make things worse it implemented the legacy (pre 1.0) version of virtio before it was finalized in 2016. So two things had to be done - refactor OSv virtio layer to support both legacy and modern PCI devices and implement virtio mmio. 
+Firecracker implements virtio MMIO block and net devices. The MMIO (Memory-Mapped IO) is one of three VirtIO transport layers (MMIO, PCI, CCW) and was modeled after PCI and differs mainly in how mmio devices are cofigured and initialized. Unfortunately to my dispair OSv only implemented PCI transport and was missing mmio implementation. On top of that to make things worse it implemented the legacy (pre 1.0) version of virtio before it was finalized in 2016. So two things had to be done - refactor OSv virtio layer to support both legacy and modern PCI devices and implement virtio mmio. 
 
 In order to design and implement correct changes first I had to understand existing implementation of virtio layer. OSv has two orthogonal but related abstraction layers in this matter - driver and device classes. The [virtio::virtio_driver](https://github.com/cloudius-systems/osv/blob/25209d81f7b872111beb02ab9758f0d86898ec6b/drivers/virtio.hh) serves as a base class with common driver logic and is extended by [virtio::blk](https://github.com/cloudius-systems/osv/blob/25209d81f7b872111beb02ab9758f0d86898ec6b/drivers/virtio-blk.hh), [virtio::net](https://github.com/cloudius-systems/osv/blob/25209d81f7b872111beb02ab9758f0d86898ec6b/drivers/virtio-net.hh), [virtio::scsi](https://github.com/cloudius-systems/osv/blob/25209d81f7b872111beb02ab9758f0d86898ec6b/drivers/virtio-scsi.hh) and [virtio::rng](https://github.com/cloudius-systems/osv/blob/25209d81f7b872111beb02ab9758f0d86898ec6b/drivers/virtio-rng.hh) classes to provide implementations for relevant type. For better illustration please look at this ascii art:
 
