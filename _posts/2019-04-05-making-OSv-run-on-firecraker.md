@@ -176,6 +176,23 @@ All in all I had to enhance OSv in following ways:
 
 Tell what was most critical (boot) ad most labor intesive (virtio).
 
+```
+OSv v0.53.0-6-gc8395118
+	disk read (real mode): 0.00ms, (+0.00ms)
+	uncompress lzloader.elf: 0.00ms, (+0.00ms)
+	TLS initialization: 1.23ms, (+1.23ms)
+	.init functions: 2.14ms, (+0.91ms)
+	SMP launched: 3.53ms, (+1.38ms)
+	VFS initialized: 4.25ms, (+0.72ms)
+	Network initialized: 4.58ms, (+0.34ms)
+	pvpanic done: 5.22ms, (+0.64ms)
+	drivers probe: 5.26ms, (+0.03ms)
+	drivers loaded: 5.61ms, (+0.36ms)
+	ROFS mounted: 5.81ms, (+0.20ms)
+	Total time: 5.81ms, (+0.00ms)
+Hello from C code
+```
+
 Show bootchart and talk about possible improvements:
 * boot time (hard to shave off 5ms) -> possibly smaller loader.elf
 * less memory (now 18MB)
