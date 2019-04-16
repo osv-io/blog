@@ -48,7 +48,7 @@ Originally OSv had been designed to boot in 16-bit mode (aka **real mode**) when
 
 Firecracker on other hand expects image to be a vmlinux 64-bit ELF file and loads its PT_LOAD segments into RAM at addresses specified by ELF program headers. Firecracker also sets VM to long mode (aka 64-bit mode), state of relevant registers and paging tables to map virtual memory to physical one as expected by Linux. Finally it passes memory information and boot command line in boot_params structure and jumps to vmlinux entry of startup_64 to let Linux kernel continue its [booting process](https://www.kernel.org/doc/Documentation/x86/boot.txt).
 
-So the challenge is - how do we modify booting logic to support booting OSv as 64-bit vmlinux format ELF and at the same time retain ability to boot in real mode using traditional usr.img image file. For sure we need to replace current 32-bit entry point **start32** of loader.elf with a 64-bit one - **vmlinux_entry64** - that will be called by Firecracker (which will also load loader.elf in memory at 0x200000 as ELF header demands). At the same time we also need to change memory placement of start32 to be at some fixed offset so that boot16.S knows where to jump to. 
+So the challenge is: how do we modify booting logic to support booting OSv as 64-bit vmlinux format ELF and at the same time retain ability to boot in real mode using traditional usr.img image file? For sure we need to replace current 32-bit entry point **start32** of loader.elf with a 64-bit one - **vmlinux_entry64** - that will be called by Firecracker (which will also load loader.elf in memory at 0x200000 as ELF header demands). At the same time we also need to change memory placement of start32 to be at some fixed offset so that boot16.S knows where to jump to. 
 
 So what exactly new vmlinux_entry64 should do? Firecracker sets up VMs to 64-bit state but OSv already provided 64-bit [start64](https://github.com/cloudius-systems/osv/blob/c8395118cb580f2395cac6c53999feb217fd2c2f/arch/x64/boot.S#L100-L119) function so one could ask - why not simply jump to it and be done with it?. Unfortunately this would not work (as I tested) because of different mamory paging and CPU setup between what Linux and OSv expects (and Firecracker sets up for Linux). So possibly vmlinux_entry64 needs to reset memory pagig and CPU the OSv way? Alteratively vmlinux_entry64 could switch back to protected mode and jump to start32 and let it setup VM OSv way. I tried that as well but it did not work for some reason either.
 
@@ -56,31 +56,27 @@ Luckily we do not need to worry about the segmentation which is setup by Firecra
 
 At the end based on many trial-and-error attempts I came to conclusion that vmlinux_entry64 should do following:
 1. Extract command line and memory information from Linux boot_params structure whose address is passed in by Firecracker in RSI register and copy to another place structured same way as if OSv booted through boot16.S (please see [extract_linux_boot_params](https://github.com/cloudius-systems/osv/blob/c8395118cb580f2395cac6c53999feb217fd2c2f/arch/x64/vmlinux.cc#L41-L93) for details).
-2. Reset CR0 and CR4 control registers to reset global CPU feaures OSv way (-> refer to some wiki for control registered explanation).
-3. Reset CR3 register to point to OSv PML4 table mapping first 1GB of memory with 2BM medium size pages one-to-one (refer ->).
+2. Reset CR0 and CR4 [control registers](https://wiki.osdev.org/CPU_Registers_x86-64#Control_Registers) to reset global CPU feaures OSv way.
+3. Reset CR3 register to point to OSv PML4 table mapping first 1GB of memory with 2BM medium size pages one-to-one (refer -> ???).
 4. Finally jump to start64 to complete boot process and start OSv.
  
-The code below is slightly modified version of [vmlinux_entry64 in vmlinux-boot64.S](https://github.com/cloudius-systems/osv/blob/master/arch/x64/vmlinux-boot64.S) that implemennts the steps described above.
+The code below is slightly modified version of [vmlinux_entry64 in vmlinux-boot64.S](https://github.com/cloudius-systems/osv/blob/master/arch/x64/vmlinux-boot64.S) that implements the steps described above.
 
 ```asm
-# The address of boot_params struct is passed in RSI
-# register so pass it to extract_linux_boot_params fuction
-# which will extract cmdline and memory information and verify
-# that loader.elf was indeed called as Linux 64-bit vmlinux ELF
+# Call extract_linux_boot_params with the address of boot_params struct
+# passed in RSI register to extract cmdline and memory information
 mov %rsi, %rdi
 call extract_linux_boot_params
 
-# Even though we are in 64-bit long mode we need to reset
-# page tables and other CPU settings the way OSv expects it
+# Reset paging tables and other CPU settings the way OSv expects it
 mov $BOOT_CR4, %rax
 mov %rax, %cr4
 
 lea ident_pt_l4, %rax
 mov %rax, %cr3
 
-# Enable long mode by writing to EFER register (look at https://wiki.osdev.org/Model_Specific_Registers)
-# Use wrmsr instruction to write value 0x00000900 [placed in register EAX] (b1001 0000 0000, bits 8:LME (Long Mode Enable) and 11:NXE (No-Execute Enable) set)
-# to register EFER indexed by ECX register value 0xc0000080
+# Enable long mode by writing to EFER register by setting
+# the LME (Long Mode Enable) and NXE (No-Execute Enable) bits
 mov $0xc0000080, %ecx
 mov $0x00000900, %eax
 xor %edx, %edx
@@ -89,7 +85,7 @@ wrmsr
 mov $BOOT_CR0, %rax
 mov %rax, %cr0
 
-# Join common 64-bit boot logic by jumping to start64 label
+# Cotinue 64-bit boot logic by jumping to start64 label
 mov $OSV_KERNEL_BASE, %rbp
 mov $0x1000, %rbx
 jmp start64
@@ -97,13 +93,11 @@ jmp start64
 As you can see making OSv boot on Firecracker was the most tricky part of whole exercise.
 
 ## Virtio
-Unlike booting process enhancing virtio layer in OSv was not as tricky and hard to debug, but it was the most labor itensive and required a lot of research that included reading the spec and Linux code for comparison.
+Unlike booting process, enhancing virtio layer in OSv was not as tricky and hard to debug, but it was the most labor intensive and required a lot of research that included reading the spec and Linux code for comparison.
 
-Before diving in let us first get a glimpse of VirtIO and its purpose. [VirtIO specification](http://docs.oasis-open.org/virtio/virtio/v1.0/virtio-v1.0.html) defines standard virtual (sometimes called paravirtual) devices including networking, block, scsi ones. It effectively dictates how hypervisor (host) should expose those devices as well as how guest should detect, configure and interact with them in runtime in form of a driver. The objective is to define devices that can operate in most efficient way and minimize number of costly (performance wise) exits from guest to host.
+Before diving in let us first get a glimpse of VirtIO and its purpose. [VirtIO specification](http://docs.oasis-open.org/virtio/virtio/v1.0/virtio-v1.0.html) defines standard virtual (sometimes called paravirtual) devices including networking, block, scsi, etc ones. It effectively dictates how hypervisor (host) should expose those devices as well as how guest should detect, configure and interact with them in runtime in form of a driver. The objective is to define devices that can operate in most efficient way and minimize number of costly performance-wise exits from guest to host.
 
---> Most differences between PCI modern and legacy is the initialization and configuration phase. Special register for configuration.
-
-Firecracker implements virtio MMIO block and net devices. The MMIO (Memory-Mapped IO) is one of three VirtIO transport layers (MMIO, PCI, CCW) and was modeled after PCI and differs mainly in how mmio devices are cofigured and initialized. Unfortunately to my dispair OSv only implemented PCI transport and was missing mmio implementation. On top of that to make things worse it implemented the legacy (pre 1.0) version of virtio before it was finalized in 2016. So two things had to be done - refactor OSv virtio layer to support both legacy and modern PCI devices and implement virtio mmio. 
+Firecracker implements virtio MMIO block and net devices. The MMIO (Memory-Mapped IO) is one of three VirtIO transport layers (MMIO, PCI, CCW) and was modeled after PCI and differs mainly in how MMIO devices are cofigured and initialized. Unfortunately to my dispair OSv only implemented PCI transport and was missing mmio implementation. On top of that to make things worse it implemented the legacy (pre 1.0) version of virtio before it was finalized in 2016. So two things had to be done - refactor OSv virtio layer to support both legacy and modern PCI devices and implement virtio mmio. 
 
 In order to design and implement correct changes first I had to understand existing implementation of virtio layer. OSv has two orthogonal but related abstraction layers in this matter - driver and device classes. The [virtio::virtio_driver](https://github.com/cloudius-systems/osv/blob/25209d81f7b872111beb02ab9758f0d86898ec6b/drivers/virtio.hh) serves as a base class with common driver logic and is extended by [virtio::blk](https://github.com/cloudius-systems/osv/blob/25209d81f7b872111beb02ab9758f0d86898ec6b/drivers/virtio-blk.hh), [virtio::net](https://github.com/cloudius-systems/osv/blob/25209d81f7b872111beb02ab9758f0d86898ec6b/drivers/virtio-net.hh), [virtio::scsi](https://github.com/cloudius-systems/osv/blob/25209d81f7b872111beb02ab9758f0d86898ec6b/drivers/virtio-scsi.hh) and [virtio::rng](https://github.com/cloudius-systems/osv/blob/25209d81f7b872111beb02ab9758f0d86898ec6b/drivers/virtio-rng.hh) classes to provide implementations for relevant type. For better illustration please look at this ascii art:
 
@@ -127,17 +121,17 @@ In order to design and implement correct changes first I had to understand exist
 
 ....
 
-As you can tell from the graphics above virtio_driver interacts directly with [pci::device](https://github.com/cloudius-systems/osv/blob/25209d81f7b872111beb02ab9758f0d86898ec6b/drivers/pci-device.hh) so in order to add support of MMIO devices I had to refactor it to make it transport agnostic. From all the options I took into consideration the least invasive and most flexible one involved crearing new abstraction to model virtio device. To that end I ended up heavily refactoring virtio_driver class and defining following new virtual device classes:
+As you can tell from the graphics above, virtio_driver interacts directly with [pci::device](https://github.com/cloudius-systems/osv/blob/25209d81f7b872111beb02ab9758f0d86898ec6b/drivers/pci-device.hh) so in order to add support of MMIO devices I had to refactor it to make it transport agnostic. From all the options I took into consideration, the least invasive and most flexible one involved creating new abstraction to model virtio device. To that end I ended up heavily refactoring virtio_driver class and defining following new virtual device classes:
 
 * [virtio::virtio_device](https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio-device.hh) - abstract class to model interface of virtio device intended to be used by refactored [virtio::virtio_driver](https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio.hh)
 * [virtio::virtio_pci_device](https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio-pci-device.hh#L65-L93) - base class implementing common virtio PCI logic that delegates to pci_device
 * [virtio::virtio_legacy_pci_device](https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio-pci-device.hh#L95-L135) - class implementing legacy PCI device
-* [virtio::virtio_modern_pci_device](https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio-pci-device.hh#L198-L288) - class implementing modern PCI device
+* [virtio::virtio_modern_pci_device](https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio-pci-device.hh#L198-L288) - class implementing modern PCI device; most differences between modern and legacy PCI devices lie in the initialization and configuration phase with special configuration register
 * [virtio::mmio_device](https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio-mmio.hh) - class implementing mmio device
 
-The method is_modern() declared in virtio_device class and overridden in the subclasses is used in few places virtio_driver and its subclasses to drive initialization to skip step 5 & 6 for legacy (poprawic te zdanie).
+The method **is_modern()** declared in **virtio_device** class and overridden in its subclasses is used in few places in **virtio_driver** and its subclasses to mostly drive slightly different initialization logic of legacy and modern virtio devices.
 
-For better illustration of the changes and relationship between new and old classes please see ascii-art UML-like class diagram below:
+For better illustration of the changes and relationship between new and old classes please see the ascii-art UML-like class diagram below:
 ```
 
                |-- pci::function <|--- pci::device
@@ -162,22 +156,21 @@ For better illustration of the changes and relationship between new and old clas
 
 ```
 
-To recap most of the coding went into major refactoring virtio_driver class to make it transport agnostic and delegate to virtio_device, extracting out PCI logic from virtio_driver into virtio_pci_device and virtio_legacy_pci_device and finally implementing new virtio_modern_pci_device and virtio::mmio_device classes. Thanks to this approach the changes to subclasses of virtio_driver (virtio::net, virtio::block, etc) were pretty minimal and one of the critical classes - [virtio::vring](https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio-vring.hh) - stayed pretty much intact.
+To recap most of the coding went into major refactoring of virtio_driver class to make it transport agnostic and delegate to virtio_device, extracting out PCI logic from virtio_driver into virtio_pci_device and virtio_legacy_pci_device and finally implementing new virtio_modern_pci_device and virtio::mmio_device classes. Thanks to this approach changes to the subclasses of virtio_driver (virtio::net, virtio::block, etc) were pretty minimal and one of the critical classes - [virtio::vring](https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio-vring.hh) - stayed pretty much intact.
 
-Big motivation for implementing modern virtio pci device (as opposed to only ?implementing legacy one) was to have a way to exercice and test modern virtio device with QEMU. That way I could have extra confidence the most heavy refactoring in virtio_driver was correct even before trying with Firecracker which exposes mmio device as modern one as well. Also there is great chance it will make easier enhancing virtio layer to support new [VirtIO 1.1 spec](https://docs.oasis-open.org/virtio/virtio/v1.1/csprd01/virtio-v1.1-csprd01.html) once finalized (for good overview see [here](https://archive.fosdem.org/2018/schedule/event/virtio/attachments/slides/2167/export/events/attachments/virtio/slides/2167/fosdem_virtio1_1.pdf)).
+Big motivation for implementing modern virtio PCI device (as opposed to implementing legacy one only) was to have a way to exercice and test modern virtio device with QEMU. That way I could have extra confidence that most heavy refactoring in virtio_driver was correct even before testing it with Firecracker which exposes modern MMIO device. Also there is great chance it will make easier enhancing virtio layer to support new [VirtIO 1.1 spec](https://docs.oasis-open.org/virtio/virtio/v1.1/csprd01/virtio-v1.1-csprd01.html) once finalized (for good overview see [here](https://archive.fosdem.org/2018/schedule/event/virtio/attachments/slides/2167/export/events/attachments/virtio/slides/2167/fosdem_virtio1_1.pdf)).
 
-Lastly given that mmio devices cannot be detected in similar fashion as PCI ones and instead are passed by Firecracker as part of command line in format Linux kernel expects, I also had to enhance OSv command line parsing logic [to extract correct configuration bits](https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio-mmio.cc#L140-L214). On top of that I added boot parameter to skip PCI enumeration and that way save extra 4-5 ms of boot time.
+Lastly given that MMIO devices cannot be detected in similar fashion as PCI ones and instead are passed by Firecracker as part of command line in format Linux kernel expects, I also had to enhance OSv command line parsing logic [to extract relevant configuration bits](https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio-mmio.cc#L140-L214). On top of that I added boot parameter to skip PCI enumeration and that way save extra 4-5 ms of boot time.
 
 ## ACPI
 
-The last and simplest part of the exercise was to fill in the gaps in OSv to make it deal with situation when ACPI (link what it is) is unavailable.
+The last and simplest part of the exercise was to fill in the gaps in OSv to make it deal with situation when [ACPI](http://www.acpi.info/) is unavailable.
 
-Firecracker does not implement ACPI which is used by OSv to implement power handling and to discover CPUs. Instead OSv had to be changed to boot without ACPI and read CPU info from MP table … 
-* modify OSv to detect if ACPI present
-* in relevant places (CPU detection, power off) instead of aborting if ACPI not present simply continue and provide alternative solution
-* pvpanic is probed -> no problem
-* needs to extract info from MP table -> couple of places in memory to try to read from
-* power off -> alternative way
+Firecracker does not implement ACPI which is used by OSv to implement power handling and to discover CPUs. Instead OSv had to be changed to boot without ACPI and [read CPU info from MP table](https://github.com/cloudius-systems/osv/commit/47ae2b65e0428336a841d07d9add01359f523377). For more information about MP table read [here](https://wiki.osdev.org/Symmetric_Multiprocessing#Finding_information_using_MP_Table) or [there](http://www.osdever.net/tutorials/view/multiprocessing-support-for-hobby-oses-explained).
+All in all I had to enhance OSv in following ways:
+* modify ACPI related logic to detect if it is present
+* modify relevant places (CPU detection, power off) that rely on ACPI to continue and use alternative mechanism if ACPI not present instead of aborting
+* modify pvpanic probing logic to skip is ACPI is not available
 
 ## Epilogue 
 
