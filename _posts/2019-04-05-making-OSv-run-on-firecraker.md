@@ -8,27 +8,24 @@ published: true
 
 **By: Waldek Kozaczuk**
 
-Remaining:
-- Fill in blanks in all places
-- Add reference links to any acronyms/terms that may not be understood by a reader (read from their perspective)
-- Read my commits descriptions
-- Point to a Wiki page to run OSv on firecracker
-
 ## Firecracker
 
-[Firecracker](https://firecracker-microvm.github.io/) is a new light KVM-based hypervisor written in Rust and announced during last AWS re:Invent in 2018. Unlike QEMU Firecracker is specialized to host Linux guests only and is able to boot Linux VM in 125 ms. Firecracker itself can only run bare-metal Intel Linux machines or i3.metal or other Nitro-based EC2 instances.
+[Firecracker](https://firecracker-microvm.github.io/) is a new light KVM-based hypervisor written in Rust and announced during last AWS re:Invent in 2018. Unlike QEMU Firecracker is specialized to host Linux guests only and is able to boot micro Linux VMs in ~ 125 ms. Firecracker itself can only run on bare-metal Intel Linux machines or i3.metal or other Nitro-based EC2 instances.
 
 Firecracker emulates following paravirtual devices:
+- VirtIO block and network devices over MMIO transport
+- serial console
+- partial keyboard controller
+- PICs (Programmable Interrupt Controllers)
+- IOAPIC (Advanced Programmable Interrupt Controller)
+- PIT (Programmable Interval Timer)
 - KVM clock
 
-
-...
-Starts in 5ms, 2MB image, speed Linux in 125 ms
-Describe what firecracker is in terms of KVM and emulated paravirtual devices [here?] Which are not implemented - no PCI and ACPI.
-Can run on Linu on bare-metal Intel based hardware or Nitro-based EC2 instance like i3.metal.
-...
+Firecracker also exposes REST API over UNIX domain socket and can be confined through so called jailer. For more details look at [design doc](https://github.com/firecracker-microvm/firecracker/blob/master/docs/design.md) and [specification](https://github.com/firecracker-microvm/firecracker/blob/master/SPECIFICATION.md).
 
 If you want to hear more about what it took to enhance OSv to make it **boot in 5ms** on Firecracker, please read remaining part of this article. In the next paragraph I will describe the implementation strategy I arrived at. In the following three paragraphs I will focus on what I had to change in relevant areas - booting process, VirtIO and ACPI. Finally in the epilogue I will describe the outcome of this exercise and possible improvements we can make and benefit from in future.
+
+If you want to try OSv on Firecracker before reading this aricle follow [this wiki](https://github.com/cloudius-systems/osv/wiki/Running-OSv-on-Firecracker).
 
 ## Implementation Strategy
 
