@@ -170,11 +170,11 @@ Firecracker does not implement ACPI which is used by OSv to implement power hand
 All in all I had to enhance OSv in following ways:
 * modify ACPI related logic to detect if it is present
 * modify relevant places (CPU detection, power off) that rely on ACPI to continue and use alternative mechanism if ACPI not present instead of aborting
-* modify pvpanic probing logic to skip is ACPI is not available
+* modify pvpanic probing logic to skip if ACPI not available
 
 ## Epilogue 
 
-Tell what was most critical (boot) ad most labor intesive (virtio).
+With all changes implemented as described above OSv can boot on Firecracker.
 
 ```
 OSv v0.53.0-6-gc8395118
@@ -193,13 +193,13 @@ OSv v0.53.0-6-gc8395118
 Hello from C code
 ```
 
-Show bootchart and talk about possible improvements:
-* boot time (hard to shave off 5ms) -> possibly smaller loader.elf
-* less memory (now 18MB)
-* study performance -> block device faster, but network slower than with QEMU -> look if some major optimizations missing in vring due to modern<->legacy
+The console log with bootchart information above from an example run of OSv with Read-Only-FS on Firecracker, shows it took slightly less than 6 ms to boot. As you can notice OSv spent no time loading its image in real mode and decompressing it which is expected because OSv gets booted as ELF and these two phases completely bypassed. 
 
-Mention that Firecracker team is working on ARM version. And OSv already has partial support for arm. Anyone interested to make it boot.
+Even though 5 ms is already very low number, one can see that possibly TLS initialization and 'SMP lauched' phases need to be looked at to see if we can optimize it further. 
+Other areas of interest to improve are memory utilization - OSv needs minimum of 18MB to run on Firecracker and network performance which [suffers a little comparing to QEMU/KVM](https://github.com/firecracker-microvm/firecracker/issues/1034#issue-424659555) which might need to be optimized on Frirecracker itself. 
 
-Metion this work should hopefully make it easies to boot on NEMU ad QEMU 4.0 with direct boot. Possibly easier to implement Virtio 1.1.
+On other hand it is worth noting that block device seems to work much faster - for example mounting ZFS filesystem is at least 5 times faster on Firecracker - on average 60ms on firecracker vs 260ms on QEMU. 
 
-Finally list of patches chronologically.
+Looking toward future, Firecracker team is working on ARM support and given OSv already [unoficially supports this platform](https://github.com/cloudius-systems/osv/wiki/AArch64) and was booting on XEN/ARM at some point, it might not be that difficlut to make OSV boot on future Firecracker ARM version.
+
+Finally this work might make it easier to boot OSv on NEMU and QEMU 4.0 in Linux direct kernel mode. It might also make it easier to implement support of new Virtio 1.1 spec.
