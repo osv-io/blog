@@ -16,7 +16,11 @@ Remaining:
 
 ## Firecracker
 
-[Firecracker](https://firecracker-microvm.github.io/) is a new light KVM-based hypervisor written in Rust and announced during last AWS re:Invent in 2018.
+[Firecracker](https://firecracker-microvm.github.io/) is a new light KVM-based hypervisor written in Rust and announced during last AWS re:Invent in 2018. Unlike QEMU Firecracker is specialized to host Linux guests only and is able to boot Linux VM in 125 ms. Firecracker itself can only run bare-metal Intel Linux machines or i3.metal or other Nitro-based EC2 instances.
+
+Firecracker emulates following paravirtual devices:
+- KVM clock
+
 
 ...
 Starts in 5ms, 2MB image, speed Linux in 125 ms
