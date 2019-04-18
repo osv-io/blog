@@ -179,18 +179,19 @@ With all changes implemented as described above OSv can boot on Firecracker.
 
 ```
 OSv v0.53.0-6-gc8395118
+2019-04-17T22:28:29.467736397 [anonymous-instance:WARN:vmm/src/lib.rs:1080] Guest-boot-time =   9556 us 9 ms,  10161 CPU us 10 CPU ms
 	disk read (real mode): 0.00ms, (+0.00ms)
 	uncompress lzloader.elf: 0.00ms, (+0.00ms)
-	TLS initialization: 1.23ms, (+1.23ms)
-	.init functions: 2.14ms, (+0.91ms)
-	SMP launched: 3.53ms, (+1.38ms)
-	VFS initialized: 4.25ms, (+0.72ms)
-	Network initialized: 4.58ms, (+0.34ms)
-	pvpanic done: 5.22ms, (+0.64ms)
-	drivers probe: 5.26ms, (+0.03ms)
-	drivers loaded: 5.61ms, (+0.36ms)
-	ROFS mounted: 5.81ms, (+0.20ms)
-	Total time: 5.81ms, (+0.00ms)
+	TLS initialization: 1.13ms, (+1.13ms)
+	.init functions: 2.08ms, (+0.94ms)
+	SMP launched: 3.43ms, (+1.35ms)
+	VFS initialized: 4.12ms, (+0.69ms)
+	Network initialized: 4.45ms, (+0.33ms)
+	pvpanic done: 5.07ms, (+0.62ms)
+	drivers probe: 5.11ms, (+0.03ms)
+	drivers loaded: 5.46ms, (+0.35ms)
+	ROFS mounted: 5.62ms, (+0.17ms)
+	Total time: 5.62ms, (+0.00ms)
 Hello from C code
 ```
 
