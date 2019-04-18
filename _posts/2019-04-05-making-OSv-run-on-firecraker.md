@@ -12,7 +12,7 @@ published: true
 
 [Firecracker](https://firecracker-microvm.github.io/) is a new light KVM-based hypervisor written in Rust and announced during last AWS re:Invent in 2018. Unlike QEMU Firecracker is specialized to host Linux guests only and is able to boot micro VMs in ~ 125 ms. Firecracker itself can only run on Linux on bare-metal machines with Intel 64-bit CPUs or i3.metal or other [Nitro-based](http://www.brendangregg.com/blog/2017-11-29/aws-ec2-virtualization-2017.html) EC2 instances.
 
- Firecracker implements a device model with the following I/O devices:
+Firecracker implements a device model with the following I/O devices:
 - paravirtual VirtIO block and network devices over MMIO transport
 - serial console
 - partial keyboard controller
@@ -63,13 +63,15 @@ At the end based on many trial-and-error attempts I came to conclusion that *vml
  
 The code below is slightly modified version of [vmlinux_entry64 in vmlinux-boot64.S](https://github.com/cloudius-systems/osv/blob/master/arch/x64/vmlinux-boot64.S) that implements the steps described above in GAS (GNU Assembler) language.
 
-```asm
-# Call extract_linux_boot_params with the address of boot_params struct
-# passed in RSI register to extract cmdline and memory information
+<pre class='prettyprint lang-gas'>
+# Call extract_linux_boot_params with the address of
+# boot_params struct passed in RSI register to 
+# extract cmdline and memory information
 mov %rsi, %rdi
 call extract_linux_boot_params
 
-# Reset paging tables and other CPU settings the way OSv expects it
+# Reset paging tables and other CPU settings the way 
+# OSv expects it
 mov $BOOT_CR4, %rax
 mov %rax, %cr4
 
@@ -77,7 +79,7 @@ lea ident_pt_l4, %rax
 mov %rax, %cr3
 
 # Enable long mode by writing to EFER register by setting
-# the LME (Long Mode Enable) and NXE (No-Execute Enable) bits
+# LME (Long Mode Enable) and NXE (No-Execute Enable) bits
 mov $0xc0000080, %ecx
 mov $0x00000900, %eax
 xor %edx, %edx
@@ -90,8 +92,8 @@ mov %rax, %cr0
 mov $OSV_KERNEL_BASE, %rbp
 mov $0x1000, %rbx
 jmp start64
-```
-
+</pre>
+<br>
 As you can see making OSv boot on Firecracker was the most tricky part of whole exercise.
 
 ## Virtio
@@ -119,10 +121,7 @@ In order to design and implement correct changes first I had to understand exist
                                            |-- virtio::rng
 
 ```
-
-
-....
-
+<br>
 As you can tell from the graphics above, *virtio_driver* interacts directly with [pci::device](https://github.com/cloudius-systems/osv/blob/25209d81f7b872111beb02ab9758f0d86898ec6b/drivers/pci-device.hh) so in order to add support of MMIO devices I had to refactor it to make it transport agnostic. From all the options I took into consideration, the least invasive and most flexible one involved creating new abstraction to model virtio device. To that end I ended up heavily refactoring *virtio_driver* class and defining following new virtual device classes:
 
 * [virtio::virtio_device](https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio-device.hh) - abstract class to model interface of virtio device intended to be used by refactored [virtio::virtio_driver](https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio.hh)
@@ -157,7 +156,7 @@ For better illustration of the changes and relationship between new and old clas
                                            |-- virtio::rng
 
 ```
-
+<br>
 To recap most of the coding went into major refactoring of *virtio_driver* class to make it transport agnostic and delegate to *virtio_device*, extracting out PCI logic from *virtio_driver* into **virtio_pci_device** and **virtio_legacy_pci_device** and finally implementing new **virtio_modern_pci_device** and **virtio::mmio_device** classes. Thanks to this approach changes to the subclasses of *virtio_driver* (*virtio::net*, *virtio::block*, etc) were pretty minimal and one of the critical classes - [virtio::vring](https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio-vring.hh) - stayed pretty much intact.
 
 Big motivation for implementing modern virtio PCI device (as opposed to implementing legacy one only) was to have a way to exercise and test modern virtio device with QEMU. That way I could have extra confidence that most heavy refactoring in *virtio_driver* was correct even before testing it with Firecracker which exposes modern MMIO device. Also there is great chance it will make easier enhancing virtio layer to support new [VirtIO 1.1 spec](https://docs.oasis-open.org/virtio/virtio/v1.1/csprd01/virtio-v1.1-csprd01.html) once finalized (for good overview see [here](https://archive.fosdem.org/2018/schedule/event/virtio/attachments/slides/2167/export/events/attachments/virtio/slides/2167/fosdem_virtio1_1.pdf)).
@@ -195,7 +194,7 @@ OSv v0.53.0-6-gc8395118
 	Total time: 5.62ms, (+0.00ms)
 Hello from C code
 ```
-
+<br>
 The console log with bootchart information above from an example run of OSv with Read-Only-FS on Firecracker, shows it took slightly less than 6 ms to boot. As you can notice OSv spent no time loading its image in real mode and decompressing it which is expected because OSv gets booted as ELF and these two phases completely bypassed. 
 
 Even though 5 ms is already very low number, one can see that possibly TLS initialization and 'SMP lauched' phases need to be looked at to see if we can optimize it further. 
