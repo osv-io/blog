@@ -178,6 +178,8 @@ All in all I had to enhance OSv in following ways:
 TODO:
 - add specification of the machine (my laptop I used for tests)
 - mention and point to how much faster some apps were on OSv on FC vs Linux on FC (possibly generate graphs)
+- mention it would be nice to see how fast it boots on i3.metal
+- mention it would be nice to run a test with iperf to see how many OSv microVMs can be created per second
 
 With all changes implemented as described above OSv can boot on Firecracker.
 
