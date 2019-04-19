@@ -10,7 +10,7 @@ published: true
 
 ## Firecracker
 
-[Firecracker](https://firecracker-microvm.github.io/) is a new light KVM-based hypervisor written in Rust and announced during last AWS re:Invent in 2018. Unlike QEMU Firecracker is specialized to host Linux guests only and is able to boot micro VMs in ~ 125 ms. Firecracker itself can only run on Linux on bare-metal machines with Intel 64-bit CPUs or i3.metal or other [Nitro-based](http://www.brendangregg.com/blog/2017-11-29/aws-ec2-virtualization-2017.html) EC2 instances.
+[Firecracker](https://firecracker-microvm.github.io/) is a new light KVM-based hypervisor written in Rust and announced during last AWS re:Invent in 2018. But unlike QEMU, Firecracker is specialized to host Linux guests only and is able to boot micro VMs in ~ 125 ms. Firecracker itself can only run on Linux on bare-metal machines with Intel 64-bit CPUs or i3.metal or other [Nitro-based](http://www.brendangregg.com/blog/2017-11-29/aws-ec2-virtualization-2017.html) EC2 instances.
 
 Firecracker implements a device model with the following I/O devices:
 - paravirtual VirtIO block and network devices over MMIO transport
@@ -23,7 +23,7 @@ Firecracker implements a device model with the following I/O devices:
 
 Firecracker also exposes REST API over UNIX domain socket and can be confined to improve security through so called *jailer*. For more details look at [the design doc](https://github.com/firecracker-microvm/firecracker/blob/master/docs/design.md) and [the specification](https://github.com/firecracker-microvm/firecracker/blob/master/SPECIFICATION.md).
 
-If you want to hear more about what it took to enhance OSv to make it **boot in 5ms** on Firecracker, please read remaining part of this article. In the next paragraph I will describe the implementation strategy I arrived at. In the following three paragraphs I will focus on what I had to change in relevant areas - booting process, VirtIO and ACPI. Finally in the epilogue I will describe the outcome of this exercise and possible improvements we can make and benefit from in future.
+If you want to hear more about what it took to enhance OSv to make it **boot in 5 ms** on Firecracker (total of **10 ms** including the host side) which is **~20 times faster than Linux** on the same hardware, please read remaining part of this article. In the next paragraph I will describe the implementation strategy I arrived at. In the following three paragraphs I will focus on what I had to change in relevant areas - booting process, VirtIO and ACPI. Finally in the epilogue I will describe the outcome of this exercise and possible improvements we can make and benefit from in future.
 
 If you want to try OSv on Firecracker before reading this article follow [this wiki](https://github.com/cloudius-systems/osv/wiki/Running-OSv-on-Firecracker).
 
@@ -43,7 +43,7 @@ Next three paragraphs describe each step of this plan in detail.
 
 ## Booting
 
-In order to make OSv boot on Firecracker first I had to understand how current OSv booting process works.
+In order to make OSv boot on Firecracker, first I had to understand how current OSv booting process works.
 
 Originally OSv had been designed to boot in 16-bit mode (aka **real mode**) when it expects hypervisor to load MBR (Master Boot Record), which is first 512 bytes of OSv image, at address 0x7c00 and execute it by jumping to that address. A this point OSv bootloader ([code](https://github.com/cloudius-systems/osv/blob/master/arch/x64/boot16.S) in these 512 bytes) loads command line found in next 63.5 KB of the image using [interrupt 0x13](https://wiki.osdev.org/ATA_in_x86_RealMode_(BIOS)#LBA_in_Extended_Mode). Then it loads remaining part of the image which is **lzloader.elf** (loader.elf + *fastlz* decompression logic) at address 0x100000 in 32KB chunks using the interrupt 0x13 and switching back and forth between real and protected mode. Next it reads the size of available RAM using [the 0x15 interrupt](http://www.uruk.org/orig-grub/mem64mb.html) and jumps to [the code in the beginning of 1st MB that de-compresses](https://github.com/cloudius-systems/osv/blob/c8395118cb580f2395cac6c53999feb217fd2c2f/fastlz/lzloader.cc#L30-L79) *lzloader.elf* in 1MB chunks starting from the tail and going backwards. Eventually after *loader.elf* is placed in memory at the address 0x200000 (2nd MB), logic in `boot16.S` switches to **protected mode** and jumps to **start32** to prepare to switch to **long mode** (64-bit). Please note that *start32* is a 32-bit entry point of otherwise 64-bit loader.elf. For more details please read [this Wiki](https://github.com/cloudius-systems/osv/wiki/OSv-early-boot-(MBR)).
 
@@ -174,6 +174,10 @@ All in all I had to enhance OSv in following ways:
 * modify pvpanic probing logic to skip if ACPI not available
 
 ## Epilogue 
+
+TODO:
+- add specification of the machine (my laptop I used for tests)
+- mention and point to how much faster some apps were on OSv on FC vs Linux on FC (possibly generate graphs)
 
 With all changes implemented as described above OSv can boot on Firecracker.
 
