@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Making OSv Run on Firecracker"
-date: 2019-04-05 06:00:00 -0800
+date: 2019-04-19 06:00:00 -0800
 comments: true
 published: true
 ---
@@ -23,7 +23,7 @@ Firecracker implements a device model with the following I/O devices:
 
 Firecracker also exposes REST API over UNIX domain socket and can be confined to improve security through so called *jailer*. For more details look at [the design doc](https://github.com/firecracker-microvm/firecracker/blob/master/docs/design.md) and [the specification](https://github.com/firecracker-microvm/firecracker/blob/master/SPECIFICATION.md).
 
-If you want to hear more about what it took to enhance OSv to make it **boot in 5 ms** on Firecracker (total of **10 ms** including the host side) which is **~20 times faster than Linux** on the same hardware, please read remaining part of this article. In the next paragraph I will describe the implementation strategy I arrived at. In the following three paragraphs I will focus on what I had to change in relevant areas - booting process, VirtIO and ACPI. Finally in the epilogue I will describe the outcome of this exercise and possible improvements we can make and benefit from in future.
+If you want to hear more about what it took to enhance OSv to make it **boot in 5 ms** on Firecracker (total of **10 ms** including the host side) which is **~20 times faster than Linux** on the same hardware (5 years old MacBook Pro with Ubuntu 18.10), please read remaining part of this article. In the next paragraph I will describe the implementation strategy I arrived at. In the following three paragraphs I will focus on what I had to change in relevant areas - booting process, VirtIO and ACPI. Finally in the epilogue I will describe the outcome of this exercise and possible improvements we can make and benefit from in future.
 
 If you want to try OSv on Firecracker before reading this article follow [this wiki](https://github.com/cloudius-systems/osv/wiki/Running-OSv-on-Firecracker).
 
@@ -174,12 +174,6 @@ All in all I had to enhance OSv in following ways:
 * modify pvpanic probing logic to skip if ACPI not available
 
 ## Epilogue 
-
-TODO:
-- add specification of the machine (my laptop I used for tests)
-- mention and point to how much faster some apps were on OSv on FC vs Linux on FC (possibly generate graphs)
-- mention it would be nice to see how fast it boots on i3.metal
-- mention it would be nice to run a test with iperf to see how many OSv microVMs can be created per second
 
 With all changes implemented as described above OSv can boot on Firecracker.
 
