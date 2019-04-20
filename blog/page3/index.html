@@ -1,0 +1,1078 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>OSv Blog</title>
+  <meta name="author" content="Cloudius Systems">
+
+  
+  <meta name="description" content="
+  
+  
+  
+    
+      
+  
+    
+      Raspberry Pi at Amazon Re:invent
+    
+    
+      
+        
+
+
+
+
+
+
+
+
+
+
+Nov 9, 2014
+        
+      
+    
+  
+
+
+  Wa...">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://osv-io.github.io//github/blog/page3/">
+  <link href="/favicon.ico" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/monokai.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/customized.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <script src="/javascripts/run_prettify.js" type="text/javascript"></script>
+  <script src="/javascripts/lang-gas.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+<!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="http://osv.io/js/cycle.js"></script>
+<script src="http://osv.io/js/js.js" language="javascript"></script-->
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-43975320-1', 'osv.io');
+  ga('send', 'pageview');
+</script>
+
+  
+
+</head>
+
+<body   >
+  <div class="wrap">
+  <div class="header"> <a class="logo" href="http://osv.io"><img src="http://osv.io/images/logo.jpg" /> </a>
+    <div class="topMenu">
+        <ul class="nav menu">
+            <li><a href="http://osv.io">Home</a></li>
+            <li class=""><a href="/">Blog</a></li>
+            <li class=""><a href="/blog/archives">Archives</a></li>
+        </ul>
+        <ul class="subscription" data-subscription="rss">
+            <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+            
+        </ul>
+        
+        <form action="https://www.google.com/search" method="get">
+            <fieldset role="search">
+                <input type="hidden" name="q" value="site:http://osv-io.github.io//github" />
+                <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+            </fieldset>
+        </form>
+        
+    </div>
+</div>
+<div class="mobile header">
+    <a class="logo" href="http://osv.io/">
+        <img src="http://osv.io/images/mobileLogo.jpg"/>
+    </a>
+
+    <div class="mobile-topMenu">
+        <a href="javascript:void(0)" class="mobileMenuLink">&nbsp;</a>
+        <div class="theMobileMenu">
+            <ul class="nav menu">
+                <li class=""><a href="" >Home</a></li>
+                <li class="deeper parent"><a href="/users" >Users</a>
+                    <ul class="nav-child unstyled small">
+                        
+                    </ul>
+                </li>
+                <li class="deeper parent"><a href="/dev" >Development</a>
+                    <ul class="nav-child unstyled small">
+                        
+                    </ul>
+                </li>
+                <li class="deeper parent"><a href="/community" >Community</a>
+                    <ul class="nav-child unstyled small">
+                        
+                    </ul>
+                </li>
+                <li><a href="/contact/" >Contact</a></li>
+            </ul>
+        </div>
+        <script>
+            jQuery(document).ready(function(e) {
+                $('.mobileMenuLink').click(function(e) {
+                    $(this).toggleClass('active');
+                    $('.theMobileMenu').slideToggle();
+                });
+            });
+        </script>
+    </div>
+</div>
+<div class="mobile mobilePageTitle"></div>
+
+
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/11/09/rpi/">Raspberry Pi at Amazon Re:invent</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+
+
+<time datetime="2014-11-09T14:10:31-05:00" pubdate data-updated="true">Nov 9, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Want to see us build a virtual machine for the Amazon cloud at the <a href="https://reinvent.awsevents.com/">re:Invent show</a>?  Come on over to our booth (K14) and we’ll show you.  It’s simple to add a virtual appliance build step to any application build.</p>
+
+<p>Well, that took nine seconds.  What else can we do?  How about a hardware giveaway?  Since your virtual machines are going to take so little of your time, you should have plenty of time to play with a fun hardware kit.</p>
+
+<p><img src="/images/rpi.jpeg" alt="Raspberry Pi media kit" /></p>
+
+<p>We’ve got some <a href="http://www.mcmelectronics.com/product/83-16333RK">Raspberry Pi media kits</a> to give away.  Not just the board, this kit includes</p>
+
+<ul>
+  <li>
+    <p>Raspberry Pi Model B+ Board</p>
+  </li>
+  <li>
+    <p>8GB Operating System microSD Card</p>
+  </li>
+  <li>
+    <p>Multicomp Black B+ Case</p>
+  </li>
+  <li>
+    <p>Raspberry Pi Power Supply</p>
+  </li>
+  <li>
+    <p>Wi-Pi Wireless Adapter</p>
+  </li>
+  <li>
+    <p>3’ HDMi Cable</p>
+  </li>
+  <li>
+    <p>7’ Ethernet Cable</p>
+  </li>
+</ul>
+
+<p>Just the thing for a home media center, or a starting point for a more ambitious project such as a <a href="http://www.retrobuiltgames.com/porta-pi-arcade-help/porta-pi-software-os-download/">vintage arcade</a>.</p>
+
+<p>Amazon re:Invent is sold out, but you can <a href="http://reinvent.awsevents.com/livestream-reg.html">sign up for streaming</a> if you’re not able to make it.</p>
+
+<p>You can keep up with the latest OSv news from this blog’s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.  Hope to see you at the show.</p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/11/04/dashboard/">OSv 0.14 Alpha Includes Management Dashboard</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+
+
+<time datetime="2014-11-04T00:10:31-05:00" pubdate data-updated="true">Nov 4, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>By Tzach Livyatan</strong></p>
+
+<p>We are pleased to announce the OSv 0.14 Alpha Release.</p>
+
+<p>This is the first release to include the dashboard, a  browser-based UI for OSv and virtual appliance status.</p>
+
+<p><img src="http://osv.io/images/dashboard.png" alt="OSv dashboard" /></p>
+
+<p>The dashboard includes (among other features):</p>
+
+<ul>
+  <li>
+    <p>Main tab with Memory, CPU, Disk</p>
+  </li>
+  <li>
+    <p>Thread tab with interactive visualization of thread status and thread usage.
+  You can select and search for particular thread by name.</p>
+  </li>
+  <li>
+    <p>Trace tab, including frequency for each tracepoint. Selection by name and search are available.</p>
+  </li>
+  <li>
+    <p>JVM tab for basic JVM information including memory and GC, when a JVM is installed.</p>
+  </li>
+  <li>
+    <p>Virtual Appliance tab for information relevant to the particular appliance.
+Tabs for Cassandra and Tomcat are currently  available, with more to come.</p>
+  </li>
+</ul>
+
+<p>To build the dashboard, just includes httpserver in
+the module list.  For example:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    $ make -j 4 image=cassandra,httpserver
+</code></pre></div></div>
+
+<p>Once the appliance is running, the dashboard is available on port 8000 by default.  (You can change the port using <a href="https://github.com/cloudius-systems/osv/wiki/cloud-init">cloud-init</a>.)</p>
+
+<p>The <a href="https://groups.google.com/forum/#!topic/osv-dev/tyFGw7NRudA">full 0.14 release announcement</a> is available on the osv-dev mailing list.
+You can keep up with the latest OSv news from this blog’s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/10/03/cloud-reboot/">A Cloud Wake-up Call</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+
+
+<time datetime="2014-10-03T20:54:23-04:00" pubdate data-updated="true">Oct 3, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>By Dor Laor</strong></p>
+
+<p>If you use AWS or Rackspace, there is a good chance that you got affected by <a href="https://gigaom.com/2014/09/24/yikes-big-amazon-web-services-reboot-on-the-way/">cloud-reboot</a>. Ten percent of AWS machines were forced to reboot during the weekend period due to a simple bug that created a security vulnerability. The reboot could have been prevented/mitigated through the use of sophisticated but handy tools. Such tools have existed for years but few people use them.</p>
+
+<p>Let’s take a closer look at the particular problem and proceed toward a call for action for usage of additional, fantastic low-level features that are hardly being used by IaaS/PaaS vendors.</p>
+
+<p>The cloud-reboot trigger is a tiny off-by-12kb xen hypervisor bug. A simple Model Specific Register check had a wrong limit as you can observe in the 
+<a href="http://xenbits.xen.org/xsa/xsa108.patch">fix</a> for the <a href="http://xenbits.xen.org/xsa/advisory-108.html">security vulnerability</a>:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-    case MSR_IA32_APICBASE_MSR ... MSR_IA32_APICBASE_MSR + 0x3ff:
++    case MSR_IA32_APICBASE_MSR ... MSR_IA32_APICBASE_MSR + 0xff:
+</code></pre></div></div>
+
+<p>The vulnerability allows an attacker to either crash the hypervisor or retrieve data about other tenants. It’s really a long shot since the memory probably belongs to Xen addresses but in theory one can get lucky and read someone else’s passwords/keys.</p>
+
+<p>Kudos to Amazon and Rackspace for being on the safe side. The fix is a huge hassle and pain for such a small chance of being successfully targeted. Kudos for Xen (and the other hypervisor vendors) for developing mature hypervisors that these events are that rare.</p>
+
+<p>Now how could an IaaS vendor mitigate the problem without a reboot?</p>
+
+<h2 id="option-1---dynamic-code-patching">Option #1 - Dynamic Code Patching</h2>
+
+<p>Dynamic code patch technology for running-code has been available for years. Initially it was <a href="http://en.wikipedia.org/wiki/Ksplice">KSplice</a>, and
+that was recently followed by <a href="https://github.com/dynup/kpatch">KPatch</a>. Lean cloud providers <a href="https://twitter.com/extramsp/status/18715823586">reported KSplice deployment for Xen 4 years ago!</a></p>
+
+<p><img src="/images/extramsp.png" alt="Cloud provider announces Ksplice support, on Twitter" /></p>
+
+<p>XSA-108, the cloud-reboot bug, could have been the perfect candidate for this.
+Hold your horses; Ksplice probably hadn’t been integrated to Xen and Ksplice is only applicable to dom-0. However, didn’t they see it coming? Now 10% of the Internet needs a reboot because no one picked it up. Let’s see whether a quick developer group will come to the rescue.  Ouch.</p>
+
+<h2 id="option-2---live-migration">Option #2 - Live migration</h2>
+
+<p>Look ma, no hands…live migrate the VMs from an old hypervisor version to a patched hypervisor without service interruption.</p>
+
+<p>At Red Hat, I managed the KVM and Xen development teams. We were heavily invested in live migration development. A great deal of thought was given to cross-release migration, resulting in the ability to migrate a VM running on KVM version x to version x+y.  Sometimes even the opposite direction was allowed. We maintained a huge matrix of migration options which included the preservation of the virtual-hardware version. This means that a KVM hypervisor can represent a variety of virtual-hardware versions (combo of cpu+devices) and keep the ABI (Application Binary Interface) compatible across KVM releases and live migration events.</p>
+
+<p>Live migration was constantly optimized to reduce the effect on the running-workloads as well as to minimize downtime to few msecs. Smart compression, hot-page-transfer prioritization, and even more adventurous post-copy migration were deployed.</p>
+
+<p>To my surprise, several years and millions of hypervisors later, most cloud providers do not implement live migration. That’s rather unfortunate for a couple of reasons:</p>
+
+<ul>
+  <li>
+    <p><strong>Live migration allows maintenance mode.</strong> The host can be taken down while the VMs are being migrated to a different host</p>
+  </li>
+  <li>
+    <p><strong>Dynamic load balancing</strong> It’s possible to over-provision resources such as cpu, network, memory, etc in order to increase virtual server density. In case of load, live migrate VMs balance the host resources. Over-provisioning can reduce the cloud-bills dramatically; for a theoretical example, check the cost of a <a href="http://aws.amazon.com/ec2/instance-types/">t2-micro</a> instance.</p>
+  </li>
+</ul>
+
+<p>A leading cloud provider does use live migration, mainly because it uses shared storage for the VMs and the migration is just about the VM RAM. Other IaaS vendors use local storage but the ‘excuse’ does not hold since for long it is possible to live migration local storage too . Sophisticated scenarios are supported; for example, a VM template image can reside on shared storage. There is no need to copy the image to the local disk when the VM is provisioned. Instead, the VM starts execution locally while its disk is remote. On the fly the disk requests are served from the network while a background task transfers the entire disk to the local hypervisor. In a similar way, live migration of a VM with local storage can takes place.</p>
+
+<p>Even open source projects such as Openstack and CloudFoundry do not support live migration. After all the time and effort invested in capturing the state of the virtual machine hardware state, it’s pretty sad that the feature isn’t enabled in practice and only data center solutions like vCenter and RHEV support it. Just to finalize this rant, please allow me to enclose the type of data a live migration captures:</p>
+
+<ul>
+  <li>Complete configuration of the virtual hardware setup</li>
+  <li>State of all CPU registers (General purpose, FPU, SIMD, MSRs,..)</li>
+  <li>State of the interrupt controllers</li>
+  <li>State of the disk drive (Registers, in-flight IO, interrupts)</li>
+  <li>State of the network cards (Registers, in-flight IO, interrupts)</li>
+  <li>State of all other devices - keyboard, mouse, USB, GPU, etc</li>
+</ul>
+
+<p>Modern hypervisors manage to deal with the above complexity and send GBs of data underneath the guest execution. In turn, the cloud management software needs only to find a target host and evacuate the source host (in the case of hardware/software maintenance or a bit more sophisticated for load balancing needs). This is a fair deal, now please, go implement it.</p>
+
+<h2 id="wake-up-call-continues">&lt;wake up call continues&gt;</h2>
+
+<p>Since I started with two important OS features that aren’t implemented (dynamic patching and live migration), let me add to the list the following:</p>
+
+<ul>
+  <li><strong>Hot (un) plug of memory and cpu</strong> This is a pure scale-up scenario. You start a small VM and if there is a need, add virtual CPUs and/or memory to the mix. Most OS’s and hypervisors support it.  Imagine you run a c3.8xlarge during the day, and at night you unplug resources to form a c3.large VM which costs 1/16 as much.</li>
+</ul>
+
+<p>Imagine you’re running a JVM application that needs an immediate garbage collection (GC). Today, the application will experience a Stop-The-World phase which will translate into downtime that can go up to several seconds (a function of heap size).  Instead, such a VM can ask to hot plug additional RAM and CPUs 1 second before it really needs to pause. The JVM may use even a silly copy garbage collector to copy the live objects from the original RAM block to newer hotplugged-RAM blocks and unplug the old block entirely (using the extra vCPUs to accelerate the action).</p>
+
+<ul>
+  <li>
+    <p><strong>Trusted boot/computing</strong> Trusted Computing is a technology to keep the integrity of an operating system, which is based on a secure chip such as “TPM (Trusted Platform Module)” and/or Intel’s TXT technology: Trusted Execution Technology provides a hardware based root of trust to ensure that a platform boots with a known good configuration of firmware, BIOS, virtual machine monitor, and operating system, forming a fully signed and secure stack.</p>
+  </li>
+  <li>
+    <p><strong>Fast VM provision time</strong> <a href="http://osv.io/">OSv</a> boots in under 1 second! However it takes significantly more time to provision a VM.  If the hypervisor and the OS can boot that fast, I see no reason for the hypervisor management code to be slower.</p>
+  </li>
+</ul>
+
+<h2 id="wake-up-call-continues-1">&lt;/wake up call continues&gt;</h2>
+
+<p>Enough rants for one day, now let’s get back to <a href="https://twitter.com/search?q=%23osv">#OSv</a> and make it shine some more.</p>
+
+<p><em>For more info on OSv, please follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</em></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/26/ant/">Merge the OS Into Your App, Not the Other Way Around!</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+
+
+<time datetime="2014-09-26T14:54:23-04:00" pubdate data-updated="true">Sep 26, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>By Glauber Costa</strong></p>
+
+<p>Don Marti and I will soon be presenting OSv at <a href="http://osv.io/blog/blog/2014/09/25/javaone/">JavaOne</a>. We are excited about
+the conference, and thought we could give you a small preview of what we will
+be talking about.</p>
+
+<p>As you already know, OSv is at the same time an operating system, and a
+library. It is as functional as an operating system, and as invisible as a
+library. This means that you shouldn’t really install your app into OSv, but
+rather, merge them both naturally as a single entity.</p>
+
+<p>If you are using Java, there is a huge chance that one way or another, your
+project is built through Apache Ant, or similar tool.</p>
+
+<p>If you have Capstan, our image building tool, that merges nicely and
+beautifully with your Ant-based build process. Here is how:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;property name="hypervisor" value="qemu"/&gt;
+&lt;basename property="vm-name" file="${basedir}"/&gt;
+&lt;property name="capstanpath"
+   value="${user.home}/.capstan/repository/${vm-name}"/&gt;
+
+&lt;target name="vm" depends="jar"&gt;
+&lt;echo file="Capstanfile" append="false"&gt;
+base:
+   cloudius/osv-openjdk
+cmdline:
+  /java.so -jar ${jarname}
+files:
+  /${jarname}: build/jar/${jarname}&lt;/echo&gt;
+&lt;exec executable="capstan"&gt;
+    &lt;arg value="build"/&gt;
+    &lt;arg value="-p"/&gt;
+    &lt;arg value="${hypervisor}"/&gt;
+&lt;/exec&gt;
+&lt;copy tofile="HelloWorld.${hypervisor}"
+   file="${capstanpath}/${vm-name}.${hypervisor}"/&gt;
+&lt;delete file="Capstanfile"/&gt;
+&lt;/target&gt;
+</code></pre></div></div>
+
+<p>The snippet above assumes that you already have a “jar” target in your build.</p>
+
+<p>As you can guess from the image name, this example is a simple HelloWorld.  The
+code, together with the complete build.xml file, can be downloaded
+<a href="https://github.com/dmarti/OSvJavaOneDemo.git">on GitHub</a>.</p>
+
+<p>Adding that step to your existing build environment, allows you to have a first-class VM in a format consumable by QEMU/KVM. Booting in your hypervisor
+of choice, becomes just a matter of editing the file for the correct format.</p>
+
+<p>And after that? Fire up Capstan and enjoy your VM!</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[glauber@localhost JavaOne]$ capstan run JavaOne
+Created instance: JavaOne
+OSv v0.12
+eth0: 192.168.122.15
+Hello World
+</code></pre></div></div>
+
+<p>Alternatively, boot the HelloWorld.qcow2 image that was copied to the local
+directory, with any tool you want.</p>
+
+<p><strong>More info</strong></p>
+
+<p>Are you attending JavaOne? We will show you this and more, at <a href="https://oracleus.activeevents.com/2014/connect/sessionDetail.ww?SESSION_ID=4120">Parc 55 - Powell I/II, Tuesday the 30th (12:30 PM)</a></p>
+
+<p>For general questions on OSv, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get general updates by subscribing to this blog’s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/25/javaone/">OSv at JavaOne</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+
+
+<time datetime="2014-09-25T20:10:31-04:00" pubdate data-updated="true">Sep 25, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><img src="/images/speaking-at-javaone.jpg" alt="speaking at JavaOne" /></p>
+
+<p>Glauber Costa and Don Marti are speaking at the JavaOne conference in San Francisco, on Tuesday, September 30.  Hope to see you there.</p>
+
+<p><a href="https://oracleus.activeevents.com/2014/connect/sessionDetail.ww?SESSION_ID=4120">OSv: The Operating System Designed for Java and the Cloud</a></p>
+
+<p>Here’s what you’re in for:</p>
+
+<blockquote>
+  <p>A lot of the cloud discussion centers around which hypervisors are the best and which management tools will simplify our life the most. But is it the whole story? When problems are addressed from the lower and higher layers, the middleman—the guest operating system—is usually left behind. This changes with OSv, an operating system designed from the ground up to run Java applications in the cloud. OSv is a library OS. Therefore, you can think of using it as being a way to boot a JVM directly into the cloud. Forget OS management: it’s your application and the end of the story. Besides explaining the architecture, this presentation demonstrates how designing an OS with Java in mind can benefit the Java ecosystem.</p>
+</blockquote>
+
+<p>We’ll demonstrate a nine-second build of a VM from a Java project.  Hope to see you there.</p>
+
+<p>You can keep up with the latest OSv news from this blog’s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/25/shellshock/">Shellshock</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+
+
+<time datetime="2014-09-25T18:54:23-04:00" pubdate data-updated="true">Sep 25, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>By Tzach Livyatan</strong></p>
+
+<p>A new bash bug is ‘bigger than Heartbleed’ and puts millions of websites.
+In short, Shellshock can take advantage of any server which call Bash.
+You can find a good insight into Shellshock <a href="http://lcamtuf.blogspot.co.il/2014/09/quick-notes-about-bash-bug-its-impact.html">on Michal Zalewski’s blog</a>.</p>
+
+<p>A Bash patch is already available, but there is a bigger question:
+Why do you want  Bash on a production server in the first place?
+By its nature Bash is a dangerous beast, wouldn’t it be better to keep him on the cage and off your system?</p>
+
+<p>What did you say?</p>
+
+<p>“I need my Bash for troubleshooting?”</p>
+
+<p>Do you now?</p>
+
+<!-- more -->
+
+<p>I assume your production server already writes logs and send traps to to a remote machine.
+If not, you probably do not have many production servers.
+What if in addition you had a secure remote REST API which allows you to probe files, get traces and any other information element you need?
+Do you still need Bash?
+And if you don’t, than wouldn’t it be better not to have it on the first place?</p>
+
+<p>Don Marti <a href="http://osv.io/blog/blog/2014/09/25/security-is-a-journey-not-a-destination/">writes</a> that the need for fast, reliable VM builds is the important lesson from this bug, but I disagree. Why not just remove the shell from the server?</p>
+
+<p>OSv takes a different approach from other OSs on the subject.
+Recognizing that most cloud servers only run one application, it is designed to run one and only one process.
+Every interaction with OSv is done via a set of REST APIs, over SSL.
+You can find the <a href="http://osv.io/api/swagger-ui/dist/index.html">current list of supported endpoints</a> on the OSv site.
+Since <code class="highlighter-rouge">fork</code> is inherently not allowed, there is not way for a Shellshock-like bug to exist.
+Sure, bugs in OSv may still lead to code injection via the API, but the surface of attack is much smaller, and dangerous APIs can be easily disabled.
+OSv still supports a CLI, but its run outside the OS, and administrators can use the secure API to access it, just like everybody else.</p>
+
+<p><strong>More info</strong></p>
+
+<p>For general questions on OSv, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get general updates by subscribing to this blog’s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/25/security-is-a-journey-not-a-destination/">Waking Up Late, After Bash Fixing Night</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+
+
+<time datetime="2014-09-25T16:54:23-04:00" pubdate data-updated="true">Sep 25, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>By Don Marti</strong></p>
+
+<p>Yesterday we found out about <a href="https://lwn.net/Articles/613032/">a remotely exploitable hole in bash</a> from our favorite Linux news sites.  For some of us, our schedules on the night of September 24th were disrupted, and not in a good way.</p>
+
+<p>It’s true that my own Internet-facing code, while not perfect, isn’t vulnerable.  But for one older web-based application I have to deal with, it’s faster to install a new version of Bash than to trace through the code to make sure it isn’t doing something bad, somewhere.</p>
+
+<p>Clearly this particular bug isn’t a problem on OSv, because OSv doesn’t run Bash.  The whole point of Bash is to <code class="highlighter-rouge">fork()</code> and <code class="highlighter-rouge">exec()</code> other processes, and OSv doesn’t do all that.  Everything runs in one process, with no shell available or needed.</p>
+
+<p>As <a href="http://osv.io/blog/blog/2014/09/25/shellshock/">Tzach Livyatan points out</a>, managing OSv doesn’t require a shell either.  There’s one REST API for everything, from VM basics such as CPU and memory usage, up to <a href="http://osv.io/blog/blog/2014/08/26/jolokia-jmx-connectivity-in-osv/">JMX data from the application</a>.</p>
+
+<p>But it looks like Tzach is missing the main point.</p>
+
+<!-- more -->
+
+<p>The problem isn’t so much that someone discovered a bug in Bash.  The problem is <em>what happened to the evening of September 24, 2014</em>?  A software bug should be something that you fix, test, check in the fix, and go home, not a full <a href="http://www.tor.com/stories/2009/12/overtime">night on duty</a>.</p>
+
+<p>I’m starting to think that what’s more important than any design advantages of OSv is the flow that it enables.   The size and, more important, simplicity of an OSv VM means that regenerating one is a matter of, let me time it… 9 seconds.  An OSv VM is a build artifact that I can crank out of my regular build system.</p>
+
+<p>It would be full of security hubris to say that OSv will never have to issue a security fix.  Yes, there are many fewer lines of code, and yes, the C++ experts on the development team will point to shorter, clearer programming constructs in which fewer old-school bugs can hide.  But every software project has to issue a fix sometimes.</p>
+
+<p>The question is how long it takes to get current and put the bug behind you.</p>
+
+<p><strong>Repeatable flow, from commit to deploy</strong></p>
+
+<p>At <a href="https://oracleus.activeevents.com/2014/connect/sessionDetail.ww?SESSION_ID=4120">JavaOne next week</a>, Glauber Costa and I will be speaking about <q>OSv: The Operating System Designed for Java and the Cloud</q>.  Glauber summed it up: <q>OSv is a library OS. Therefore, you can think of using it as being a way to boot a JVM directly into the cloud. Forget OS management: it’s your application and the end of the story.</q></p>
+
+<p>The <a href="https://www.gartner.com/doc/2831925/make-sdlc-agile-using-cloud">complexity of maintaining conventional OS environments</a> looks like just a time-suck for developers, not a big problem.  But simplicity matters on a Big Security Day.</p>
+
+<p><strong>More info</strong></p>
+
+<p>For general questions on OSv, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get general updates by subscribing to this blog’s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/24/java-newrelic-agent/">Adding a NewRelic Agent to Your OSv Appliance</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+
+
+<time datetime="2014-09-24T19:22:22-04:00" pubdate data-updated="true">Sep 24, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>By Tzach Livyatan</strong></p>
+
+<p><a href="http://newrelic.com/">New Relic</a> is a popular real-time monitoring
+service for Web and mobile applications.</p>
+
+<p>In the following post I will describe how to add a New Relic
+monitoring agent to your OSv virtual appliance, using <a href="http://tomcat.apache.org/">Tomcat</a> as an
+example.</p>
+
+<!-- more -->
+
+<p>As first step, go to the <a href="http://newrelic.com/">New Relic web site</a> and log in  or open an account.  Following the instructions on the site, you should be prompted to download two files:</p>
+
+<ul>
+  <li>newrelic.yml</li>
+  <li>newrelic.jar</li>
+</ul>
+
+<p>newrelic.yml should already have the your license key in it.
+If you downloaded the file
+<a href="http://download.newrelic.com/newrelic/java-agent/newrelic-agent/3.10.0/newrelic.yml">directly</a>,
+you should make sure to edit the license line.
+Make sure to update your application name in the same file. This name
+will be used in the New Relic GUI.</p>
+
+<p>There are two ways to build an OSv appliance:</p>
+
+<ol>
+  <li>Using an OSv build from source</li>
+  <li>Using <a href="https://github.com/cloudius-systems/capstan">Capstan</a></li>
+</ol>
+
+<p>The first requires cloning OSv source code with Git, as described
+<a href="https://github.com/cloudius-systems/osv-apps/tree/master/java-newrelic">here</a>.
+The second assumes you are familiar with <a href="https://github.com/cloudius-systems/capstan">Capstan</a> and is described below.</p>
+
+<h3 id="using-capstan-to-add-a-newrelic-agent">Using Capstan to add a NewRelic Agent</h3>
+
+<ul>
+  <li>Create a new project directory</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir my-tomcat-with-newrelic
+cd my-tomcat-with-newrelic
+</code></pre></div></div>
+<ul>
+  <li>Copy newrelic.jar and newrelic.yml to this location</li>
+  <li>Create a new <a href="https://github.com/cloudius-systems/capstan/blob/master/Documentation/Capstanfile.md">Capstanfile</a> with the following contents:</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>base: cloudius/osv-tomcat
+
+cmdline: &gt;
+  /java.so
+  -javaagent:/tools/newrelic.jar
+  -cp /usr/tomcat/bin/bootstrap.jar:/usr/tomcat/bin/tomcat-juli.jar
+  -Djava.util.logging.config.file=/usr/tomcat/conf/logging.properties
+  -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+  -Dcatalina.base=/usr/tomcat
+  -Dcatalina.home=/usr/tomcat
+  -Djava.io.tmpdir=/usr/tomcat/temp
+  org.apache.catalina.startup.Bootstrap
+  start
+
+files:
+  /tools/newrelic.jar: newrelic.jar
+  /tools/newrelic.yml: newrelic.yml
+</code></pre></div></div>
+
+<p>The base OSv image is <code class="highlighter-rouge">tomcat</code>, the cmdline include both Tomcat and
+  New Relic options, and the files are the two New Relic files: the JAR and the configuration file.</p>
+
+<ul>
+  <li>build the image</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>capstan build
+</code></pre></div></div>
+<p>You are done! you now have a ready VM with Tomcat and a New Relic agent.
+To run the image locally:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>capstan run -n bridge
+</code></pre></div></div>
+<ul>
+  <li>Go to the New Relic web app, monitor your application, and give yourself a
+pat on the shoulder :)</li>
+</ul>
+
+<p>You can keep up with the latest OSv news from this blog’s <a href="http://osv.io/blog/atom.xml">feed</a>, or by following <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.  Questions always welcome on the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev</a> mailing list.</p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/22/meetup/">OSv Meetup Group: Convert Your Application to a Run-anywhere VM</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+
+
+<time datetime="2014-09-22T20:54:23-04:00" pubdate data-updated="true">Sep 22, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>By Don Marti</strong></p>
+
+<p>Fast is better than slow. Simple is better than complex. And easily building a run-anywhere VM from a Java application is better than trying to figure out the whole OS business.</p>
+
+<p><a href="http://osv.io/">OSv</a> is the simple, fast OS platform designed to run one application in the cloud, without the complexity of old-school OSs with their local users, permissions, and sevices.</p>
+
+<p><strong>Who:</strong> You</p>
+
+<p><strong>What:</strong> Hands-on OSv hacking sesssion</p>
+
+<p><strong>Where:</strong> San Francisco, California, USA (see link for address)</p>
+
+<p><strong>When:</strong> 3pm-8pm Wednesday, September 24, 2014 (drop in any time)</p>
+
+<p><strong>Why:</strong> Get your application running in the cloud without the legacy OS complexity.</p>
+
+<p>OSv now includes the <a href="http://www.jolokia.org/">Jolokia</a> JMX-via-JSON-REST connector, providing full read/write access to the entire set of Java manageability attributes and operations. Now you no longer need to set up and secure separate JMX-over-RMI connectivity with your Java application to fully manage it. (<a href="http://osv.io/blog/blog/2014/08/26/jolokia-jmx-connectivity-in-osv/">details here</a>).</p>
+
+<p>Please join us for the next meeting of the OSv <a href="http://www.meetup.com/OSv-Developer-Meetup/">Meetup group</a> in San Francisco, and learn to do a quick, three-second build of a first-class OSv VM that will run on your platform of choice, whether it’s VMware, VirtualBox, Amazon, Google, or KVM.</p>
+
+<p><img src="/images/meetup.jpg" alt="attendees" /></p>
+
+<p>Bring your laptop and your favorite Java project, or just follow along.  We’ll conclude with food and a few lightning talks and demos.</p>
+
+<p>Our hosts at <a href="http://ohmdata.com/">OhmData</a> are once again making their cool South of Market office space available.  If you’re not already a member of the OSv <a href="http://www.meetup.com/OSv-Developer-Meetup/">Meetup group</a>, please join us for this hands-on session.  For general questions on OSv, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get general updates by subscribing to this blog’s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/09/18/cassandra-dashboard-tab/">New Dashboard Tab for Insight on Cassandra Virtual Appliances</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+
+
+<time datetime="2014-09-18T09:00:00-04:00" pubdate data-updated="true">Sep 18, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>By Tzach Livyatan</strong></p>
+
+<p>We are constantly looking for ways to improve the OSv virtual appliance experience.  The latest improvement is an integrated dashboard, presenting a combination of:</p>
+
+<ul>
+  <li>OS related metrics (CPU, memory, threads, …)</li>
+  <li>Profiling related metrics (trace points)</li>
+  <li>JVM related metrics (heap, GC, …)</li>
+  <li>Cassandra related metrics (latency, tasks, cluster status)</li>
+</ul>
+
+<p><img src="/images/cassandra-tab.png" alt="tab" /></p>
+
+<!-- more -->
+<p>The dashboard is yet another example of using
+<a href="osv.io/api/swagger-ui/dist/index.html">REST API</a> to monitor and
+control OSv and
+OSv virtual appliances. These REST APIs are open for the
+user directly. In particular, the new Capstan tab takes advantage of the newly added
+<a href="http://osv.io/blog/blog/2014/08/26/jolokia-jmx-connectivity-in-osv/">Jolokia</a>
+connector, exposing JMX information over REST.
+The OSv REST API makes it simple to manage your OSv virtual appliance with <code class="highlighter-rouge">curl(1)</code> or your own script.</p>
+
+<p>There are other great tools out there for JVM monitoring and profiling, like <a href="http://visualvm.java.net/">VisualVM</a>.
+The OSv dashboard is unique by unifying the end-to-end virtual appliances functionality:
+From the application to the JVM, down to the OS and HW status.</p>
+
+<p>In particular, trace points allow a deep dive into the system execution, providing similar functionality on OSv to what <a href="https://en.wikipedia.org/wiki/DTrace">DTrace</a> does for Solaris.</p>
+
+<p>We are planing to provide similar application-level tabs for other OSv virtual appliances.
+Want to build a tab for your favorite application on OSv? 
+Clone the <a href="https://github.com/cloudius-systems/osv-gui">osv-gui</a> repository and start submitting pull requests!</p>
+
+<p>You can keep up with the latest OSv news from this blog’s <a href="http://osv.io/blog/atom.xml">feed</a>, or following <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page4/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page2/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2019/04/19/making-OSv-run-on-firecraker/">Making OSv Run on Firecracker</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/06/12/serverless-computing-with-OSv/">Serverless Computing With OSv</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/04/21/nfs-on-osv/">NFS on OSv or “How I Learned to Stop Worrying About Memory Allocations and Love the Unikernel”</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/03/08/project-mikelangelo/">Project Mikelangelo Update</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/27/docker/">Building OSv Images Using Docker</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  </div>
+  <div class="footer">
+    <div class="wrapf">
+
+
+        <div class="custom"  >
+            <p><a href="http://www.cloudius-systems.com"><img style="margin-top: 30px;" src="http://osv.io/images/footerLogo.jpg" alt="" width="380" height="38" /></a></p></div>
+
+
+
+        <div class="custom social"  >
+            <p><a href="https://plus.google.com/107787008629542080430" rel="publisher">Google+</a></p></div>
+
+
+
+        <div class="custom CloudIcon"  >
+            <p><a href="/index.php"><img src="http://osv.io/images/footerCloudIcon.jpg" width="57" height="33" alt="footerCloudIcon" /></a></p></div>
+
+        <div class="clr"></div>
+    </div>
+</div>
+
+
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'osvblog';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

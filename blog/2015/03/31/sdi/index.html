@@ -9,7 +9,21 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="By David Jorm and Don Marti Most users are aware of cloud computing as a general term behind such trends as &ldquo;Software as a Service,&rdquo; &hellip;">
+  <meta name="description" content="
+
+  
+  
+    
+      Software-defined Interconnection: The Future of Internet Peering, Powered by OpenDaylight and OSv
+    
+    
+      
+        
+
+
+
+
+...">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,14 +32,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.osv.io//github/blog/2015/03/31/sdi">
+  <link rel="canonical" href="http://osv-io.github.io//github/blog/2015/03/31/sdi/">
   <link href="/favicon.ico" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/monokai.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/customized.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <script src="/javascripts/run_prettify.js" type="text/javascript"></script>
+  <script src="/javascripts/lang-gas.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
 <!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -62,7 +80,7 @@
         
         <form action="https://www.google.com/search" method="get">
             <fieldset role="search">
-                <input type="hidden" name="q" value="site:blog.osv.io//github" />
+                <input type="hidden" name="q" value="site:http://osv-io.github.io//github" />
                 <input class="search" type="text" name="q" results="0" placeholder="Search"/>
             </fieldset>
         </form>
@@ -130,10 +148,9 @@
 
 
 
-  
 
 
-<time datetime="2015-03-31T00:00:00+03:00" pubdate data-updated="true">Mar 31<span>st</span>, 2015</time>
+<time datetime="2015-03-31T00:00:00-04:00" pubdate data-updated="true">Mar 31, 2015</time>
         
       </p>
     
@@ -142,20 +159,19 @@
 
 <div class="entry-content"><p><strong>By David Jorm and Don Marti</strong></p>
 
-<p>Most users are aware of cloud computing as a general term behind such trends as &ldquo;Software as a Service,&rdquo; where sites such as Salesforce.com can replace software run by a company IT department, or &ldquo;Infrastructure as a Service&rdquo; where virtual machines rented by the hour can replace conventional servers. But today, the technologies behind the cloud are changing the way that we connect the Internet at the most fundamental level, through Software Defined Interconnection (SDI).</p>
+<p>Most users are aware of cloud computing as a general term behind such trends as “Software as a Service,” where sites such as Salesforce.com can replace software run by a company IT department, or “Infrastructure as a Service” where virtual machines rented by the hour can replace conventional servers. But today, the technologies behind the cloud are changing the way that we connect the Internet at the most fundamental level, through Software Defined Interconnection (SDI).</p>
 
-<p><strong>What is SDI?</strong> A lot of manual work goes into hooking up the Internet between providers. The routers that send Internet traffic from one place to another can be configured to use &ldquo;paid transit&rdquo;, where a single provider will route packets to any destination. But the more Internet traffic you’re responsible for, the more you can benefit from another arrangement, called &ldquo;direct interconnection&rdquo; where you set up your company’s routers to directly connect to another company’s. Most networks will always need to buy transit from somebody; the best you can hope for is that a portion of your traffic bypasses the transit provider and is directly delivered to the destination. Maximizing the amount of traffic that is directly peered leads to better performance, lower latency, lower packet loss, and greater security.</p>
+<p><strong>What is SDI?</strong> A lot of manual work goes into hooking up the Internet between providers. The routers that send Internet traffic from one place to another can be configured to use “paid transit”, where a single provider will route packets to any destination. But the more Internet traffic you’re responsible for, the more you can benefit from another arrangement, called “direct interconnection” where you set up your company’s routers to directly connect to another company’s. Most networks will always need to buy transit from somebody; the best you can hope for is that a portion of your traffic bypasses the transit provider and is directly delivered to the destination. Maximizing the amount of traffic that is directly peered leads to better performance, lower latency, lower packet loss, and greater security.</p>
 
 <p>Today, most direct interconnection is typically set up manually, with a physical fiber cable connecting one organization’s network to another. Agreements to interconnect and peer are also reached manually, typically via email or face-to-face at peering conferences. When agreement is reached, network admins must ssh in to routers in order to manually configure such peering. It’s not efficient or scalable, and depends on individuals or select groups.</p>
 
-<p>Once an organization has agreed that they want to directly connect with another organization, how do you handle changes to router and switch configuration? Probably the same way you used to manage your httpd.conf back in the 1990s! Network managers ssh in, and update config manually. Some networks have sophisticated management tools, but for many, &ldquo;the state of the router is the canonical state.&rdquo;</p>
+<p>Once an organization has agreed that they want to directly connect with another organization, how do you handle changes to router and switch configuration? Probably the same way you used to manage your httpd.conf back in the 1990s! Network managers ssh in, and update config manually. Some networks have sophisticated management tools, but for many, “the state of the router is the canonical state.”</p>
 
-<p><img src="http://www.cloudius-systems.com/images/iix_rack.png"
- alt="Software-defined interconnection"></p>
+<p><img src="http://www.cloudius-systems.com/images/iix_rack.png" alt="Software-defined interconnection" /></p>
 
 <p><em>Software-defined interconnection, under test in the IIX lab</em></p>
 
-<p>SDI aims to improve all that. The OpenDaylight project is a common platform for network management that facilitates breaking traditional network devices such as switches and routers into separate &ldquo;data plane&rdquo; devices that handle high traffic volume and &ldquo;control plane&rdquo; devices that do management. Because the control plane device, or software-defined networking (SDN) controller, does not have the extreme throughput requirements of the data plane, it’s easy to virtualize.</p>
+<p>SDI aims to improve all that. The OpenDaylight project is a common platform for network management that facilitates breaking traditional network devices such as switches and routers into separate “data plane” devices that handle high traffic volume and “control plane” devices that do management. Because the control plane device, or software-defined networking (SDN) controller, does not have the extreme throughput requirements of the data plane, it’s easy to virtualize.</p>
 
 <p><strong>In the lab today</strong> IIX is currently prototyping this next generation of devices in the lab, while more traditional network gear runs in production. The prototype system uses an <a href="http://en.wikipedia.org/wiki/OpenFlow">OpenFlow switch</a> for data plane, and a separate OpenDaylight server for control plane. Switches rely on the SDN controller. In the event of an unknown packet, they forward it to the controller.</p>
 
@@ -167,9 +183,9 @@
 
 <p><strong>Conclusion</strong> While Internet applications have gained from cloud technologies, the fundamental lower layers are still coming up to speed. OpenDaylight and OSv are bringing cloud economics to the lower levels of the stack.</p>
 
-<h2>About the authors</h2>
+<h2 id="about-the-authors">About the authors</h2>
 
-<p><strong>David</strong> is a product security engineer based in Brisbane, Australia. He currently leads product security efforts for IIX, a software-defined interconnection company. David has been involved in the security industry for the last 15 years. During this time he has found high-impact and novel flaws in dozens of major Java components. He has worked for Red Hat&rsquo;s security team, led a Chinese startup that failed miserably, and wrote the core aviation meteorology system for the southern hemisphere. In his spare time he tries to stop his two Dachshunds from taking over the house.</p>
+<p><strong>David</strong> is a product security engineer based in Brisbane, Australia. He currently leads product security efforts for IIX, a software-defined interconnection company. David has been involved in the security industry for the last 15 years. During this time he has found high-impact and novel flaws in dozens of major Java components. He has worked for Red Hat’s security team, led a Chinese startup that failed miserably, and wrote the core aviation meteorology system for the southern hemisphere. In his spare time he tries to stop his two Dachshunds from taking over the house.</p>
 
 <p><strong>Don</strong> is a technical marketing manager for Cloudius Systems, the OSv company. He has written for Linux Weekly News, Linux Journal, and other publications. He co-founded the Linux consulting firm Electric Lichen, which was acquired by VA Linux Systems. Don has served as president and vice president of the Silicon Valley Linux Users Group and on the program committees for Uselinux, Codecon, and LinuxWorld Conference and Expo.</p>
 </div>
@@ -178,8 +194,6 @@
   <footer>
     <p class="meta">
       
-  
-
 <span class="byline author vcard">Posted by <span class="fn">Cloudius Systems</span></span>
 
       
@@ -191,10 +205,9 @@
 
 
 
-  
 
 
-<time datetime="2015-03-31T00:00:00+03:00" pubdate data-updated="true">Mar 31<span>st</span>, 2015</time>
+<time datetime="2015-03-31T00:00:00-04:00" pubdate data-updated="true">Mar 31, 2015</time>
       
 
 
@@ -208,8 +221,6 @@
         
         <a class="addthis_button_tweet"></a>
         
-        
-        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
         
         
         <a class="addthis_counter addthis_pill_style"></a>
@@ -241,6 +252,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2019/04/19/making-OSv-run-on-firecraker/">Making OSv Run on Firecracker</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/06/12/serverless-computing-with-OSv/">Serverless Computing With OSv</a>
       </li>
     
@@ -254,10 +269,6 @@
     
       <li class="post">
         <a href="/blog/2015/04/27/docker/">Building OSv Images Using Docker</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/04/08/makefile/">Re-"make"-ing OSv</a>
       </li>
     
   </ul>
@@ -323,14 +334,6 @@
 }(document, 'script', 'facebook-jssdk'));</script>
 
 
-
-  <script type="text/javascript">
-    (function() {
-      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
-      script.src = 'https://apis.google.com/js/plusone.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
-    })();
-  </script>
 
 
 

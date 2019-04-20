@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Clojure | OSv Blog]]></title>
-  <link href="http://blog.osv.io//github/blog/categories/clojure/atom.xml" rel="self"/>
-  <link href="http://blog.osv.io//github/"/>
-  <updated>2017-06-12T21:20:41+03:00</updated>
-  <id>http://blog.osv.io//github/</id>
+  <link href="http://osv-io.github.io//github/blog/categories/clojure/atom.xml" rel="self"/>
+  <link href="http://osv-io.github.io//github/"/>
+  <updated>2019-04-20T01:01:48-04:00</updated>
+  <id>http://osv-io.github.io//github/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
     
@@ -15,166 +15,142 @@
   
   <entry>
     <title type="html"><![CDATA[Running Clojure on OSv: Easier With a New Capstan Template]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/07/27/capstan-lein-template/"/>
-    <updated>2014-07-27T00:00:00+03:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/07/27/capstan-lein-template</id>
+    <link href="http://osv-io.github.io//github/blog/2014/07/27/capstan-lein-template/"/>
+    <updated>2014-07-27T00:00:00-04:00</updated>
+    <id>http://osv-io.github.io//github/blog/2014/07/27/capstan-lein-template</id>
     <content type="html"><![CDATA[<p>Clojure developers usually do not care too much about the underlying OS.
 The low-level differences between Linux, Mac OS, and even Microsoft Windows are abstracted away by the JVM.</p>
 
-<p>When deploying Clojure code on the cloud, there used to be one default choice &ndash; Linux.
+<p>When deploying Clojure code on the cloud, there used to be one default choice - Linux.
 But Linux
 <a href="http://osv.io/blog/blog/2014/07/21/generic-os-is-dead/">is not an ideal OS</a>
 for pure cloud services.</p>
 
-<p><a href="https://github.com/cloudius-systems/osv">OSv</a> is a new, open source OS, designed specifically for the cloud.  Since OSv supports the standard JVM, it is ideal for running Clojure applications on the cloud.  And the same configuration applies to building VMs for any cloud: public clouds such as Amazon&rsquo;s and Google&rsquo;s, private clouds based on VMware or KVM, or public and private OpenStack.</p>
+<p><a href="https://github.com/cloudius-systems/osv">OSv</a> is a new, open source OS, designed specifically for the cloud.  Since OSv supports the standard JVM, it is ideal for running Clojure applications on the cloud.  And the same configuration applies to building VMs for any cloud: public clouds such as Amazon’s and Google’s, private clouds based on VMware or KVM, or public and private OpenStack.</p>
 
 <p>Porting a Clojure application to OSv was already
 <a href="http://osv.io/blog/blog/2014/04/22/riemann-on-osv/">pretty easy</a>, but
-now it&rsquo;s even easier.  This blog post describes a new <a href="https://github.com/tzach/capstan-lein-plugin">lein template</a> for OSv.</p>
+now it’s even easier.  This blog post describes a new <a href="https://github.com/tzach/capstan-lein-plugin">lein template</a> for OSv.
+<!-- more --></p>
 
-<!-- more -->
-
-
-<h2>Usage</h2>
+<h2 id="usage">Usage</h2>
 
 <p>Capstan works together with the <a href="http://leiningen.org/">Leinigen</a> build tool.</p>
 
-<p>First, create a new project skeleton.
-<code>
-lein new capstan new-app
-</code></p>
+<p>First, create a new project skeleton.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lein new capstan new-app
+</code></pre></div></div>
 
-<p>Now, you can run <a href="https://github.com/cloudius-systems/capstan">Capstan</a> to
+<p>Now, you can run <a href="https://github.com/cloudius-systems/capstan">Capstan</a> to 
 run your project on an a OSv VM.</p>
 
-<p><code>
-cd new-app
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd new-app
 capstan run
-</code></p>
+</code></pre></div></div>
 
 <p>The template takes care of creating the project skeleton, including the Capstanfile.  When this is done, you can use Capstan directly to build a new OSv VM, deploy it on the cloud, or upload it to the public repository.</p>
 
-<script type="text/javascript" src="https://asciinema.org/a/11068.js"
-id="asciicast-11068" async="" data-speed="2" data-autoplay="1"
-ata-size="medium"></script>
-
-
-<p></p></p>
+<script type="text/javascript" src="https://asciinema.org/a/11068.js" id="asciicast-11068" async="" data-speed="2" data-autoplay="1" ata-size="medium"></script>
+<p>&lt;/p&gt;</p>
 
 <p>For more info on Capstan and other OSv subjects, please join
 the
-<a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.<br/>
+<a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.<br />
 You can get updates on by subscribing to the <a href="http://osv.io/blog/atom.xml">OSv blog RSS feed</a> or following <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[Riemann - a Clojure Application on OSv]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/04/22/riemann-on-osv/"/>
-    <updated>2014-04-22T19:00:00+03:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/04/22/riemann-on-osv</id>
+    <link href="http://osv-io.github.io//github/blog/2014/04/22/riemann-on-osv/"/>
+    <updated>2014-04-22T12:00:00-04:00</updated>
+    <id>http://osv-io.github.io//github/blog/2014/04/22/riemann-on-osv</id>
     <content type="html"><![CDATA[<p><strong>By Tzach Livyatan</strong></p>
 
-<p>Clojure applications run on the JVM, so they&rsquo;re usually simple to run on OSv.  We have <a href="https://github.com/tzach/capstan-example-clojure">hello world in Clojure</a> running, but this time I wanted to port a real, non-toy, Clojure application. I chose <a href="http://riemann.io">Riemann</a>, a widely-used application for aggregating system events (and more).</p>
+<p>Clojure applications run on the JVM, so they’re usually simple to run on OSv.  We have <a href="https://github.com/tzach/capstan-example-clojure">hello world in Clojure</a> running, but this time I wanted to port a real, non-toy, Clojure application. I chose <a href="http://riemann.io">Riemann</a>, a widely-used application for aggregating system events (and more).</p>
 
 <p>I used <a href="http://osv.io/capstan/">Capstan</a>, a tool for building and running applications on OSv.  Jump to the end <a href="https://github.com/tzach/riemann">result</a>, or follow the steps I took:</p>
 
 <!-- more -->
 
-
 <p>Following the Capstan guideline, I added a <a href="https://github.com/tzach/riemann/blob/master/Capstanfile">Capstanfile</a> to the project.  Here are the parts of Capstanfile you need to know about:</p>
 
 <ul>
-<li><p>Set the base image. In this case I chose a base image with Java (open-jdk)
-<code>
-base: cloudius/osv-openjdk
-</code></p></li>
-<li><p>Build the jar file, taking advantage of the <code>lein uberjar</code> command, which packages the application with all dependencies into one jar file.</p></li>
+  <li>Set the base image. In this case I chose a base image with Java (open-jdk)
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>base: cloudius/osv-openjdk
+</code></pre></div>    </div>
+  </li>
+  <li>Build the jar file, taking advantage of the <code class="highlighter-rouge">lein uberjar</code> command, which packages the application with all dependencies into one jar file.</li>
 </ul>
 
-
-<p>```</p>
-
-<pre><code>build: lein uberjar
-</code></pre>
-
-<p><code>
-  * Copy the build artifacts to the base image, producing a new image:
-</code>
-files:
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    build: lein uberjar
+</code></pre></div></div>
+<ul>
+  <li>Copy the build artifacts to the base image, producing a new image:
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>files:
   /riemann.jar: ./target/riemann-0.2.5-SNAPSHOT-standalone.jar
   /riemann.config: ./riemann.config
-```</p>
+</code></pre></div>    </div>
+  </li>
+</ul>
 
 <p>I also copy the config file, which Riemann will look for.</p>
 
 <ul>
-<li>The run command for the VM is executed when the VM starts.
-<code>
-cmdline: /java.so -jar /riemann.jar
-</code></li>
+  <li>The run command for the VM is executed when the VM starts.
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmdline: /java.so -jar /riemann.jar
+</code></pre></div>    </div>
+  </li>
 </ul>
 
+<p>That’s it. Done with the Capstanfile.</p>
 
-<p>That&rsquo;s it. Done with the Capstanfile.</p>
+<p><strong>Let’s test it!</strong></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt;capstan run
+WARN [2014-04-13 14:11:22,029] Thread-9 - riemann.core - instrumentation service caught
+java.io.IOException: Cannot run program "hostname": error=0, vfork failed
+	at java.lang.ProcessBuilder.start(ProcessBuilder.java:1041)
+	at java.lang.Runtime.exec(Runtime.java:617)
+	at clojure.java.shell$sh.doInvoke(shell.clj:116)
+	at clojure.lang.RestFn.invoke(RestFn.java:408)
+</code></pre></div></div>
+<p>No luck.  It turns out that Riemann is using</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(sh "hostname")
+</code></pre></div></div>
 
-<p><strong>Let&rsquo;s test it!</strong>
-```</p>
+<p>which uses vfork to run a child process. On any OS its not very efficient to fork just to get the hostname, and on current OSv it simply won’t work. To bypass the problem, I replace this call with:</p>
 
-<blockquote><p>capstan run
-WARN [2014-04-13 14:11:22,029] Thread-9 &ndash; riemann.core &ndash; instrumentation service caught
-java.io.IOException: Cannot run program &ldquo;hostname&rdquo;: error=0, vfork failed</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(.getHostName (java.net.InetAddress/getLocalHost))
+</code></pre></div></div>
+<p>which uses a Java <code class="highlighter-rouge">getHostName</code>.</p>
 
-<pre><code>at java.lang.ProcessBuilder.start(ProcessBuilder.java:1041)
-at java.lang.Runtime.exec(Runtime.java:617)
-at clojure.java.shell$sh.doInvoke(shell.clj:116)
-at clojure.lang.RestFn.invoke(RestFn.java:408)
-</code></pre>
+<p><strong>Let’s try again</strong></p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span>capstan run
+</code></pre></div></div>
+<p>This time it works, but how do I test it and connect to it?</p>
 
-<p><code>
-No luck.  It turns out that Riemann is using
-</code>
-(sh &ldquo;hostname&rdquo;)
-```</p></blockquote>
-
-<p>which uses vfork to run a child process. On any OS its not very efficient to fork just to get the hostname, and on current OSv it simply won&rsquo;t work. To bypass the problem, I replace this call with:</p>
-
-<p><code>
-(.getHostName (java.net.InetAddress/getLocalHost))
-</code>
-which uses a Java <code>getHostName</code>.</p>
-
-<p><strong>Let&rsquo;s try again</strong>
-```sh</p>
-
-<blockquote><p>capstan run
-```
-This time it works, but how do I test it and connect to it?</p></blockquote>
-
-<p><strong>Let&rsquo;s use Capstan port forwarding</strong>
-<code>sh
-capstan run -f 5555:5555 -f 5556:5556
-</code>
-This will  forward host ports 5555 and 5556 to the corresponding ports on the OSv VM.</p>
+<p><strong>Let’s use Capstan port forwarding</strong></p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>capstan run <span class="nt">-f</span> 5555:5555 <span class="nt">-f</span> 5556:5556
+</code></pre></div></div>
+<p>This will  forward host ports 5555 and 5556 to the corresponding ports on the OSv VM.</p>
 
 <p><strong>Success :)</strong></p>
 
-<p>Now we can switch to another terminal and run:
-<code>sh
-riemann-health
-</code>
-to generate traffic for Riemann
-and
-<code>sh
-riemann-dash
-</code>
-to launch a Riemann web GUI.  Here is how it looks:</p>
+<p>Now we can switch to another terminal and run:</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>riemann-health
+</code></pre></div></div>
+<p>to generate traffic for Riemann
+and</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>riemann-dash
+</code></pre></div></div>
+<p>to launch a Riemann web GUI.  Here is how it looks:</p>
 
 <p><img src="/images/riemann_on_osv.png" alt="&quot;Riemann GUI" /> <i>riemann-dash</i></p>
 
-<p>Now we&rsquo;re ready to do further stress testing.  If you do find any problem, or have any question, you&rsquo;re invited to join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev list</a> and ask, or post an issue to the <a href="https://github.com/tzach/riemann">GitHub repository</a>.</p>
+<p>Now we’re ready to do further stress testing.  If you do find any problem, or have any question, you’re invited to join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev list</a> and ask, or post an issue to the <a href="https://github.com/tzach/riemann">GitHub repository</a>.</p>
 
-<p>&mdash; <a href="https://twitter.com/TzachL">Tzach Livyatan</a></p>
+<p>— <a href="https://twitter.com/TzachL">Tzach Livyatan</a></p>
+
 ]]></content>
   </entry>
   

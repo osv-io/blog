@@ -1,229 +1,313 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2014/03/31/welcome/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2014/04/03/capstan/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2014/04/19/spinlock-free/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2014/04/22/riemann-on-osv/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2014/04/25/meetup/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2014/05/07/capstan-bridge/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2014/05/13/osv-on-64-bit-arm/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2014/05/19/usenix-atc/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2014/06/06/capstan-push/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2014/06/18/usenix-atc/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2014/06/19/containers-hypervisors-part-1/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2014/06/19/containers-hypervisors-part-2/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2014/06/23/containers-hypervisors-part-3/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2014/07/01/s3stat/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2014/07/11/osv-boot/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2014/07/14/osv-shrinker-api/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2014/07/21/generic-os-is-dead/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2014/07/27/capstan-lein-template/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2014/08/14/redis-memonly/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2014/08/21/linuxcon-cloudopen/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2014/08/26/jolokia-jmx-connectivity-in-osv/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2014/08/28/wiki-watch-cloud-init/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2014/09/11/cassandra-summit/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2014/09/14/how-fast-can-you-run-4-vm/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2014/09/18/cassandra-dashboard-tab/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2014/09/23/meetup/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2014/09/25/java-newrelic-agent/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>
-            http://blog.osv.io//github/blog/2014/09/25/security-is-a-journey-not-a-destination/
-        </loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2014/09/26/shellshock/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2014/09/26/javaone/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2014/09/26/ant/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2014/10/04/cloud-reboot/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2014/11/04/dashboard/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2014/11/09/rpi/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2014/11/12/amazon/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2014/11/13/osv-private-beta/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2014/11/18/ssh-without-trusting-bastion-host/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2014/11/18/eblug/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2014/12/03/docker-rocket/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2014/12/05/spamsink/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2014/12/12/advent/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2014/12/17/make-clean-dont-repeat-yourself/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2015/01/07/meetup/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2015/01/15/performance-evaluation/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2015/02/02/mikelangelo/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2015/02/20/seastar/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2015/03/31/sdi/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2015/04/03/cloudrouter/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2015/04/08/makefile/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2015/04/27/docker/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2016/03/08/project-mikelangelo/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2016/04/21/nfs-on-osv/</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/2017/06/12/serverless-computing-with-OSv/</loc>
-        <lastmod>2017-06-12T21:20:14+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/blog/archives/</loc>
-        <lastmod>2017-06-12T21:20:14+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/robots.txt</loc>
-        <lastmod>2017-04-20T09:41:24+03:00</lastmod>
-    </url>
-    <url>
-        <loc>http://blog.osv.io//github/</loc>
-        <lastmod>2017-06-12T21:20:14+03:00</lastmod>
-    </url>
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url>
+<loc>http://osv-io.github.io//github/blog/2014/03/30/welcome/</loc>
+<lastmod>2014-03-30T23:54:23-04:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2014/04/03/capstan/</loc>
+<lastmod>2014-04-03T11:37:05-04:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2014/04/19/spinlock-free/</loc>
+<lastmod>2014-04-19T12:00:00-04:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2014/04/22/riemann-on-osv/</loc>
+<lastmod>2014-04-22T12:00:00-04:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2014/04/25/meetup/</loc>
+<lastmod>2014-04-25T11:54:23-04:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2014/05/07/capstan-bridge/</loc>
+<lastmod>2014-05-07T11:37:05-04:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2014/05/12/osv-on-64-bit-arm/</loc>
+<lastmod>2014-05-12T23:54:23-04:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2014/05/19/usenix-atc/</loc>
+<lastmod>2014-05-19T11:54:23-04:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2014/06/06/capstan-push/</loc>
+<lastmod>2014-06-06T11:54:23-04:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2014/06/18/usenix-atc/</loc>
+<lastmod>2014-06-18T11:54:23-04:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2014/06/19/containers-hypervisors-part-1/</loc>
+<lastmod>2014-06-19T16:00:00-04:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2014/06/19/containers-hypervisors-part-2/</loc>
+<lastmod>2014-06-19T16:00:00-04:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2014/06/23/containers-hypervisors-part-3/</loc>
+<lastmod>2014-06-23T16:00:00-04:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2014/07/01/s3stat/</loc>
+<lastmod>2014-07-01T00:00:00-04:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2014/07/11/osv-boot/</loc>
+<lastmod>2014-07-11T11:37:05-04:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2014/07/14/osv-shrinker-api/</loc>
+<lastmod>2014-07-14T11:37:05-04:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2014/07/21/generic-os-is-dead/</loc>
+<lastmod>2014-07-21T00:00:00-04:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2014/07/27/capstan-lein-template/</loc>
+<lastmod>2014-07-27T00:00:00-04:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2014/08/14/redis-memonly/</loc>
+<lastmod>2014-08-14T12:26:31-04:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2014/08/20/linuxcon-cloudopen/</loc>
+<lastmod>2014-08-20T19:10:31-04:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2014/08/26/jolokia-jmx-connectivity-in-osv/</loc>
+<lastmod>2014-08-26T10:11:20-04:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2014/08/28/wiki-watch-cloud-init/</loc>
+<lastmod>2014-08-28T11:37:05-04:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2014/09/10/cassandra-summit/</loc>
+<lastmod>2014-09-10T19:10:31-04:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2014/09/14/how-fast-can-you-run-4-vm/</loc>
+<lastmod>2014-09-14T02:30:00-04:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2014/09/18/cassandra-dashboard-tab/</loc>
+<lastmod>2014-09-18T09:00:00-04:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2014/09/22/meetup/</loc>
+<lastmod>2014-09-22T20:54:23-04:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2014/09/24/java-newrelic-agent/</loc>
+<lastmod>2014-09-24T19:22:22-04:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2014/09/25/security-is-a-journey-not-a-destination/</loc>
+<lastmod>2014-09-25T16:54:23-04:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2014/09/25/shellshock/</loc>
+<lastmod>2014-09-25T18:54:23-04:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2014/09/25/javaone/</loc>
+<lastmod>2014-09-25T20:10:31-04:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2014/09/26/ant/</loc>
+<lastmod>2014-09-26T14:54:23-04:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2014/10/03/cloud-reboot/</loc>
+<lastmod>2014-10-03T20:54:23-04:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2014/11/04/dashboard/</loc>
+<lastmod>2014-11-04T00:10:31-05:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2014/11/09/rpi/</loc>
+<lastmod>2014-11-09T14:10:31-05:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2014/11/12/amazon/</loc>
+<lastmod>2014-11-12T11:10:31-05:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2014/11/13/osv-private-beta/</loc>
+<lastmod>2014-11-13T11:10:31-05:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2014/11/17/ssh-without-trusting-bastion-host/</loc>
+<lastmod>2014-11-17T17:10:31-05:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2014/11/17/eblug/</loc>
+<lastmod>2014-11-17T19:54:23-05:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2014/12/02/docker-rocket/</loc>
+<lastmod>2014-12-02T17:10:31-05:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2014/12/04/spamsink/</loc>
+<lastmod>2014-12-04T17:10:31-05:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2014/12/11/advent/</loc>
+<lastmod>2014-12-11T17:10:31-05:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2014/12/17/make-clean-dont-repeat-yourself/</loc>
+<lastmod>2014-12-17T00:10:31-05:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2015/01/07/meetup/</loc>
+<lastmod>2015-01-07T10:54:23-05:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2015/01/14/performance-evaluation/</loc>
+<lastmod>2015-01-14T18:54:23-05:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2015/02/02/mikelangelo/</loc>
+<lastmod>2015-02-02T13:54:23-05:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2015/02/20/seastar/</loc>
+<lastmod>2015-02-20T09:54:23-05:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2015/03/31/sdi/</loc>
+<lastmod>2015-03-31T00:00:00-04:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2015/04/03/cloudrouter/</loc>
+<lastmod>2015-04-03T00:00:00-04:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2015/04/08/makefile/</loc>
+<lastmod>2015-04-08T00:00:00-04:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2015/04/27/docker/</loc>
+<lastmod>2015-04-27T00:00:00-04:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2016/03/08/project-mikelangelo/</loc>
+<lastmod>2016-03-08T09:00:00-05:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2016/04/21/nfs-on-osv/</loc>
+<lastmod>2016-04-21T10:00:00-04:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2017/06/12/serverless-computing-with-OSv/</loc>
+<lastmod>2017-06-12T10:00:00-04:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/2019/04/19/making-OSv-run-on-firecraker/</loc>
+<lastmod>2019-04-19T10:00:00-04:00</lastmod>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/404/</loc>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/archives/</loc>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/</loc>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/categories/capstan/</loc>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/categories/tools/</loc>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/categories/clojure/</loc>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/categories/examples/</loc>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/categories/network/</loc>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/categories/internals/</loc>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/categories/memory/</loc>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/categories/shrinker/</loc>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/categories/c/</loc>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/categories/java/</loc>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/categories/as/</loc>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/categories/lein/</loc>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/categories/nosql/</loc>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/categories/events/</loc>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/categories/management/</loc>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/categories/redis/</loc>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/categories/tomcat/</loc>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/categories/mysql/</loc>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/categories/cassandra/</loc>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/categories/dashboard/</loc>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/categories/newrelic/</loc>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/categories/release/</loc>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/page2/</loc>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/page3/</loc>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/page4/</loc>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/page5/</loc>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/blog/page6/</loc>
+</url>
+<url>
+<loc>http://osv-io.github.io//github/images/prelim-osv-performance.pdf</loc>
+<lastmod>2019-04-04T09:35:58-04:00</lastmod>
+</url>
 </urlset>

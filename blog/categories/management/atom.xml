@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Management | OSv Blog]]></title>
-  <link href="http://blog.osv.io//github/blog/categories/management/atom.xml" rel="self"/>
-  <link href="http://blog.osv.io//github/"/>
-  <updated>2017-06-12T21:20:41+03:00</updated>
-  <id>http://blog.osv.io//github/</id>
+  <link href="http://osv-io.github.io//github/blog/categories/management/atom.xml" rel="self"/>
+  <link href="http://osv-io.github.io//github/"/>
+  <updated>2019-04-20T01:01:48-04:00</updated>
+  <id>http://osv-io.github.io//github/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
     
@@ -15,14 +15,14 @@
   
   <entry>
     <title type="html"><![CDATA[Wiki Watch: Cloud Init]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/08/28/wiki-watch-cloud-init/"/>
-    <updated>2014-08-28T18:37:05+03:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/08/28/wiki-watch-cloud-init</id>
-    <content type="html"><![CDATA[<p><a href="http://osv.io/blog/blog/2014/08/26/jolokia-jmx-connectivity-in-osv/">The previous blog article, on Jolokia</a> mentions a configuration item for cloud-init.  You may be asking, &ldquo;Cloud init?  How do I use that on OSv?&rdquo;  Well, good news.  For details on configuring OSv using the cloud init mechanism, check out our recently updated wiki page: <a href="https://github.com/cloudius-systems/osv/wiki/cloud-init">Cloud init</a>.</p>
+    <link href="http://osv-io.github.io//github/blog/2014/08/28/wiki-watch-cloud-init/"/>
+    <updated>2014-08-28T11:37:05-04:00</updated>
+    <id>http://osv-io.github.io//github/blog/2014/08/28/wiki-watch-cloud-init</id>
+    <content type="html"><![CDATA[<p><a href="http://osv.io/blog/blog/2014/08/26/jolokia-jmx-connectivity-in-osv/">The previous blog article, on Jolokia</a> mentions a configuration item for cloud-init.  You may be asking, “Cloud init?  How do I use that on OSv?”  Well, good news.  For details on configuring OSv using the cloud init mechanism, check out our recently updated wiki page: <a href="https://github.com/cloudius-systems/osv/wiki/cloud-init">Cloud init</a>.</p>
 
-<p><a href="https://github.com/tgrabiec">Tomasz Grabiec</a> has written an informative page on how to configure your OSv instance, from setting the port for the management HTTP server to filling in the content of config files. Check it out.  (Naturally, it&rsquo;s a wiki, so feel free to fill in additional details if you like.)</p>
+<p><a href="https://github.com/tgrabiec">Tomasz Grabiec</a> has written an informative page on how to configure your OSv instance, from setting the port for the management HTTP server to filling in the content of config files. Check it out.  (Naturally, it’s a wiki, so feel free to fill in additional details if you like.)</p>
 
-<p>Want more info on cloud-init and related topics?  Join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get regular OSv updates by subscribing to this blog&rsquo;s feed, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+<p>Want more info on cloud-init and related topics?  Join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get regular OSv updates by subscribing to this blog’s feed, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
 ]]></content>
   </entry>
   

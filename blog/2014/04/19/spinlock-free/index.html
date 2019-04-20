@@ -9,7 +9,34 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="Designing an OS to run specifically as a cloud guest doesn’t just mean stripping out features. There are some other important problems with running &hellip;">
+  <meta name="description" content="
+
+  
+  
+    
+      Spinlock-free OS Design for Virtualization
+    
+    
+      
+        
+
+
+
+
+
+
+
+
+
+
+Apr 19, 2014
+        
+      
+    
+  
+
+
+Designing ...">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,14 +45,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.osv.io//github/blog/2014/04/19/spinlock-free">
+  <link rel="canonical" href="http://osv-io.github.io//github/blog/2014/04/19/spinlock-free/">
   <link href="/favicon.ico" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/monokai.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/customized.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <script src="/javascripts/run_prettify.js" type="text/javascript"></script>
+  <script src="/javascripts/lang-gas.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
 <!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -62,7 +93,7 @@
         
         <form action="https://www.google.com/search" method="get">
             <fieldset role="search">
-                <input type="hidden" name="q" value="site:blog.osv.io//github" />
+                <input type="hidden" name="q" value="site:http://osv-io.github.io//github" />
                 <input class="search" type="text" name="q" results="0" placeholder="Search"/>
             </fieldset>
         </form>
@@ -130,19 +161,18 @@
 
 
 
-  
 
 
-<time datetime="2014-04-19T19:00:00+03:00" pubdate data-updated="true">Apr 19<span>th</span>, 2014</time>
+<time datetime="2014-04-19T12:00:00-04:00" pubdate data-updated="true">Apr 19, 2014</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p>Designing an OS to run specifically as a cloud guest doesn’t just mean stripping out features. There are some other important problems with running virtualized that a conventional guest OS doesn’t address.  In this post we&rsquo;ll cover one of them.</p>
+<div class="entry-content"><p>Designing an OS to run specifically as a cloud guest doesn’t just mean stripping out features. There are some other important problems with running virtualized that a conventional guest OS doesn’t address.  In this post we’ll cover one of them.</p>
 
-<h2>Little spinlocks, big problem</h2>
+<h2 id="little-spinlocks-big-problem">Little spinlocks, big problem</h2>
 
 <p>In any situation where code running on multiple CPUs might read or write the  same data, typical SMP operating systems use spinlocks. One CPU acquires the lock using an atomic test-and-set operation, and other CPUs that need the data must execute a busy-loop until they can acquire the lock themselves. Can I have the data? No. Can I have the data? No. Can I have the data? No. When an OS runs on bare hardware, a spinlock might just waste a little electricity. OS developers often use other more sophisticated locking techniques where they can, and try to reserve spinlocks for short-term locking of critical items.</p>
 
@@ -150,11 +180,13 @@
 
 <p>The problem comes in when you add virtualization. A physical CPU that holds a spinlock is actually working. The other CPUs in the system, “spinning” away waiting for the lock, are at least waiting for something that’s actually in progress. On a well-designed OS, the lock holder will be done quickly. When the OS is running under virtualization, though, it’s another story. The hypervisor might pause a virtual CPU at times when the guest OS can’t predict. As <a href="http://www.betriebssysteme.org/Aktivitaeten/Treffen/2008-Garching/Programm/docs/Abstract_Friebel.pdf">Thomas Friebel and Sebastian Biemueller described</a> (PDF) in “How to Deal with Lock Holder Preemption”,</p>
 
-<blockquote><p>Lock holder preemption describes the situation when a VCPU is preempted inside the guest kernel while holding a spinlock. As this lock stays acquired during the preemption any other VCPUs of the same guest trying to acquire this lock will have to wait until the VCPU is executed again and releases the lock. Lock holder preemption is possible if two or more VCPUs run on a single CPU concurrently. And the more VCPUs of a guest are running in parallel the more VCPUs have to wait if trying to acquire a preempted lock. And as spinlocks imply active waiting the CPU time of waiting VCPUs is simply wasted.</p></blockquote>
+<blockquote>
+  <p>Lock holder preemption describes the situation when a VCPU is preempted inside the guest kernel while holding a spinlock. As this lock stays acquired during the preemption any other VCPUs of the same guest trying to acquire this lock will have to wait until the VCPU is executed again and releases the lock. Lock holder preemption is possible if two or more VCPUs run on a single CPU concurrently. And the more VCPUs of a guest are running in parallel the more VCPUs have to wait if trying to acquire a preempted lock. And as spinlocks imply active waiting the CPU time of waiting VCPUs is simply wasted.</p>
+</blockquote>
 
-<p>If the hypervisor pauses a virtual CPU while that VCPU holds a spinlock, you get into the bad situation where other virtual CPUs on your guest are just spinning, and it’s possible that no useful work is getting done in that guest&mdash;just electricity wasting. Friebel and Biemueller describe a solution to the problem involving a hypercall to complain about the wait. But the OSv solution to the problem is to remove spinlocks from the guest OS entirely.</p>
+<p>If the hypervisor pauses a virtual CPU while that VCPU holds a spinlock, you get into the bad situation where other virtual CPUs on your guest are just spinning, and it’s possible that no useful work is getting done in that guest–just electricity wasting. Friebel and Biemueller describe a solution to the problem involving a hypercall to complain about the wait. But the OSv solution to the problem is to remove spinlocks from the guest OS entirely.</p>
 
-<h2>Why going spinlock-free matters</h2>
+<h2 id="why-going-spinlock-free-matters">Why going spinlock-free matters</h2>
 
 <p>As a first step, OSv does almost all of its kernel-level work in threads. Threads, which are allowed to sleep, can use lock-based algorithms. They use mutexes, not spinlocks, to protect shared data. The <a href="https://github.com/cloudius-systems/osv/blob/master/include/lockfree/mutex.hh">mutex implementation itself</a>, however, has to use a lock-free algorithm. OSv’s <a href="https://github.com/cloudius-systems/osv/blob/master/include/lockfree/mutex.hh">mutex implementation</a> is based on a lock-free design by Gidenstam &amp; Papatriantafilou, covered in <a href="http://domino.mpi-inf.mpg.de/internet/reports.nsf/c125634c000710d0c12560400034f45a/77c097efde9fa63fc125736800444203/$FILE/MPI-I-2007-1-003.pdf">LFTHREADS: A lock-free thread library.</a> (PDF).</p>
 
@@ -163,14 +195,13 @@
 <p>Lock-free design is just one example of the kind of thing that we mean when talking about how OSv is “designed for the cloud”.  Because we can’t assume that a CPU is always running or available to run, the low-level design of the OS needs to be cloud-aware to prevent performance degradation and resource waste.</p>
 
 <p>We’ve been posting benchmarks that show sizeable performance increases running memcached and other programs. If you’re curious about whether OSv can make your application faster, please try it out from the <a href="http://osv.io/">OSv home page</a> or join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.</p>
+
 </div>
 
 
   <footer>
     <p class="meta">
       
-  
-
 <span class="byline author vcard">Posted by <span class="fn">Cloudius Systems</span></span>
 
       
@@ -182,10 +213,9 @@
 
 
 
-  
 
 
-<time datetime="2014-04-19T19:00:00+03:00" pubdate data-updated="true">Apr 19<span>th</span>, 2014</time>
+<time datetime="2014-04-19T12:00:00-04:00" pubdate data-updated="true">Apr 19, 2014</time>
       
 
 
@@ -199,8 +229,6 @@
         
         <a class="addthis_button_tweet"></a>
         
-        
-        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
         
         
         <a class="addthis_counter addthis_pill_style"></a>
@@ -238,6 +266,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2019/04/19/making-OSv-run-on-firecraker/">Making OSv Run on Firecracker</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/06/12/serverless-computing-with-OSv/">Serverless Computing With OSv</a>
       </li>
     
@@ -251,10 +283,6 @@
     
       <li class="post">
         <a href="/blog/2015/04/27/docker/">Building OSv Images Using Docker</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/04/08/makefile/">Re-"make"-ing OSv</a>
       </li>
     
   </ul>
@@ -323,14 +351,6 @@
 }(document, 'script', 'facebook-jssdk'));</script>
 
 
-
-  <script type="text/javascript">
-    (function() {
-      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
-      script.src = 'https://apis.google.com/js/plusone.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
-    })();
-  </script>
 
 
 

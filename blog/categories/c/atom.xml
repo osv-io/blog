@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: C | OSv Blog]]></title>
-  <link href="http://blog.osv.io//github/blog/categories/c/atom.xml" rel="self"/>
-  <link href="http://blog.osv.io//github/"/>
-  <updated>2017-06-12T21:20:41+03:00</updated>
-  <id>http://blog.osv.io//github/</id>
+  <link href="http://osv-io.github.io//github/blog/categories/c/atom.xml" rel="self"/>
+  <link href="http://osv-io.github.io//github/"/>
+  <updated>2019-04-20T01:01:48-04:00</updated>
+  <id>http://osv-io.github.io//github/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
     
@@ -15,21 +15,20 @@
   
   <entry>
     <title type="html"><![CDATA[Getting Started With the OSv Shrinker API]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/07/14/osv-shrinker-api/"/>
-    <updated>2014-07-14T18:37:05+03:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/07/14/osv-shrinker-api</id>
+    <link href="http://osv-io.github.io//github/blog/2014/07/14/osv-shrinker-api/"/>
+    <updated>2014-07-14T11:37:05-04:00</updated>
+    <id>http://osv-io.github.io//github/blog/2014/07/14/osv-shrinker-api</id>
     <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
 
-<p>If you&rsquo;re writing a program that keeps a cache in memory, you&rsquo;re probably expecting users to have to set the cache size, which means a configuration setting or command-line argument.  And every configuration setting or command-line argument is something that you have to document, or explain to users when they get it wrong.</p>
+<p>If you’re writing a program that keeps a cache in memory, you’re probably expecting users to have to set the cache size, which means a configuration setting or command-line argument.  And every configuration setting or command-line argument is something that you have to document, or explain to users when they get it wrong.</p>
 
-<p>Thankfully, there&rsquo;s an easier way.</p>
+<p>Thankfully, there’s an easier way.</p>
 
 <!-- more -->
 
+<p>With OSv, you can ask the OS to let your program know when memory is tight, so that you can manage the cache size on the fly.  Less time spent tweaking settings, more items kept in cache, what’s not to like?  Just set up a shrinker callback and register it.  (There is a <a href="https://www.kernel.org/doc/Documentation/cgroups/memory.txt">mechanism for memory pressure notifications</a> on Linux, but it’s somewhat complex. With OSv it’s just one function to write.)</p>
 
-<p>With OSv, you can ask the OS to let your program know when memory is tight, so that you can manage the cache size on the fly.  Less time spent tweaking settings, more items kept in cache, what&rsquo;s not to like?  Just set up a shrinker callback and register it.  (There is a <a href="https://www.kernel.org/doc/Documentation/cgroups/memory.txt">mechanism for memory pressure notifications</a> on Linux, but it&rsquo;s somewhat complex. With OSv it&rsquo;s just one function to write.)</p>
-
-<h2>Defining a shrinker function</h2>
+<h2 id="defining-a-shrinker-function">Defining a shrinker function</h2>
 
 <p>OSv notifies your program of a low memory situation by
 calling a shrinker callback.</p>
@@ -37,104 +36,97 @@ calling a shrinker callback.</p>
 <p>A shrinker function takes two arguments:</p>
 
 <ul>
-<li><p>target amount of memory to free (size_t)</p></li>
-<li><p>A boolean &ldquo;hard&rdquo; argument.  This is false if the function is being called for preemptive freeing of memory, and true if the system is under severe pressure.</p></li>
+  <li>
+    <p>target amount of memory to free (size_t)</p>
+  </li>
+  <li>
+    <p>A boolean “hard” argument.  This is false if the function is being called for preemptive freeing of memory, and true if the system is under severe pressure.</p>
+  </li>
 </ul>
 
+<p>In most invocations, the argument <code class="highlighter-rouge">hard</code> will be set by OSv to false. This indicates that the system is acting preemptively, and memory pressure is starting to build up. The application is free to defer the freeing of objects to a later stage. Having your shrinker callback called with <code class="highlighter-rouge">hard</code> set to true, however, means that OSv is under severe memory pressure, and may be unable to serve allocations. If not enough memory is freed, the system may be forced to abort.</p>
 
-<p>In most invocations, the argument <code>hard</code> will be set by OSv to false. This indicates that the system is acting preemptively, and memory pressure is starting to build up. The application is free to defer the freeing of objects to a later stage. Having your shrinker callback called with <code>hard</code> set to true, however, means that OSv is under severe memory pressure, and may be unable to serve allocations. If not enough memory is freed, the system may be forced to abort.</p>
-
-<h2>Registering</h2>
+<h2 id="registering">Registering</h2>
 
 <p>Now that the shrinker function is defined, you need to register it.</p>
 
-<p>To register a shrinker function involves calling <code>osv_register_shrinker</code>:</p>
+<p>To register a shrinker function involves calling <code class="highlighter-rouge">osv_register_shrinker</code>:</p>
 
-<p>```
-void <em>osv_register_shrinker(const char </em>name,</p>
-
-<pre><code>                        size_t (*func)(size_t target, bool hard));
-</code></pre>
-
-<p>```</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void *osv_register_shrinker(const char *name,
+                            size_t (*func)(size_t target, bool hard));
+</code></pre></div></div>
 
 <p>For example, an application in C can just do:</p>
 
-<p>```
-extern void <em>osv_register_shrinker(const char </em>name,</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>extern void *osv_register_shrinker(const char *name,
+                            size_t (*func)(size_t target, bool hard));
 
-<pre><code>                        size_t (*func)(size_t target, bool hard));
-</code></pre>
-
-<p>int main () {
-  &hellip;
-  osv_register_shrinker(&ldquo;Example Shrinker&rdquo;, shrinker_function);
-  &hellip;
+int main () {
+  ...
+  osv_register_shrinker("Example Shrinker", shrinker_function);
+  ...
   return 0;
 }
-```</p>
+</code></pre></div></div>
 
 <p>An extremely basic example of a program that uses the OSv shrinker API is <a href="https://github.com/dmarti/memory-hog">memory-hog</a>.  To try it, install <a href="https://github.com/cloudius-systems/capstan">Capstan</a>, clone the Git repository, and build an OSv image to run it.  Currently memory-hog requires at least 2GB of memory.</p>
 
-<p>```
-$ git clone git@github.com:dmarti/memory-hog.git
-Cloning into &lsquo;memory-hog&rsquo;&hellip;
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ git clone git@github.com:dmarti/memory-hog.git
+Cloning into 'memory-hog'...
 remote: Reusing existing pack: 76, done.
 remote: Total 76 (delta 0), reused 0 (delta 0)
 Receiving objects: 100% (76/76), 12.84 KiB | 0 bytes/s, done.
 Resolving deltas: 100% (39/39), done.
-Checking connectivity&hellip; done.
+Checking connectivity... done.
 $ cd memory-hog
 $ capstan run -m 2G
-Building memory-hog&hellip;
+Building memory-hog...
 Created instance: memory-hog
 OSv v0.09
 eth0: 192.168.122.15
-I&rsquo;m a memory hog!
-program:    Oink!
-program:    Oink!
-program:    Oink!</p>
+I'm a memory hog!
+program: 	Oink!
+program: 	Oink!
+program: 	Oink!
 
-<p>&hellip;many &ldquo;Oink!"s later&hellip;</p>
+...many "Oink!"s later...
 
-<p>program:    Oink!
-shrinker:   Soft pressure, all done.
-program:    Oink!
-shrinker:   Soft pressure, all done.
-program:    Oink!
-shrinker:   Soft pressure, all done.
-program:    Oink!
-shrinker:   Soft pressure, all done.
-program:    Oink!
-shrinker:   Soft pressure, all done.
-program:    Oink!
-shrinker:   Soft pressure, all done.
-shrinker:   processing request to free 166062080 bytes.
-shrinker:   starting with 64 things.
-shrinker:   finishing with 58 things.</p>
+program: 	Oink!
+shrinker:	Soft pressure, all done.
+program: 	Oink!
+shrinker:	Soft pressure, all done.
+program: 	Oink!
+shrinker:	Soft pressure, all done.
+program: 	Oink!
+shrinker:	Soft pressure, all done.
+program: 	Oink!
+shrinker:	Soft pressure, all done.
+program: 	Oink!
+shrinker:	Soft pressure, all done.
+shrinker:	processing request to free 166062080 bytes.
+shrinker:	starting with 64 things.
+shrinker:	finishing with 58 things.
+		192534576 bytes of memory were freed!
+program: 	Oink!
+shrinker:	Soft pressure, all done.
+</code></pre></div></div>
 
-<pre><code>    192534576 bytes of memory were freed!
-</code></pre>
-
-<p>program:    Oink!
-shrinker:   Soft pressure, all done.
-```</p>
-
-<h2>Concurrency</h2>
+<h2 id="concurrency">Concurrency</h2>
 
 <p>Shrinker callbacks conceptually work like asynchronous signal handlers,
-They handle specific events and may be called at any time, from your program&rsquo;s point of view.</p>
+They handle specific events and may be called at any time, from your program’s point of view.</p>
 
 <p>Each cache in your program that the shrinker can release data from,
 must have its own lock to prevent concurrency issues.</p>
 
-<p>The memory-hog sample program uses a mutex to handle concurrency.  To handle soft memory pressure, where your shrinker is called with <code>hard</code> set to false, you can keep a global <code>free_memory_please</code> global variable, and set it in the shrinker callback.  Then check it in the main loop, and free memory if necessary.  However, hard memory pressure must be handled immediately, or the system may hang.</p>
+<p>The memory-hog sample program uses a mutex to handle concurrency.  To handle soft memory pressure, where your shrinker is called with <code class="highlighter-rouge">hard</code> set to false, you can keep a global <code class="highlighter-rouge">free_memory_please</code> global variable, and set it in the shrinker callback.  Then check it in the main loop, and free memory if necessary.  However, hard memory pressure must be handled immediately, or the system may hang.</p>
 
-<h2>Handling soft pressure</h2>
+<h2 id="handling-soft-pressure">Handling soft pressure</h2>
 
-<p>If possible, you should have your shrinker try to release some memory when called with <code>hard</code> set to false.  This will reduce the number of times you have to handle shrinking, and improve performance by making more free memory available to OSv for system tasks.  The memory-hog example currently ignores soft pressure.</p>
+<p>If possible, you should have your shrinker try to release some memory when called with <code class="highlighter-rouge">hard</code> set to false.  This will reduce the number of times you have to handle shrinking, and improve performance by making more free memory available to OSv for system tasks.  The memory-hog example currently ignores soft pressure.</p>
 
 <p>For more info on memory management and other OSv subjects, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get updates on by subscribing to the <a href="http://osv.io/blog/atom.xml">OSv blog RSS feed</a> or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+
 ]]></content>
   </entry>
   

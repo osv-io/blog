@@ -9,7 +9,30 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="By Tzach Livyatan We are constantly looking for ways to improve the OSv virtual appliance experience. The latest improvement is an integrated &hellip;">
+  <meta name="description" content="
+
+  
+  
+    
+      New Dashboard Tab for Insight on Cassandra Virtual Appliances
+    
+    
+      
+        
+
+
+
+
+
+
+
+
+
+
+Sep 18, 2014
+        
+      
+ ...">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,14 +41,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.osv.io//github/blog/2014/09/18/cassandra-dashboard-tab">
+  <link rel="canonical" href="http://osv-io.github.io//github/blog/2014/09/18/cassandra-dashboard-tab/">
   <link href="/favicon.ico" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/monokai.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/customized.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <script src="/javascripts/run_prettify.js" type="text/javascript"></script>
+  <script src="/javascripts/lang-gas.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
 <!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -62,7 +89,7 @@
         
         <form action="https://www.google.com/search" method="get">
             <fieldset role="search">
-                <input type="hidden" name="q" value="site:blog.osv.io//github" />
+                <input type="hidden" name="q" value="site:http://osv-io.github.io//github" />
                 <input class="search" type="text" name="q" results="0" placeholder="Search"/>
             </fieldset>
         </form>
@@ -130,10 +157,9 @@
 
 
 
-  
 
 
-<time datetime="2014-09-18T16:00:00+03:00" pubdate data-updated="true">Sep 18<span>th</span>, 2014</time>
+<time datetime="2014-09-18T09:00:00-04:00" pubdate data-updated="true">Sep 18, 2014</time>
         
       </p>
     
@@ -145,18 +171,15 @@
 <p>We are constantly looking for ways to improve the OSv virtual appliance experience.  The latest improvement is an integrated dashboard, presenting a combination of:</p>
 
 <ul>
-<li>OS related metrics (CPU, memory, threads, &hellip;)</li>
-<li>Profiling related metrics (trace points)</li>
-<li>JVM related metrics (heap, GC, &hellip;)</li>
-<li>Cassandra related metrics (latency, tasks, cluster status)</li>
+  <li>OS related metrics (CPU, memory, threads, …)</li>
+  <li>Profiling related metrics (trace points)</li>
+  <li>JVM related metrics (heap, GC, …)</li>
+  <li>Cassandra related metrics (latency, tasks, cluster status)</li>
 </ul>
-
 
 <p><img src="/images/cassandra-tab.png" alt="tab" /></p>
 
 <!-- more -->
-
-
 <p>The dashboard is yet another example of using
 <a href="osv.io/api/swagger-ui/dist/index.html">REST API</a> to monitor and
 control OSv and
@@ -164,7 +187,7 @@ OSv virtual appliances. These REST APIs are open for the
 user directly. In particular, the new Capstan tab takes advantage of the newly added
 <a href="http://osv.io/blog/blog/2014/08/26/jolokia-jmx-connectivity-in-osv/">Jolokia</a>
 connector, exposing JMX information over REST.
-The OSv REST API makes it simple to manage your OSv virtual appliance with <code>curl(1)</code> or your own script.</p>
+The OSv REST API makes it simple to manage your OSv virtual appliance with <code class="highlighter-rouge">curl(1)</code> or your own script.</p>
 
 <p>There are other great tools out there for JVM monitoring and profiling, like <a href="http://visualvm.java.net/">VisualVM</a>.
 The OSv dashboard is unique by unifying the end-to-end virtual appliances functionality:
@@ -173,18 +196,16 @@ From the application to the JVM, down to the OS and HW status.</p>
 <p>In particular, trace points allow a deep dive into the system execution, providing similar functionality on OSv to what <a href="https://en.wikipedia.org/wiki/DTrace">DTrace</a> does for Solaris.</p>
 
 <p>We are planing to provide similar application-level tabs for other OSv virtual appliances.
-Want to build a tab for your favorite application on OSv?
+Want to build a tab for your favorite application on OSv? 
 Clone the <a href="https://github.com/cloudius-systems/osv-gui">osv-gui</a> repository and start submitting pull requests!</p>
 
-<p>You can keep up with the latest OSv news from this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or following <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+<p>You can keep up with the latest OSv news from this blog’s <a href="http://osv.io/blog/atom.xml">feed</a>, or following <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
 </div>
 
 
   <footer>
     <p class="meta">
       
-  
-
 <span class="byline author vcard">Posted by <span class="fn">Cloudius Systems</span></span>
 
       
@@ -196,10 +217,9 @@ Clone the <a href="https://github.com/cloudius-systems/osv-gui">osv-gui</a> repo
 
 
 
-  
 
 
-<time datetime="2014-09-18T16:00:00+03:00" pubdate data-updated="true">Sep 18<span>th</span>, 2014</time>
+<time datetime="2014-09-18T09:00:00-04:00" pubdate data-updated="true">Sep 18, 2014</time>
       
 
 <span class="categories">
@@ -220,8 +240,6 @@ Clone the <a href="https://github.com/cloudius-systems/osv-gui">osv-gui</a> repo
         <a class="addthis_button_tweet"></a>
         
         
-        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
-        
         
         <a class="addthis_counter addthis_pill_style"></a>
         
@@ -237,7 +255,7 @@ Clone the <a href="https://github.com/cloudius-systems/osv-gui">osv-gui</a> repo
         <a class="basic-alignment left" href="/blog/2014/09/14/how-fast-can-you-run-4-vm/" title="Previous Post: Speed run: running 4 virtual appliances on your laptop in 5 seconds overall">&laquo; Speed run: running 4 virtual appliances on your laptop in 5 seconds overall</a>
       
       
-        <a class="basic-alignment right" href="/blog/2014/09/23/meetup/" title="Next Post: OSv Meetup group: Convert your application to a run-anywhere VM">OSv Meetup group: Convert your application to a run-anywhere VM &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2014/09/22/meetup/" title="Next Post: OSv Meetup group: Convert your application to a run-anywhere VM">OSv Meetup group: Convert your application to a run-anywhere VM &raquo;</a>
       
     </p>
   </footer>
@@ -258,6 +276,10 @@ Clone the <a href="https://github.com/cloudius-systems/osv-gui">osv-gui</a> repo
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2019/04/19/making-OSv-run-on-firecraker/">Making OSv Run on Firecracker</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/06/12/serverless-computing-with-OSv/">Serverless Computing With OSv</a>
       </li>
     
@@ -271,10 +293,6 @@ Clone the <a href="https://github.com/cloudius-systems/osv-gui">osv-gui</a> repo
     
       <li class="post">
         <a href="/blog/2015/04/27/docker/">Building OSv Images Using Docker</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/04/08/makefile/">Re-"make"-ing OSv</a>
       </li>
     
   </ul>
@@ -343,14 +361,6 @@ Clone the <a href="https://github.com/cloudius-systems/osv-gui">osv-gui</a> repo
 }(document, 'script', 'facebook-jssdk'));</script>
 
 
-
-  <script type="text/javascript">
-    (function() {
-      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
-      script.src = 'https://apis.google.com/js/plusone.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
-    })();
-  </script>
 
 
 

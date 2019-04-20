@@ -9,7 +9,31 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="By Don Marti What do we have to do in make clean? Delete all the files that can be regenerated that we don&rsquo;t need to keep around. What&rsquo;s &hellip;">
+  <meta name="description" content="
+
+  
+  
+    
+      Image Building Tip: Make Clean Without Repeating Yourself
+    
+    
+      
+        
+
+
+
+
+
+
+
+
+
+
+Dec 17, 2014
+        
+      
+    
+...">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,14 +42,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.osv.io//github/blog/2014/12/17/make-clean-dont-repeat-yourself">
+  <link rel="canonical" href="http://osv-io.github.io//github/blog/2014/12/17/make-clean-dont-repeat-yourself/">
   <link href="/favicon.ico" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/monokai.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/customized.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <script src="/javascripts/run_prettify.js" type="text/javascript"></script>
+  <script src="/javascripts/lang-gas.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
 <!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -62,7 +90,7 @@
         
         <form action="https://www.google.com/search" method="get">
             <fieldset role="search">
-                <input type="hidden" name="q" value="site:blog.osv.io//github" />
+                <input type="hidden" name="q" value="site:http://osv-io.github.io//github" />
                 <input class="search" type="text" name="q" results="0" placeholder="Search"/>
             </fieldset>
         </form>
@@ -130,10 +158,9 @@
 
 
 
-  
 
 
-<time datetime="2014-12-17T07:10:31+02:00" pubdate data-updated="true">Dec 17<span>th</span>, 2014</time>
+<time datetime="2014-12-17T00:10:31-05:00" pubdate data-updated="true">Dec 17, 2014</time>
         
       </p>
     
@@ -142,58 +169,48 @@
 
 <div class="entry-content"><p><strong>By Don Marti</strong></p>
 
-<p>What do we have to do in <code>make clean</code>?  Delete all the files that can be regenerated that we don&rsquo;t need to keep around.</p>
+<p>What do we have to do in <code class="highlighter-rouge">make clean</code>?  Delete all the files that can be regenerated that we don’t need to keep around.</p>
 
-<p>What&rsquo;s listed in <code>.gitignore</code>?  All the files that can be regenerated that we don&rsquo;t need to keep around.</p>
+<p>What’s listed in <code class="highlighter-rouge">.gitignore</code>?  All the files that can be regenerated that we don’t need to keep around.</p>
 
-<p>Hey, wait a minute. It&rsquo;s not a good idea to repeat yourself, especially for me, since I have to &ldquo;start a project&rdquo; often for demo code.  So here&rsquo;s a way to keep track of all those extre files in one place, with a few lines in Makefile and one handy git command.</p>
+<p>Hey, wait a minute. It’s not a good idea to repeat yourself, especially for me, since I have to “start a project” often for demo code.  So here’s a way to keep track of all those extre files in one place, with a few lines in Makefile and one handy git command.</p>
 
 <!--more-->
 
+<p>Here’s the new <code class="highlighter-rouge">clean</code> target:</p>
 
-<p>Here&rsquo;s the new <code>clean</code> target:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Remove anything listed in the .gitignore file.
+# Remove empty directories because they cannot be versioned.
+clean :
+        find . -path ./.git -prune -o -print0 | \
+        git check-ignore -z --stdin | xargs -0 rm -f
+        find . -depth -mindepth 1 -type d -print0 | \
+        xargs -0 rmdir --ignore-fail-on-non-empty
+</code></pre></div></div>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'># Remove anything listed in the .gitignore file.
-</span><span class='line'># Remove empty directories because they cannot be versioned.
-</span><span class='line'>clean :
-</span><span class='line'>        find . -path ./.git -prune -o -print0 | \
-</span><span class='line'>        git check-ignore -z --stdin | xargs -0 rm -f
-</span><span class='line'>        find . -depth -mindepth 1 -type d -print0 | \
-</span><span class='line'>        xargs -0 rmdir --ignore-fail-on-non-empty</span></code></pre></td></tr></table></div></figure>
+<p>In this case, we’re just running a <code class="highlighter-rouge">find</code> on everything except the <code class="highlighter-rouge">.git</code> directory, and using the <a href="http://git-scm.com/docs/git-check-ignore">git check-ignore</a> command to see if they’re ignorable by git.  If the answer is yes, then they’re fine to remove—so no more keeping track of them in two places.</p>
 
-
-<p>In this case, we&rsquo;re just running a <code>find</code> on everything except the <code>.git</code> directory, and using the <a href="http://git-scm.com/docs/git-check-ignore">git check-ignore</a> command to see if they&rsquo;re ignorable by git.  If the answer is yes, then they&rsquo;re fine to remove&mdash;so no more keeping track of them in two places.</p>
-
-<p>The second <code>find</code> is just to get rid of empty directories, which Git won&rsquo;t track anyway.  And the <code>-print0</code>, <code>-z</code>, and <code>-0</code> options in both lines are to use null characters between filenames, just to prevent weirdness if you end up with a file with a space in its name.</p>
+<p>The second <code class="highlighter-rouge">find</code> is just to get rid of empty directories, which Git won’t track anyway.  And the <code class="highlighter-rouge">-print0</code>, <code class="highlighter-rouge">-z</code>, and <code class="highlighter-rouge">-0</code> options in both lines are to use null characters between filenames, just to prevent weirdness if you end up with a file with a space in its name.</p>
 
 <p>(To hook your regular Makefile up to build complete VMs, just use <a href="http://osv.io/capstan/">Capstan</a>. Get a complete VM, ready to run on any cloud, in only 7.5 to 9 seconds.)</p>
 
-<h2>What, is that it?</h2>
+<h2 id="what-is-that-it">What, is that it?</h2>
 
-<p>Fine, have a bonus tip.  If you&rsquo;re a fan of <a href="http://whatcolourisit.scn9a.org/">What colour is it</a>, the site that changes background color to match the current time, here&rsquo;s how to do the same thing on a GNOME desktop:</p>
+<p>Fine, have a bonus tip.  If you’re a fan of <a href="http://whatcolourisit.scn9a.org/">What colour is it</a>, the site that changes background color to match the current time, here’s how to do the same thing on a GNOME desktop:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>gsettings set org.gnome.desktop.background primary-color "#$(date +%H%M%S)"</span></code></pre></td></tr></table></div></figure>
-
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gsettings set org.gnome.desktop.background primary-color "#$(date +%H%M%S)"
+</code></pre></div></div>
 
 <p>(Those of you on something other than Linux+GNOME, developer desktop tips for your setup are welcome.)</p>
 
-<p><em>For more tips and OSv news, subscribe to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</em></p>
+<p><em>For more tips and OSv news, subscribe to this blog’s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</em></p>
+
 </div>
 
 
   <footer>
     <p class="meta">
       
-  
-
 <span class="byline author vcard">Posted by <span class="fn">Cloudius Systems</span></span>
 
       
@@ -205,10 +222,9 @@
 
 
 
-  
 
 
-<time datetime="2014-12-17T07:10:31+02:00" pubdate data-updated="true">Dec 17<span>th</span>, 2014</time>
+<time datetime="2014-12-17T00:10:31-05:00" pubdate data-updated="true">Dec 17, 2014</time>
       
 
 <span class="categories">
@@ -229,8 +245,6 @@
         <a class="addthis_button_tweet"></a>
         
         
-        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
-        
         
         <a class="addthis_counter addthis_pill_style"></a>
         
@@ -243,7 +257,7 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/12/12/advent/" title="Previous Post: OSv on the QEMU Advent Calendar">&laquo; OSv on the QEMU Advent Calendar</a>
+        <a class="basic-alignment left" href="/blog/2014/12/11/advent/" title="Previous Post: OSv on the QEMU Advent Calendar">&laquo; OSv on the QEMU Advent Calendar</a>
       
       
         <a class="basic-alignment right" href="/blog/2015/01/07/meetup/" title="Next Post: OSv Meetup group in Bangalore, India">OSv Meetup group in Bangalore, India &raquo;</a>
@@ -267,6 +281,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2019/04/19/making-OSv-run-on-firecraker/">Making OSv Run on Firecracker</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/06/12/serverless-computing-with-OSv/">Serverless Computing With OSv</a>
       </li>
     
@@ -280,10 +298,6 @@
     
       <li class="post">
         <a href="/blog/2015/04/27/docker/">Building OSv Images Using Docker</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/04/08/makefile/">Re-"make"-ing OSv</a>
       </li>
     
   </ul>
@@ -352,14 +366,6 @@
 }(document, 'script', 'facebook-jssdk'));</script>
 
 
-
-  <script type="text/javascript">
-    (function() {
-      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
-      script.src = 'https://apis.google.com/js/plusone.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
-    })();
-  </script>
 
 
 

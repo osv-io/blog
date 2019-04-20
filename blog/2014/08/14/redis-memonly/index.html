@@ -9,8 +9,36 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="By Glauber Costa and Don Marti We&rsquo;re planning to attend the
-Linux Foundation&rsquo;s CloudOpen North America conference. Hope to see you there &hellip;">
+  <meta name="description" content="
+
+  
+  
+    
+      Redis on OSv
+    
+    
+      
+        
+
+
+
+
+
+
+
+
+
+
+Aug 14, 2014
+        
+      
+    
+  
+
+
+By Glauber Costa and Don Marti
+
+We’re pl...">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,14 +47,18 @@ Linux Foundation&rsquo;s CloudOpen North America conference. Hope to see you the
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.osv.io//github/blog/2014/08/14/redis-memonly">
+  <link rel="canonical" href="http://osv-io.github.io//github/blog/2014/08/14/redis-memonly/">
   <link href="/favicon.ico" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/monokai.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/customized.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <script src="/javascripts/run_prettify.js" type="text/javascript"></script>
+  <script src="/javascripts/lang-gas.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
 <!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -63,7 +95,7 @@ Linux Foundation&rsquo;s CloudOpen North America conference. Hope to see you the
         
         <form action="https://www.google.com/search" method="get">
             <fieldset role="search">
-                <input type="hidden" name="q" value="site:blog.osv.io//github" />
+                <input type="hidden" name="q" value="site:http://osv-io.github.io//github" />
                 <input class="search" type="text" name="q" results="0" placeholder="Search"/>
             </fieldset>
         </form>
@@ -131,10 +163,9 @@ Linux Foundation&rsquo;s CloudOpen North America conference. Hope to see you the
 
 
 
-  
 
 
-<time datetime="2014-08-14T19:26:31+03:00" pubdate data-updated="true">Aug 14<span>th</span>, 2014</time>
+<time datetime="2014-08-14T12:26:31-04:00" pubdate data-updated="true">Aug 14, 2014</time>
         
       </p>
     
@@ -143,27 +174,27 @@ Linux Foundation&rsquo;s CloudOpen North America conference. Hope to see you the
 
 <div class="entry-content"><p><strong>By Glauber Costa and Don Marti</strong></p>
 
-<p>We&rsquo;re planning to attend the
-Linux Foundation&rsquo;s <a href="http://events.linuxfoundation.org/events/cloudopen-north-america">CloudOpen North America conference</a>.  Hope to see you there, and please come to our talk, &ldquo;<a href="http://lccona14.sched.org/event/4684a80dd37f200277e971133920a2d0">Beating the Virtualization Tax for NoSQL Workloads With OSv</a>.&rdquo;</p>
+<p>We’re planning to attend the 
+Linux Foundation’s <a href="http://events.linuxfoundation.org/events/cloudopen-north-america">CloudOpen North America conference</a>.  Hope to see you there, and please come to our talk, “<a href="http://lccona14.sched.org/event/4684a80dd37f200277e971133920a2d0">Beating the Virtualization Tax for NoSQL Workloads With OSv</a>.”</p>
 
-<p>We&rsquo;ll be using a popular NoSQL database for our demo: Redis.  If you&rsquo;d like to follow along, you&rsquo;re welcome to clone and build Redis on OSv.  We&rsquo;re big Redis fans, because it&rsquo;s a fast, easy-to-administer, in-memory database that works with many useful data structures.</p>
+<p>We’ll be using a popular NoSQL database for our demo: Redis.  If you’d like to follow along, you’re welcome to clone and build Redis on OSv.  We’re big Redis fans, because it’s a fast, easy-to-administer, in-memory database that works with many useful data structures.</p>
 
-<h2>Redis A to Z</h2>
+<h2 id="redis-a-to-z">Redis A to Z</h2>
 
-<p><a href="http://redis.io/">Redis</a> is a remarkably useful piece of software.  People on the Internet talk about Redis a lot.  Here&rsquo;s what Google Suggest has to say about it: <strong>Atomic, benchmark, cluster, delete, expire, failover, gem, hash, incr, Java, key, list, master/slave, node.js, objects, Python, queue, Ruby, set, ttl, Ubuntu, &ldquo;vs. mongodb&rdquo;, Windows, XML, yum, zadd</strong>.  (<a href="http://redis.io/commands/ZADD">zadd</a> is a really cool command by the way.  A huge time-saver for maintaining &ldquo;scoreboard&rdquo; state for games and content-scoring applications.  Did we mention that we&rsquo;re Redis fans?)</p>
+<p><a href="http://redis.io/">Redis</a> is a remarkably useful piece of software.  People on the Internet talk about Redis a lot.  Here’s what Google Suggest has to say about it: <strong>Atomic, benchmark, cluster, delete, expire, failover, gem, hash, incr, Java, key, list, master/slave, node.js, objects, Python, queue, Ruby, set, ttl, Ubuntu, “vs. mongodb”, Windows, XML, yum, zadd</strong>.  (<a href="http://redis.io/commands/ZADD">zadd</a> is a really cool command by the way.  A huge time-saver for maintaining “scoreboard” state for games and content-scoring applications.  Did we mention that we’re Redis fans?)</p>
 
-<p>Redis fills a valuable niche between memcached and a full-scale NoSQL database such as Cassandra.  Although it&rsquo;s fast and perfectly usable as a simple key-value store, you can also use Redis to manage more featureful data structures such as sets and queues.</p>
+<p>Redis fills a valuable niche between memcached and a full-scale NoSQL database such as Cassandra.  Although it’s fast and perfectly usable as a simple key-value store, you can also use Redis to manage more featureful data structures such as sets and queues.</p>
 
-<p>It makes a great session cache, lightweight task queue, or a place to keep pre-rendered content or ephemeral data, and it&rsquo;s a <a href="http://highscalability.com/display/Search?moduleId=4876569&amp;searchQuery=redis">star at highscalability.com</a>.</p>
+<p>It makes a great session cache, lightweight task queue, or a place to keep pre-rendered content or ephemeral data, and it’s a <a href="http://highscalability.com/display/Search?moduleId=4876569&amp;searchQuery=redis">star at highscalability.com</a>.</p>
 
 <p>But you probably already know that.</p>
 
-<h2>Building Redis on OSv</h2>
+<h2 id="building-redis-on-osv">Building Redis on OSv</h2>
 
 <p>Redis works normally on OSv except for one feature: the
 <a href="http://redis.io/commands/bgsave">BGSAVE</a>
 command.  A Redis background
-save depends on the operating system&rsquo;s
+save depends on the operating system’s
 <a href="http://en.wikipedia.org/wiki/Copy-on-write#Copy-on-write_in_virtual_memory_management">copy-on-write</a>
 functionity.  When you issue the BGSAVE
 command, the parent Redis process calls
@@ -176,18 +207,17 @@ a consistent set of data, while the parent gets its
 own copy of any page that it modifies.</p>
 
 <p>Because OSv has a single address space,
-that isn&rsquo;t an option here. OSv support Redis
+that isn’t an option here. OSv support Redis
 <a href="http://redis.io/commands/save">SAVE</a> but not BGSAVE. Other than that,
 running redis on OSv requires little effort. From the OSv source tree,
 all one should do is:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>make image=redis-memonly</span></code></pre></td></tr></table></div></figure>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make image=redis-memonly
+</code></pre></div></div>
 
+<p>Now you have a <code class="highlighter-rouge">usr.img</code> file, which you can run locally with OSv’s <code class="highlighter-rouge">run.py</code>.  Behind the scenes, all that this build step is doing is to issue the application’s <code class="highlighter-rouge">make</code>, with the right set of flags so redis is a shared library.  For more info on how to do that, see <a href="http://osv.io/blog/blog/2014/04/03/capstan/">our earlier example</a>.  of how to use the <code class="highlighter-rouge">-fPIC</code> and <code class="highlighter-rouge">-shared</code> options.</p>
 
-<p>Now you have a <code>usr.img</code> file, which you can run locally with OSv&rsquo;s <code>run.py</code>.  Behind the scenes, all that this build step is doing is to issue the application&rsquo;s <code>make</code>, with the right set of flags so redis is a shared library.  For more info on how to do that, see <a href="http://osv.io/blog/blog/2014/04/03/capstan/">our earlier example</a>.  of how to use the <code>-fPIC</code> and <code>-shared</code> options.</p>
-
-<h2>Is it fast?</h2>
+<h2 id="is-it-fast">Is it fast?</h2>
 
 <p>We have been running redis on local machines to test many of its
 functionalities and help us mature OSv.  As with any piece of software, the
@@ -197,19 +227,19 @@ EC2.</p>
 
 <p>To do that, we have selected the <a href="http://aws.amazon.com/ec2/instance-types/">c3.x8large</a> machines.  They feature 32 CPUs and
 60Gb of memory each. We are fully aware this is an overkill in the case
-of Redis &ndash; a single threaded application. However, those are the only machines
-that Amazon advertises as featuring 10Gb networking, and we didn&rsquo;t want the
+of Redis - a single threaded application. However, those are the only machines
+that Amazon advertises as featuring 10Gb networking, and we didn’t want the
 network to be a bottleneck for the sake of the benchmark. Also, smaller
 machines cannot be put in EC2 placement groups. It all boils down to the network!</p>
 
-<p>So in this benchmark, no more than two cores should be active at any given time &ndash; one for redis, one for network interrupt processing. In a real scenario, one could easily deploy in a smaller machine.</p>
+<p>So in this benchmark, no more than two cores should be active at any given time - one for redis, one for network interrupt processing. In a real scenario, one could easily deploy in a smaller machine.</p>
 
-<h3>Benchmark setup</h3>
+<h3 id="benchmark-setup">Benchmark setup</h3>
 
-<p>We have benchmarked redis&#8217; latest beta (beta-8) running both on OSv, and on an
+<p>We have benchmarked redis’ latest beta (beta-8) running both on OSv, and on an
 Ubuntu14 AMI. To do that, we have just launched a new AMI, selected
 Ubuntu14.04, and launched it. Once it launched, we have downloaded and compiled
-redis&#8217; latest, and moved the redis.conf used by OSv to the machine. The only
+redis’ latest, and moved the redis.conf used by OSv to the machine. The only
 difference in that configuration file from what is shipped with redis by
 default, is that we disable disk activity. As already explained,
 OSv currently do not support that, and to be fair, the Linux guest we are
@@ -217,33 +247,30 @@ comparing against should not hit the disk either at any point.</p>
 
 <p>On ubuntu, redis was run with:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>numactl --physcpubind=1 redis-server ~/redis.conf</span></code></pre></td></tr></table></div></figure>
-
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>numactl --physcpubind=1 redis-server ~/redis.conf
+</code></pre></div></div>
 
 <p>Using numactl considerably reduces the standard deviation coming from the Linux
 scheduler moving the thread around.</p>
 
-<p>The <code>redis-benchmark</code> command was issued in another machine of the same type,
+<p>The <code class="highlighter-rouge">redis-benchmark</code> command was issued in another machine of the same type,
 running in the same zone and placement group.</p>
 
 <p>The two commands were:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>numactl --physcpubind=1 redis-benchmark --csv -h &lt;IP&gt; -c 50 -n 100000 -P 1</span></code></pre></td></tr></table></div></figure>
-
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>numactl --physcpubind=1 redis-benchmark --csv -h &lt;IP&gt; -c 50 -n 100000 -P 1
+</code></pre></div></div>
 
 <p>and later on, to demonstrate how OSv can handle larger messages,</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>numactl --physcpubind=1 redis-benchmark --csv -h &lt;IP&gt; -c 50 -n 100000 -P 16</span></code></pre></td></tr></table></div></figure>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>numactl --physcpubind=1 redis-benchmark --csv -h &lt;IP&gt; -c 50 -n 100000 -P 16
+</code></pre></div></div>
 
-
-<p>What this last command does, is to exercise redis&#8217; <code>pipeline</code> feature, that
-can send multiple &ndash; in this case 16 &ndash; commands in the same packet. This will
+<p>What this last command does, is to exercise redis’ <code class="highlighter-rouge">pipeline</code> feature, that
+can send multiple - in this case 16 - commands in the same packet. This will
 decrease the impact of the round trip time in the final figure.</p>
 
-<p>The difference can be clearly seen in the graph&hellip;</p>
+<p>The difference can be clearly seen in the graph…</p>
 
 <p><a href="/images/redis.png"><img src="/images/redis.png" alt="Redis benchmark results" /></a></p>
 
@@ -254,7 +281,7 @@ path, rather than the receive path of OSv. This table shows that our transmissio
 path is lacking a bit of love, particularly when the response sizes grows (as the
 pipeline level increases)</p>
 
-<h2>Conclusions</h2>
+<h2 id="conclusions">Conclusions</h2>
 
 <p>OSv is a fast maturing, but not yet mature operating system, soon to be in beta
 phase. We have gaps to close, as can be seen in the case of LRANGE set of
@@ -263,19 +290,18 @@ receive path, and it has paid off: We can offer a level of performance far
 beyond what an out of the box distribution can. Some features that we
 architecturally lack, makes the use of Redis as a full-blown on-disk database
 challenging. But if you want to serve your load from memory, the OSv promise
-delivers: With OSv, you don&rsquo;t have to pay the virtualization tax.</p>
+delivers: With OSv, you don’t have to pay the virtualization tax.</p>
 
-<p>If you&rsquo;ll be at CloudOpen, you can <a href="http://lccona14.sched.org/event/4684a80dd37f200277e971133920a2d0">add our talk to your schedule now</a>.</p>
+<p>If you’ll be at CloudOpen, you can <a href="http://lccona14.sched.org/event/4684a80dd37f200277e971133920a2d0">add our talk to your schedule now</a>.</p>
 
-<p>If you have any questions on running Redis or any other application, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get general updates by subscribing to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+<p>If you have any questions on running Redis or any other application, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get general updates by subscribing to this blog’s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+
 </div>
 
 
   <footer>
     <p class="meta">
       
-  
-
 <span class="byline author vcard">Posted by <span class="fn">Cloudius Systems</span></span>
 
       
@@ -287,10 +313,9 @@ delivers: With OSv, you don&rsquo;t have to pay the virtualization tax.</p>
 
 
 
-  
 
 
-<time datetime="2014-08-14T19:26:31+03:00" pubdate data-updated="true">Aug 14<span>th</span>, 2014</time>
+<time datetime="2014-08-14T12:26:31-04:00" pubdate data-updated="true">Aug 14, 2014</time>
       
 
 <span class="categories">
@@ -311,8 +336,6 @@ delivers: With OSv, you don&rsquo;t have to pay the virtualization tax.</p>
         <a class="addthis_button_tweet"></a>
         
         
-        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
-        
         
         <a class="addthis_counter addthis_pill_style"></a>
         
@@ -328,7 +351,7 @@ delivers: With OSv, you don&rsquo;t have to pay the virtualization tax.</p>
         <a class="basic-alignment left" href="/blog/2014/07/27/capstan-lein-template/" title="Previous Post: Running Clojure on OSv: easier with a new Capstan template">&laquo; Running Clojure on OSv: easier with a new Capstan template</a>
       
       
-        <a class="basic-alignment right" href="/blog/2014/08/21/linuxcon-cloudopen/" title="Next Post: OSv in the spotlight at LinuxCon/CloudOpen 2014">OSv in the spotlight at LinuxCon/CloudOpen 2014 &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2014/08/20/linuxcon-cloudopen/" title="Next Post: OSv in the spotlight at LinuxCon/CloudOpen 2014">OSv in the spotlight at LinuxCon/CloudOpen 2014 &raquo;</a>
       
     </p>
   </footer>
@@ -349,6 +372,10 @@ delivers: With OSv, you don&rsquo;t have to pay the virtualization tax.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2019/04/19/making-OSv-run-on-firecraker/">Making OSv Run on Firecracker</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/06/12/serverless-computing-with-OSv/">Serverless Computing With OSv</a>
       </li>
     
@@ -362,10 +389,6 @@ delivers: With OSv, you don&rsquo;t have to pay the virtualization tax.</p>
     
       <li class="post">
         <a href="/blog/2015/04/27/docker/">Building OSv Images Using Docker</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/04/08/makefile/">Re-"make"-ing OSv</a>
       </li>
     
   </ul>
@@ -434,14 +457,6 @@ delivers: With OSv, you don&rsquo;t have to pay the virtualization tax.</p>
 }(document, 'script', 'facebook-jssdk'));</script>
 
 
-
-  <script type="text/javascript">
-    (function() {
-      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
-      script.src = 'https://apis.google.com/js/plusone.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
-    })();
-  </script>
 
 
 

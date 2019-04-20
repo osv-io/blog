@@ -9,7 +9,34 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="By David Jorm and Don Marti Why build OSv images under Docker? Building OSv from source has several advantages, including the ability to build images &hellip;">
+  <meta name="description" content="
+
+  
+  
+    
+      Building OSv Images Using Docker
+    
+    
+      
+        
+
+
+
+
+
+
+
+
+
+
+Apr 27, 2015
+        
+      
+    
+  
+
+
+By David Jorm and Do...">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,14 +45,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.osv.io//github/blog/2015/04/27/docker">
+  <link rel="canonical" href="http://osv-io.github.io//github/blog/2015/04/27/docker/">
   <link href="/favicon.ico" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/monokai.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/customized.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <script src="/javascripts/run_prettify.js" type="text/javascript"></script>
+  <script src="/javascripts/lang-gas.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
 <!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -62,7 +93,7 @@
         
         <form action="https://www.google.com/search" method="get">
             <fieldset role="search">
-                <input type="hidden" name="q" value="site:blog.osv.io//github" />
+                <input type="hidden" name="q" value="site:http://osv-io.github.io//github" />
                 <input class="search" type="text" name="q" results="0" placeholder="Search"/>
             </fieldset>
         </form>
@@ -130,10 +161,9 @@
 
 
 
-  
 
 
-<time datetime="2015-04-27T00:00:00+03:00" pubdate data-updated="true">Apr 27<span>th</span>, 2015</time>
+<time datetime="2015-04-27T00:00:00-04:00" pubdate data-updated="true">Apr 27, 2015</time>
         
       </p>
     
@@ -142,254 +172,187 @@
 
 <div class="entry-content"><p><strong>By David Jorm and Don Marti</strong></p>
 
-<h2>Why build OSv images under Docker?</h2>
+<h2 id="why-build-osv-images-under-docker">Why build OSv images under Docker?</h2>
 
 <p>Building OSv from source has several advantages, including the ability to build images targeting different execution environments. The <a href="https://cloudrouter.org">CloudRouter project</a> is working on integrating the build script into its continuous integration system, automatically producing nightly rebuilds of all supported OSv application images.</p>
 
 <p>The main problem with this approach is that it requires a system to be appropriately configured with all the necessary dependencies and source code to run builds. To build a scalable and reproducible continuous integration system, we really want to automate the provisioning of new build servers. An ideal way to achieve this goal is by creating a Docker image that includes all the necessary components to produce OSv image builds.</p>
 
-<h2>osv-builder: a Docker based build/development environment for OSv</h2>
+<h2 id="osv-builder-a-docker-based-builddevelopment-environment-for-osv">osv-builder: a Docker based build/development environment for OSv</h2>
 
 <p>The <a href="https://registry.hub.docker.com/u/cloudrouter/osv-builder/">osv-builder Docker image</a> provides a complete build and development environment for OSv, including OSv application images and appliances. It has been developed by <a href="https://github.com/abn/">Arun Babu Neelicattu</a> from <a href="http://iix.net">IIX</a>. To download the image, run:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>docker pull cloudrouter/osv-builder
-</span></code></pre></td></tr></table></div></figure>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker pull cloudrouter/osv-builder
+</code></pre></div></div>
 
+<p>OSv includes a range of <a href="https://github.com/cloudius-systems/osv/tree/master/scripts">helper scripts</a> for building and running OSv images. The build script will compile OSv from the local source tree, then create a complete OSv image for a given application, based on the application’s Makefile. For more on <code class="highlighter-rouge">scripts/build</code>, see <a href="http://osv.io/blog/blog/2015/04/08/makefile/">the recent blog post on the OSv build system</a>.</p>
 
-<p>OSv includes a range of <a href="https://github.com/cloudius-systems/osv/tree/master/scripts">helper scripts</a> for building and running OSv images. The build script will compile OSv from the local source tree, then create a complete OSv image for a given application, based on the application’s Makefile. For more on <code>scripts/build</code>, see <a href="http://osv.io/blog/blog/2015/04/08/makefile/">the recent blog post on the OSv build system</a>.</p>
+<h2 id="capstan">Capstan</h2>
 
-<h2>Capstan</h2>
+<p>The image comes with Capstan pre-installed. Note that to use Capstan, you’ll have to run the container with the –privileged option, as it requires the KVM kernel module. For example, to build and run the iperf application:</p>
 
-<p>The image comes with Capstan pre-installed. Note that to use Capstan, you&rsquo;ll have to run the container with the &mdash;privileged option, as it requires the KVM kernel module. For example, to build and run the iperf application:</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>docker run <span class="nt">-it</span> <span class="se">\</span>
+  <span class="nt">--privileged</span> <span class="se">\</span>
+  cloudrouter/osv-builder
+bash-4.3# <span class="nb">cd </span>apps/iperf
+bash-4.3# capstan build
+Building iperf...
+Downloading cloudius/osv-base/index.yaml...
+154 B / 154 B <span class="o">[=================================================================================================================]</span> 100.00 % 0
+Downloading cloudius/osv-base/osv-base.qemu.gz...
+20.09 MB / 20.09 MB <span class="o">[=======================================================================================================]</span> 100.00 % 1m27s
+Uploading files...
+1 / 1 <span class="o">[=========================================================================================================================]</span> 100.00 % bash-4.3# capstan run
+Created instance: iperf
+OSv v0.19
+eth0: 192.168.122.15
+<span class="nt">------------------------------------------------------------</span>
+Server listening on TCP port 5001
+TCP window size: 64.0 KByte <span class="o">(</span>default<span class="o">)</span>
+<span class="nt">------------------------------------------------------------</span>
+</code></pre></div></div>
+<h2 id="launching-an-interactive-session">Launching an interactive session</h2>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo docker run -it <span class="se">\</span>
-</span><span class='line'>  --privileged <span class="se">\</span>
-</span><span class='line'>  cloudrouter/osv-builder
-</span><span class='line'>bash-4.3# <span class="nb">cd </span>apps/iperf
-</span><span class='line'>bash-4.3# capstan build
-</span><span class='line'>Building iperf...
-</span><span class='line'>Downloading cloudius/osv-base/index.yaml...
-</span><span class='line'>154 B / 154 B <span class="o">[=================================================================================================================]</span> 100.00 % 0
-</span><span class='line'>Downloading cloudius/osv-base/osv-base.qemu.gz...
-</span><span class='line'>20.09 MB / 20.09 MB <span class="o">[=======================================================================================================]</span> 100.00 % 1m27s
-</span><span class='line'>Uploading files...
-</span><span class='line'>1 / 1 <span class="o">[=========================================================================================================================]</span> 100.00 % bash-4.3# capstan run
-</span><span class='line'>Created instance: iperf
-</span><span class='line'>OSv v0.19
-</span><span class='line'>eth0: 192.168.122.15
-</span><span class='line'>------------------------------------------------------------
-</span><span class='line'>Server listening on TCP port 5001
-</span><span class='line'>TCP window size: 64.0 KByte <span class="o">(</span>default<span class="o">)</span>
-</span><span class='line'>------------------------------------------------------------
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Launching an interactive session</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">HOST_BUILD_DIR</span><span class="o">=</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/build
-</span><span class='line'>docker run -it <span class="se">\</span>
-</span><span class='line'>  --volume <span class="k">${</span><span class="nv">HOST_BUILD_DIR</span><span class="k">}</span>:/osv/builder <span class="se">\</span>
-</span><span class='line'>  cloudrouter/osv-builder
-</span></code></pre></td></tr></table></div></figure>
-
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">HOST_BUILD_DIR</span><span class="o">=</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/build
+docker run <span class="nt">-it</span> <span class="se">\</span>
+  <span class="nt">--volume</span> <span class="k">${</span><span class="nv">HOST_BUILD_DIR</span><span class="k">}</span>:/osv/builder <span class="se">\</span>
+  cloudrouter/osv-builder
+</code></pre></div></div>
 
 <p>This will place you into the OSv source clone.  You’ll see the prompt:</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bash-4.3# 
+</code></pre></div></div>
+<p>Now, you can work with it as you normally would when working on OSv source.  You can build apps, edit build scripts, and so on. For example, you can run the following commands, once the above <code class="highlighter-rouge">docker run</code> commands has been executed, to build and run a tomcat appliance.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>bash-4.3#
-</span></code></pre></td></tr></table></div></figure>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./scripts/build <span class="nv">image</span><span class="o">=</span>tomcat,httpserver
+./scripts/run <span class="nt">-V</span>
+</code></pre></div></div>
 
+<h2 id="the-osv-command">The <code class="highlighter-rouge">osv</code> Command</h2>
 
-<p>Now, you can work with it as you normally would when working on OSv source.  You can build apps, edit build scripts, and so on. For example, you can run the following commands, once the above <code>docker run</code> commands has been executed, to build and run a tomcat appliance.</p>
+<p><strong>Note</strong> that the commands you run can be prefixed with <code class="highlighter-rouge">osv</code>, the source for which is available at <code class="highlighter-rouge">assets/osv</code>. For example you can build by:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>./scripts/build <span class="nv">image</span><span class="o">=</span>tomcat,httpserver
-</span><span class='line'>./scripts/run -V
-</span></code></pre></td></tr></table></div></figure>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="se">\</span>
+  <span class="nt">--volume</span> <span class="k">${</span><span class="nv">HOST_BUILD_DIR</span><span class="k">}</span>:/osv/build <span class="se">\</span>
+  osv-builder <span class="se">\</span>
+  osv build <span class="nv">image</span><span class="o">=</span>opendaylight
+</code></pre></div></div>
 
-
-<h2>The <code>osv</code> Command</h2>
-
-<p><strong>Note</strong> that the commands you run can be prefixed with <code>osv</code>, the source for which is available at <code>assets/osv</code>. For example you can build by:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>docker run <span class="se">\</span>
-</span><span class='line'>  --volume <span class="k">${</span><span class="nv">HOST_BUILD_DIR</span><span class="k">}</span>:/osv/build <span class="se">\</span>
-</span><span class='line'>  osv-builder <span class="se">\</span>
-</span><span class='line'>  osv build <span class="nv">image</span><span class="o">=</span>opendaylight
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The <code>osv</code> script, by default, provides the following convenience wrappers:</p>
+<p>The <code class="highlighter-rouge">osv</code> script, by default, provides the following convenience wrappers:</p>
 
 <table>
-<thead>
-<tr>
-<th></th>
-<th align="left"> Command                                     </th>
-<th align="left"> Mapping</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td align="left"> build <em>args</em>                                </td>
-<td align="left"> scripts/build </td>
-</tr>
-<tr>
-<td></td>
-<td align="left"> run <em>args</em>                                  </td>
-<td align="left"> scripts/run.py</td>
-</tr>
-<tr>
-<td></td>
-<td align="left"> appliance <em>name</em> <em>components</em> <em>description</em> </td>
-<td align="left"> scripts/build-vm-img</td>
-</tr>
-<tr>
-<td></td>
-<td align="left"> clean                                       </td>
-<td align="left"> make clean</td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th style="text-align: left">Command</th>
+      <th style="text-align: left">Mapping</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">build <em>args</em></td>
+      <td style="text-align: left">scripts/build</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">run <em>args</em></td>
+      <td style="text-align: left">scripts/run.py</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">appliance <em>name</em> <em>components</em> <em>description</em></td>
+      <td style="text-align: left">scripts/build-vm-img</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">clean</td>
+      <td style="text-align: left">make clean</td>
+    </tr>
+  </tbody>
 </table>
 
-
-<p>If any other command is used, it is simply passed on as <code>scripts/$CMD "$@"</code> where <code>$@</code> is the arguments following the command.</p>
+<p>If any other command is used, it is simply passed on as <code class="highlighter-rouge">scripts/$CMD "$@"</code> where <code class="highlighter-rouge">$@</code> is the arguments following the command.</p>
 
 <p>You could also run commands as:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>docker run <span class="se">\</span>
-</span><span class='line'>  --volume <span class="k">${</span><span class="nv">HOST_BUILD_DIR</span><span class="k">}</span>:/osv/build <span class="se">\</span>
-</span><span class='line'>  osv-builder <span class="se">\</span>
-</span><span class='line'>  ./scripts/build <span class="nv">image</span><span class="o">=</span>opendaylight
-</span></code></pre></td></tr></table></div></figure>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="se">\</span>
+  <span class="nt">--volume</span> <span class="k">${</span><span class="nv">HOST_BUILD_DIR</span><span class="k">}</span>:/osv/build <span class="se">\</span>
+  osv-builder <span class="se">\</span>
+  ./scripts/build <span class="nv">image</span><span class="o">=</span>opendaylight
+</code></pre></div></div>
 
+<h2 id="building-appliance-images">Building appliance images</h2>
 
-<h2>Building appliance images</h2>
+<p>If using the pre-built version from Docker Hub, use <code class="highlighter-rouge">cloudrouter/osv-builder</code> instead of <code class="highlighter-rouge">osv-builder</code>.</p>
 
-<p>If using the pre-built version from Docker Hub, use <code>cloudrouter/osv-builder</code> instead of <code>osv-builder</code>.</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">HOST_BUILD_DIR</span><span class="o">=</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/build
+docker run <span class="se">\</span>
+  <span class="nt">--volume</span> <span class="k">${</span><span class="nv">HOST_BUILD_DIR</span><span class="k">}</span>:/osv/build <span class="se">\</span>
+  osv-builder <span class="se">\</span>
+  osv appliance zookeeper apache-zookeeper,cloud-init <span class="s2">"Apache Zookeeper on OSv"</span>
+</code></pre></div></div>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">HOST_BUILD_DIR</span><span class="o">=</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/build
-</span><span class='line'>docker run <span class="se">\</span>
-</span><span class='line'>  --volume <span class="k">${</span><span class="nv">HOST_BUILD_DIR</span><span class="k">}</span>:/osv/build <span class="se">\</span>
-</span><span class='line'>  osv-builder <span class="se">\</span>
-</span><span class='line'>  osv appliance zookeeper apache-zookeeper,cloud-init <span class="s2">&quot;Apache Zookeeper on OSv&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>If everything goes well, the images should be available in <code class="highlighter-rouge">${HOST_BUILD_DIR}</code>. This will contain appliance images for <a href="http://wiki.qemu.org/KVM">QEMU/KVM</a>, <a href="https://www.virtualbox.org/">Oracle VirtualBox</a>, <a href="https://cloud.google.com/compute/">Google Compute Engine</a> and <a href="https://www.vmware.com/">VMWare</a> Virtual Machine Disk.</p>
 
+<p>Note that we explicitly disable the build of <a href="http://www.vmware.com/products/esxi-and-esx/overview">VMware ESXi</a> images since <code class="highlighter-rouge">ovftool</code> is not available.</p>
 
-<p>If everything goes well, the images should be available in <code>${HOST_BUILD_DIR}</code>. This will contain appliance images for <a href="http://wiki.qemu.org/KVM">QEMU/KVM</a>, <a href="https://www.virtualbox.org/">Oracle VirtualBox</a>, <a href="https://cloud.google.com/compute/">Google Compute Engine</a> and <a href="https://www.vmware.com/">VMWare</a> Virtual Machine Disk.</p>
+<h2 id="building-locally">Building locally</h2>
 
-<p>Note that we explicitly disable the build of <a href="http://www.vmware.com/products/esxi-and-esx/overview">VMware ESXi</a> images since <code>ovftool</code> is not available.</p>
+<p>As an alternative, you can build locally with a <code class="highlighter-rouge">docker build</code> command, using the <a href="https://registry.hub.docker.com/u/cloudrouter/osv-builder/dockerfile/">Dockerfile</a> for osv-builder.</p>
 
-<h2>Building locally</h2>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker build <span class="nt">-t</span> osv-builder <span class="nb">.</span>
+</code></pre></div></div>
 
-<p>As an alternative, you can build locally with a <code>docker build</code> command, using the <a href="https://registry.hub.docker.com/u/cloudrouter/osv-builder/dockerfile/">Dockerfile</a> for osv-builder.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>docker build -t osv-builder .
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Then you can use a plain <code>osv-builder</code> image name instead of <code>cloudrouter/osv-builder</code>.</p>
+<p>Then you can use a plain <code class="highlighter-rouge">osv-builder</code> image name instead of <code class="highlighter-rouge">cloudrouter/osv-builder</code>.</p>
 
 <p>For more information regarding OSv Appliances and pre-built ones, check the <a href="http://osv.io/virtual-appliances/">OSv virtual appliances page</a>.</p>
 
-<h2>Volume Mapping</h2>
+<h2 id="volume-mapping">Volume Mapping</h2>
 
 <table>
-<thead>
-<tr>
-<th></th>
-<th align="left"> Volume      </th>
-<th align="left"> Description                                                               </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td align="left"> /osv        </td>
-<td align="left"> This directory contains the OSv repository.</td>
-</tr>
-<tr>
-<td></td>
-<td align="left"> /osv/apps   </td>
-<td align="left"> The OSv apps directory. Mount this if you are testing local applications.</td>
-</tr>
-<tr>
-<td></td>
-<td align="left"> /osv/build  </td>
-<td align="left"> The OSv build directory containing release and standalone directories.</td>
-</tr>
-<tr>
-<td></td>
-<td align="left"> /osv/images </td>
-<td align="left"> The OSv image build configurations.</td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th style="text-align: left">Volume</th>
+      <th style="text-align: left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">/osv</td>
+      <td style="text-align: left">This directory contains the OSv repository.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">/osv/apps</td>
+      <td style="text-align: left">The OSv apps directory. Mount this if you are testing local applications.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">/osv/build</td>
+      <td style="text-align: left">The OSv build directory containing release and standalone directories.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">/osv/images</td>
+      <td style="text-align: left">The OSv image build configurations.</td>
+    </tr>
+  </tbody>
 </table>
 
+<h2 id="sending-osv-patches">Sending OSv patches</h2>
+<p>If you’re following the <a href="https://github.com/cloudius-systems/osv/wiki/Formatting-and-sending-patches">Formatting and sending patches</a> guide on the OSv web site, just copy your patches into the <code class="highlighter-rouge">builder</code> directory in the container, and they’ll show up under your <code class="highlighter-rouge">$HOST_BUILD_DIR</code>, ready to be sent to the mailing list.</p>
 
-<h2>Sending OSv patches</h2>
-
-<p>If you’re following the <a href="https://github.com/cloudius-systems/osv/wiki/Formatting-and-sending-patches">Formatting and sending patches</a> guide on the OSv web site, just copy your patches into the <code>builder</code> directory in the container, and they’ll show up under your <code>$HOST_BUILD_DIR</code>, ready to be sent to the mailing list.</p>
-
-<h2>Conclusion</h2>
+<h2 id="conclusion">Conclusion</h2>
 
 <p>With the osv-builder docker image, building your own OSv images is now easier than ever before. If you are looking for a high-performance operating system to run your applications, go ahead and give it a try!</p>
 
 <p>Questions and comments welcome on the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.</p>
 
-<h2>About the authors</h2>
+<h2 id="about-the-authors">About the authors</h2>
 
 <p><strong>David</strong> is a product security engineer based in Brisbane, Australia. He currently leads product security efforts for IIX, a software-defined interconnection company. David has been involved in the security industry for the last 15 years. During this time he has found high-impact and novel flaws in dozens of major Java components. He has worked for Red Hat’s security team, led a Chinese startup that failed miserably, and wrote the core aviation meteorology system for the southern hemisphere. In his spare time he tries to stop his two Dachshunds from taking over the house.</p>
 
 <p><strong>Don</strong> is a technical marketing manager for Cloudius Systems, the OSv company. He has written for Linux Weekly News, Linux Journal, and other publications. He co-founded the Linux consulting firm Electric Lichen, which was acquired by VA Linux Systems. Don has served as president and vice president of the Silicon Valley Linux Users Group and on the program committees for Uselinux, Codecon, and LinuxWorld Conference and Expo.</p>
+
 </div>
 
 
   <footer>
     <p class="meta">
       
-  
-
 <span class="byline author vcard">Posted by <span class="fn">Cloudius Systems</span></span>
 
       
@@ -401,10 +364,9 @@
 
 
 
-  
 
 
-<time datetime="2015-04-27T00:00:00+03:00" pubdate data-updated="true">Apr 27<span>th</span>, 2015</time>
+<time datetime="2015-04-27T00:00:00-04:00" pubdate data-updated="true">Apr 27, 2015</time>
       
 
 
@@ -418,8 +380,6 @@
         
         <a class="addthis_button_tweet"></a>
         
-        
-        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
         
         
         <a class="addthis_counter addthis_pill_style"></a>
@@ -451,6 +411,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2019/04/19/making-OSv-run-on-firecraker/">Making OSv Run on Firecracker</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/06/12/serverless-computing-with-OSv/">Serverless Computing With OSv</a>
       </li>
     
@@ -464,10 +428,6 @@
     
       <li class="post">
         <a href="/blog/2015/04/27/docker/">Building OSv Images Using Docker</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/04/08/makefile/">Re-"make"-ing OSv</a>
       </li>
     
   </ul>
@@ -533,14 +493,6 @@
 }(document, 'script', 'facebook-jssdk'));</script>
 
 
-
-  <script type="text/javascript">
-    (function() {
-      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
-      script.src = 'https://apis.google.com/js/plusone.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
-    })();
-  </script>
 
 
 

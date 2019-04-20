@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Capstan | OSv Blog]]></title>
-  <link href="http://blog.osv.io//github/blog/categories/capstan/atom.xml" rel="self"/>
-  <link href="http://blog.osv.io//github/"/>
-  <updated>2017-06-12T21:20:41+03:00</updated>
-  <id>http://blog.osv.io//github/</id>
+  <link href="http://osv-io.github.io//github/blog/categories/capstan/atom.xml" rel="self"/>
+  <link href="http://osv-io.github.io//github/"/>
+  <updated>2019-04-20T01:01:48-04:00</updated>
+  <id>http://osv-io.github.io//github/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Adding a NewRelic Agent to Your OSv Appliance]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/09/25/java-newrelic-agent/"/>
-    <updated>2014-09-25T02:22:22+03:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/09/25/java-newrelic-agent</id>
+    <link href="http://osv-io.github.io//github/blog/2014/09/24/java-newrelic-agent/"/>
+    <updated>2014-09-24T19:22:22-04:00</updated>
+    <id>http://osv-io.github.io//github/blog/2014/09/24/java-newrelic-agent</id>
     <content type="html"><![CDATA[<p><strong>By Tzach Livyatan</strong></p>
 
 <p><a href="http://newrelic.com/">New Relic</a> is a popular real-time monitoring
@@ -29,14 +29,12 @@ example.</p>
 
 <!-- more -->
 
-
 <p>As first step, go to the <a href="http://newrelic.com/">New Relic web site</a> and log in  or open an account.  Following the instructions on the site, you should be prompted to download two files:</p>
 
 <ul>
-<li>newrelic.yml</li>
-<li>newrelic.jar</li>
+  <li>newrelic.yml</li>
+  <li>newrelic.jar</li>
 </ul>
-
 
 <p>newrelic.yml should already have the your license key in it.
 If you downloaded the file
@@ -48,33 +46,31 @@ will be used in the New Relic GUI.</p>
 <p>There are two ways to build an OSv appliance:</p>
 
 <ol>
-<li>Using an OSv build from source</li>
-<li>Using <a href="https://github.com/cloudius-systems/capstan">Capstan</a></li>
+  <li>Using an OSv build from source</li>
+  <li>Using <a href="https://github.com/cloudius-systems/capstan">Capstan</a></li>
 </ol>
-
 
 <p>The first requires cloning OSv source code with Git, as described
 <a href="https://github.com/cloudius-systems/osv-apps/tree/master/java-newrelic">here</a>.
 The second assumes you are familiar with <a href="https://github.com/cloudius-systems/capstan">Capstan</a> and is described below.</p>
 
-<h3>Using Capstan to add a NewRelic Agent</h3>
+<h3 id="using-capstan-to-add-a-newrelic-agent">Using Capstan to add a NewRelic Agent</h3>
 
 <ul>
-<li>Create a new project directory</li>
+  <li>Create a new project directory</li>
 </ul>
 
-
-<p><code>
-mkdir my-tomcat-with-newrelic
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir my-tomcat-with-newrelic
 cd my-tomcat-with-newrelic
-</code>
-* Copy newrelic.jar and newrelic.yml to this location
-* Create a new <a href="https://github.com/cloudius-systems/capstan/blob/master/Documentation/Capstanfile.md">Capstanfile</a> with the following contents:</p>
+</code></pre></div></div>
+<ul>
+  <li>Copy newrelic.jar and newrelic.yml to this location</li>
+  <li>Create a new <a href="https://github.com/cloudius-systems/capstan/blob/master/Documentation/Capstanfile.md">Capstanfile</a> with the following contents:</li>
+</ul>
 
-<p>```
-base: cloudius/osv-tomcat</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>base: cloudius/osv-tomcat
 
-<p>cmdline: >
+cmdline: &gt;
   /java.so
   -javaagent:/tools/newrelic.jar
   -cp /usr/tomcat/bin/bootstrap.jar:/usr/tomcat/bin/tomcat-juli.jar
@@ -84,143 +80,130 @@ base: cloudius/osv-tomcat</p>
   -Dcatalina.home=/usr/tomcat
   -Djava.io.tmpdir=/usr/tomcat/temp
   org.apache.catalina.startup.Bootstrap
-  start</p>
+  start
 
-<p>files:
+files:
   /tools/newrelic.jar: newrelic.jar
   /tools/newrelic.yml: newrelic.yml
-```</p>
+</code></pre></div></div>
 
-<p>The base OSv image is <code>tomcat</code>, the cmdline include both Tomcat and
+<p>The base OSv image is <code class="highlighter-rouge">tomcat</code>, the cmdline include both Tomcat and
   New Relic options, and the files are the two New Relic files: the JAR and the configuration file.</p>
 
 <ul>
-<li>build the image</li>
+  <li>build the image</li>
 </ul>
 
-
-<p><code>
-capstan build
-</code>
-You are done! you now have a ready VM with Tomcat and a New Relic agent.
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>capstan build
+</code></pre></div></div>
+<p>You are done! you now have a ready VM with Tomcat and a New Relic agent.
 To run the image locally:</p>
 
-<p><code>
-capstan run -n bridge
-</code>
-* Go to the New Relic web app, monitor your application, and give yourself a
-  pat on the shoulder :)</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>capstan run -n bridge
+</code></pre></div></div>
+<ul>
+  <li>Go to the New Relic web app, monitor your application, and give yourself a
+pat on the shoulder :)</li>
+</ul>
 
-<p>You can keep up with the latest OSv news from this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or by following <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.  Questions always welcome on the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev</a> mailing list.</p>
+<p>You can keep up with the latest OSv news from this blog’s <a href="http://osv.io/blog/atom.xml">feed</a>, or by following <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.  Questions always welcome on the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev</a> mailing list.</p>
+
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[Speed Run: Running 4 Virtual Appliances on Your Laptop in 5 Seconds Overall]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/09/14/how-fast-can-you-run-4-vm/"/>
-    <updated>2014-09-14T09:30:00+03:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/09/14/how-fast-can-you-run-4-vm</id>
+    <link href="http://osv-io.github.io//github/blog/2014/09/14/how-fast-can-you-run-4-vm/"/>
+    <updated>2014-09-14T02:30:00-04:00</updated>
+    <id>http://osv-io.github.io//github/blog/2014/09/14/how-fast-can-you-run-4-vm</id>
     <content type="html"><![CDATA[<p><strong>By Dor Laor, Tzach Livyatan</strong></p>
 
 <p>In the following demo, Dor is running 4 different OSv base virtual appliances
 on his laptop:</p>
 
 <ul>
-<li>Redis</li>
-<li>Tomcat</li>
-<li>MySQL</li>
-<li>Cassandra</li>
+  <li>Redis</li>
+  <li>Tomcat</li>
+  <li>MySQL</li>
+  <li>Cassandra</li>
 </ul>
-
 
 <p>Each virtual appliance is a full–blown VM, each with a pre-integrated
 cloud application, and each launched without terminating the others.</p>
 
 <!-- more -->
 
-
-
-
-<script type="text/javascript" src="https://asciinema.org/a/11914.js" id="asciicast-11914" async></script>
-
+<script type="text/javascript" src="https://asciinema.org/a/11914.js" id="asciicast-11914" async=""></script>
 
 <p>As you can see, application startup time takes between sub-second
 (Redis) to a few seconds (Cassandra) depending on the application.
 The hypervisor plus OS part of the boot time is less than a second for all cases.</p>
 
-<p>Want more info on Capstan and related topics?  Join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get regular OSv updates by subscribing to this blog&rsquo;s feed, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+<p>Want more info on Capstan and related topics?  Join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get regular OSv updates by subscribing to this blog’s feed, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[Running Clojure on OSv: Easier With a New Capstan Template]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/07/27/capstan-lein-template/"/>
-    <updated>2014-07-27T00:00:00+03:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/07/27/capstan-lein-template</id>
+    <link href="http://osv-io.github.io//github/blog/2014/07/27/capstan-lein-template/"/>
+    <updated>2014-07-27T00:00:00-04:00</updated>
+    <id>http://osv-io.github.io//github/blog/2014/07/27/capstan-lein-template</id>
     <content type="html"><![CDATA[<p>Clojure developers usually do not care too much about the underlying OS.
 The low-level differences between Linux, Mac OS, and even Microsoft Windows are abstracted away by the JVM.</p>
 
-<p>When deploying Clojure code on the cloud, there used to be one default choice &ndash; Linux.
+<p>When deploying Clojure code on the cloud, there used to be one default choice - Linux.
 But Linux
 <a href="http://osv.io/blog/blog/2014/07/21/generic-os-is-dead/">is not an ideal OS</a>
 for pure cloud services.</p>
 
-<p><a href="https://github.com/cloudius-systems/osv">OSv</a> is a new, open source OS, designed specifically for the cloud.  Since OSv supports the standard JVM, it is ideal for running Clojure applications on the cloud.  And the same configuration applies to building VMs for any cloud: public clouds such as Amazon&rsquo;s and Google&rsquo;s, private clouds based on VMware or KVM, or public and private OpenStack.</p>
+<p><a href="https://github.com/cloudius-systems/osv">OSv</a> is a new, open source OS, designed specifically for the cloud.  Since OSv supports the standard JVM, it is ideal for running Clojure applications on the cloud.  And the same configuration applies to building VMs for any cloud: public clouds such as Amazon’s and Google’s, private clouds based on VMware or KVM, or public and private OpenStack.</p>
 
 <p>Porting a Clojure application to OSv was already
 <a href="http://osv.io/blog/blog/2014/04/22/riemann-on-osv/">pretty easy</a>, but
-now it&rsquo;s even easier.  This blog post describes a new <a href="https://github.com/tzach/capstan-lein-plugin">lein template</a> for OSv.</p>
+now it’s even easier.  This blog post describes a new <a href="https://github.com/tzach/capstan-lein-plugin">lein template</a> for OSv.
+<!-- more --></p>
 
-<!-- more -->
-
-
-<h2>Usage</h2>
+<h2 id="usage">Usage</h2>
 
 <p>Capstan works together with the <a href="http://leiningen.org/">Leinigen</a> build tool.</p>
 
-<p>First, create a new project skeleton.
-<code>
-lein new capstan new-app
-</code></p>
+<p>First, create a new project skeleton.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lein new capstan new-app
+</code></pre></div></div>
 
-<p>Now, you can run <a href="https://github.com/cloudius-systems/capstan">Capstan</a> to
+<p>Now, you can run <a href="https://github.com/cloudius-systems/capstan">Capstan</a> to 
 run your project on an a OSv VM.</p>
 
-<p><code>
-cd new-app
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd new-app
 capstan run
-</code></p>
+</code></pre></div></div>
 
 <p>The template takes care of creating the project skeleton, including the Capstanfile.  When this is done, you can use Capstan directly to build a new OSv VM, deploy it on the cloud, or upload it to the public repository.</p>
 
-<script type="text/javascript" src="https://asciinema.org/a/11068.js"
-id="asciicast-11068" async="" data-speed="2" data-autoplay="1"
-ata-size="medium"></script>
-
-
-<p></p></p>
+<script type="text/javascript" src="https://asciinema.org/a/11068.js" id="asciicast-11068" async="" data-speed="2" data-autoplay="1" ata-size="medium"></script>
+<p>&lt;/p&gt;</p>
 
 <p>For more info on Capstan and other OSv subjects, please join
 the
-<a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.<br/>
+<a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.<br />
 You can get updates on by subscribing to the <a href="http://osv.io/blog/atom.xml">OSv blog RSS feed</a> or following <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[What Is the Most Popular OSv Virtual Appliance?]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/07/01/s3stat/"/>
-    <updated>2014-07-01T00:00:00+03:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/07/01/s3stat</id>
+    <link href="http://osv-io.github.io//github/blog/2014/07/01/s3stat/"/>
+    <updated>2014-07-01T00:00:00-04:00</updated>
+    <id>http://osv-io.github.io//github/blog/2014/07/01/s3stat</id>
     <content type="html"><![CDATA[<p><strong>By Tzach Livyatan</strong></p>
 
-<p>(Spoiler: It&rsquo;s Apache Tomcat.)</p>
+<p>(Spoiler: It’s Apache Tomcat.)</p>
 
 <p><a href="https://github.com/cloudius-systems/capstan">Capstan</a> is a tool for rapidly building and running applications on OSv.
 As with Docker, Capstan users can download and run images from a public repository.
 We chose to implement our public Capstan repository using <a href="http://aws.amazon.com/s3/">Amazon S3</a>.</p>
 
-<p>Amazon S3  gives us the flexibility and security we need, but by default it&rsquo;s missing a critical feature: download statistics.
+<p>Amazon S3  gives us the flexibility and security we need, but by default it’s missing a critical feature: download statistics.
 This statistics are very interesting to us, to evaluate which of the Capstan virtual appliances are more popular.  Fortunately, there is an easy way to gather the stats we need.</p>
 
 <p>After a short tools survey, we choose <a href="http://www.s3stat.com/">s3stat</a>.</p>
@@ -230,17 +213,14 @@ The price makes sense, and it is super easy to enable.</p>
 
 <p><img src="/images/s3stat_chart.png" alt="s3stat chart" /></p>
 
-<p>So what are the results? (drum roll&hellip;.)</p>
-
+<p>So what are the results? (drum roll….) 
 <!-- more -->
-
-
-<p><img src="/images/s3stat_files.png" alt="s3stat files" /></p>
+<img src="/images/s3stat_files.png" alt="s3stat files" /></p>
 
 <p>Omitting Capstan download of capstan index.yaml files, which Capstan does for every repository search, the most popular images are the base images for OSv and OSv + Java.
 That make sense because these two images will be used by anyone who wants to build a local OSv application, running a native or Java application.</p>
 
-<p>Virtual appliances comes right after, with (drums again&hellip;.) <strong>Tomcat</strong>, <strong>Cassandra</strong>, <strong>Memcached</strong> on the podium (Tomcat wins the Gold).
+<p>Virtual appliances comes right after, with (drums again….) <strong>Tomcat</strong>, <strong>Cassandra</strong>, <strong>Memcached</strong> on the podium (Tomcat wins the Gold).
 These are all very early results, but we will keep using s3stat to follow Capstan image downloads.</p>
 
 <p><img src="/images/s3stat_map.png" alt="s3stat map" /></p>
@@ -249,38 +229,37 @@ These are all very early results, but we will keep using s3stat to follow Capsta
   
   <entry>
     <title type="html"><![CDATA[Bridged Networking With Capstan]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/05/07/capstan-bridge/"/>
-    <updated>2014-05-07T18:37:05+03:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/05/07/capstan-bridge</id>
+    <link href="http://osv-io.github.io//github/blog/2014/05/07/capstan-bridge/"/>
+    <updated>2014-05-07T11:37:05-04:00</updated>
+    <id>http://osv-io.github.io//github/blog/2014/05/07/capstan-bridge</id>
     <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
 
-<p>New versions of <a href="https://github.com/cloudius-systems/capstan">Capstan</a> are making it simpler to run OSv virtual machines in a production configuration, by adding more control of network options.  A useful new feature, which helps deal with the <a href="https://github.com/cloudius-systems/osv/wiki/Running-OSv-image-under-KVM-QEMU">details of bringing up networking</a>, is the <code>-n</code> option.</p>
+<p>New versions of <a href="https://github.com/cloudius-systems/capstan">Capstan</a> are making it simpler to run OSv virtual machines in a production configuration, by adding more control of network options.  A useful new feature, which helps deal with the <a href="https://github.com/cloudius-systems/osv/wiki/Running-OSv-image-under-KVM-QEMU">details of bringing up networking</a>, is the <code class="highlighter-rouge">-n</code> option.</p>
 
 <p>By default, Capstan starts up KVM/QEMU with user networking:</p>
 
-<p><code>
- -netdev user,id=un0,net=192.168.122.0/24,host=192.168.122.1
-</code></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> -netdev user,id=un0,net=192.168.122.0/24,host=192.168.122.1
+</code></pre></div></div>
 
-<p>(That&rsquo;s from <code>ps ax | grep qemu</code>, which you can run
+<p>(That’s from <code class="highlighter-rouge">ps ax | grep qemu</code>, which you can run
 to see the qemu-system-x86_64 command that Capstan
 is executing for you.)</p>
 
-<p>But there are many more <a href="http://www.linux-kvm.org/page/Networking">networking options</a> for QEMU/KVM.  The basic user networking, which does not require root access to start up, is good for development and simple tasks.  But for production use, where you need to get your VM on a network where it&rsquo;s available from other VMs or from the outside, you&rsquo;ll need bridged networking.  (See your Linux distribution or hypervisor documentation for the details of creating a virtual or public bridge device.)</p>
+<p>But there are many more <a href="http://www.linux-kvm.org/page/Networking">networking options</a> for QEMU/KVM.  The basic user networking, which does not require root access to start up, is good for development and simple tasks.  But for production use, where you need to get your VM on a network where it’s available from other VMs or from the outside, you’ll need bridged networking.  (See your Linux distribution or hypervisor documentation for the details of creating a virtual or public bridge device.)</p>
 
-<p>If you invoke <code>capstan run</code> with the <code>-n bridge</code> option, you&rsquo;ll get QEMU running with:</p>
+<p>If you invoke <code class="highlighter-rouge">capstan run</code> with the <code class="highlighter-rouge">-n bridge</code> option, you’ll get QEMU running with:</p>
 
-<p><code>
--netdev bridge,id=hn0,br=virbr0,helper=/usr/libexec/qemu-bridge-helper
-</code></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-netdev bridge,id=hn0,br=virbr0,helper=/usr/libexec/qemu-bridge-helper
+</code></pre></div></div>
 
-<p>If you have a specific bridge device to connect to, you can use the <code>-b</code> option with the name of the bridge device.  The default is <code>virbr0</code>, but you can also set up a public bridge, usually <code>br0</code>, that&rsquo;s bridged to a physical network interface on the host.</p>
+<p>If you have a specific bridge device to connect to, you can use the <code class="highlighter-rouge">-b</code> option with the name of the bridge device.  The default is <code class="highlighter-rouge">virbr0</code>, but you can also set up a public bridge, usually <code class="highlighter-rouge">br0</code>, that’s bridged to a physical network interface on the host.</p>
 
-<h1>Other hypervisors</h1>
+<h1 id="other-hypervisors">Other hypervisors</h1>
 
-<p>Don&rsquo;t feel left out if you have a different hypervisor.  Capstan also handles bridged networking on VirtualBox, with the rest of the supported hypervisors coming soon.   The fact that the syntax is the same is going to be a big time-saver for those of us who have to do testing and demos on multiple systems&mdash;no more dealing with arcane commands that are different from system to system.</p>
+<p>Don’t feel left out if you have a different hypervisor.  Capstan also handles bridged networking on VirtualBox, with the rest of the supported hypervisors coming soon.   The fact that the syntax is the same is going to be a big time-saver for those of us who have to do testing and demos on multiple systems—no more dealing with arcane commands that are different from system to system.</p>
 
-<p>For more on Capstan and networking, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list on Google Groups</a>.  You can get updates by subscribing to this blog&rsquo;s feed, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+<p>For more on Capstan and networking, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list on Google Groups</a>.  You can get updates by subscribing to this blog’s feed, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+
 ]]></content>
   </entry>
   

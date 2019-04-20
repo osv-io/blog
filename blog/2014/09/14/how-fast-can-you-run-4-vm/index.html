@@ -9,11 +9,28 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="By Dor Laor, Tzach Livyatan In the following demo, Dor is running 4 different OSv base virtual appliances
-on his laptop: Redis
-Tomcat
-MySQL
-Cassandra &hellip;">
+  <meta name="description" content="
+
+  
+  
+    
+      Speed Run: Running 4 Virtual Appliances on Your Laptop in 5 Seconds Overall
+    
+    
+      
+        
+
+
+
+
+
+
+
+
+
+
+Sep 14, 2014
+   ...">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -22,14 +39,18 @@ Cassandra &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.osv.io//github/blog/2014/09/14/how-fast-can-you-run-4-vm">
+  <link rel="canonical" href="http://osv-io.github.io//github/blog/2014/09/14/how-fast-can-you-run-4-vm/">
   <link href="/favicon.ico" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/monokai.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/customized.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <script src="/javascripts/run_prettify.js" type="text/javascript"></script>
+  <script src="/javascripts/lang-gas.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
 <!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -66,7 +87,7 @@ Cassandra &hellip;">
         
         <form action="https://www.google.com/search" method="get">
             <fieldset role="search">
-                <input type="hidden" name="q" value="site:blog.osv.io//github" />
+                <input type="hidden" name="q" value="site:http://osv-io.github.io//github" />
                 <input class="search" type="text" name="q" results="0" placeholder="Search"/>
             </fieldset>
         </form>
@@ -134,10 +155,9 @@ Cassandra &hellip;">
 
 
 
-  
 
 
-<time datetime="2014-09-14T09:30:00+03:00" pubdate data-updated="true">Sep 14<span>th</span>, 2014</time>
+<time datetime="2014-09-14T02:30:00-04:00" pubdate data-updated="true">Sep 14, 2014</time>
         
       </p>
     
@@ -150,37 +170,30 @@ Cassandra &hellip;">
 on his laptop:</p>
 
 <ul>
-<li>Redis</li>
-<li>Tomcat</li>
-<li>MySQL</li>
-<li>Cassandra</li>
+  <li>Redis</li>
+  <li>Tomcat</li>
+  <li>MySQL</li>
+  <li>Cassandra</li>
 </ul>
-
 
 <p>Each virtual appliance is a full–blown VM, each with a pre-integrated
 cloud application, and each launched without terminating the others.</p>
 
 <!-- more -->
 
-
-
-
-<script type="text/javascript" src="https://asciinema.org/a/11914.js" id="asciicast-11914" async></script>
-
+<script type="text/javascript" src="https://asciinema.org/a/11914.js" id="asciicast-11914" async=""></script>
 
 <p>As you can see, application startup time takes between sub-second
 (Redis) to a few seconds (Cassandra) depending on the application.
 The hypervisor plus OS part of the boot time is less than a second for all cases.</p>
 
-<p>Want more info on Capstan and related topics?  Join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get regular OSv updates by subscribing to this blog&rsquo;s feed, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+<p>Want more info on Capstan and related topics?  Join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get regular OSv updates by subscribing to this blog’s feed, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
 </div>
 
 
   <footer>
     <p class="meta">
       
-  
-
 <span class="byline author vcard">Posted by <span class="fn">Cloudius Systems</span></span>
 
       
@@ -192,10 +205,9 @@ The hypervisor plus OS part of the boot time is less than a second for all cases
 
 
 
-  
 
 
-<time datetime="2014-09-14T09:30:00+03:00" pubdate data-updated="true">Sep 14<span>th</span>, 2014</time>
+<time datetime="2014-09-14T02:30:00-04:00" pubdate data-updated="true">Sep 14, 2014</time>
       
 
 <span class="categories">
@@ -216,8 +228,6 @@ The hypervisor plus OS part of the boot time is less than a second for all cases
         <a class="addthis_button_tweet"></a>
         
         
-        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
-        
         
         <a class="addthis_counter addthis_pill_style"></a>
         
@@ -230,7 +240,7 @@ The hypervisor plus OS part of the boot time is less than a second for all cases
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/09/11/cassandra-summit/" title="Previous Post: What's the big deal about OSv at Cassandra Summit 2014?">&laquo; What's the big deal about OSv at Cassandra Summit 2014?</a>
+        <a class="basic-alignment left" href="/blog/2014/09/10/cassandra-summit/" title="Previous Post: What's the big deal about OSv at Cassandra Summit 2014?">&laquo; What's the big deal about OSv at Cassandra Summit 2014?</a>
       
       
         <a class="basic-alignment right" href="/blog/2014/09/18/cassandra-dashboard-tab/" title="Next Post: New Dashboard tab for insight on Cassandra virtual appliances">New Dashboard tab for insight on Cassandra virtual appliances &raquo;</a>
@@ -254,6 +264,10 @@ The hypervisor plus OS part of the boot time is less than a second for all cases
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2019/04/19/making-OSv-run-on-firecraker/">Making OSv Run on Firecracker</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/06/12/serverless-computing-with-OSv/">Serverless Computing With OSv</a>
       </li>
     
@@ -267,10 +281,6 @@ The hypervisor plus OS part of the boot time is less than a second for all cases
     
       <li class="post">
         <a href="/blog/2015/04/27/docker/">Building OSv Images Using Docker</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/04/08/makefile/">Re-"make"-ing OSv</a>
       </li>
     
   </ul>
@@ -339,14 +349,6 @@ The hypervisor plus OS part of the boot time is less than a second for all cases
 }(document, 'script', 'facebook-jssdk'));</script>
 
 
-
-  <script type="text/javascript">
-    (function() {
-      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
-      script.src = 'https://apis.google.com/js/plusone.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
-    })();
-  </script>
 
 
 

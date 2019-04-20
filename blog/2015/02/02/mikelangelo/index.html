@@ -9,8 +9,36 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="By Nadav Har&#8217;El What will the IaaS cloud of the future look like? How can we improve the
-hypervisor to reduce the overhead it adds to virtual &hellip;">
+  <meta name="description" content="
+
+  
+  
+    
+      Researching the Future of the Cloud
+    
+    
+      
+        
+
+
+
+
+
+
+
+
+
+
+Feb 2, 2015
+        
+      
+    
+  
+
+
+By Nadav Har’El
+
+W...">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,14 +47,18 @@ hypervisor to reduce the overhead it adds to virtual &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.osv.io//github/blog/2015/02/02/mikelangelo">
+  <link rel="canonical" href="http://osv-io.github.io//github/blog/2015/02/02/mikelangelo/">
   <link href="/favicon.ico" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/monokai.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/customized.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <script src="/javascripts/run_prettify.js" type="text/javascript"></script>
+  <script src="/javascripts/lang-gas.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
 <!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -63,7 +95,7 @@ hypervisor to reduce the overhead it adds to virtual &hellip;">
         
         <form action="https://www.google.com/search" method="get">
             <fieldset role="search">
-                <input type="hidden" name="q" value="site:blog.osv.io//github" />
+                <input type="hidden" name="q" value="site:http://osv-io.github.io//github" />
                 <input class="search" type="text" name="q" results="0" placeholder="Search"/>
             </fieldset>
         </form>
@@ -131,17 +163,16 @@ hypervisor to reduce the overhead it adds to virtual &hellip;">
 
 
 
-  
 
 
-<time datetime="2015-02-02T20:54:23+02:00" pubdate data-updated="true">Feb 2<span>nd</span>, 2015</time>
+<time datetime="2015-02-02T13:54:23-05:00" pubdate data-updated="true">Feb 2, 2015</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p><strong>By Nadav Har&#8217;El</strong></p>
+<div class="entry-content"><p><strong>By Nadav Har’El</strong></p>
 
 <p>What will the IaaS cloud of the future look like? How can we improve the
 hypervisor to reduce the overhead it adds to virtual machines? How can we
@@ -155,7 +186,7 @@ which traditionally required specialized hardware, such as supercomputers?</p>
 <p>Cloudius Systems, together with eight leading industry and university
 partners, announced this month the <a href="http://mikelangelo-project.eu/">Mikelangelo</a> research project, which
 sets out to answer exactly these questions. Mikelangelo is funded by the
-European Union&rsquo;s flagship research program, <a href="http://ec.europa.eu/programmes/horizon2020/">&ldquo;Horizon 2020&rdquo;</a>.</p>
+European Union’s flagship research program, <a href="http://ec.europa.eu/programmes/horizon2020/">“Horizon 2020”</a>.</p>
 
 <p>Cloudius Systems brings to this project two significant technologies:</p>
 
@@ -177,26 +208,26 @@ and linear scalability of performance on machines with up to 32 cores.</p>
 an exciting bunch, and include some ground-breaking European (and global)
 cloud researchers and practicioners:</p>
 
-<p>&nbsp;&bull; <a href="http://www.mikelangelo-project.eu/consortium/huawei/">Huawei</a></p>
+<p> • <a href="http://www.mikelangelo-project.eu/consortium/huawei/">Huawei</a></p>
 
-<p>&nbsp;&bull; <a href="http://www.mikelangelo-project.eu/consortium/ibm/">IBM</a></p>
+<p> • <a href="http://www.mikelangelo-project.eu/consortium/ibm/">IBM</a></p>
 
-<p>&nbsp;&bull; <a href="http://www.mikelangelo-project.eu/consortium/intel/">Intel</a></p>
+<p> • <a href="http://www.mikelangelo-project.eu/consortium/intel/">Intel</a></p>
 
-<p>&nbsp;&bull; <a href="http://www.mikelangelo-project.eu/consortium/hlrs/">The University of Stuttgart&rsquo;s supercomputing center (HLRS)</a></p>
+<p> • <a href="http://www.mikelangelo-project.eu/consortium/hlrs/">The University of Stuttgart’s supercomputing center (HLRS)</a></p>
 
-<p>&nbsp;&bull; <a href="http://www.mikelangelo-project.eu/consortium/gwdg/">The University of Goettingen&rsquo;s computing center (GWDG)</a></p>
+<p> • <a href="http://www.mikelangelo-project.eu/consortium/gwdg/">The University of Goettingen’s computing center (GWDG)</a></p>
 
-<p>&nbsp;&bull; <a href="http://www.mikelangelo-project.eu/consortium/ben-gurion-university/">Ben-Gurion University</a></p>
+<p> • <a href="http://www.mikelangelo-project.eu/consortium/ben-gurion-university/">Ben-Gurion University</a></p>
 
-<p>&nbsp;&bull; <a href="http://www.mikelangelo-project.eu/consortium/xlab/">XLAB</a>, the coordinator of the project</p>
+<p> • <a href="http://www.mikelangelo-project.eu/consortium/xlab/">XLAB</a>, the coordinator of the project</p>
 
-<p>&nbsp;&bull; <a href="http://www.mikelangelo-project.eu/consortium/pipistrel/">Pipistrel</a>, a light aircraft manufacturer</p>
+<p> • <a href="http://www.mikelangelo-project.eu/consortium/pipistrel/">Pipistrel</a>, a light aircraft manufacturer</p>
 
-<p>Pipistrel&rsquo;s intended use case, of moving HPC jobs to the cloud, is
+<p>Pipistrel’s intended use case, of moving HPC jobs to the cloud, is
 particularly interesting. Pipistrel is an innovative manufacturer of
-light aircraft that holds <a href="http://www.pipistrel.si/media/achievements-and-awards">several cool world records</a>, and won NASA&rsquo;s
-2011 &ldquo;Green Flight Challenge&rdquo; by building an all-electric airplane
+light aircraft that holds <a href="http://www.pipistrel.si/media/achievements-and-awards">several cool world records</a>, and won NASA’s
+2011 “Green Flight Challenge” by building an all-electric airplane
 achieving the equivalent of 400 miles per gallon per passenger.
 The aircraft design process involves numerous heavy numerical
 simulations. If a typical run requires 100 machines for two hours,
@@ -208,22 +239,21 @@ job in half the time, for exactly the same price!</p>
 <p>Last week, researchers from all these partners met to kick off the
 project, and also enjoyed a visit to Ljubljana which, as its name implies,
 is a lovely city. The project will span 3 years, but we expect to see some
-encouraging results from the project&mdash;and from the individual partners
-comprising it&mdash;very soon. The future of the cloud looks very bright!</p>
+encouraging results from the project—and from the individual partners
+comprising it—very soon. The future of the cloud looks very bright!</p>
 
-<p><em>Visit <a href="http://mikelangelo-project.eu/">The Mikelangelo Project&rsquo;s official site</a> for updates.</em></p>
+<p><em>Visit <a href="http://mikelangelo-project.eu/">The Mikelangelo Project’s official site</a> for updates.</em></p>
 
 <p><strong>Watch this space (<a href="http://localhost:4000/blog/atom.xml">feed</a>), or follow
 <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a>
 on Twitter, for more links to research in progress.</strong></p>
+
 </div>
 
 
   <footer>
     <p class="meta">
       
-  
-
 <span class="byline author vcard">Posted by <span class="fn">Cloudius Systems</span></span>
 
       
@@ -235,10 +265,9 @@ on Twitter, for more links to research in progress.</strong></p>
 
 
 
-  
 
 
-<time datetime="2015-02-02T20:54:23+02:00" pubdate data-updated="true">Feb 2<span>nd</span>, 2015</time>
+<time datetime="2015-02-02T13:54:23-05:00" pubdate data-updated="true">Feb 2, 2015</time>
       
 
 
@@ -253,8 +282,6 @@ on Twitter, for more links to research in progress.</strong></p>
         <a class="addthis_button_tweet"></a>
         
         
-        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
-        
         
         <a class="addthis_counter addthis_pill_style"></a>
         
@@ -267,7 +294,7 @@ on Twitter, for more links to research in progress.</strong></p>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2015/01/15/performance-evaluation/" title="Previous Post: Unikernel research at the University of Utah">&laquo; Unikernel research at the University of Utah</a>
+        <a class="basic-alignment left" href="/blog/2015/01/14/performance-evaluation/" title="Previous Post: Unikernel research at the University of Utah">&laquo; Unikernel research at the University of Utah</a>
       
       
         <a class="basic-alignment right" href="/blog/2015/02/20/seastar/" title="Next Post: Seastar: new C++ framework for web-scale workloads">Seastar: new C++ framework for web-scale workloads &raquo;</a>
@@ -291,6 +318,10 @@ on Twitter, for more links to research in progress.</strong></p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2019/04/19/making-OSv-run-on-firecraker/">Making OSv Run on Firecracker</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/06/12/serverless-computing-with-OSv/">Serverless Computing With OSv</a>
       </li>
     
@@ -304,10 +335,6 @@ on Twitter, for more links to research in progress.</strong></p>
     
       <li class="post">
         <a href="/blog/2015/04/27/docker/">Building OSv Images Using Docker</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/04/08/makefile/">Re-"make"-ing OSv</a>
       </li>
     
   </ul>
@@ -376,14 +403,6 @@ on Twitter, for more links to research in progress.</strong></p>
 }(document, 'script', 'facebook-jssdk'));</script>
 
 
-
-  <script type="text/javascript">
-    (function() {
-      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
-      script.src = 'https://apis.google.com/js/plusone.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
-    })();
-  </script>
 
 
 

@@ -9,7 +9,34 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="The previous blog article, on Jolokia mentions a configuration item for cloud-init. You may be asking, &ldquo;Cloud init? How do I use that on OSv?& &hellip;">
+  <meta name="description" content="
+
+  
+  
+    
+      Wiki Watch: Cloud Init
+    
+    
+      
+        
+
+
+
+
+
+
+
+
+
+
+Aug 28, 2014
+        
+      
+    
+  
+
+
+The previous blog article, on ...">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,14 +45,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.osv.io//github/blog/2014/08/28/wiki-watch-cloud-init">
+  <link rel="canonical" href="http://osv-io.github.io//github/blog/2014/08/28/wiki-watch-cloud-init/">
   <link href="/favicon.ico" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/monokai.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/customized.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <script src="/javascripts/run_prettify.js" type="text/javascript"></script>
+  <script src="/javascripts/lang-gas.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
 <!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -62,7 +93,7 @@
         
         <form action="https://www.google.com/search" method="get">
             <fieldset role="search">
-                <input type="hidden" name="q" value="site:blog.osv.io//github" />
+                <input type="hidden" name="q" value="site:http://osv-io.github.io//github" />
                 <input class="search" type="text" name="q" results="0" placeholder="Search"/>
             </fieldset>
         </form>
@@ -130,29 +161,26 @@
 
 
 
-  
 
 
-<time datetime="2014-08-28T18:37:05+03:00" pubdate data-updated="true">Aug 28<span>th</span>, 2014</time>
+<time datetime="2014-08-28T11:37:05-04:00" pubdate data-updated="true">Aug 28, 2014</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><p><a href="http://osv.io/blog/blog/2014/08/26/jolokia-jmx-connectivity-in-osv/">The previous blog article, on Jolokia</a> mentions a configuration item for cloud-init.  You may be asking, &ldquo;Cloud init?  How do I use that on OSv?&rdquo;  Well, good news.  For details on configuring OSv using the cloud init mechanism, check out our recently updated wiki page: <a href="https://github.com/cloudius-systems/osv/wiki/cloud-init">Cloud init</a>.</p>
+<div class="entry-content"><p><a href="http://osv.io/blog/blog/2014/08/26/jolokia-jmx-connectivity-in-osv/">The previous blog article, on Jolokia</a> mentions a configuration item for cloud-init.  You may be asking, “Cloud init?  How do I use that on OSv?”  Well, good news.  For details on configuring OSv using the cloud init mechanism, check out our recently updated wiki page: <a href="https://github.com/cloudius-systems/osv/wiki/cloud-init">Cloud init</a>.</p>
 
-<p><a href="https://github.com/tgrabiec">Tomasz Grabiec</a> has written an informative page on how to configure your OSv instance, from setting the port for the management HTTP server to filling in the content of config files. Check it out.  (Naturally, it&rsquo;s a wiki, so feel free to fill in additional details if you like.)</p>
+<p><a href="https://github.com/tgrabiec">Tomasz Grabiec</a> has written an informative page on how to configure your OSv instance, from setting the port for the management HTTP server to filling in the content of config files. Check it out.  (Naturally, it’s a wiki, so feel free to fill in additional details if you like.)</p>
 
-<p>Want more info on cloud-init and related topics?  Join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get regular OSv updates by subscribing to this blog&rsquo;s feed, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+<p>Want more info on cloud-init and related topics?  Join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get regular OSv updates by subscribing to this blog’s feed, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
 </div>
 
 
   <footer>
     <p class="meta">
       
-  
-
 <span class="byline author vcard">Posted by <span class="fn">Cloudius Systems</span></span>
 
       
@@ -164,10 +192,9 @@
 
 
 
-  
 
 
-<time datetime="2014-08-28T18:37:05+03:00" pubdate data-updated="true">Aug 28<span>th</span>, 2014</time>
+<time datetime="2014-08-28T11:37:05-04:00" pubdate data-updated="true">Aug 28, 2014</time>
       
 
 <span class="categories">
@@ -188,8 +215,6 @@
         <a class="addthis_button_tweet"></a>
         
         
-        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
-        
         
         <a class="addthis_counter addthis_pill_style"></a>
         
@@ -205,7 +230,7 @@
         <a class="basic-alignment left" href="/blog/2014/08/26/jolokia-jmx-connectivity-in-osv/" title="Previous Post: Jolokia JMX connectivity in OSv">&laquo; Jolokia JMX connectivity in OSv</a>
       
       
-        <a class="basic-alignment right" href="/blog/2014/09/11/cassandra-summit/" title="Next Post: What's the big deal about OSv at Cassandra Summit 2014?">What's the big deal about OSv at Cassandra Summit 2014? &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2014/09/10/cassandra-summit/" title="Next Post: What's the big deal about OSv at Cassandra Summit 2014?">What's the big deal about OSv at Cassandra Summit 2014? &raquo;</a>
       
     </p>
   </footer>
@@ -226,6 +251,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2019/04/19/making-OSv-run-on-firecraker/">Making OSv Run on Firecracker</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/06/12/serverless-computing-with-OSv/">Serverless Computing With OSv</a>
       </li>
     
@@ -239,10 +268,6 @@
     
       <li class="post">
         <a href="/blog/2015/04/27/docker/">Building OSv Images Using Docker</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/04/08/makefile/">Re-"make"-ing OSv</a>
       </li>
     
   </ul>
@@ -311,14 +336,6 @@
 }(document, 'script', 'facebook-jssdk'));</script>
 
 
-
-  <script type="text/javascript">
-    (function() {
-      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
-      script.src = 'https://apis.google.com/js/plusone.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
-    })();
-  </script>
 
 
 

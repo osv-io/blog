@@ -9,8 +9,30 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="Clojure developers usually do not care too much about the underlying OS.
-The low-level differences between Linux, Mac OS, and even Microsoft Windows &hellip;">
+  <meta name="description" content="
+
+  
+  
+    
+      Running Clojure on OSv: Easier With a New Capstan Template
+    
+    
+      
+        
+
+
+
+
+
+
+
+
+
+
+Jul 27, 2014
+        
+      
+    ...">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,14 +41,18 @@ The low-level differences between Linux, Mac OS, and even Microsoft Windows &hel
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.osv.io//github/blog/2014/07/27/capstan-lein-template">
+  <link rel="canonical" href="http://osv-io.github.io//github/blog/2014/07/27/capstan-lein-template/">
   <link href="/favicon.ico" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/monokai.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/customized.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <script src="/javascripts/run_prettify.js" type="text/javascript"></script>
+  <script src="/javascripts/lang-gas.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
 <!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -63,7 +89,7 @@ The low-level differences between Linux, Mac OS, and even Microsoft Windows &hel
         
         <form action="https://www.google.com/search" method="get">
             <fieldset role="search">
-                <input type="hidden" name="q" value="site:blog.osv.io//github" />
+                <input type="hidden" name="q" value="site:http://osv-io.github.io//github" />
                 <input class="search" type="text" name="q" results="0" placeholder="Search"/>
             </fieldset>
         </form>
@@ -131,10 +157,9 @@ The low-level differences between Linux, Mac OS, and even Microsoft Windows &hel
 
 
 
-  
 
 
-<time datetime="2014-07-27T00:00:00+03:00" pubdate data-updated="true">Jul 27<span>th</span>, 2014</time>
+<time datetime="2014-07-27T00:00:00-04:00" pubdate data-updated="true">Jul 27, 2014</time>
         
       </p>
     
@@ -144,51 +169,41 @@ The low-level differences between Linux, Mac OS, and even Microsoft Windows &hel
 <div class="entry-content"><p>Clojure developers usually do not care too much about the underlying OS.
 The low-level differences between Linux, Mac OS, and even Microsoft Windows are abstracted away by the JVM.</p>
 
-<p>When deploying Clojure code on the cloud, there used to be one default choice &ndash; Linux.
+<p>When deploying Clojure code on the cloud, there used to be one default choice - Linux.
 But Linux
 <a href="http://osv.io/blog/blog/2014/07/21/generic-os-is-dead/">is not an ideal OS</a>
 for pure cloud services.</p>
 
-<p><a href="https://github.com/cloudius-systems/osv">OSv</a> is a new, open source OS, designed specifically for the cloud.  Since OSv supports the standard JVM, it is ideal for running Clojure applications on the cloud.  And the same configuration applies to building VMs for any cloud: public clouds such as Amazon&rsquo;s and Google&rsquo;s, private clouds based on VMware or KVM, or public and private OpenStack.</p>
+<p><a href="https://github.com/cloudius-systems/osv">OSv</a> is a new, open source OS, designed specifically for the cloud.  Since OSv supports the standard JVM, it is ideal for running Clojure applications on the cloud.  And the same configuration applies to building VMs for any cloud: public clouds such as Amazon’s and Google’s, private clouds based on VMware or KVM, or public and private OpenStack.</p>
 
 <p>Porting a Clojure application to OSv was already
 <a href="http://osv.io/blog/blog/2014/04/22/riemann-on-osv/">pretty easy</a>, but
-now it&rsquo;s even easier.  This blog post describes a new <a href="https://github.com/tzach/capstan-lein-plugin">lein template</a> for OSv.</p>
+now it’s even easier.  This blog post describes a new <a href="https://github.com/tzach/capstan-lein-plugin">lein template</a> for OSv.
+<!-- more --></p>
 
-<!-- more -->
-
-
-<h2>Usage</h2>
+<h2 id="usage">Usage</h2>
 
 <p>Capstan works together with the <a href="http://leiningen.org/">Leinigen</a> build tool.</p>
 
 <p>First, create a new project skeleton.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lein new capstan new-app
+</code></pre></div></div>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>lein new capstan new-app</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now, you can run <a href="https://github.com/cloudius-systems/capstan">Capstan</a> to
+<p>Now, you can run <a href="https://github.com/cloudius-systems/capstan">Capstan</a> to 
 run your project on an a OSv VM.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cd new-app
-</span><span class='line'>capstan run</span></code></pre></td></tr></table></div></figure>
-
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd new-app
+capstan run
+</code></pre></div></div>
 
 <p>The template takes care of creating the project skeleton, including the Capstanfile.  When this is done, you can use Capstan directly to build a new OSv VM, deploy it on the cloud, or upload it to the public repository.</p>
 
-<script type="text/javascript" src="https://asciinema.org/a/11068.js"
-id="asciicast-11068" async="" data-speed="2" data-autoplay="1"
-ata-size="medium"></script>
-
-
-<p></p></p>
+<script type="text/javascript" src="https://asciinema.org/a/11068.js" id="asciicast-11068" async="" data-speed="2" data-autoplay="1" ata-size="medium"></script>
+<p>&lt;/p&gt;</p>
 
 <p>For more info on Capstan and other OSv subjects, please join
 the
-<a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.<br/>
+<a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.<br />
 You can get updates on by subscribing to the <a href="http://osv.io/blog/atom.xml">OSv blog RSS feed</a> or following <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
 </div>
 
@@ -196,8 +211,6 @@ You can get updates on by subscribing to the <a href="http://osv.io/blog/atom.xm
   <footer>
     <p class="meta">
       
-  
-
 <span class="byline author vcard">Posted by <span class="fn">Cloudius Systems</span></span>
 
       
@@ -209,10 +222,9 @@ You can get updates on by subscribing to the <a href="http://osv.io/blog/atom.xm
 
 
 
-  
 
 
-<time datetime="2014-07-27T00:00:00+03:00" pubdate data-updated="true">Jul 27<span>th</span>, 2014</time>
+<time datetime="2014-07-27T00:00:00-04:00" pubdate data-updated="true">Jul 27, 2014</time>
       
 
 <span class="categories">
@@ -232,8 +244,6 @@ You can get updates on by subscribing to the <a href="http://osv.io/blog/atom.xm
         
         <a class="addthis_button_tweet"></a>
         
-        
-        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
         
         
         <a class="addthis_counter addthis_pill_style"></a>
@@ -271,6 +281,10 @@ You can get updates on by subscribing to the <a href="http://osv.io/blog/atom.xm
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2019/04/19/making-OSv-run-on-firecraker/">Making OSv Run on Firecracker</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/06/12/serverless-computing-with-OSv/">Serverless Computing With OSv</a>
       </li>
     
@@ -284,10 +298,6 @@ You can get updates on by subscribing to the <a href="http://osv.io/blog/atom.xm
     
       <li class="post">
         <a href="/blog/2015/04/27/docker/">Building OSv Images Using Docker</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/04/08/makefile/">Re-"make"-ing OSv</a>
       </li>
     
   </ul>
@@ -356,14 +366,6 @@ You can get updates on by subscribing to the <a href="http://osv.io/blog/atom.xm
 }(document, 'script', 'facebook-jssdk'));</script>
 
 
-
-  <script type="text/javascript">
-    (function() {
-      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
-      script.src = 'https://apis.google.com/js/plusone.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
-    })();
-  </script>
 
 
 

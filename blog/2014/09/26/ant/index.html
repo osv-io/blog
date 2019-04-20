@@ -9,8 +9,33 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="By Glauber Costa Don Marti and I will soon be presenting OSv at JavaOne. We are excited about
-the conference, and thought we could give you a small &hellip;">
+  <meta name="description" content="
+
+  
+  
+    
+      Merge the OS Into Your App, Not the Other Way Around!
+    
+    
+      
+        
+
+
+
+
+
+
+
+
+
+
+Sep 26, 2014
+        
+      
+    
+  
+
+...">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,14 +44,18 @@ the conference, and thought we could give you a small &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.osv.io//github/blog/2014/09/26/ant">
+  <link rel="canonical" href="http://osv-io.github.io//github/blog/2014/09/26/ant/">
   <link href="/favicon.ico" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/monokai.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/customized.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <script src="/javascripts/run_prettify.js" type="text/javascript"></script>
+  <script src="/javascripts/lang-gas.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
 <!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -63,7 +92,7 @@ the conference, and thought we could give you a small &hellip;">
         
         <form action="https://www.google.com/search" method="get">
             <fieldset role="search">
-                <input type="hidden" name="q" value="site:blog.osv.io//github" />
+                <input type="hidden" name="q" value="site:http://osv-io.github.io//github" />
                 <input class="search" type="text" name="q" results="0" placeholder="Search"/>
             </fieldset>
         </form>
@@ -131,10 +160,9 @@ the conference, and thought we could give you a small &hellip;">
 
 
 
-  
 
 
-<time datetime="2014-09-26T21:54:23+03:00" pubdate data-updated="true">Sep 26<span>th</span>, 2014</time>
+<time datetime="2014-09-26T14:54:23-04:00" pubdate data-updated="true">Sep 26, 2014</time>
         
       </p>
     
@@ -149,7 +177,7 @@ be talking about.</p>
 
 <p>As you already know, OSv is at the same time an operating system, and a
 library. It is as functional as an operating system, and as invisible as a
-library. This means that you shouldn&rsquo;t really install your app into OSv, but
+library. This means that you shouldn’t really install your app into OSv, but
 rather, merge them both naturally as a single entity.</p>
 
 <p>If you are using Java, there is a huge chance that one way or another, your
@@ -158,53 +186,31 @@ project is built through Apache Ant, or similar tool.</p>
 <p>If you have Capstan, our image building tool, that merges nicely and
 beautifully with your Ant-based build process. Here is how:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;property name="hypervisor" value="qemu"/&gt;
-</span><span class='line'>&lt;basename property="vm-name" file="${basedir}"/&gt;
-</span><span class='line'>&lt;property name="capstanpath"
-</span><span class='line'>   value="${user.home}/.capstan/repository/${vm-name}"/&gt;
-</span><span class='line'>
-</span><span class='line'>&lt;target name="vm" depends="jar"&gt;
-</span><span class='line'>&lt;echo file="Capstanfile" append="false"&gt;
-</span><span class='line'>base:
-</span><span class='line'>   cloudius/osv-openjdk
-</span><span class='line'>cmdline:
-</span><span class='line'>  /java.so -jar ${jarname}
-</span><span class='line'>files:
-</span><span class='line'>  /${jarname}: build/jar/${jarname}&lt;/echo&gt;
-</span><span class='line'>&lt;exec executable="capstan"&gt;
-</span><span class='line'>    &lt;arg value="build"/&gt;
-</span><span class='line'>    &lt;arg value="-p"/&gt;
-</span><span class='line'>    &lt;arg value="${hypervisor}"/&gt;
-</span><span class='line'>&lt;/exec&gt;
-</span><span class='line'>&lt;copy tofile="HelloWorld.${hypervisor}"
-</span><span class='line'>   file="${capstanpath}/${vm-name}.${hypervisor}"/&gt;
-</span><span class='line'>&lt;delete file="Capstanfile"/&gt;
-</span><span class='line'>&lt;/target&gt;</span></code></pre></td></tr></table></div></figure>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;property name="hypervisor" value="qemu"/&gt;
+&lt;basename property="vm-name" file="${basedir}"/&gt;
+&lt;property name="capstanpath"
+   value="${user.home}/.capstan/repository/${vm-name}"/&gt;
 
+&lt;target name="vm" depends="jar"&gt;
+&lt;echo file="Capstanfile" append="false"&gt;
+base:
+   cloudius/osv-openjdk
+cmdline:
+  /java.so -jar ${jarname}
+files:
+  /${jarname}: build/jar/${jarname}&lt;/echo&gt;
+&lt;exec executable="capstan"&gt;
+    &lt;arg value="build"/&gt;
+    &lt;arg value="-p"/&gt;
+    &lt;arg value="${hypervisor}"/&gt;
+&lt;/exec&gt;
+&lt;copy tofile="HelloWorld.${hypervisor}"
+   file="${capstanpath}/${vm-name}.${hypervisor}"/&gt;
+&lt;delete file="Capstanfile"/&gt;
+&lt;/target&gt;
+</code></pre></div></div>
 
-<p>The snippet above assumes that you already have a &ldquo;jar&rdquo; target in your build.</p>
+<p>The snippet above assumes that you already have a “jar” target in your build.</p>
 
 <p>As you can guess from the image name, this example is a simple HelloWorld.  The
 code, together with the complete build.xml file, can be downloaded
@@ -215,34 +221,28 @@ of choice, becomes just a matter of editing the file for the correct format.</p>
 
 <p>And after that? Fire up Capstan and enjoy your VM!</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>[glauber@localhost JavaOne]$ capstan run JavaOne
-</span><span class='line'>Created instance: JavaOne
-</span><span class='line'>OSv v0.12
-</span><span class='line'>eth0: 192.168.122.15
-</span><span class='line'>Hello World</span></code></pre></td></tr></table></div></figure>
-
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[glauber@localhost JavaOne]$ capstan run JavaOne
+Created instance: JavaOne
+OSv v0.12
+eth0: 192.168.122.15
+Hello World
+</code></pre></div></div>
 
 <p>Alternatively, boot the HelloWorld.qcow2 image that was copied to the local
 directory, with any tool you want.</p>
 
 <p><strong>More info</strong></p>
 
-<p>Are you attending JavaOne? We will show you this and more, at <a href="https://oracleus.activeevents.com/2014/connect/sessionDetail.ww?SESSION_ID=4120">Parc 55 &ndash; Powell I/II, Tuesday the 30th (12:30 PM)</a></p>
+<p>Are you attending JavaOne? We will show you this and more, at <a href="https://oracleus.activeevents.com/2014/connect/sessionDetail.ww?SESSION_ID=4120">Parc 55 - Powell I/II, Tuesday the 30th (12:30 PM)</a></p>
 
-<p>For general questions on OSv, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get general updates by subscribing to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+<p>For general questions on OSv, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get general updates by subscribing to this blog’s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+
 </div>
 
 
   <footer>
     <p class="meta">
       
-  
-
 <span class="byline author vcard">Posted by <span class="fn">Cloudius Systems</span></span>
 
       
@@ -254,10 +254,9 @@ directory, with any tool you want.</p>
 
 
 
-  
 
 
-<time datetime="2014-09-26T21:54:23+03:00" pubdate data-updated="true">Sep 26<span>th</span>, 2014</time>
+<time datetime="2014-09-26T14:54:23-04:00" pubdate data-updated="true">Sep 26, 2014</time>
       
 
 
@@ -272,8 +271,6 @@ directory, with any tool you want.</p>
         <a class="addthis_button_tweet"></a>
         
         
-        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
-        
         
         <a class="addthis_counter addthis_pill_style"></a>
         
@@ -286,10 +283,10 @@ directory, with any tool you want.</p>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/09/26/javaone/" title="Previous Post: OSv at JavaOne">&laquo; OSv at JavaOne</a>
+        <a class="basic-alignment left" href="/blog/2014/09/25/javaone/" title="Previous Post: OSv at JavaOne">&laquo; OSv at JavaOne</a>
       
       
-        <a class="basic-alignment right" href="/blog/2014/10/04/cloud-reboot/" title="Next Post: A cloud wake-up call">A cloud wake-up call &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2014/10/03/cloud-reboot/" title="Next Post: A cloud wake-up call">A cloud wake-up call &raquo;</a>
       
     </p>
   </footer>
@@ -310,6 +307,10 @@ directory, with any tool you want.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2019/04/19/making-OSv-run-on-firecraker/">Making OSv Run on Firecracker</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/06/12/serverless-computing-with-OSv/">Serverless Computing With OSv</a>
       </li>
     
@@ -323,10 +324,6 @@ directory, with any tool you want.</p>
     
       <li class="post">
         <a href="/blog/2015/04/27/docker/">Building OSv Images Using Docker</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/04/08/makefile/">Re-"make"-ing OSv</a>
       </li>
     
   </ul>
@@ -395,14 +392,6 @@ directory, with any tool you want.</p>
 }(document, 'script', 'facebook-jssdk'));</script>
 
 
-
-  <script type="text/javascript">
-    (function() {
-      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
-      script.src = 'https://apis.google.com/js/plusone.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
-    })();
-  </script>
 
 
 

@@ -9,7 +9,34 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="(Updated 14 April 2014: Add new URL for osv-base image.) Capstan is a new tool for building OSv virtual machine images. If you have worked with other &hellip;">
+  <meta name="description" content="
+
+  
+  
+    
+      A Simple Capstan Example
+    
+    
+      
+        
+
+
+
+
+
+
+
+
+
+
+Apr 3, 2014
+        
+      
+    
+  
+
+
+(Updated 14 April 2014: Add n...">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,14 +45,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.osv.io//github/blog/2014/04/03/capstan">
+  <link rel="canonical" href="http://osv-io.github.io//github/blog/2014/04/03/capstan/">
   <link href="/favicon.ico" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/monokai.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/customized.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <script src="/javascripts/run_prettify.js" type="text/javascript"></script>
+  <script src="/javascripts/lang-gas.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
 <!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -62,7 +93,7 @@
         
         <form action="https://www.google.com/search" method="get">
             <fieldset role="search">
-                <input type="hidden" name="q" value="site:blog.osv.io//github" />
+                <input type="hidden" name="q" value="site:http://osv-io.github.io//github" />
                 <input class="search" type="text" name="q" results="0" placeholder="Search"/>
             </fieldset>
         </form>
@@ -130,10 +161,9 @@
 
 
 
-  
 
 
-<time datetime="2014-04-03T18:37:05+03:00" pubdate data-updated="true">Apr 3<span>rd</span>, 2014</time>
+<time datetime="2014-04-03T11:37:05-04:00" pubdate data-updated="true">Apr 3, 2014</time>
         
       </p>
     
@@ -142,81 +172,80 @@
 
 <div class="entry-content"><p>(Updated 14 April 2014: Add new URL for osv-base image.)</p>
 
-<p><a href="https://github.com/cloudius-systems/capstan">Capstan</a> is a new tool for building <a href="http://osv.io/">OSv</a> virtual machine images.  If you have worked with other tools for making VMs, you&rsquo;ll find that Capstan is really simple.  It&rsquo;s a lot like <a href="http://www.docker.io/">Docker</a> actually&mdash;only you get a complete VM out of it and not just a container.</p>
+<p><a href="https://github.com/cloudius-systems/capstan">Capstan</a> is a new tool for building <a href="http://osv.io/">OSv</a> virtual machine images.  If you have worked with other tools for making VMs, you’ll find that Capstan is really simple.  It’s a lot like <a href="http://www.docker.io/">Docker</a> actually—only you get a complete VM out of it and not just a container.</p>
 
-<p>You&rsquo;re probably used to blogs from sneaky tech evangelists who claim that something is simple and then post some <a href="http://drusepth.net/how-to-speed-up-your-computer-using-google-drive-as-extra-ram/">complicated set of instructions</a>.  So just to keep your finger off the close button, here&rsquo;s all you need to do.</p>
+<p>You’re probably used to blogs from sneaky tech evangelists who claim that something is simple and then post some <a href="http://drusepth.net/how-to-speed-up-your-computer-using-google-drive-as-extra-ram/">complicated set of instructions</a>.  So just to keep your finger off the close button, here’s all you need to do.</p>
 
 <ul>
-<li><p>Add a Make target to build your application as a shared object.</p></li>
-<li><p>Write a short Capstanfile.  (8 lines not counting comments).</p></li>
-<li><p>Run Capstan.</p></li>
+  <li>
+    <p>Add a Make target to build your application as a shared object.</p>
+  </li>
+  <li>
+    <p>Write a short Capstanfile.  (8 lines not counting comments).</p>
+  </li>
+  <li>
+    <p>Run Capstan.</p>
+  </li>
 </ul>
 
-
-<p>That&rsquo;s all there is to it.  Finger off the close button now?  Good.  Ready?</p>
+<p>That’s all there is to it.  Finger off the close button now?  Good.  Ready?</p>
 
 <!-- more -->
 
+<p>Let’s make a VM that does something useful, say, serve this article to the entire Internet.  Go ahead and <code class="highlighter-rouge">git clone</code> <a href="https://github.com/cloudius-systems/capstan">Capstan</a> and follow along.</p>
 
-<p>Let&rsquo;s make a VM that does something useful, say, serve this article to the entire Internet.  Go ahead and <code>git clone</code> <a href="https://github.com/cloudius-systems/capstan">Capstan</a> and follow along.</p>
+<h2 id="an-easy-example-plus-makefile-work">An easy example, plus Makefile work</h2>
 
-<h2>An easy example, plus Makefile work</h2>
+<p>Just to keep it simple, let’s borrow the short HTTP server example from <a href="http://libevent.org/">libevent</a>.  The libevent project is a wrapper for convenient event-driven programming, and the library is used in high-profile projects such as <a href="https://www.torproject.org/">Tor</a>, the anonymous communications system, and <a href="http://www.chromium.org/Home">Chromium</a>, the basis for the Google Chrome web browser.</p>
 
-<p>Just to keep it simple, let&rsquo;s borrow the short HTTP server example from <a href="http://libevent.org/">libevent</a>.  The libevent project is a wrapper for convenient event-driven programming, and the library is used in high-profile projects such as <a href="https://www.torproject.org/">Tor</a>, the anonymous communications system, and <a href="http://www.chromium.org/Home">Chromium</a>, the basis for the Google Chrome web browser.</p>
-
-<p>Best of all, libevent includes an easy-to-use HTTP implementation and sample code for using it.  So I&rsquo;ll copy their web server sample code, tweak it a little to make the web server I need, and set up a simple Makefile.</p>
+<p>Best of all, libevent includes an easy-to-use HTTP implementation and sample code for using it.  So I’ll copy their web server sample code, tweak it a little to make the web server I need, and set up a simple Makefile.</p>
 
 <p>Those steps are all done in the code for this article, which is at <a href="https://github.com/dmarti/http-server">dmarti/http-server</a>.</p>
 
-<p>You&rsquo;ll need the development package for libevent installed.  On my system, it&rsquo;s called <code>libevent-devel</code>.</p>
+<p>You’ll need the development package for libevent installed.  On my system, it’s called <code class="highlighter-rouge">libevent-devel</code>.</p>
 
-<p>Here&rsquo;s the target to pay attention to:</p>
+<p>Here’s the target to pay attention to:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>http-server.so : http-server.c
-</span><span class='line'>        $(CC) -o $@ -std=gnu99 -fPIC -shared -levent $``</span></code></pre></td></tr></table></div></figure>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http-server.so : http-server.c
+        $(CC) -o $@ -std=gnu99 -fPIC -shared -levent $``
+</code></pre></div></div>
 
+<p>Yes, that’s right, we’re using <code class="highlighter-rouge">-fPIC</code> (position independent code) and <code class="highlighter-rouge">-shared</code> (passed to the linker, make it build a shared library).  And <code class="highlighter-rouge">http-server.c</code> has a function called <code class="highlighter-rouge">main</code>.  What’s going on?  This is because of the way OSv works.  Your application on OSv isn’t a conventional ELF executable, but a .so file.</p>
 
-<p>Yes, that&rsquo;s right, we&rsquo;re using <code>-fPIC</code> (position independent code) and <code>-shared</code> (passed to the linker, make it build a shared library).  And <code>http-server.c</code> has a function called <code>main</code>.  What&rsquo;s going on?  This is because of the way OSv works.  Your application on OSv isn&rsquo;t a conventional ELF executable, but a .so file.</p>
-
-<p>Besides building the actual HTTP server, I&rsquo;ll also put in a Make target to create the HTML version of this article from the README, <a href="https://lwn.net/Articles/589196/">because I can</a>.  So I type <code>make</code> to build the web content and the web server.</p>
+<p>Besides building the actual HTTP server, I’ll also put in a Make target to create the HTML version of this article from the README, <a href="https://lwn.net/Articles/589196/">because I can</a>.  So I type <code class="highlighter-rouge">make</code> to build the web content and the web server.</p>
 
 <p>Of course you can expand on this to build as complicated of an application and data set as you want.  This is just an example to show you Capstan for now.</p>
 
-<h2>Step two: Add a Capstanfile</h2>
+<h2 id="step-two-add-a-capstanfile">Step two: Add a Capstanfile</h2>
 
-<p>Now it&rsquo;s time to tell Capstan how to create the virtual machine image.  Building it is easy&mdash;just run <code>make</code>&mdash;so there&rsquo;s the <code>build</code> section right there.  Now we need to tell Capstan what files go into the image, so we populate the <code>files</code> section with the name of our web server (http-server.so) the libevent shared library, and some web content&mdash;just the HTML version of this article, plus a favicon.ico file.  (For now I&rsquo;m just copying my development systems&rsquo;s copy of libevent into the image.  For real use, I&rsquo;ll come up with a more consistent way to keep track of build artifacts like this, probably borrowing them from some helpful Linux distribution.  Yes, OSv can use libraries built on and for your 64-bit Linux box.)</p>
+<p>Now it’s time to tell Capstan how to create the virtual machine image.  Building it is easy–just run <code class="highlighter-rouge">make</code>–so there’s the <code class="highlighter-rouge">build</code> section right there.  Now we need to tell Capstan what files go into the image, so we populate the <code class="highlighter-rouge">files</code> section with the name of our web server (http-server.so) the libevent shared library, and some web content–just the HTML version of this article, plus a favicon.ico file.  (For now I’m just copying my development systems’s copy of libevent into the image.  For real use, I’ll come up with a more consistent way to keep track of build artifacts like this, probably borrowing them from some helpful Linux distribution.  Yes, OSv can use libraries built on and for your 64-bit Linux box.)</p>
 
-<p>Easy so far.  Now for the <code>cmdline</code> option, which is like <a href="http://docs.docker.io/en/v0.6.3/use/builder/#cmd">Docker&rsquo;s CMD</a>: the command that gets run when the image starts.  The HTTP server just takes its DocumentRoot entry from the command line, so the command comes out as:</p>
+<p>Easy so far.  Now for the <code class="highlighter-rouge">cmdline</code> option, which is like <a href="http://docs.docker.io/en/v0.6.3/use/builder/#cmd">Docker’s CMD</a>: the command that gets run when the image starts.  The HTTP server just takes its DocumentRoot entry from the command line, so the command comes out as:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>cmdline: /tools/http-server.so /www</span></code></pre></td></tr></table></div></figure>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmdline: /tools/http-server.so /www
+</code></pre></div></div>
 
+<p>There’s one more section in the Capstanfile: <code class="highlighter-rouge">base</code>.  That’s a pre-built OSv image, which is available from Amazon S3.  Capstan will automatically download this for you.  It lives under <code class="highlighter-rouge">.capstan</code> in your home directory.</p>
 
-<p>There&rsquo;s one more section in the Capstanfile: <code>base</code>.  That&rsquo;s a pre-built OSv image, which is available from Amazon S3.  Capstan will automatically download this for you.  It lives under <code>.capstan</code> in your home directory.</p>
+<h2 id="putting-it-all-together">Putting it all together</h2>
 
-<h2>Putting it all together</h2>
+<p>Now, when we type <code class="highlighter-rouge">capstan build</code>, Capstan invokes <code class="highlighter-rouge">make</code>, then creates the VM image.  It lives under <code class="highlighter-rouge">.capstan</code> in your home directory, at:</p>
 
-<p>Now, when we type <code>capstan build</code>, Capstan invokes <code>make</code>, then creates the VM image.  It lives under <code>.capstan</code> in your home directory, at:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>.capstan/repository/http-server/http-server.qemu
+</code></pre></div></div>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>.capstan/repository/http-server/http-server.qemu</span></code></pre></td></tr></table></div></figure>
+<p>This is a QCOW2 image, ready to run under KVM or convert to your favorite format.  That’s it.  Told you it was simple.  You can just do <code class="highlighter-rouge">capstan run</code> and point your browser to <a href="http://localhost:8080/">http://localhost:8080/</a> to see the site.</p>
 
-
-<p>This is a QCOW2 image, ready to run under KVM or convert to your favorite format.  That&rsquo;s it.  Told you it was simple.  You can just do <code>capstan run</code> and point your browser to <a href="http://localhost:8080/">http://localhost:8080/</a> to see the site.</p>
-
-<p>In an upcoming blog post, I&rsquo;ll cover the recently added VirtualBox support in Capstan (hint: try <code>-p vbox</code>) and some other fun things you can do.</p>
+<p>In an upcoming blog post, I’ll cover the recently added VirtualBox support in Capstan (hint: try <code class="highlighter-rouge">-p vbox</code>) and some other fun things you can do.</p>
 
 <p>If you have any Capstan questions, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list on Google Groups</a>.  You can get updates on new OSv and Capstan progress by subscribing to this blog or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+
 </div>
 
 
   <footer>
     <p class="meta">
       
-  
-
 <span class="byline author vcard">Posted by <span class="fn">Cloudius Systems</span></span>
 
       
@@ -228,10 +257,9 @@
 
 
 
-  
 
 
-<time datetime="2014-04-03T18:37:05+03:00" pubdate data-updated="true">Apr 3<span>rd</span>, 2014</time>
+<time datetime="2014-04-03T11:37:05-04:00" pubdate data-updated="true">Apr 3, 2014</time>
       
 
 <span class="categories">
@@ -252,8 +280,6 @@
         <a class="addthis_button_tweet"></a>
         
         
-        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
-        
         
         <a class="addthis_counter addthis_pill_style"></a>
         
@@ -266,7 +292,7 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/03/31/welcome/" title="Previous Post: New OSv blog">&laquo; New OSv blog</a>
+        <a class="basic-alignment left" href="/blog/2014/03/30/welcome/" title="Previous Post: New OSv blog">&laquo; New OSv blog</a>
       
       
         <a class="basic-alignment right" href="/blog/2014/04/19/spinlock-free/" title="Next Post: Spinlock-free OS design for virtualization">Spinlock-free OS design for virtualization &raquo;</a>
@@ -290,6 +316,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2019/04/19/making-OSv-run-on-firecraker/">Making OSv Run on Firecracker</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/06/12/serverless-computing-with-OSv/">Serverless Computing With OSv</a>
       </li>
     
@@ -303,10 +333,6 @@
     
       <li class="post">
         <a href="/blog/2015/04/27/docker/">Building OSv Images Using Docker</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/04/08/makefile/">Re-"make"-ing OSv</a>
       </li>
     
   </ul>
@@ -375,14 +401,6 @@
 }(document, 'script', 'facebook-jssdk'));</script>
 
 
-
-  <script type="text/javascript">
-    (function() {
-      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
-      script.src = 'https://apis.google.com/js/plusone.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
-    })();
-  </script>
 
 
 

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Java | OSv Blog]]></title>
-  <link href="http://blog.osv.io//github/blog/categories/java/atom.xml" rel="self"/>
-  <link href="http://blog.osv.io//github/"/>
-  <updated>2017-06-12T21:20:41+03:00</updated>
-  <id>http://blog.osv.io//github/</id>
+  <link href="http://osv-io.github.io//github/blog/categories/java/atom.xml" rel="self"/>
+  <link href="http://osv-io.github.io//github/"/>
+  <updated>2019-04-20T01:01:48-04:00</updated>
+  <id>http://osv-io.github.io//github/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
     
@@ -15,75 +15,65 @@
   
   <entry>
     <title type="html"><![CDATA[Running Clojure on OSv: Easier With a New Capstan Template]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/07/27/capstan-lein-template/"/>
-    <updated>2014-07-27T00:00:00+03:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/07/27/capstan-lein-template</id>
+    <link href="http://osv-io.github.io//github/blog/2014/07/27/capstan-lein-template/"/>
+    <updated>2014-07-27T00:00:00-04:00</updated>
+    <id>http://osv-io.github.io//github/blog/2014/07/27/capstan-lein-template</id>
     <content type="html"><![CDATA[<p>Clojure developers usually do not care too much about the underlying OS.
 The low-level differences between Linux, Mac OS, and even Microsoft Windows are abstracted away by the JVM.</p>
 
-<p>When deploying Clojure code on the cloud, there used to be one default choice &ndash; Linux.
+<p>When deploying Clojure code on the cloud, there used to be one default choice - Linux.
 But Linux
 <a href="http://osv.io/blog/blog/2014/07/21/generic-os-is-dead/">is not an ideal OS</a>
 for pure cloud services.</p>
 
-<p><a href="https://github.com/cloudius-systems/osv">OSv</a> is a new, open source OS, designed specifically for the cloud.  Since OSv supports the standard JVM, it is ideal for running Clojure applications on the cloud.  And the same configuration applies to building VMs for any cloud: public clouds such as Amazon&rsquo;s and Google&rsquo;s, private clouds based on VMware or KVM, or public and private OpenStack.</p>
+<p><a href="https://github.com/cloudius-systems/osv">OSv</a> is a new, open source OS, designed specifically for the cloud.  Since OSv supports the standard JVM, it is ideal for running Clojure applications on the cloud.  And the same configuration applies to building VMs for any cloud: public clouds such as Amazon’s and Google’s, private clouds based on VMware or KVM, or public and private OpenStack.</p>
 
 <p>Porting a Clojure application to OSv was already
 <a href="http://osv.io/blog/blog/2014/04/22/riemann-on-osv/">pretty easy</a>, but
-now it&rsquo;s even easier.  This blog post describes a new <a href="https://github.com/tzach/capstan-lein-plugin">lein template</a> for OSv.</p>
+now it’s even easier.  This blog post describes a new <a href="https://github.com/tzach/capstan-lein-plugin">lein template</a> for OSv.
+<!-- more --></p>
 
-<!-- more -->
-
-
-<h2>Usage</h2>
+<h2 id="usage">Usage</h2>
 
 <p>Capstan works together with the <a href="http://leiningen.org/">Leinigen</a> build tool.</p>
 
-<p>First, create a new project skeleton.
-<code>
-lein new capstan new-app
-</code></p>
+<p>First, create a new project skeleton.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lein new capstan new-app
+</code></pre></div></div>
 
-<p>Now, you can run <a href="https://github.com/cloudius-systems/capstan">Capstan</a> to
+<p>Now, you can run <a href="https://github.com/cloudius-systems/capstan">Capstan</a> to 
 run your project on an a OSv VM.</p>
 
-<p><code>
-cd new-app
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd new-app
 capstan run
-</code></p>
+</code></pre></div></div>
 
 <p>The template takes care of creating the project skeleton, including the Capstanfile.  When this is done, you can use Capstan directly to build a new OSv VM, deploy it on the cloud, or upload it to the public repository.</p>
 
-<script type="text/javascript" src="https://asciinema.org/a/11068.js"
-id="asciicast-11068" async="" data-speed="2" data-autoplay="1"
-ata-size="medium"></script>
-
-
-<p></p></p>
+<script type="text/javascript" src="https://asciinema.org/a/11068.js" id="asciicast-11068" async="" data-speed="2" data-autoplay="1" ata-size="medium"></script>
+<p>&lt;/p&gt;</p>
 
 <p>For more info on Capstan and other OSv subjects, please join
 the
-<a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.<br/>
+<a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.<br />
 You can get updates on by subscribing to the <a href="http://osv.io/blog/atom.xml">OSv blog RSS feed</a> or following <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[If Java Application Servers Are Dead, So Is the Operating System (in the Cloud)]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/07/21/generic-os-is-dead/"/>
-    <updated>2014-07-21T00:00:00+03:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/07/21/generic-os-is-dead</id>
+    <link href="http://osv-io.github.io//github/blog/2014/07/21/generic-os-is-dead/"/>
+    <updated>2014-07-21T00:00:00-04:00</updated>
+    <id>http://osv-io.github.io//github/blog/2014/07/21/generic-os-is-dead</id>
     <content type="html"><![CDATA[<p><strong>By Tzach Livyatan</strong>
-This post is a response to the excellent presentation <a href="http://www.slideshare.net/ewolff/java-application-servers-are-dead"><strong>&ldquo;Java Application Servers Are Dead!&rdquo;</strong></a> by <a href="https://twitter.com/ewolff">Eberhard Wolff</a>.
+This post is a response to the excellent presentation <a href="http://www.slideshare.net/ewolff/java-application-servers-are-dead"><strong>“Java Application Servers Are Dead!”</strong></a> by <a href="https://twitter.com/ewolff">Eberhard Wolff</a>.
 Go read his slides and come back here.</p>
 
 <p>Back already?
 Assuming you agree with Eberhard’s  claims,  let me demonstrate how
 most of his points on Java Application Servers can be applied to a
-generic OS (one designed for hardware servers) in the cloud as well.</p>
-
-<!-- more -->
-
+generic OS (one designed for hardware servers) in the cloud as well.
+<!-- more --></p>
 
 <p>First let me scope the discussion.
 An operating system can run on your mobile, desktop, back office, or as a VM on the cloud.
@@ -91,19 +81,17 @@ For this post, I’m referring specifically to the cloud use case, which can be 
 Cloud deployments are the important case to concentrate on, as new Java application servers are mostly deployed on VMs these days.</p>
 
 <p><img src="/images/turtles.png" alt="turtles all the way down" />
-Illustration: Omarcito for Wikimedia Commons (<a href="http://commons.wikimedia.org/wiki/File:Omarcito.gif">http://commons.wikimedia.org/wiki/File:Omarcito.gif</a>)</p>
+Illustration: Omarcito for Wikimedia Commons (http://commons.wikimedia.org/wiki/File:Omarcito.gif)</p>
 
-<p>Eberhard present different properties of the Java Application Server, and for each, demonstrates why it is no longer relevant.
+<p>Eberhard present different properties of the Java Application Server, and for each, demonstrates why it is no longer relevant. 
 I will follow his footsteps, applying the same methodology to generic
 OS, for two of the properties: <em>Container for multiple applications</em> and <em>Deployment</em>.</p>
 
-<h2>Container for multiple applications</h2>
-
+<h2 id="container-for-multiple-applications">Container for multiple applications</h2>
 <p>Both the Java application server and the OS are supposed to isolate applications from each other. Both do a good job at it, and OS isolation is definitely somewhat stronger.  However, it is still not good enough for multitenancy, <a href="http://osv.io/blog/blog/2014/06/19/containers-hypervisors-part-2/">even with OS-level containers</a>.
 This is why we have hypervisors, and this is why most deployment in the clouds include one application per VM.</p>
 
-<h2>Deployment</h2>
-
+<h2 id="deployment">Deployment</h2>
 <p>I agree with Eberhard’s claim that Java deployments (JAR, WAR, EAR) are problematic.
 Linux-style packaging, using RPM or deb packages, is not a full solution either.</p>
 
@@ -113,16 +101,15 @@ Linux-style packaging, using RPM or deb packages, is not a full solution either.
 
 <p>To summarize, both the  Java application server and the generic OS were created to provide a set of services which is no longer required.</p>
 
-<h2>With Java AS and generic OS dead, what&rsquo;s next?</h2>
+<h2 id="with-java-as-and-generic-os-dead-whats-next">With Java AS and generic OS dead, what’s next?</h2>
+<p>** Micro Services **</p>
 
-<p><strong> Micro Services </strong></p>
-
-<p><em>&ldquo;an approach to developing a single application as a suite of small
+<p><em>“an approach to developing a single application as a suite of small
  services, each running in its own process and communicating with
- lightweight mechanisms, often an HTTP resource API&rdquo;</em>
+ lightweight mechanisms, often an HTTP resource API”</em>
 <a href="http://martinfowler.com/articles/microservices.html">Martin Fowler</a>
 <img src="/images/PreferFunctionalStaffOrganization.png" alt="&quot;From micro services" />
-Illustration: Martin Fowler (<a href="http://martinfowler.com/articles/microservices.html">http://martinfowler.com/articles/microservices.html</a>)</p>
+Illustration: Martin Fowler (http://martinfowler.com/articles/microservices.html)</p>
 
 <p>Each micro service can can have its own end to end stack, from the OS up to the application.
 As explained above, an ideal scenario would be to deploy the micro service logic directly on a hypervisor, cutting two middle layers: the application server and the generic OS.</p>
@@ -134,14 +121,14 @@ Run my application on EC2 with no OS at all to support it? Not quite.</p>
 
 <p>For every micro service, one can use a tool like
 <a href="http://osv.io/capstan">Capstan</a> to cook a new VM, pre integrating the
-application, JVM and the OS &ndash; to a ready to be deployed VM. Just take
+application, JVM and the OS - to a ready to be deployed VM. Just take
 it and deploy it on your favorite cloud provider.</p>
 
 <p>Take Capstan for a <a href="http://osv.io/run-locally/">spin</a></p>
 
 <p>For more info on Capstan and other OSv subjects, please join
 the
-<a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.<br/>
+<a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.<br />
 You can get updates on by subscribing to the <a href="http://osv.io/blog/atom.xml">OSv blog RSS feed</a> or following <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
 ]]></content>
   </entry>

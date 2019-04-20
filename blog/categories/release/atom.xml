@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Release | OSv Blog]]></title>
-  <link href="http://blog.osv.io//github/blog/categories/release/atom.xml" rel="self"/>
-  <link href="http://blog.osv.io//github/"/>
-  <updated>2017-06-12T21:20:41+03:00</updated>
-  <id>http://blog.osv.io//github/</id>
+  <link href="http://osv-io.github.io//github/blog/categories/release/atom.xml" rel="self"/>
+  <link href="http://osv-io.github.io//github/"/>
+  <updated>2019-04-20T01:01:48-04:00</updated>
+  <id>http://osv-io.github.io//github/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
     
@@ -15,98 +15,90 @@
   
   <entry>
     <title type="html"><![CDATA[Image Building Tip: Make Clean Without Repeating Yourself]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/12/17/make-clean-dont-repeat-yourself/"/>
-    <updated>2014-12-17T07:10:31+02:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/12/17/make-clean-dont-repeat-yourself</id>
+    <link href="http://osv-io.github.io//github/blog/2014/12/17/make-clean-dont-repeat-yourself/"/>
+    <updated>2014-12-17T00:10:31-05:00</updated>
+    <id>http://osv-io.github.io//github/blog/2014/12/17/make-clean-dont-repeat-yourself</id>
     <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
 
-<p>What do we have to do in <code>make clean</code>?  Delete all the files that can be regenerated that we don&rsquo;t need to keep around.</p>
+<p>What do we have to do in <code class="highlighter-rouge">make clean</code>?  Delete all the files that can be regenerated that we don’t need to keep around.</p>
 
-<p>What&rsquo;s listed in <code>.gitignore</code>?  All the files that can be regenerated that we don&rsquo;t need to keep around.</p>
+<p>What’s listed in <code class="highlighter-rouge">.gitignore</code>?  All the files that can be regenerated that we don’t need to keep around.</p>
 
-<p>Hey, wait a minute. It&rsquo;s not a good idea to repeat yourself, especially for me, since I have to &ldquo;start a project&rdquo; often for demo code.  So here&rsquo;s a way to keep track of all those extre files in one place, with a few lines in Makefile and one handy git command.</p>
+<p>Hey, wait a minute. It’s not a good idea to repeat yourself, especially for me, since I have to “start a project” often for demo code.  So here’s a way to keep track of all those extre files in one place, with a few lines in Makefile and one handy git command.</p>
 
 <!--more-->
 
+<p>Here’s the new <code class="highlighter-rouge">clean</code> target:</p>
 
-<p>Here&rsquo;s the new <code>clean</code> target:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Remove anything listed in the .gitignore file.
+# Remove empty directories because they cannot be versioned.
+clean :
+        find . -path ./.git -prune -o -print0 | \
+        git check-ignore -z --stdin | xargs -0 rm -f
+        find . -depth -mindepth 1 -type d -print0 | \
+        xargs -0 rmdir --ignore-fail-on-non-empty
+</code></pre></div></div>
 
-<p>```</p>
+<p>In this case, we’re just running a <code class="highlighter-rouge">find</code> on everything except the <code class="highlighter-rouge">.git</code> directory, and using the <a href="http://git-scm.com/docs/git-check-ignore">git check-ignore</a> command to see if they’re ignorable by git.  If the answer is yes, then they’re fine to remove—so no more keeping track of them in two places.</p>
 
-<h1>Remove anything listed in the .gitignore file.</h1>
-
-<h1>Remove empty directories because they cannot be versioned.</h1>
-
-<p>clean :</p>
-
-<pre><code>    find . -path ./.git -prune -o -print0 | \
-    git check-ignore -z --stdin | xargs -0 rm -f
-    find . -depth -mindepth 1 -type d -print0 | \
-    xargs -0 rmdir --ignore-fail-on-non-empty
-</code></pre>
-
-<p>```</p>
-
-<p>In this case, we&rsquo;re just running a <code>find</code> on everything except the <code>.git</code> directory, and using the <a href="http://git-scm.com/docs/git-check-ignore">git check-ignore</a> command to see if they&rsquo;re ignorable by git.  If the answer is yes, then they&rsquo;re fine to remove&mdash;so no more keeping track of them in two places.</p>
-
-<p>The second <code>find</code> is just to get rid of empty directories, which Git won&rsquo;t track anyway.  And the <code>-print0</code>, <code>-z</code>, and <code>-0</code> options in both lines are to use null characters between filenames, just to prevent weirdness if you end up with a file with a space in its name.</p>
+<p>The second <code class="highlighter-rouge">find</code> is just to get rid of empty directories, which Git won’t track anyway.  And the <code class="highlighter-rouge">-print0</code>, <code class="highlighter-rouge">-z</code>, and <code class="highlighter-rouge">-0</code> options in both lines are to use null characters between filenames, just to prevent weirdness if you end up with a file with a space in its name.</p>
 
 <p>(To hook your regular Makefile up to build complete VMs, just use <a href="http://osv.io/capstan/">Capstan</a>. Get a complete VM, ready to run on any cloud, in only 7.5 to 9 seconds.)</p>
 
-<h2>What, is that it?</h2>
+<h2 id="what-is-that-it">What, is that it?</h2>
 
-<p>Fine, have a bonus tip.  If you&rsquo;re a fan of <a href="http://whatcolourisit.scn9a.org/">What colour is it</a>, the site that changes background color to match the current time, here&rsquo;s how to do the same thing on a GNOME desktop:</p>
+<p>Fine, have a bonus tip.  If you’re a fan of <a href="http://whatcolourisit.scn9a.org/">What colour is it</a>, the site that changes background color to match the current time, here’s how to do the same thing on a GNOME desktop:</p>
 
-<p><code>
-gsettings set org.gnome.desktop.background primary-color "#$(date +%H%M%S)"
-</code></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gsettings set org.gnome.desktop.background primary-color "#$(date +%H%M%S)"
+</code></pre></div></div>
 
 <p>(Those of you on something other than Linux+GNOME, developer desktop tips for your setup are welcome.)</p>
 
-<p><em>For more tips and OSv news, subscribe to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</em></p>
+<p><em>For more tips and OSv news, subscribe to this blog’s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</em></p>
+
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[OSv on the QEMU Advent Calendar]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/12/12/advent/"/>
-    <updated>2014-12-12T00:10:31+02:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/12/12/advent</id>
+    <link href="http://osv-io.github.io//github/blog/2014/12/11/advent/"/>
+    <updated>2014-12-11T17:10:31-05:00</updated>
+    <id>http://osv-io.github.io//github/blog/2014/12/11/advent</id>
     <content type="html"><![CDATA[<p>OSv is on the <a href="http://www.qemu-advent-calendar.org/#day-11">QEMU Advent Calendar</a> with a ready-to-download VM image.</p>
 
 <p><a href="http://www.qemu-advent-calendar.org/#day-11"><img src="/images/day11.png" alt="day 11" /></a></p>
 
-<p>Not just a demo, it&rsquo;s a fully functional Redis data store with a web management console that you can try with a real Redis application.   There are more fun projects on the QEMU Advent Calendar site, too.</p>
+<p>Not just a demo, it’s a fully functional Redis data store with a web management console that you can try with a real Redis application.   There are more fun projects on the QEMU Advent Calendar site, too.</p>
 
 <!--more-->
 
-
-<p>Can someone make a VM that&rsquo;s even smaller than an OSv one?  Looks like the answer is yes.</p>
+<p>Can someone make a VM that’s even smaller than an OSv one?  Looks like the answer is yes.</p>
 
 <p><a href="http://www.qemu-advent-calendar.org/#day-10"><img src="/images/day10.png" alt="day 10" /></a></p>
 
-<p>Poor <a href="http://www.nyan.cat/original">Nyan Cat</a>, squashed to just 512 bytes (including a PC speaker version of the music) in the <a href="http://www.qemu-advent-calendar.org/#day-10">Day 10 download</a> from Max Reitz.  There&rsquo;s also vintage retrocomputing, some near-future 64-bit ARM action, and more.  Check it out: <a href="http://www.qemu-advent-calendar.org/">QEMU Advent Calendar</a>.</p>
+<p>Poor <a href="http://www.nyan.cat/original">Nyan Cat</a>, squashed to just 512 bytes (including a PC speaker version of the music) in the <a href="http://www.qemu-advent-calendar.org/#day-10">Day 10 download</a> from Max Reitz.  There’s also vintage retrocomputing, some near-future 64-bit ARM action, and more.  Check it out: <a href="http://www.qemu-advent-calendar.org/">QEMU Advent Calendar</a>.</p>
 
-<p>For the latest cloud and OSv news, subscript to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+<p>For the latest cloud and OSv news, subscript to this blog’s <a href="http://osv.io/blog/atom.xml">feed</a>, or follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[Making Spam Vanish&hellip;in the CLOUD]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/12/05/spamsink/"/>
-    <updated>2014-12-05T00:10:31+02:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/12/05/spamsink</id>
+    <link href="http://osv-io.github.io//github/blog/2014/12/04/spamsink/"/>
+    <updated>2014-12-04T17:10:31-05:00</updated>
+    <id>http://osv-io.github.io//github/blog/2014/12/04/spamsink</id>
     <content type="html"><![CDATA[<p><strong>By Don Marti</strong></p>
 
 <p>We knew that spammers control a lot of bandwidth, because botnets.  So, for a long time, people thought that fighting spam by just accepting and discarding huge amounts of it would be counterproductive. The spammers get bandwidth for free, and servers are expensive.</p>
 
 <p>There have been some interesting
-projects to
-try to waste the spammer&rsquo;s bandwidth by fooling the sender into wasting precious bandwidth and CPU by forcing it to retransmit packets, reorder, and retransmit them.</p>
+projects to 
+try to waste the spammer’s bandwidth by fooling the sender into wasting precious bandwidth and CPU by forcing it to retransmit packets, reorder, and retransmit them.</p>
 
 <p>For example, see <a href="http://www.spamcannibal.org/cannibal.cgi">Spam Cannibal</a>. Other spam tarpits focused on a different part of the spam problem: trapping the address-harvesting part of the spam operation.  Address generators would build a dynamic site which has an infinite hierarchy of random pages, each containing a few bogus email addresses and links to more of these fake pages.  An example is <a href="http://www.devin.com/sugarplum/">Sugarplum</a> by Devin Carraway.</p>
 
-<p>Sugarplum created pages such as <a href="this%20randomly%20generated%20page">http://www.devin.com/peaches/lemons</a> and this <a href="http://www.devin.com/peaches/lemons/disentangles/fingerboard">directory of people who want to buy herbal weight loss products</a> (psst. humans. Not really, just more spamtrap addresses. Don&rsquo;t tell the address-harvesting bots.)</p>
+<p>Sugarplum created pages such as <a href="this randomly generated page">http://www.devin.com/peaches/lemons</a> and this <a href="http://www.devin.com/peaches/lemons/disentangles/fingerboard">directory of people who want to buy herbal weight loss products</a> (psst. humans. Not really, just more spamtrap addresses. Don’t tell the address-harvesting bots.)</p>
 
 <p>But in most cases, for a long time, our only hope for fighting spam was to batten down the hatches.  Assume that the spammers control more computing power and bandwidth than we do, and just do the best we can to filter it.</p>
 
@@ -116,71 +108,81 @@ try to waste the spammer&rsquo;s bandwidth by fooling the sender into wasting pr
 
 <!--more-->
 
+<h2 id="that-was-then-this-is-cloud">That was then, this is Cloud</h2>
 
-<h2>That was then, this is Cloud</h2>
-
-<p>Is that still true?  Except in high-end &ldquo;fiberhoods,&rdquo; the bandwidth available to end-user machines is stagnant.  Especially upstream bandwidth.  And, much as we like to complain about the security situation on commodity operating systems, it is getting somewhat better.</p>
+<p>Is that still true?  Except in high-end “fiberhoods,” the bandwidth available to end-user machines is stagnant.  Especially upstream bandwidth.  And, much as we like to complain about the security situation on commodity operating systems, it is getting somewhat better.</p>
 
 <p>And cloud computing continues to be built out everywhere.  Now, lots of people have access to cheap or even free cloud VMs.  If you have extra unused cloud capacity, you can use part of it as a spam sink.</p>
 
-<h2>Do spammers still outnumber us?  Let&rsquo;s find out.</h2>
+<h2 id="do-spammers-still-outnumber-us--lets-find-out">Do spammers still outnumber us?  Let’s find out.</h2>
 
 <p>This project is a simple way to build a stand-alone VM that accepts and drops all spam.</p>
 
-<p>Got a free account on a cloud provider, or extra capacity on your hypervisor?   Run a spam sink.  (If you&rsquo;re a cloud provider, you can stick spam sinks on all your spare IP addresses.)</p>
+<p>Got a free account on a cloud provider, or extra capacity on your hypervisor?   Run a spam sink.  (If you’re a cloud provider, you can stick spam sinks on all your spare IP addresses.)</p>
 
-<h2>How to use:</h2>
+<p>##How to use:</p>
 
 <ol>
-<li><p>Build a spamsink VM with &ldquo;capstan build&rdquo; (You can get the Capstan VM-building tool from the <a href="Capstan%20project%20on%20GitHub">https://github.com/cloudius-systems/capstan</a>.</p></li>
-<li><p>Deploy to your favorite private or public cloud.</p></li>
-<li><p>Point some MX records and spamtrap addresses at it.  You can run Sugarplum (above) to generate as many random addresses as you want.</p></li>
+  <li>
+    <p>Build a spamsink VM with “capstan build” (You can get the Capstan VM-building tool from the <a href="Capstan project on GitHub">https://github.com/cloudius-systems/capstan</a>.</p>
+  </li>
+  <li>
+    <p>Deploy to your favorite private or public cloud.</p>
+  </li>
+  <li>
+    <p>Point some MX records and spamtrap addresses at it.  You can run Sugarplum (above) to generate as many random addresses as you want.</p>
+  </li>
 </ol>
 
+<h2 id="to-try-it-out-locally">To try it out locally:</h2>
 
-<h2>To try it out locally:</h2>
-
-<p>Build and run: <code>capstan build &amp;&amp; capstan run -n bridge</code></p>
+<p>Build and run: <code class="highlighter-rouge">capstan build &amp;&amp; capstan run -n bridge</code></p>
 
 <p>OSv will print the IP address.  In another terminal, point the smtpsend client at it:</p>
 
-<p><code>./smtpsend -n 100</code></p>
+<p><code class="highlighter-rouge">./smtpsend -n 100</code></p>
 
-<h2>On GitHub</h2>
+<h2 id="on-github">On GitHub</h2>
 
 <p>A spamsink <a href="https://github.com/dmarti/spamsink">GitHub repository</a> is up.  Pull requests welcome.</p>
 
-<p>For the latest cloud and OSv news, subscript to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+<p>For the latest cloud and OSv news, subscript to this blog’s <a href="http://osv.io/blog/atom.xml">feed</a>, or follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
 
 <p><em>Vortex image: <a href="https://commons.wikimedia.org/wiki/File:Vortex_in_draining_bottle_of_water.jpg">Robert D Anderson for Wikimedia Commons</a></em></p>
+
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[Containers, Containers, Containers! More Options for the Cloud]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/12/03/docker-rocket/"/>
-    <updated>2014-12-03T00:10:31+02:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/12/03/docker-rocket</id>
+    <link href="http://osv-io.github.io//github/blog/2014/12/02/docker-rocket/"/>
+    <updated>2014-12-02T17:10:31-05:00</updated>
+    <id>http://osv-io.github.io//github/blog/2014/12/02/docker-rocket</id>
     <content type="html"><![CDATA[<p><strong>By <a href="https://twitter.com/DorLaor/">Dor Laor</a></strong></p>
 
 <p>Everybody who uses containers has probably heard about <a href="https://coreos.com/blog/rocket">Rocket</a> by now. What does this <strike>fork</strike> re-implementation mean to the Docker community? Let’s dive in.</p>
 
 <p>The Docker technology has disrupted the cloud and datacenter field for the past year. The speed of penetration was amazing and unmatched in the industry. I can’t think of a similar case for such fast-paced adoption of the concept. Neither AWS, OpenStack, nor virtualization were adopted that fast. What made it that attractive for our community to adopt?</p>
 
-<p>Container technology was there for a lot of years. Even before containers, there has always been similar functionality, like Unix’s <code>chroot</code>. However, Docker really changed the game with straightforward simplicity and usability. Docker contributed the following:</p>
+<p>Container technology was there for a lot of years. Even before containers, there has always been similar functionality, like Unix’s <code class="highlighter-rouge">chroot</code>. However, Docker really changed the game with straightforward simplicity and usability. Docker contributed the following:</p>
 
 <ol>
-<li><p> A basic one-liner command line: <code>docker run</code>. It masked out all of the LXC complexities and even downloaded the image if needed.</p></li>
-<li><p>Straightforward image structure: It’s as simple as a directory.</p></li>
-<li><p>A public image repository, <a href="https://hub.docker.com/">Docker Hub</a>, where you can stash your images for future download, and employ an application-market concept.</p></li>
+  <li>
+    <p>A basic one-liner command line: <code class="highlighter-rouge">docker run</code>. It masked out all of the LXC complexities and even downloaded the image if needed.</p>
+  </li>
+  <li>
+    <p>Straightforward image structure: It’s as simple as a directory.</p>
+  </li>
+  <li>
+    <p>A public image repository, <a href="https://hub.docker.com/">Docker Hub</a>, where you can stash your images for future download, and employ an application-market concept.</p>
+  </li>
 </ol>
-
 
 <p>Docker had become the hottest thing in tech, sometimes way too hot for reality (otherwise, why would one deploy Docker in a VM, incurring two tiers of management pain?). Beyond Google and AWS, even mighty Microsoft wanted a piece of the pie. We couldn’t believe our eyes, what an amazing meritocracy (no sarcasm). All the vendors of the world unite around one simple format.</p>
 
 <p><img src="/images/meritocracy.png" alt="" /></p>
 
-<p>Yesterday CoreOS released a fork-like bomb in the form of Rocket. The reason
+<p>Yesterday CoreOS released a fork-like bomb in the form of Rocket. The reason 
 is the very thing that makes Docker attractive, its simplicity, is also a disadvantage since it’s too complex to harness for security, SLA and diverse workloads.  Apparently CoreOS didn’t manage to get the Docker team to change the mainline code for it.  I guess it’s more than a NIH thing (Not Invented Here) but some limitation of its structure.</p>
 
 <p><img src="/images/fight-time.png" alt="" /></p>
@@ -189,7 +191,7 @@ is the very thing that makes Docker attractive, its simplicity, is also a disadv
 
 <p><img src="/images/docker-thread.png" alt="Twitter thread" /></p>
 
-<p>We believe that CoreOS has the upper hand when it comes to technology. Managing containers is straightforward, but these folks have the vehicle for deploying them. In addition they wrote cool distributed tools such as <code>etcd</code> and <code>fleet</code>. So while Docker controls the hub and the format, CoreOS leverages it to gain actual users (PR aside&hellip;)</p>
+<p>We believe that CoreOS has the upper hand when it comes to technology. Managing containers is straightforward, but these folks have the vehicle for deploying them. In addition they wrote cool distributed tools such as <code class="highlighter-rouge">etcd</code> and <code class="highlighter-rouge">fleet</code>. So while Docker controls the hub and the format, CoreOS leverages it to gain actual users (PR aside…)</p>
 
 <p>There is nothing to fear about Docker momentum, but it has finally met a reality factor and such competition is positive for innovation and speed as well. With all the fuss around Docker, lots of good features like LXC SLA, and buildpacks (the way Heroku and Cloud Foundry handle them) were dropped in the race for Docker compatibility. It was a nice surprise to see that great minds think alike, and just as Rocket uses <a href="https://github.com/coreos/rocket">several phases</a> in container creation, we do the same for OSv. We create an image by spinning up an empty VM (on any given hypervisor) that formats our ZFS filesystem and afterwards listens on ‘nc’ (netcat) to receive a stream of files from the host.</p>
 
@@ -197,56 +199,47 @@ is the very thing that makes Docker attractive, its simplicity, is also a disadv
 
 <p>Let the battle continue as we collect the best of breed features and embrace them as we’ve done with <a href="http://osv.io/capstan/">Capstan</a>, with our <a href="http://osv.io/blog/blog/2014/08/28/wiki-watch-cloud-init/">cloud-init integration</a>, with our <a href="http://osv.io/manageability/">RESTful APIs</a> and more.</p>
 
-<p><em>For the latest cloud and OSv news, subscript to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</em></p>
+<p><em>For the latest cloud and OSv news, subscript to this blog’s <a href="http://osv.io/blog/atom.xml">feed</a>, or follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</em></p>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[SSH Tip: Connecting to a Private Network Without Trusting the Bastion Host]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/11/18/ssh-without-trusting-bastion-host/"/>
-    <updated>2014-11-18T00:10:31+02:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/11/18/ssh-without-trusting-bastion-host</id>
-    <content type="html"><![CDATA[<p><strong>By Nadav Har'El</strong></p>
+    <link href="http://osv-io.github.io//github/blog/2014/11/17/ssh-without-trusting-bastion-host/"/>
+    <updated>2014-11-17T17:10:31-05:00</updated>
+    <id>http://osv-io.github.io//github/blog/2014/11/17/ssh-without-trusting-bastion-host</id>
+    <content type="html"><![CDATA[<p><strong>By Nadav Har’El</strong></p>
 
-<p>In a typical lab network configuration, one cannot just <code>ssh</code> or <code>scp</code> to the hosts behind the firewall (our company calls them after characters from Norse mythology: Loki, Muninn and friends).  Instead, you need to ssh to a bastion host, and from there connect to the internal systems.</p>
+<p>In a typical lab network configuration, one cannot just <code class="highlighter-rouge">ssh</code> or <code class="highlighter-rouge">scp</code> to the hosts behind the firewall (our company calls them after characters from Norse mythology: Loki, Muninn and friends).  Instead, you need to ssh to a bastion host, and from there connect to the internal systems.</p>
 
-<p><img src="/images/ssh-user.jpeg" alt="ssh user" /><br><em>an ssh user connecting using a bastion host</em></p>
+<p><img src="/images/ssh-user.jpeg" alt="ssh user" /><br /><em>an ssh user connecting using a bastion host</em></p>
 
 <p>One can automate these two steps, with a command like</p>
 
-<p>```</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    ssh -t bastion.example.com ssh loki.lab.example.com
+</code></pre></div></div>
 
-<pre><code>ssh -t bastion.example.com ssh loki.lab.example.com
-</code></pre>
+<p>And I guess some of you are already doing that. But this only works for ssh, not scp. One can do scp through an “ssh tunnel”, but this is really ugly to set up every time and to use.</p>
 
-<p>```</p>
-
-<p>And I guess some of you are already doing that. But this only works for ssh, not scp. One can do scp through an &ldquo;ssh tunnel&rdquo;, but this is really ugly to set up every time and to use.</p>
-
-<p>There is also a securty hole in this approach, because anyone who breaks into <code>bastion</code> (which is an external machine and thus exposed to the Internet) can then ssh from there to all the internal machines, or even hijack already-running ssh sessions.</p>
+<p>There is also a securty hole in this approach, because anyone who breaks into <code class="highlighter-rouge">bastion</code> (which is an external machine and thus exposed to the Internet) can then ssh from there to all the internal machines, or even hijack already-running ssh sessions.</p>
 
 <p>I finally found a much better solution, much easier to use and much more secure.</p>
 
 <!--more-->
 
+<p>Just add to your <code class="highlighter-rouge">~/.ssh/config</code> the following incantation:</p>
 
-<p>Just add to your <code>~/.ssh/config</code> the following incantation:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Host *.lab
+        ProxyCommand ssh -q bastion.example.com nc `basename %h .lab` 22
+</code></pre></div></div>
 
-<p>```
-Host *.lab</p>
+<p>And now, you can <code class="highlighter-rouge">ssh</code> or <code class="highlighter-rouge">scp</code> directly to <code class="highlighter-rouge">loki.lab</code>, or <code class="highlighter-rouge">muninn.lab</code> or whatever, without any hassles, as if Loki and Muninn are actual machines on your LAN.</p>
 
-<pre><code>    ProxyCommand ssh -q bastion.example.com nc `basename %h .lab` 22
-</code></pre>
+<p>This trick works like this: To connect to the remote host, ssh normally just connects a socket to port 22 of the remote host. When the “ProxyCommand” is set, this command is used instead. The command above will ssh to <code class="highlighter-rouge">bastion.example.com</code> and from there connect (using <code class="highlighter-rouge">nc</code>) to loki’s port 22. Your own ssh will do the ssh protocol with Loki over this connection.</p>
 
-<p>```</p>
+<p>This solution, beyond being extremely convenient, also has an interesting security feature:  we’ll no longer need to trust <code class="highlighter-rouge">bastion.example.com</code>. The classic “ssh from your laptop to <code class="highlighter-rouge">bastion</code> to <code class="highlighter-rouge">loki</code>” solution suffered from a problem that if someone broke into <code class="highlighter-rouge">bastion</code>, they could also break into <code class="highlighter-rouge">loki</code> - by using the private keys stored on <code class="highlighter-rouge">bastion</code>, or by hijacking the second leg of the ssh chain (and possibly injecting whatever commands it wanted into this session!). With this new solution, <code class="highlighter-rouge">bastion</code> is just acting as a stupid pipe for encypted data between my laptop and Loki - it cannot hijack the connection, and it doesn’t have any private keys needed to initiate a connection to Loki on its own.</p>
 
-<p>And now, you can <code>ssh</code> or <code>scp</code> directly to <code>loki.lab</code>, or <code>muninn.lab</code> or whatever, without any hassles, as if Loki and Muninn are actual machines on your LAN.</p>
-
-<p>This trick works like this: To connect to the remote host, ssh normally just connects a socket to port 22 of the remote host. When the &ldquo;ProxyCommand&rdquo; is set, this command is used instead. The command above will ssh to <code>bastion.example.com</code> and from there connect (using <code>nc</code>) to loki&rsquo;s port 22. Your own ssh will do the ssh protocol with Loki over this connection.</p>
-
-<p>This solution, beyond being extremely convenient, also has an interesting security feature:  we&rsquo;ll no longer need to trust <code>bastion.example.com</code>. The classic &ldquo;ssh from your laptop to <code>bastion</code> to <code>loki</code>&rdquo; solution suffered from a problem that if someone broke into <code>bastion</code>, they could also break into <code>loki</code> &ndash; by using the private keys stored on <code>bastion</code>, or by hijacking the second leg of the ssh chain (and possibly injecting whatever commands it wanted into this session!). With this new solution, <code>bastion</code> is just acting as a stupid pipe for encypted data between my laptop and Loki &ndash; it cannot hijack the connection, and it doesn&rsquo;t have any private keys needed to initiate a connection to Loki on its own.</p>
-
-<p>For more tips and OSv news, subscript to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+<p>For more tips and OSv news, subscript to this blog’s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
 
 <p><strong>Photo:</strong> <a href="http://www.flickr.com/photos/dfectuoso17/7013054091/">Security Hacker</a> by Santiago Zavala</p>
 ]]></content>

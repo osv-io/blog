@@ -9,8 +9,34 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="By Tzach Livyatan (Spoiler: It&rsquo;s Apache Tomcat.) Capstan is a tool for rapidly building and running applications on OSv.
-As with Docker, &hellip;">
+  <meta name="description" content="
+
+  
+  
+    
+      What Is the Most Popular OSv Virtual Appliance?
+    
+    
+      
+        
+
+
+
+
+
+
+
+
+
+
+Jul 1, 2014
+        
+      
+    
+  
+
+
+By Tza...">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,14 +45,18 @@ As with Docker, &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.osv.io//github/blog/2014/07/01/s3stat">
+  <link rel="canonical" href="http://osv-io.github.io//github/blog/2014/07/01/s3stat/">
   <link href="/favicon.ico" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/monokai.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/customized.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <script src="/javascripts/run_prettify.js" type="text/javascript"></script>
+  <script src="/javascripts/lang-gas.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
 <!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -63,7 +93,7 @@ As with Docker, &hellip;">
         
         <form action="https://www.google.com/search" method="get">
             <fieldset role="search">
-                <input type="hidden" name="q" value="site:blog.osv.io//github" />
+                <input type="hidden" name="q" value="site:http://osv-io.github.io//github" />
                 <input class="search" type="text" name="q" results="0" placeholder="Search"/>
             </fieldset>
         </form>
@@ -131,10 +161,9 @@ As with Docker, &hellip;">
 
 
 
-  
 
 
-<time datetime="2014-07-01T00:00:00+03:00" pubdate data-updated="true">Jul 1<span>st</span>, 2014</time>
+<time datetime="2014-07-01T00:00:00-04:00" pubdate data-updated="true">Jul 1, 2014</time>
         
       </p>
     
@@ -143,13 +172,13 @@ As with Docker, &hellip;">
 
 <div class="entry-content"><p><strong>By Tzach Livyatan</strong></p>
 
-<p>(Spoiler: It&rsquo;s Apache Tomcat.)</p>
+<p>(Spoiler: It’s Apache Tomcat.)</p>
 
 <p><a href="https://github.com/cloudius-systems/capstan">Capstan</a> is a tool for rapidly building and running applications on OSv.
 As with Docker, Capstan users can download and run images from a public repository.
 We chose to implement our public Capstan repository using <a href="http://aws.amazon.com/s3/">Amazon S3</a>.</p>
 
-<p>Amazon S3  gives us the flexibility and security we need, but by default it&rsquo;s missing a critical feature: download statistics.
+<p>Amazon S3  gives us the flexibility and security we need, but by default it’s missing a critical feature: download statistics.
 This statistics are very interesting to us, to evaluate which of the Capstan virtual appliances are more popular.  Fortunately, there is an easy way to gather the stats we need.</p>
 
 <p>After a short tools survey, we choose <a href="http://www.s3stat.com/">s3stat</a>.</p>
@@ -159,17 +188,14 @@ The price makes sense, and it is super easy to enable.</p>
 
 <p><img src="/images/s3stat_chart.png" alt="s3stat chart" /></p>
 
-<p>So what are the results? (drum roll&hellip;.)</p>
-
+<p>So what are the results? (drum roll….) 
 <!-- more -->
-
-
-<p><img src="/images/s3stat_files.png" alt="s3stat files" /></p>
+<img src="/images/s3stat_files.png" alt="s3stat files" /></p>
 
 <p>Omitting Capstan download of capstan index.yaml files, which Capstan does for every repository search, the most popular images are the base images for OSv and OSv + Java.
 That make sense because these two images will be used by anyone who wants to build a local OSv application, running a native or Java application.</p>
 
-<p>Virtual appliances comes right after, with (drums again&hellip;.) <strong>Tomcat</strong>, <strong>Cassandra</strong>, <strong>Memcached</strong> on the podium (Tomcat wins the Gold).
+<p>Virtual appliances comes right after, with (drums again….) <strong>Tomcat</strong>, <strong>Cassandra</strong>, <strong>Memcached</strong> on the podium (Tomcat wins the Gold).
 These are all very early results, but we will keep using s3stat to follow Capstan image downloads.</p>
 
 <p><img src="/images/s3stat_map.png" alt="s3stat map" /></p>
@@ -179,8 +205,6 @@ These are all very early results, but we will keep using s3stat to follow Capsta
   <footer>
     <p class="meta">
       
-  
-
 <span class="byline author vcard">Posted by <span class="fn">Cloudius Systems</span></span>
 
       
@@ -192,10 +216,9 @@ These are all very early results, but we will keep using s3stat to follow Capsta
 
 
 
-  
 
 
-<time datetime="2014-07-01T00:00:00+03:00" pubdate data-updated="true">Jul 1<span>st</span>, 2014</time>
+<time datetime="2014-07-01T00:00:00-04:00" pubdate data-updated="true">Jul 1, 2014</time>
       
 
 <span class="categories">
@@ -215,8 +238,6 @@ These are all very early results, but we will keep using s3stat to follow Capsta
         
         <a class="addthis_button_tweet"></a>
         
-        
-        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
         
         
         <a class="addthis_counter addthis_pill_style"></a>
@@ -254,6 +275,10 @@ These are all very early results, but we will keep using s3stat to follow Capsta
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2019/04/19/making-OSv-run-on-firecraker/">Making OSv Run on Firecracker</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/06/12/serverless-computing-with-OSv/">Serverless Computing With OSv</a>
       </li>
     
@@ -267,10 +292,6 @@ These are all very early results, but we will keep using s3stat to follow Capsta
     
       <li class="post">
         <a href="/blog/2015/04/27/docker/">Building OSv Images Using Docker</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/04/08/makefile/">Re-"make"-ing OSv</a>
       </li>
     
   </ul>
@@ -339,14 +360,6 @@ These are all very early results, but we will keep using s3stat to follow Capsta
 }(document, 'script', 'facebook-jssdk'));</script>
 
 
-
-  <script type="text/javascript">
-    (function() {
-      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
-      script.src = 'https://apis.google.com/js/plusone.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
-    })();
-  </script>
 
 
 

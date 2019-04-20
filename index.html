@@ -9,7 +9,37 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="By: Nadav Har&#8217;El, Benoît Canet Serverless computing, a.k.a. Function-as-a-Service The traditional approach to implementing applications on the &hellip;">
+  <meta name="description" content="
+  
+  
+  
+    
+      
+  
+    
+      Making OSv Run on Firecracker
+    
+    
+      
+        
+
+
+
+
+
+
+
+
+
+
+Apr 19, 2019
+        
+      
+    
+  
+
+
+  By: ...">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,14 +48,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.osv.io//github">
+  <link rel="canonical" href="http://osv-io.github.io//github/">
   <link href="/favicon.ico" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/monokai.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/customized.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <script src="/javascripts/run_prettify.js" type="text/javascript"></script>
+  <script src="/javascripts/lang-gas.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
 <!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -52,7 +86,7 @@
     <div class="topMenu">
         <ul class="nav menu">
             <li><a href="http://osv.io">Home</a></li>
-            <li class="current"><a href="/">Blog</a></li>
+            <li class=""><a href="/">Blog</a></li>
             <li class=""><a href="/blog/archives">Archives</a></li>
         </ul>
         <ul class="subscription" data-subscription="rss">
@@ -62,7 +96,7 @@
         
         <form action="https://www.google.com/search" method="get">
             <fieldset role="search">
-                <input type="hidden" name="q" value="site:blog.osv.io//github" />
+                <input type="hidden" name="q" value="site:http://osv-io.github.io//github" />
                 <input class="search" type="text" name="q" results="0" placeholder="Search"/>
             </fieldset>
         </form>
@@ -78,7 +112,7 @@
         <a href="javascript:void(0)" class="mobileMenuLink">&nbsp;</a>
         <div class="theMobileMenu">
             <ul class="nav menu">
-                <li class="current active"><a href="" >Home</a></li>
+                <li class=""><a href="" >Home</a></li>
                 <li class="deeper parent"><a href="/users" >Users</a>
                     <ul class="nav-child unstyled small">
                         
@@ -120,6 +154,244 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2019/04/19/making-OSv-run-on-firecraker/">Making OSv Run on Firecracker</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+
+
+<time datetime="2019-04-19T10:00:00-04:00" pubdate data-updated="true">Apr 19, 2019</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>By: Waldek Kozaczuk</strong></p>
+
+<h2 id="firecracker">Firecracker</h2>
+
+<p><a href="https://firecracker-microvm.github.io/">Firecracker</a> is a new light KVM-based hypervisor written in Rust and announced during last AWS re:Invent in 2018. But unlike QEMU, Firecracker is specialized to host Linux guests only and is able to boot micro VMs in ~ 125 ms. Firecracker itself can only run on Linux on bare-metal machines with Intel 64-bit CPUs or i3.metal or other <a href="http://www.brendangregg.com/blog/2017-11-29/aws-ec2-virtualization-2017.html">Nitro-based</a> EC2 instances.</p>
+
+<p>Firecracker implements a device model with the following I/O devices:</p>
+<ul>
+  <li>paravirtual VirtIO block and network devices over MMIO transport</li>
+  <li>serial console</li>
+  <li>partial keyboard controller</li>
+  <li>PICs (Programmable Interrupt Controllers)</li>
+  <li>IOAPIC (Advanced Programmable Interrupt Controller)</li>
+  <li>PIT (Programmable Interval Timer)</li>
+  <li>KVM clock</li>
+</ul>
+
+<p>Firecracker also exposes REST API over UNIX domain socket and can be confined to improve security through so called <em>jailer</em>. For more details look at <a href="https://github.com/firecracker-microvm/firecracker/blob/master/docs/design.md">the design doc</a> and <a href="https://github.com/firecracker-microvm/firecracker/blob/master/SPECIFICATION.md">the specification</a>.</p>
+
+<p>If you want to hear more about what it took to enhance OSv to make it <strong>boot in 5 ms</strong> on Firecracker (total of <strong>10 ms</strong> including the host side) which is <strong>~20 times faster than Linux</strong> on the same hardware (5 years old MacBook Pro with Ubuntu 18.10), please read remaining part of this article. In the next paragraph I will describe the implementation strategy I arrived at. In the following three paragraphs I will focus on what I had to change in relevant areas - booting process, VirtIO and ACPI. Finally in the epilogue I will describe the outcome of this exercise and possible improvements we can make and benefit from in future.</p>
+
+<p>If you want to try OSv on Firecracker before reading this article follow <a href="https://github.com/cloudius-systems/osv/wiki/Running-OSv-on-Firecracker">this wiki</a>.</p>
+
+<h2 id="implementation-strategy">Implementation Strategy</h2>
+
+<p>OSv implements VirtIO drivers and is very well supported on QEMU/KVM. Given Firecracker is based on <a href="https://www.kernel.org/doc/ols/2007/ols2007v1-pages-225-230.pdf">KVM</a> and exposes VirtIO devices, at first it seemed OSv might boot and run on it out of the box with some small modifications. As first experiments and more research showed, the task in reality was not as trivial. The initial attempts to boot OSv on Firecracker caused KVM exit and OSv did not even print its first boot message.</p>
+
+<p>For starters I had to identify which OSv artifact to use as an argument to Firecracker <strong>/boot-source</strong> API call. It could not be plain <strong>usr.img</strong> or its derivative used with QEMU as Firecracker expects 64-bit ELF (Executable and Linking Format) vmlinux kernel. The closest to it in OSv-land is <strong>loader.elf</strong> (enclosed inside of usr.img) - 64-bit ELF file with 32-bit entry point <strong>start32</strong>. Finally given it is not possible to connect to OSv running on Firecracker with gdb (like it is possible with QEMU), I could not use this technique to figure out where stuff breaks.</p>
+
+<p>It became clear to me I should first focus on making OSv boot on Firecracker without block and network devices. Luckily OSv can be built with Ram-FS where application code is placed in <strong>bootfs</strong> part of loader.elf.</p>
+
+<p>Then I should enhance VirtIO layer to make it support block and network devices with MMIO transport. Initially these changes seemed very reasonable to implement but they turned way more involved in the end.</p>
+
+<p>Finally I had to tweak some parts of OSv to make it work without <a href="https://wiki.osdev.org/ACPI">ACPI</a> (Advanced Configuration and Power Interface) if unavailable.</p>
+
+<p>Next three paragraphs describe each step of this plan in detail.</p>
+
+<h2 id="booting">Booting</h2>
+
+<p>In order to make OSv boot on Firecracker, first I had to understand how current OSv booting process works.</p>
+
+<p>Originally OSv had been designed to boot in 16-bit mode (aka <strong>real mode</strong>) when it expects hypervisor to load MBR (Master Boot Record), which is first 512 bytes of OSv image, at address 0x7c00 and execute it by jumping to that address. A this point OSv bootloader (<a href="https://github.com/cloudius-systems/osv/blob/master/arch/x64/boot16.S">code</a> in these 512 bytes) loads command line found in next 63.5 KB of the image using <a href="https://wiki.osdev.org/ATA_in_x86_RealMode_(BIOS)#LBA_in_Extended_Mode">interrupt 0x13</a>. Then it loads remaining part of the image which is <strong>lzloader.elf</strong> (loader.elf + <em>fastlz</em> decompression logic) at address 0x100000 in 32KB chunks using the interrupt 0x13 and switching back and forth between real and protected mode. Next it reads the size of available RAM using <a href="http://www.uruk.org/orig-grub/mem64mb.html">the 0x15 interrupt</a> and jumps to <a href="https://github.com/cloudius-systems/osv/blob/c8395118cb580f2395cac6c53999feb217fd2c2f/fastlz/lzloader.cc#L30-L79">the code in the beginning of 1st MB that de-compresses</a> <em>lzloader.elf</em> in 1MB chunks starting from the tail and going backwards. Eventually after <em>loader.elf</em> is placed in memory at the address 0x200000 (2nd MB), logic in <code class="highlighter-rouge">boot16.S</code> switches to <strong>protected mode</strong> and jumps to <strong>start32</strong> to prepare to switch to <strong>long mode</strong> (64-bit). Please note that <em>start32</em> is a 32-bit entry point of otherwise 64-bit loader.elf. For more details please read <a href="https://github.com/cloudius-systems/osv/wiki/OSv-early-boot-(MBR)">this Wiki</a>.</p>
+
+<p>Firecracker on other hand expects image to be a vmlinux 64-bit ELF file and loads its LOAD segments into RAM at addresses specified by ELF program headers. Firecracker also sets VM to long mode (aka 64-bit mode), state of relevant registers and paging tables to map virtual memory to physical one as expected by Linux. Finally it passes memory information and boot command line in the <em>boot_params</em> structure and jumps to vmlinux entry of <em>startup_64</em> to let Linux kernel continue its <a href="https://www.kernel.org/doc/Documentation/x86/boot.txt">booting process</a>.</p>
+
+<p>So the challenge is: how do we modify booting logic to support booting OSv as 64-bit vmlinux format ELF and at the same time retain ability to boot in real mode using traditional <em>usr.img</em> image file? For sure we need to replace current 32-bit entry point <strong>start32</strong> of loader.elf with a 64-bit one - <strong>vmlinux_entry64</strong> - that will be called by Firecracker (which will also load loader.elf in memory at <em>0x200000</em> as ELF header demands). At the same time we also need to change memory placement of <em>start32</em> to be at some fixed offset so that boot16.S knows where to jump to.</p>
+
+<p>So what exactly new <em>vmlinux_entry64</em> should do? Firecracker sets up VMs to 64-bit state but OSv already provided 64-bit <a href="https://github.com/cloudius-systems/osv/blob/c8395118cb580f2395cac6c53999feb217fd2c2f/arch/x64/boot.S#L100-L119">start64</a> function so one could ask - why not simply jump to it and be done with it?. Unfortunately this would not work (as I tested) because of slightly different memory paging tables and CPU setup between what Linux and OSv expects (and Firecracker sets up for Linux). So possibly <em>vmlinux_entry64</em> needs to reset paging tables and CPU the OSv way? Alternatively <em>vmlinux_entry64</em> could switch back to protected mode and jump to <em>start32</em> and let it setup VM OSv way. I tried that as well but it did not work for some reason either.</p>
+
+<p>Luckily we do not need to worry about the segmentation which is setup by Firecracker to <em>flat memory model</em> which is typical in long mode and what OSv expects.</p>
+
+<p>At the end based on many trial-and-error attempts I came to conclusion that <em>vmlinux_entry64</em> should do following:</p>
+<ol>
+  <li>Extract command line and memory information from Linux <em>boot_params</em> structure whose address is passed in by Firecracker in RSI register and copy to another place structured same way as if OSv booted through boot16.S (please see <a href="https://github.com/cloudius-systems/osv/blob/c8395118cb580f2395cac6c53999feb217fd2c2f/arch/x64/vmlinux.cc#L41-L93">extract_linux_boot_params</a> for details).</li>
+  <li>Reset CR0 and CR4 <a href="https://wiki.osdev.org/CPU_Registers_x86-64#Control_Registers">control registers</a> to reset global CPU features OSv way.</li>
+  <li>Reset CR3 register to point to OSv PML4 table mapping first 1GB of memory with 2BM medium size pages one-to-one (for more information about memory paging please read <a href="http://www.renyujie.net/articles/article_ca_x86_5.php">this article</a>).</li>
+  <li>Finally jump to <em>start64</em> to complete boot process and start OSv.</li>
+</ol>
+
+<p>The code below is slightly modified version of <a href="https://github.com/cloudius-systems/osv/blob/master/arch/x64/vmlinux-boot64.S">vmlinux_entry64 in vmlinux-boot64.S</a> that implements the steps described above in GAS (GNU Assembler) language.</p>
+
+<pre class="prettyprint lang-gas my-gas">
+# Call extract_linux_boot_params with the address of
+# boot_params struct passed in RSI register to 
+# extract cmdline and memory information
+mov %rsi, %rdi
+call extract_linux_boot_params
+
+# Reset paging tables and other CPU settings the way 
+# OSv expects it
+mov $BOOT_CR4, %rax
+mov %rax, %cr4
+
+lea ident_pt_l4, %rax
+mov %rax, %cr3
+
+# Enable long mode by writing to EFER register by setting
+# LME (Long Mode Enable) and NXE (No-Execute Enable) bits
+mov $0xc0000080, %ecx
+mov $0x00000900, %eax
+xor %edx, %edx
+wrmsr
+
+mov $BOOT_CR0, %rax
+mov %rax, %cr0
+
+# Continue 64-bit boot logic by jumping to start64 label
+mov $OSV_KERNEL_BASE, %rbp
+mov $0x1000, %rbx
+jmp start64
+</pre>
+<p><br />
+As you can see making OSv boot on Firecracker was the most tricky part of whole exercise.</p>
+
+<h2 id="virtio">Virtio</h2>
+<p>Unlike booting process, enhancing virtio layer in OSv was not as tricky and hard to debug, but it was the most labor intensive and required a lot of research that included reading the spec and Linux code for comparison.</p>
+
+<p>Before diving in, let us first get a glimpse of VirtIO and its purpose. <a href="http://docs.oasis-open.org/virtio/virtio/v1.0/virtio-v1.0.html">VirtIO specification</a> defines standard virtual (sometimes called paravirtual) devices including network, block, scsi, etc ones. It effectively dictates how hypervisor (host) should expose those devices as well as how guest should detect, configure and interact with them in runtime in form of a driver. The objective is to define devices that can operate in most efficient way and minimize number of costly performance-wise exits from guest to host.</p>
+
+<p>Firecracker implements virtio MMIO block and net devices. The MMIO (Memory-Mapped IO) is one of three VirtIO transport layers (MMIO, PCI, CCW) and was modeled after PCI and differs mainly in how MMIO devices are configured and initialized. Unfortunately to my despair OSv only implemented PCI transport and was missing mmio implementation. On top of that to make things worse it implemented the legacy (pre 1.0) version of virtio before it was finalized in 2016. So two things had to be done - refactor OSv virtio layer to support both legacy and modern PCI devices and implement virtio mmio.</p>
+
+<p>In order to design and implement correct changes first I had to understand existing implementation of virtio layer. OSv has two orthogonal but related abstraction layers in this matter - driver and device classes. The <a href="https://github.com/cloudius-systems/osv/blob/25209d81f7b872111beb02ab9758f0d86898ec6b/drivers/virtio.hh">virtio::virtio_driver</a> serves as a base class with common driver logic and is extended by <a href="https://github.com/cloudius-systems/osv/blob/25209d81f7b872111beb02ab9758f0d86898ec6b/drivers/virtio-blk.hh">virtio::blk</a>, <a href="https://github.com/cloudius-systems/osv/blob/25209d81f7b872111beb02ab9758f0d86898ec6b/drivers/virtio-net.hh">virtio::net</a>, <a href="https://github.com/cloudius-systems/osv/blob/25209d81f7b872111beb02ab9758f0d86898ec6b/drivers/virtio-scsi.hh">virtio::scsi</a> and <a href="https://github.com/cloudius-systems/osv/blob/25209d81f7b872111beb02ab9758f0d86898ec6b/drivers/virtio-rng.hh">virtio::rng</a> classes to provide implementations for relevant type. For better illustration please look at this ascii art:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+ hw_device &lt;|---
+               | 
+       pci::function &lt;|--- 
+                         |
+                  pci::device
+                         ^                 |-- virtio::net
+                  (uses) |                 |
+                         |                 |-- virtio::blk
+ hw_driver &lt;|--- virtio::virtio_driver &lt;|--|
+                                           |-- virtio::scsi
+                                           |
+                                           |-- virtio::rng
+
+</code></pre></div></div>
+<p><br />
+As you can tell from the graphics above, <em>virtio_driver</em> interacts directly with <a href="https://github.com/cloudius-systems/osv/blob/25209d81f7b872111beb02ab9758f0d86898ec6b/drivers/pci-device.hh">pci::device</a> so in order to add support of MMIO devices I had to refactor it to make it transport agnostic. From all the options I took into consideration, the least invasive and most flexible one involved creating new abstraction to model virtio device. To that end I ended up heavily refactoring <em>virtio_driver</em> class and defining following new virtual device classes:</p>
+
+<ul>
+  <li><a href="https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio-device.hh">virtio::virtio_device</a> - abstract class to model interface of virtio device intended to be used by refactored <a href="https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio.hh">virtio::virtio_driver</a></li>
+  <li><a href="https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio-pci-device.hh#L65-L93">virtio::virtio_pci_device</a> - base class extending <em>virtio_device</em> and implementing common virtio PCI logic that delegates to <em>pci_device</em></li>
+  <li><a href="https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio-pci-device.hh#L95-L135">virtio::virtio_legacy_pci_device</a> - class extending <em>virtio_pci_device</em> and implementing legacy PCI device</li>
+  <li><a href="https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio-pci-device.hh#L198-L288">virtio::virtio_modern_pci_device</a> - class extending <em>virtio_pci_device</em> implementing modern PCI device; most differences between modern and legacy PCI devices lie in the initialization and configuration phase with special configuration register</li>
+  <li><a href="https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio-mmio.hh">virtio::mmio_device</a> - class extending <em>virtio_device</em> and implementing mmio device</li>
+</ul>
+
+<p>The method <strong>is_modern()</strong> declared in <strong>virtio_device</strong> class and overridden in its subclasses is used in few places in <strong>virtio_driver</strong> and its subclasses to mostly drive slightly different initialization logic of legacy and modern virtio devices.</p>
+
+<p>For better illustration of the changes and relationship between new and old classes please see the ascii-art UML-like class diagram below:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+               |-- pci::function &lt;|--- pci::device
+               |                              ^
+               |               (delegates to) |
+               |                              |        |-- virtio_legacy_pci_device
+ hw_device &lt;|--|             --- virtio_pci_device &lt;|--|
+               |             |                         |-- virtio_modern_pci_device
+               |             _ 
+               |             v
+               |-- virtio::virtio_device &lt;|--- virtio::mmio_device
+                   ---------------------
+                   | bool is_modern()  |
+                   ---------------------
+                             ^             |-- virtio::net
+                      (uses) |             |
+                             |             |-- virtio::blk
+ hw_driver &lt;|--- virtio::virtio_driver &lt;|--|
+                                           |-- virtio::scsi
+                                           |
+                                           |-- virtio::rng
+
+</code></pre></div></div>
+<p><br />
+To recap most of the coding went into major refactoring of <em>virtio_driver</em> class to make it transport agnostic and delegate to <em>virtio_device</em>, extracting out PCI logic from <em>virtio_driver</em> into <strong>virtio_pci_device</strong> and <strong>virtio_legacy_pci_device</strong> and finally implementing new <strong>virtio_modern_pci_device</strong> and <strong>virtio::mmio_device</strong> classes. Thanks to this approach changes to the subclasses of <em>virtio_driver</em> (<em>virtio::net</em>, <em>virtio::block</em>, etc) were pretty minimal and one of the critical classes - <a href="https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio-vring.hh">virtio::vring</a> - stayed pretty much intact.</p>
+
+<p>Big motivation for implementing modern virtio PCI device (as opposed to implementing legacy one only) was to have a way to exercise and test modern virtio device with QEMU. That way I could have extra confidence that most heavy refactoring in <em>virtio_driver</em> was correct even before testing it with Firecracker which exposes modern MMIO device. Also there is great chance it will make easier enhancing virtio layer to support new <a href="https://docs.oasis-open.org/virtio/virtio/v1.1/csprd01/virtio-v1.1-csprd01.html">VirtIO 1.1 spec</a> once finalized (for good overview see <a href="https://archive.fosdem.org/2018/schedule/event/virtio/attachments/slides/2167/export/events/attachments/virtio/slides/2167/fosdem_virtio1_1.pdf">here</a>).</p>
+
+<p>Lastly given that MMIO devices cannot be detected in similar fashion as PCI ones and instead are passed by Firecracker as part of command line in format Linux kernel expects, I also had to enhance OSv command line parsing logic <a href="https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio-mmio.cc#L140-L214">to extract relevant configuration bits</a>. On top of that I added boot parameter to skip PCI enumeration and that way save extra 4-5 ms of boot time.</p>
+
+<h2 id="acpi">ACPI</h2>
+
+<p>The last and simplest part of the exercise was to fill in the gaps in OSv to make it deal with situation when <a href="http://www.acpi.info/">ACPI</a> is unavailable.</p>
+
+<p>Firecracker does not implement ACPI which is used by OSv to implement power handling and to discover CPUs. Instead OSv had to be changed to boot without ACPI and <a href="https://github.com/cloudius-systems/osv/commit/47ae2b65e0428336a841d07d9add01359f523377">read CPU info from MP table</a>. For more information about MP table read <a href="https://wiki.osdev.org/Symmetric_Multiprocessing#Finding_information_using_MP_Table">here</a> or <a href="http://www.osdever.net/tutorials/view/multiprocessing-support-for-hobby-oses-explained">there</a>.
+All in all I had to enhance OSv in following ways:</p>
+<ul>
+  <li>modify ACPI related logic to detect if it is present</li>
+  <li>modify relevant places (CPU detection, power off) that rely on ACPI to continue and use alternative mechanism if ACPI not present instead of aborting</li>
+  <li>modify pvpanic probing logic to skip if ACPI not available</li>
+</ul>
+
+<h2 id="epilogue">Epilogue</h2>
+
+<p>With all changes implemented as described above OSv can boot on Firecracker.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>OSv v0.53.0-6-gc8395118
+2019-04-17T22:28:29.467736397 [anonymous-instance:WARN:vmm/src/lib.rs:1080] Guest-boot-time =   9556 us 9 ms,  10161 CPU us 10 CPU ms
+	disk read (real mode): 0.00ms, (+0.00ms)
+	uncompress lzloader.elf: 0.00ms, (+0.00ms)
+	TLS initialization: 1.13ms, (+1.13ms)
+	.init functions: 2.08ms, (+0.94ms)
+	SMP launched: 3.43ms, (+1.35ms)
+	VFS initialized: 4.12ms, (+0.69ms)
+	Network initialized: 4.45ms, (+0.33ms)
+	pvpanic done: 5.07ms, (+0.62ms)
+	drivers probe: 5.11ms, (+0.03ms)
+	drivers loaded: 5.46ms, (+0.35ms)
+	ROFS mounted: 5.62ms, (+0.17ms)
+	Total time: 5.62ms, (+0.00ms)
+Hello from C code
+</code></pre></div></div>
+<p><br />
+The console log with bootchart information above from an example run of OSv with Read-Only-FS on Firecracker, shows it took slightly less than 6 ms to boot. As you can notice OSv spent no time loading its image in real mode and decompressing it which is expected because OSv gets booted as ELF and these two phases completely bypassed.</p>
+
+<p>Even though 5 ms is already very low number, one can see that possibly TLS initialization and ‘SMP lauched’ phases need to be looked at to see if we can optimize it further. 
+Other areas of interest to improve are memory utilization - OSv needs minimum of 18MB to run on Firecracker and network performance which <a href="https://github.com/firecracker-microvm/firecracker/issues/1034#issue-424659555">suffers a little comparing to QEMU/KVM</a> which might need to be optimized on Firecracker itself.</p>
+
+<p>On other hand it is worth noting that block device seems to work much faster - for example mounting ZFS filesystem is at least 5 times faster on Firecracker - on average 60ms on firecracker vs 260 ms on QEMU.</p>
+
+<p>Looking toward future, Firecracker team is working on ARM support and given OSv already <a href="https://github.com/cloudius-systems/osv/wiki/AArch64">unofficially supports this platform</a> and used to boot on XEN/ARM at some point, it might not be that difficult to make OSV boot on future Firecracker ARM version.</p>
+
+<p>Finally this work might make it easier to boot OSv on <a href="https://github.com/intel/nemu">NEMU</a> and QEMU 4.0 in <a href="https://patchwork.kernel.org/patch/10741013/">Linux direct kernel mode</a>. It might also make it easier to implement support of new Virtio 1.1 spec.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2017/06/12/serverless-computing-with-OSv/">Serverless Computing With OSv</a></h1>
     
     
@@ -133,57 +405,54 @@
 
 
 
-  
 
 
-<time datetime="2017-06-12T17:00:00+03:00" pubdate data-updated="true">Jun 12<span>th</span>, 2017</time>
+<time datetime="2017-06-12T10:00:00-04:00" pubdate data-updated="true">Jun 12, 2017</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p><strong> By: Nadav Har&#8217;El, Benoît Canet </strong></p>
+  <div class="entry-content"><p><strong>By: Nadav Har’El, Benoît Canet</strong></p>
 
-<p><strong> Serverless computing, a.k.a. Function-as-a-Service </strong></p>
+<p><strong>Serverless computing, a.k.a. Function-as-a-Service</strong></p>
 
-<p>The traditional approach to implementing applications on the cloud is the IaaS (Infrastructure-as-a-Service) approach. In a IaaS cloud, application authors rent virtual machines and install their own software to run their application. However, when an application needs, for example, a database, the application writer often does not have the necessary expertise to choose the database, install it, configure and tweak it, and dynamically change the number of VMs running this database. This is where the &ldquo;PaaS&rdquo; (Platform-as-a-Service) cloud steps in: The PaaS cloud does not give application writers virtual machines, but rather a new platform with various services. One of these services can be a database service: The application makes database requests &ndash; could be one each second or a million each second &ndash; and does not have to care or worry whether one machine, or 1000 machines, are actually needed to provide this service. The cloud provider charges the application owner for these requests, and the amount of work they actually do.</p>
+<p>The traditional approach to implementing applications on the cloud is the IaaS (Infrastructure-as-a-Service) approach. In a IaaS cloud, application authors rent virtual machines and install their own software to run their application. However, when an application needs, for example, a database, the application writer often does not have the necessary expertise to choose the database, install it, configure and tweak it, and dynamically change the number of VMs running this database. This is where the “PaaS” (Platform-as-a-Service) cloud steps in: The PaaS cloud does not give application writers virtual machines, but rather a new platform with various services. One of these services can be a database service: The application makes database requests - could be one each second or a million each second - and does not have to care or worry whether one machine, or 1000 machines, are actually needed to provide this service. The cloud provider charges the application owner for these requests, and the amount of work they actually do.</p>
 
-<p>But it is not enough that the PaaS cloud provides building blocks such as databases, queue services, object stores, and so on. An application also needs glue code combining all these building blocks into the operation which the application needs to do. So even on PaaS, application writers start virtual machines to run this glue code. Yes, again VMs and all the problems associated with them (installation, scaling, etc.). But recently, there is a trend towards a <strong>serverless</strong> PaaS cloud, where the application developer does <strong>not</strong> need to rent VMs. Instead, the cloud provides Function-as-a-Service (FaaS). FaaS implementations (such as Amazon Lambda, Google Cloud Functions or Microsoft Azure Functions), run short functions which the application author writes in high-level languages like Javascript or Java, in response to certain events. These functions in turn use the various PaaS services (such as database requests) to perform their job. The application author is freed from worrying how or where these functions are run &ndash; it is up to cloud implementation to ensure that whether one or a million of these functions need to run per second, they will get the necessary resources to do so.</p>
+<p>But it is not enough that the PaaS cloud provides building blocks such as databases, queue services, object stores, and so on. An application also needs glue code combining all these building blocks into the operation which the application needs to do. So even on PaaS, application writers start virtual machines to run this glue code. Yes, again VMs and all the problems associated with them (installation, scaling, etc.). But recently, there is a trend towards a <strong>serverless</strong> PaaS cloud, where the application developer does <strong>not</strong> need to rent VMs. Instead, the cloud provides Function-as-a-Service (FaaS). FaaS implementations (such as Amazon Lambda, Google Cloud Functions or Microsoft Azure Functions), run short functions which the application author writes in high-level languages like Javascript or Java, in response to certain events. These functions in turn use the various PaaS services (such as database requests) to perform their job. The application author is freed from worrying how or where these functions are run - it is up to cloud implementation to ensure that whether one or a million of these functions need to run per second, they will get the necessary resources to do so.</p>
 
-<h2>Implementation, and why OSv is a winner</h2>
+<h2 id="implementation-and-why-osv-is-a-winner">Implementation, and why OSv is a winner</h2>
 
 <p>How could function-as-a-service be implemented by the cloud provider?</p>
 
 <p>It is very inefficient to start a VM for every invocation of a function, which could last for a fraction of a second. A more reasonable approach is to start a VM running the runtime environment, e.g., Node.js or Java, and then send to it many different requests. But if we were to start a single instance of the runtime environment to run the functions of many different clients, this would carry significant security risks: An exploit found in the runtime implementation may lead to one application being able to view or modify the functions run by another application.</p>
 
-<p>So instead of having one VM serve multiple applications of different clients, it is safer to start separate VMs for each application: A single VM will run multiple functions before shutting down, but all of these functions will be the same one, or at least belong to the same application. Having a VM dedicated to the application and its small set of functions also makes it more efficient to run these functions &ndash; this VM can load and compile the functions and relevant libraries once, before running the same function or functions many times. Having the VM dedicated to the client also makes it easier to charge the client by actual CPU usage and memory usage of the VMs started for him.</p>
+<p>So instead of having one VM serve multiple applications of different clients, it is safer to start separate VMs for each application: A single VM will run multiple functions before shutting down, but all of these functions will be the same one, or at least belong to the same application. Having a VM dedicated to the application and its small set of functions also makes it more efficient to run these functions - this VM can load and compile the functions and relevant libraries once, before running the same function or functions many times. Having the VM dedicated to the client also makes it easier to charge the client by actual CPU usage and memory usage of the VMs started for him.</p>
 
-<p>But the hard part of this implementation is scaling: When the number of functions being run by one application changes from second to second, we also need to change the number of VMs dedicated to running these functions. Leaving behind too many of these VMs as spares cost money as resources (especially memory) are being wasted. Moreover, in the event of cloud bursting &ndash; a sudden unexpected burst of requests, we may need to start many more VMs than we had previously. For these two reasons, it is very important that we are able to boot and shut down these function-running VMs as quickly as possible, preferably in a fraction of a second.</p>
+<p>But the hard part of this implementation is scaling: When the number of functions being run by one application changes from second to second, we also need to change the number of VMs dedicated to running these functions. Leaving behind too many of these VMs as spares cost money as resources (especially memory) are being wasted. Moreover, in the event of cloud bursting - a sudden unexpected burst of requests, we may need to start many more VMs than we had previously. For these two reasons, it is very important that we are able to boot and shut down these function-running VMs as quickly as possible, preferably in a fraction of a second.</p>
 
 <p>OSv, similar to other unikernels, boots and shuts down very quickly. But what makes OSv a better fit for this use case than any of the other unikernels is the fact that it can run unmodified Linux executables, and in particular the complex run-time environments and languages we wish FaaS to support, such as Node.js and Java, as well as user-provided native code.</p>
 
 <p>A FaaS implementation using OSv might work as follows:</p>
 
 <ol>
-<li>When the FaaS needs to run a certain application&rsquo;s function, if a VM belonging to this application is ready to accept more requests, we send it the request to run the function. Otherwise, when all the application&rsquo;s VMs are busy, we start a new VM:</li>
-<li>Starting a new VM will take only a fraction of a second. Beyond OSv&rsquo;s quick boot, another reason for this quickness is that the VM image will not have to be sent over the network: All these VMs, regardless of which application they work for, boot from the same identical  image (containing OSv, Node.js or Java, and the FaaS glue), and the image is immutable &ndash; these VMs cannot write back to it. This immutable image also means that for this use case, OSv does not need the read-write ZFS file system, and that further reduces OSv&rsquo;s boot time and memory overhead.</li>
-<li>To ensure that the end-user doesn&rsquo;t experience even a fraction-of-a-second latency when a new VM is started, we may choose to preemptively start new VMs as soon as the existing VMs are about to get filled up, before they actually do get filled up. The fact we can start new VMs very quickly allows us to keep the number of spare VMs low.</li>
-<li>When the rate of function executions for a particular application diminishes, the FaaS system will stop sending new requests to some of the VMs, and very soon such VMs will become idle and can be shut down. OSv&rsquo;s shutdown is very quick, but in this case we don&rsquo;t even have to bother with a clean shutdown &ndash; we can stop an idle VM instantaneously because we know there is not even a disk needed to be flushed.</li>
+  <li>When the FaaS needs to run a certain application’s function, if a VM belonging to this application is ready to accept more requests, we send it the request to run the function. Otherwise, when all the application’s VMs are busy, we start a new VM:</li>
+  <li>Starting a new VM will take only a fraction of a second. Beyond OSv’s quick boot, another reason for this quickness is that the VM image will not have to be sent over the network: All these VMs, regardless of which application they work for, boot from the same identical  image (containing OSv, Node.js or Java, and the FaaS glue), and the image is immutable - these VMs cannot write back to it. This immutable image also means that for this use case, OSv does not need the read-write ZFS file system, and that further reduces OSv’s boot time and memory overhead.</li>
+  <li>To ensure that the end-user doesn’t experience even a fraction-of-a-second latency when a new VM is started, we may choose to preemptively start new VMs as soon as the existing VMs are about to get filled up, before they actually do get filled up. The fact we can start new VMs very quickly allows us to keep the number of spare VMs low.</li>
+  <li>When the rate of function executions for a particular application diminishes, the FaaS system will stop sending new requests to some of the VMs, and very soon such VMs will become idle and can be shut down. OSv’s shutdown is very quick, but in this case we don’t even have to bother with a clean shutdown - we can stop an idle VM instantaneously because we know there is not even a disk needed to be flushed.</li>
 </ol>
 
+<p>Existing FaaS implementations, like Amazon’s Lambda, charge the application for each function’s wall-clock run time (and in large 100ms ticks). Paying for idle time makes it very expensive to run functions which need to make a request, wait for its response, and do something with it. We’ve seen bloggers recommend working around this problem by tricks such as starting multiple unrelated requests in the same lambda and then waiting for all of them to respond. We believe, however, that FaaS needs to have more natural support for functions which block, which we believe will be the typical use of FaaS. This natural support could be done with Node.js’s futures and continuations (the application starts an asynchronous operation, and runs a non-blocking function when it completes. <a href="https://serverless.com">https://serverless.com</a> does this on Amazon Lambda), or alternatively by the implementation transparently running multiple application functions in parallel on the same VM. In any case, the client should pay only for actual CPU time used by the function or VM bringup, as well as for the memory used by those VMs.</p>
 
-<p>Existing FaaS implementations, like Amazon&rsquo;s Lambda, charge the application for each function&rsquo;s wall-clock run time (and in large 100ms ticks). Paying for idle time makes it very expensive to run functions which need to make a request, wait for its response, and do something with it. We&rsquo;ve seen bloggers recommend working around this problem by tricks such as starting multiple unrelated requests in the same lambda and then waiting for all of them to respond. We believe, however, that FaaS needs to have more natural support for functions which block, which we believe will be the typical use of FaaS. This natural support could be done with Node.js&rsquo;s futures and continuations (the application starts an asynchronous operation, and runs a non-blocking function when it completes. <a href="https://serverless.com">https://serverless.com</a> does this on Amazon Lambda), or alternatively by the implementation transparently running multiple application functions in parallel on the same VM. In any case, the client should pay only for actual CPU time used by the function or VM bringup, as well as for the memory used by those VMs.</p>
+<p>Note that although the FaaS implementation we propose is very scalable, at the low end of the scale - e.g., just one request each second - it is not cost-effective: It does not make sense to bring up the VM and the runtime environment each second, as a better part of that second will be wasted just for this bringup; The alternative is to leave the VM up but idle most of the time. In either case, the memory required by the runtime enviroment will be reserved for the application continuously, so the cost of this memory will put a lower limit on the price of low-usage function. Note that if the function’s usage becomes even lower - say just once a minute - it again becomes a cost-effective option to bring the VMs up and down each time.</p>
 
-<p>Note that although the FaaS implementation we propose is very scalable, at the low end of the scale &ndash; e.g., just one request each second &ndash; it is not cost-effective: It does not make sense to bring up the VM and the runtime environment each second, as a better part of that second will be wasted just for this bringup; The alternative is to leave the VM up but idle most of the time. In either case, the memory required by the runtime enviroment will be reserved for the application continuously, so the cost of this memory will put a lower limit on the price of low-usage function. Note that if the function&rsquo;s usage becomes even lower &ndash; say just once a minute &ndash; it again becomes a cost-effective option to bring the VMs up and down each time.</p>
-
-<h2>Epilogue</h2>
-
+<h2 id="epilogue">Epilogue</h2>
 <p>We believe that the difficulties of running code on VMs will drive more and more application developers to look for alternatives for running their code, alternatives such as Function-as-a-Service (FaaS). We already explored this and related directions in the past in <a href="http://nadav.harel.org.il/homepage/papers/paas-2013.pdf">this paper from 2013</a>.</p>
 
 <p>We showed in this post that it makes sense to implement FaaS on top of VMs, and that OSv is a better fit for running those VMs than either Linux or other unikernels. That is because OSv has the unique combination of allowing very fast boot and instantaneous shutdowns, at the same time as being able to run the complex runtime environments we wish to support (such as Node.js and Java).</p>
 
-<p>An OSv-based implementation of FaaS will support &ldquo;cloud bursting&rdquo; &ndash; an unexpected, sudden, increase of load on a single application, thanks to our ability to boot many new OSv VMs very quickly. Cloud bursting is one of the important use cases being considered by the MIKELANGELO project, a European H2020 research project which the authors of this post contribute to, and which is based on OSv as we previously announced.</p>
+<p>An OSv-based implementation of FaaS will support “cloud bursting” - an unexpected, sudden, increase of load on a single application, thanks to our ability to boot many new OSv VMs very quickly. Cloud bursting is one of the important use cases being considered by the MIKELANGELO project, a European H2020 research project which the authors of this post contribute to, and which is based on OSv as we previously announced.</p>
 </div>
   
   
@@ -209,10 +478,9 @@
 
 
 
-  
 
 
-<time datetime="2016-04-21T17:00:00+03:00" pubdate data-updated="true">Apr 21<span>st</span>, 2016</time>
+<time datetime="2016-04-21T10:00:00-04:00" pubdate data-updated="true">Apr 21, 2016</time>
         
       </p>
     
@@ -221,49 +489,46 @@
 
   <div class="entry-content"><p><strong>By Benoît Canet and Don Marti</strong></p>
 
-<h2>A new type of OSv workload</h2>
+<h2 id="a-new-type-of-osv-workload">A new type of OSv workload</h2>
 
-<p>The MIKELANGELO project aims to bring High Performance Computing (HPC) to the cloud. HPC traditionally involves bleeding edge technologies, including lots of CPU cores, <a href="http://www.infinibandta.org/">Infiniband</a> interconnects between nodes, <a href="https://en.wikipedia.org/wiki/Message_Passing_Interface">MPI</a> libraries for message passing, and, surprise&mdash;NFS, a very old timer of the UNIX universe.</p>
+<p>The MIKELANGELO project aims to bring High Performance Computing (HPC) to the cloud. HPC traditionally involves bleeding edge technologies, including lots of CPU cores, <a href="http://www.infinibandta.org/">Infiniband</a> interconnects between nodes, <a href="https://en.wikipedia.org/wiki/Message_Passing_Interface">MPI</a> libraries for message passing, and, surprise—NFS, a very old timer of the UNIX universe.</p>
 
 <p>In an HPC context this networked filesystem is used to get the data inside the compute node before doing the raw computation, and then to extract the data from the compute node.</p>
 
-<h2>Some OSv NFS requirements</h2>
+<h2 id="some-osv-nfs-requirements">Some OSv NFS requirements</h2>
 
 <p>For HPC NFS is a must,  so we worked to make it happen. We had some key requirements:</p>
 
 <ul>
-<li>The NFS driver must go reasonably fast</li>
-<li>The implementation of the NFS driver must be done very quickly to meet the schedule of the rest of the MIKELANGELO project</li>
-<li>There is no FUSE (Filesystem in User Space) implementation in OSv</li>
-<li>OSv is a C++ unikernel, so the implementation must make full usage of its power</li>
-<li>The implementation must use the OSv VFS (Virtual File System) layer, and so be transparent for the application</li>
+  <li>The NFS driver must go reasonably fast</li>
+  <li>The implementation of the NFS driver must be done very quickly to meet the schedule of the rest of the MIKELANGELO project</li>
+  <li>There is no FUSE (Filesystem in User Space) implementation in OSv</li>
+  <li>OSv is a C++ unikernel, so the implementation must make full usage of its power</li>
+  <li>The implementation must use the OSv VFS (Virtual File System) layer, and so be transparent for the application</li>
 </ul>
 
-
-<h2>Considering alternatives</h2>
+<h2 id="considering-alternatives">Considering alternatives</h2>
 
 <p>The first possibility that we can exclude right away is doing an NFS implementation from scratch. This subproject is simply too short on time.</p>
 
 <p>The second possibility is to leverage an implementation from an existing mainstream kernel and simply port it to OSv. The pro would be code reuse, but this comes with a lot of cons.</p>
 
 <ul>
-<li>Some implementation licenses do not match well with the unikernel concept where everything can be considered a derived work of the core kernel</li>
-<li>Every operating system has its own flavor of VFS. The NFS subproject would be at risk of writing wrappers around another operating system’s VFS idiosyncrasies</li>
-<li>Most mainstream kernel memory allocators are very specific and complex, which would leads to more insane wrappers.</li>
+  <li>Some implementation licenses do not match well with the unikernel concept where everything can be considered a derived work of the core kernel</li>
+  <li>Every operating system has its own flavor of VFS. The NFS subproject would be at risk of writing wrappers around another operating system’s VFS idiosyncrasies</li>
+  <li>Most mainstream kernel memory allocators are very specific and complex, which would leads to more insane wrappers.</li>
 </ul>
-
 
 <p>The third possibility would be to use some userspace NFS implementation, as their code is usually straightforward POSIX and they provide a nice API designed to be embedded easily in another application. But wait! Didn’t we just say the implementation must be in the VFS, right in the middle of the OSv kernel? There is no FUSE on OSv.</p>
 
-<h2>Enter the Unikernel</h2>
+<h2 id="enter-the-unikernel">Enter the Unikernel</h2>
 
 <p>Traditional UNIX-like operating system implementations are split in two:</p>
 
 <ul>
-<li><strong>Kernel space:</strong> a kernel doing the low level plumbing everyone else will use</li>
-<li><strong>User space:</strong> a bunch of applications using the facilities provided by the kernel in order to accomplish some tasks for the user</li>
+  <li><strong>Kernel space:</strong> a kernel doing the low level plumbing everyone else will use</li>
+  <li><strong>User space:</strong> a bunch of applications using the facilities provided by the kernel in order to accomplish some tasks for the user</li>
 </ul>
-
 
 <p>One twist of this split is that kernel space and user space memory addresses are totally separated by using the MMU (Memory Management Unit) hardware of the processor. It also usually implies two totally different sets of programing APIs, one for kernel space and one for user space, and needless to say a lot of memory copies each time some data must cross the frontier from kernel space to userspace.</p>
 
@@ -271,7 +536,7 @@
 
 <p>Another straightforward consequence of this is that standard memory management functions including malloc(), posix_memalign(), free() and friends, will just work inside an OSv driver. There are no separate kernel-level functions for managing memory, so no memory allocator wrappers needed.</p>
 
-<h2>Meet libnfs</h2>
+<h2 id="meet-libnfs">Meet libnfs</h2>
 
 <p><a href="https://github.com/sahlberg/libnfs">libnfs</a>, by Ronnie Sahlberg, is a user space NFS implementation for Linux, designed to be embedded easilly in an application.</p>
 
@@ -279,7 +544,7 @@
 
 <p>Last by not last, the libnfs license is LGPL. So far so good.</p>
 
-<h2>The implementation phase</h2>
+<h2 id="the-implementation-phase">The implementation phase</h2>
 
 <p>The implementation phase went fast for a networked filesystem. Reviewing went smoothly thanks to Nadav Har’El’s help, and the final post on the osv-devel mailing list was the following:</p>
 
@@ -287,83 +552,61 @@
 
 <p>Some extra days were spent to fix the occasional bugs and polish the result and now the MIKELANGELO HPC developers have a working NFS client.</p>
 
-<h2>Some code highlights</h2>
+<h2 id="some-code-highlights">Some code highlights</h2>
 
-<h3>Almost 1:1 mapping</h3>
+<h3 id="almost-11-mapping">Almost 1:1 mapping</h3>
 
 <p>Given the unikernel nature of OSv, an useful system call like truncate(), used to adjust the size of a file, boils down to</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">static</span> <span class="kt">int</span> <span class="n">nfs_op_truncate</span><span class="p">(</span><span class="k">struct</span> <span class="n">vnode</span> <span class="o">*</span><span class="n">vp</span><span class="p">,</span> <span class="n">off_t</span> <span class="n">length</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>   <span class="kt">int</span> <span class="n">err_no</span><span class="p">;</span>
-</span><span class='line'>   <span class="k">auto</span> <span class="n">nfs</span> <span class="o">=</span> <span class="n">get_nfs_context</span><span class="p">(</span><span class="n">vp</span><span class="p">,</span> <span class="n">err_no</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="k">if</span> <span class="p">(</span><span class="n">err_no</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>       <span class="k">return</span> <span class="n">err_no</span><span class="p">;</span>
-</span><span class='line'>   <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="n">nfs_truncate</span><span class="p">(</span><span class="n">nfs</span><span class="p">,</span> <span class="n">get_node_name</span><span class="p">(</span><span class="n">vp</span><span class="p">),</span> <span class="n">length</span><span class="p">);</span>
-</span><span class='line'>   <span class="k">if</span> <span class="p">(</span><span class="n">ret</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>       <span class="k">return</span> <span class="o">-</span><span class="n">ret</span><span class="p">;</span>
-</span><span class='line'>   <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="n">vp</span><span class="o">-&gt;</span><span class="n">v_size</span> <span class="o">=</span> <span class="n">length</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">static</span> <span class="kt">int</span> <span class="nf">nfs_op_truncate</span><span class="p">(</span><span class="k">struct</span> <span class="n">vnode</span> <span class="o">*</span><span class="n">vp</span><span class="p">,</span> <span class="kt">off_t</span> <span class="n">length</span><span class="p">)</span>
+<span class="p">{</span>
+   <span class="kt">int</span> <span class="n">err_no</span><span class="p">;</span>
+   <span class="k">auto</span> <span class="n">nfs</span> <span class="o">=</span> <span class="n">get_nfs_context</span><span class="p">(</span><span class="n">vp</span><span class="p">,</span> <span class="n">err_no</span><span class="p">);</span>
 
+   <span class="k">if</span> <span class="p">(</span><span class="n">err_no</span><span class="p">)</span> <span class="p">{</span>
+       <span class="k">return</span> <span class="n">err_no</span><span class="p">;</span>
+   <span class="p">}</span>
+
+   <span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="n">nfs_truncate</span><span class="p">(</span><span class="n">nfs</span><span class="p">,</span> <span class="n">get_node_name</span><span class="p">(</span><span class="n">vp</span><span class="p">),</span> <span class="n">length</span><span class="p">);</span>
+   <span class="k">if</span> <span class="p">(</span><span class="n">ret</span><span class="p">)</span> <span class="p">{</span>
+       <span class="k">return</span> <span class="o">-</span><span class="n">ret</span><span class="p">;</span>
+   <span class="p">}</span>
+
+   <span class="n">vp</span><span class="o">-&gt;</span><span class="n">v_size</span> <span class="o">=</span> <span class="n">length</span><span class="p">;</span>
+
+   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
 <p>OSv allowed us to implement this syscall with a very thin shim without involving any additional memory allocation wrapper.</p>
 
-<h3>C++ empowers you to do powerful things in kernel code</h3>
+<h3 id="c-empowers-you-to-do-powerful-things-in-kernel-code">C++ empowers you to do powerful things in kernel code</h3>
 
-<p>One of the known limitation of libnfs is that it’s not thread-safe. See this <a href="https://groups.google.com/forum/#!msg/libnfs/3Oct9Zvv7D8/vkN9wBp6V0YJ">mailing list posting on multithreading and preformance</a>.  OSv is threaded&mdash;so heavily threaded that there is no concept of a process in OSv, just threads. Clearly this is a problem, but OSv is written in modern C++, which provides us with modern tools.</p>
+<p>One of the known limitation of libnfs is that it’s not thread-safe. See this <a href="https://groups.google.com/forum/#!msg/libnfs/3Oct9Zvv7D8/vkN9wBp6V0YJ">mailing list posting on multithreading and preformance</a>.  OSv is threaded—so heavily threaded that there is no concept of a process in OSv, just threads. Clearly this is a problem, but OSv is written in modern C++, which provides us with modern tools.</p>
 
 <p>This single line allows us to work around the libnfs single threaded limitation.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">thread_local</span> <span class="n">std</span><span class="o">::</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span>
-</span><span class='line'>                               <span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="n">mount_context</span><span class="o">&gt;&gt;</span> <span class="n">_map</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">thread_local</span> <span class="n">std</span><span class="o">::</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span>
+                               <span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="n">mount_context</span><span class="o">&gt;&gt;</span> <span class="n">_map</span><span class="p">;</span>
+</code></pre></div></div>
 
+<p>Here the code makes an associative map between the mount point (the place in the filesystem hierarchy where the remote filesystem appears) and the libnfs <code class="highlighter-rouge">mount_context</code>.</p>
 
-<p>Here the code makes an associative map between the mount point (the place in the filesystem hierarchy where the remote filesystem appears) and the libnfs <code>mount_context</code>.</p>
+<p>The one twist to notice here is <code class="highlighter-rouge">thread_local</code>: this single C++ keyword automatically makes a separate instance of this map per thread. The consequence is that every thread/mount point pair can have its own separate <code class="highlighter-rouge">mount_context</code>. Although an individual <code class="highlighter-rouge">mount_context</code> is not thread-safe, that is no longer an issue.</p>
 
-<p>The one twist to notice here is <code>thread_local</code>: this single C++ keyword automatically makes a separate instance of this map per thread. The consequence is that every thread/mount point pair can have its own separate <code>mount_context</code>. Although an individual <code>mount_context</code> is not thread-safe, that is no longer an issue.</p>
-
-<h2>Conclusion</h2>
+<h2 id="conclusion">Conclusion</h2>
 
 <p>As we have seen here, the OSv unikernel is different in a lot of good ways, and allows you to write kernel code fast.</p>
 
 <ul>
-<li>Standard POSIX functions just work in the kernel.</li>
-<li>C++, which is not used in other kernels, comes with blessings.</li>
+  <li>Standard POSIX functions just work in the kernel.</li>
+  <li>C++, which is not used in other kernels, comes with blessings.</li>
 </ul>
-
 
 <p>Scylla will keep improving OSv with the various MIKELANGELO partners, and we should see exciting new hot technologies like vRDMA on OSv in the not so distant future.</p>
 
-<p>The <a href="https://www.mikelangelo-project.eu/">MIKELANGELO</a> research project is a three-year research project sponsored by the European Commission&rsquo;s <a href="http://ec.europa.eu/programmes/horizon2020/">Horizon 2020</a> program. The goal of MIKELANGELO is to make the cloud more useful for a wider range of applications, and in particular make it easier and faster to run high-performance computing (HPC) and I/O-intensive applications in the cloud. For project updates, visit the <a href="https://www.mikelangelo-project.eu/">MIKELANGELO site</a>, or subscribe to this blog’s <a href="http://www.scylladb.com/feed.xml">RSS feed</a>.</p>
+<p>The <a href="https://www.mikelangelo-project.eu/">MIKELANGELO</a> research project is a three-year research project sponsored by the European Commission’s <a href="http://ec.europa.eu/programmes/horizon2020/">Horizon 2020</a> program. The goal of MIKELANGELO is to make the cloud more useful for a wider range of applications, and in particular make it easier and faster to run high-performance computing (HPC) and I/O-intensive applications in the cloud. For project updates, visit the <a href="https://www.mikelangelo-project.eu/">MIKELANGELO site</a>, or subscribe to this blog’s <a href="http://www.scylladb.com/feed.xml">RSS feed</a>.</p>
+
 </div>
   
   
@@ -389,10 +632,9 @@
 
 
 
-  
 
 
-<time datetime="2016-03-08T16:00:00+02:00" pubdate data-updated="true">Mar 8<span>th</span>, 2016</time>
+<time datetime="2016-03-08T09:00:00-05:00" pubdate data-updated="true">Mar 8, 2016</time>
         
       </p>
     
@@ -401,7 +643,7 @@
 
   <div class="entry-content"><p><strong>By Nadav Har’El</strong></p>
 
-<p>A year ago, we reported (see <a href="http://osv.io/blog/blog/2015/02/02/mikelangelo/">Researching the Future of the Cloud</a>) that ScyllaDB and eight other industrial and academic partners started the <a href="https://www.mikelangelo-project.eu/">MIKELANGELO</a> research project. MIKELANGELO is a three-year research project sponsored by the European Commission&rsquo;s <a href="http://ec.europa.eu/programmes/horizon2020/">Horizon 2020</a> program. The goal of MIKELANGELO is to make the cloud more useful for a wider range of applications, and in particular make it easier and faster to run high-performance computing (HPC) and I/O-intensive applications in the cloud.</p>
+<p>A year ago, we reported (see <a href="http://osv.io/blog/blog/2015/02/02/mikelangelo/">Researching the Future of the Cloud</a>) that ScyllaDB and eight other industrial and academic partners started the <a href="https://www.mikelangelo-project.eu/">MIKELANGELO</a> research project. MIKELANGELO is a three-year research project sponsored by the European Commission’s <a href="http://ec.europa.eu/programmes/horizon2020/">Horizon 2020</a> program. The goal of MIKELANGELO is to make the cloud more useful for a wider range of applications, and in particular make it easier and faster to run high-performance computing (HPC) and I/O-intensive applications in the cloud.</p>
 
 <p><img src="http://www.scylladb.com/img/project-mikelangelo-logos.png" alt="company logos" /></p>
 
@@ -409,17 +651,18 @@
 
 <p><img src="http://www.scylladb.com/img/project-mikelangelo-people.jpeg" alt="project participants group photo" /></p>
 
-<p>Represented by Benoît Canet and yours truly, ScyllaDB presented <a href="http://www.seastar-project.org/">Seastar</a>, our new C++ framework for efficient yet complex server applications. We demonstrated the sort of amazing performance improvements which Seastar can bring, with ScyllaDB &ndash; our implementation of the familiar NoSQL database <a href="http://cassandra.apache.org">Apache Cassandra</a> with the Seastar framework. In the specific use case we demonstrated, an equal mixture of reads and writes, ScyllaDB was 7 times faster (!) than Cassandra. And we didn’t even pick ScyllaDB’s best benchmark to demonstrate  (we’d seen even better speedups in several other use cases). Seastar-based middleware applications such as ScyllaDB hold the promise of making it significantly easier and cheaper to deploy large-scale Web or Mobile applications in the cloud.</p>
+<p>Represented by Benoît Canet and yours truly, ScyllaDB presented <a href="http://www.seastar-project.org/">Seastar</a>, our new C++ framework for efficient yet complex server applications. We demonstrated the sort of amazing performance improvements which Seastar can bring, with ScyllaDB - our implementation of the familiar NoSQL database <a href="http://cassandra.apache.org">Apache Cassandra</a> with the Seastar framework. In the specific use case we demonstrated, an equal mixture of reads and writes, ScyllaDB was 7 times faster (!) than Cassandra. And we didn’t even pick ScyllaDB’s best benchmark to demonstrate  (we’d seen even better speedups in several other use cases). Seastar-based middleware applications such as ScyllaDB hold the promise of making it significantly easier and cheaper to deploy large-scale Web or Mobile applications in the cloud.</p>
 
 <p>Another innovation that ScyllaDB brought to the MIKELANGELO project is <a href="http://osv.io/">OSv</a>, our Linux-compatible kernel specially designed and optimized for running on cloud VMs. Several partners demonstrated running their applications on OSv. One of the cool use cases was aerodynamic simulations done by <a href="http://www.xlab.si/">XLAB</a> and Pipistrel. <a href="http://www.pipistrel.si/">Pipistrel</a> is a designer and manufacturer of innovative and award-winning light aircraft (like the one in the picture below), and running their CFD simulations on the cloud, using OSv VMs and various automation tools developed by XLAB, will significantly simplify their simulation workflow and make it easier for them to experiment with new aircraft designs.</p>
 
 <p><img src="http://www.scylladb.com/img/aircraft.jpeg" alt="Pipistrel aircraft photo" /></p>
 
-<p>Other partners presented their own exciting developments: Huawei implemented RDMA virtualization for KVM, which allows an application spread across multiple VMs on multiple hosts to communicate using RDMA (remote direct-memory-access) hardware in the host. In a network-intensive benchmark, virtualized RDMA improved performance 5-fold. IBM presented improvements to their earlier <a href="http://www.harel.org.il/nadav/homepage/papers/11760-atc13-harel.pdf">ELVIS</a> research, which allow varying the number of cores dedicated to servicing I/O, and achieve incredible amounts of I/O bandwidth in VMs. Ben-Gurion University security researchers implemented a scary “cache side-channel attack” where one VM can steal secret keys from another VM sharing the same host. Obviously their next research step will be stopping such attacks! Intel developed a telemetry framework called “snap” to collect and to analyse all sorts of measurements by all the different cloud components &ndash; VM operating systems, hypervisors, and individual applications. HLRS and GWDG, the super-computer centers of the universities of Stuttgart and Göttingen, respectively, built the clouds on which the other partners’ developments will be run, and brought in use cases of their own.</p>
+<p>Other partners presented their own exciting developments: Huawei implemented RDMA virtualization for KVM, which allows an application spread across multiple VMs on multiple hosts to communicate using RDMA (remote direct-memory-access) hardware in the host. In a network-intensive benchmark, virtualized RDMA improved performance 5-fold. IBM presented improvements to their earlier <a href="http://www.harel.org.il/nadav/homepage/papers/11760-atc13-harel.pdf">ELVIS</a> research, which allow varying the number of cores dedicated to servicing I/O, and achieve incredible amounts of I/O bandwidth in VMs. Ben-Gurion University security researchers implemented a scary “cache side-channel attack” where one VM can steal secret keys from another VM sharing the same host. Obviously their next research step will be stopping such attacks! Intel developed a telemetry framework called “snap” to collect and to analyse all sorts of measurements by all the different cloud components - VM operating systems, hypervisors, and individual applications. HLRS and GWDG, the super-computer centers of the universities of Stuttgart and Göttingen, respectively, built the clouds on which the other partners’ developments will be run, and brought in use cases of their own.</p>
 
 <p>Like ScyllaDB, all partners in the MIKELANGELO project believe in openness, so all technologies mentioned above have already been released as open-source. We’re looking forward to the next year of the MIKELANGELO project, when all these exciting technologies will continue to improve separately, as well as be integrated together to form the better, faster, and more secure cloud of the future.</p>
 
 <p><strong>For more updates, follow the <a href="http://www.scylladb.com/blog/">ScyllaDB blog</a>.</strong></p>
+
 </div>
   
   
@@ -445,10 +688,9 @@
 
 
 
-  
 
 
-<time datetime="2015-04-27T00:00:00+03:00" pubdate data-updated="true">Apr 27<span>th</span>, 2015</time>
+<time datetime="2015-04-27T00:00:00-04:00" pubdate data-updated="true">Apr 27, 2015</time>
         
       </p>
     
@@ -457,246 +699,181 @@
 
   <div class="entry-content"><p><strong>By David Jorm and Don Marti</strong></p>
 
-<h2>Why build OSv images under Docker?</h2>
+<h2 id="why-build-osv-images-under-docker">Why build OSv images under Docker?</h2>
 
 <p>Building OSv from source has several advantages, including the ability to build images targeting different execution environments. The <a href="https://cloudrouter.org">CloudRouter project</a> is working on integrating the build script into its continuous integration system, automatically producing nightly rebuilds of all supported OSv application images.</p>
 
 <p>The main problem with this approach is that it requires a system to be appropriately configured with all the necessary dependencies and source code to run builds. To build a scalable and reproducible continuous integration system, we really want to automate the provisioning of new build servers. An ideal way to achieve this goal is by creating a Docker image that includes all the necessary components to produce OSv image builds.</p>
 
-<h2>osv-builder: a Docker based build/development environment for OSv</h2>
+<h2 id="osv-builder-a-docker-based-builddevelopment-environment-for-osv">osv-builder: a Docker based build/development environment for OSv</h2>
 
 <p>The <a href="https://registry.hub.docker.com/u/cloudrouter/osv-builder/">osv-builder Docker image</a> provides a complete build and development environment for OSv, including OSv application images and appliances. It has been developed by <a href="https://github.com/abn/">Arun Babu Neelicattu</a> from <a href="http://iix.net">IIX</a>. To download the image, run:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>docker pull cloudrouter/osv-builder
-</span></code></pre></td></tr></table></div></figure>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker pull cloudrouter/osv-builder
+</code></pre></div></div>
 
+<p>OSv includes a range of <a href="https://github.com/cloudius-systems/osv/tree/master/scripts">helper scripts</a> for building and running OSv images. The build script will compile OSv from the local source tree, then create a complete OSv image for a given application, based on the application’s Makefile. For more on <code class="highlighter-rouge">scripts/build</code>, see <a href="http://osv.io/blog/blog/2015/04/08/makefile/">the recent blog post on the OSv build system</a>.</p>
 
-<p>OSv includes a range of <a href="https://github.com/cloudius-systems/osv/tree/master/scripts">helper scripts</a> for building and running OSv images. The build script will compile OSv from the local source tree, then create a complete OSv image for a given application, based on the application’s Makefile. For more on <code>scripts/build</code>, see <a href="http://osv.io/blog/blog/2015/04/08/makefile/">the recent blog post on the OSv build system</a>.</p>
+<h2 id="capstan">Capstan</h2>
 
-<h2>Capstan</h2>
+<p>The image comes with Capstan pre-installed. Note that to use Capstan, you’ll have to run the container with the –privileged option, as it requires the KVM kernel module. For example, to build and run the iperf application:</p>
 
-<p>The image comes with Capstan pre-installed. Note that to use Capstan, you&rsquo;ll have to run the container with the &mdash;privileged option, as it requires the KVM kernel module. For example, to build and run the iperf application:</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span><span class="nb">sudo </span>docker run <span class="nt">-it</span> <span class="se">\</span>
+  <span class="nt">--privileged</span> <span class="se">\</span>
+  cloudrouter/osv-builder
+bash-4.3# <span class="nb">cd </span>apps/iperf
+bash-4.3# capstan build
+Building iperf...
+Downloading cloudius/osv-base/index.yaml...
+154 B / 154 B <span class="o">[=================================================================================================================]</span> 100.00 % 0
+Downloading cloudius/osv-base/osv-base.qemu.gz...
+20.09 MB / 20.09 MB <span class="o">[=======================================================================================================]</span> 100.00 % 1m27s
+Uploading files...
+1 / 1 <span class="o">[=========================================================================================================================]</span> 100.00 % bash-4.3# capstan run
+Created instance: iperf
+OSv v0.19
+eth0: 192.168.122.15
+<span class="nt">------------------------------------------------------------</span>
+Server listening on TCP port 5001
+TCP window size: 64.0 KByte <span class="o">(</span>default<span class="o">)</span>
+<span class="nt">------------------------------------------------------------</span>
+</code></pre></div></div>
+<h2 id="launching-an-interactive-session">Launching an interactive session</h2>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo docker run -it <span class="se">\</span>
-</span><span class='line'>  --privileged <span class="se">\</span>
-</span><span class='line'>  cloudrouter/osv-builder
-</span><span class='line'>bash-4.3# <span class="nb">cd </span>apps/iperf
-</span><span class='line'>bash-4.3# capstan build
-</span><span class='line'>Building iperf...
-</span><span class='line'>Downloading cloudius/osv-base/index.yaml...
-</span><span class='line'>154 B / 154 B <span class="o">[=================================================================================================================]</span> 100.00 % 0
-</span><span class='line'>Downloading cloudius/osv-base/osv-base.qemu.gz...
-</span><span class='line'>20.09 MB / 20.09 MB <span class="o">[=======================================================================================================]</span> 100.00 % 1m27s
-</span><span class='line'>Uploading files...
-</span><span class='line'>1 / 1 <span class="o">[=========================================================================================================================]</span> 100.00 % bash-4.3# capstan run
-</span><span class='line'>Created instance: iperf
-</span><span class='line'>OSv v0.19
-</span><span class='line'>eth0: 192.168.122.15
-</span><span class='line'>------------------------------------------------------------
-</span><span class='line'>Server listening on TCP port 5001
-</span><span class='line'>TCP window size: 64.0 KByte <span class="o">(</span>default<span class="o">)</span>
-</span><span class='line'>------------------------------------------------------------
-</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Launching an interactive session</h2>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">HOST_BUILD_DIR</span><span class="o">=</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/build
-</span><span class='line'>docker run -it <span class="se">\</span>
-</span><span class='line'>  --volume <span class="k">${</span><span class="nv">HOST_BUILD_DIR</span><span class="k">}</span>:/osv/builder <span class="se">\</span>
-</span><span class='line'>  cloudrouter/osv-builder
-</span></code></pre></td></tr></table></div></figure>
-
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">HOST_BUILD_DIR</span><span class="o">=</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/build
+docker run <span class="nt">-it</span> <span class="se">\</span>
+  <span class="nt">--volume</span> <span class="k">${</span><span class="nv">HOST_BUILD_DIR</span><span class="k">}</span>:/osv/builder <span class="se">\</span>
+  cloudrouter/osv-builder
+</code></pre></div></div>
 
 <p>This will place you into the OSv source clone.  You’ll see the prompt:</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bash-4.3# 
+</code></pre></div></div>
+<p>Now, you can work with it as you normally would when working on OSv source.  You can build apps, edit build scripts, and so on. For example, you can run the following commands, once the above <code class="highlighter-rouge">docker run</code> commands has been executed, to build and run a tomcat appliance.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>bash-4.3#
-</span></code></pre></td></tr></table></div></figure>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./scripts/build <span class="nv">image</span><span class="o">=</span>tomcat,httpserver
+./scripts/run <span class="nt">-V</span>
+</code></pre></div></div>
 
+<h2 id="the-osv-command">The <code class="highlighter-rouge">osv</code> Command</h2>
 
-<p>Now, you can work with it as you normally would when working on OSv source.  You can build apps, edit build scripts, and so on. For example, you can run the following commands, once the above <code>docker run</code> commands has been executed, to build and run a tomcat appliance.</p>
+<p><strong>Note</strong> that the commands you run can be prefixed with <code class="highlighter-rouge">osv</code>, the source for which is available at <code class="highlighter-rouge">assets/osv</code>. For example you can build by:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>./scripts/build <span class="nv">image</span><span class="o">=</span>tomcat,httpserver
-</span><span class='line'>./scripts/run -V
-</span></code></pre></td></tr></table></div></figure>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="se">\</span>
+  <span class="nt">--volume</span> <span class="k">${</span><span class="nv">HOST_BUILD_DIR</span><span class="k">}</span>:/osv/build <span class="se">\</span>
+  osv-builder <span class="se">\</span>
+  osv build <span class="nv">image</span><span class="o">=</span>opendaylight
+</code></pre></div></div>
 
-
-<h2>The <code>osv</code> Command</h2>
-
-<p><strong>Note</strong> that the commands you run can be prefixed with <code>osv</code>, the source for which is available at <code>assets/osv</code>. For example you can build by:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>docker run <span class="se">\</span>
-</span><span class='line'>  --volume <span class="k">${</span><span class="nv">HOST_BUILD_DIR</span><span class="k">}</span>:/osv/build <span class="se">\</span>
-</span><span class='line'>  osv-builder <span class="se">\</span>
-</span><span class='line'>  osv build <span class="nv">image</span><span class="o">=</span>opendaylight
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The <code>osv</code> script, by default, provides the following convenience wrappers:</p>
+<p>The <code class="highlighter-rouge">osv</code> script, by default, provides the following convenience wrappers:</p>
 
 <table>
-<thead>
-<tr>
-<th></th>
-<th align="left"> Command                                     </th>
-<th align="left"> Mapping</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td align="left"> build <em>args</em>                                </td>
-<td align="left"> scripts/build </td>
-</tr>
-<tr>
-<td></td>
-<td align="left"> run <em>args</em>                                  </td>
-<td align="left"> scripts/run.py</td>
-</tr>
-<tr>
-<td></td>
-<td align="left"> appliance <em>name</em> <em>components</em> <em>description</em> </td>
-<td align="left"> scripts/build-vm-img</td>
-</tr>
-<tr>
-<td></td>
-<td align="left"> clean                                       </td>
-<td align="left"> make clean</td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th style="text-align: left">Command</th>
+      <th style="text-align: left">Mapping</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">build <em>args</em></td>
+      <td style="text-align: left">scripts/build</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">run <em>args</em></td>
+      <td style="text-align: left">scripts/run.py</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">appliance <em>name</em> <em>components</em> <em>description</em></td>
+      <td style="text-align: left">scripts/build-vm-img</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">clean</td>
+      <td style="text-align: left">make clean</td>
+    </tr>
+  </tbody>
 </table>
 
-
-<p>If any other command is used, it is simply passed on as <code>scripts/$CMD "$@"</code> where <code>$@</code> is the arguments following the command.</p>
+<p>If any other command is used, it is simply passed on as <code class="highlighter-rouge">scripts/$CMD "$@"</code> where <code class="highlighter-rouge">$@</code> is the arguments following the command.</p>
 
 <p>You could also run commands as:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>docker run <span class="se">\</span>
-</span><span class='line'>  --volume <span class="k">${</span><span class="nv">HOST_BUILD_DIR</span><span class="k">}</span>:/osv/build <span class="se">\</span>
-</span><span class='line'>  osv-builder <span class="se">\</span>
-</span><span class='line'>  ./scripts/build <span class="nv">image</span><span class="o">=</span>opendaylight
-</span></code></pre></td></tr></table></div></figure>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="se">\</span>
+  <span class="nt">--volume</span> <span class="k">${</span><span class="nv">HOST_BUILD_DIR</span><span class="k">}</span>:/osv/build <span class="se">\</span>
+  osv-builder <span class="se">\</span>
+  ./scripts/build <span class="nv">image</span><span class="o">=</span>opendaylight
+</code></pre></div></div>
 
+<h2 id="building-appliance-images">Building appliance images</h2>
 
-<h2>Building appliance images</h2>
+<p>If using the pre-built version from Docker Hub, use <code class="highlighter-rouge">cloudrouter/osv-builder</code> instead of <code class="highlighter-rouge">osv-builder</code>.</p>
 
-<p>If using the pre-built version from Docker Hub, use <code>cloudrouter/osv-builder</code> instead of <code>osv-builder</code>.</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">HOST_BUILD_DIR</span><span class="o">=</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/build
+docker run <span class="se">\</span>
+  <span class="nt">--volume</span> <span class="k">${</span><span class="nv">HOST_BUILD_DIR</span><span class="k">}</span>:/osv/build <span class="se">\</span>
+  osv-builder <span class="se">\</span>
+  osv appliance zookeeper apache-zookeeper,cloud-init <span class="s2">"Apache Zookeeper on OSv"</span>
+</code></pre></div></div>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">HOST_BUILD_DIR</span><span class="o">=</span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/build
-</span><span class='line'>docker run <span class="se">\</span>
-</span><span class='line'>  --volume <span class="k">${</span><span class="nv">HOST_BUILD_DIR</span><span class="k">}</span>:/osv/build <span class="se">\</span>
-</span><span class='line'>  osv-builder <span class="se">\</span>
-</span><span class='line'>  osv appliance zookeeper apache-zookeeper,cloud-init <span class="s2">&quot;Apache Zookeeper on OSv&quot;</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>If everything goes well, the images should be available in <code class="highlighter-rouge">${HOST_BUILD_DIR}</code>. This will contain appliance images for <a href="http://wiki.qemu.org/KVM">QEMU/KVM</a>, <a href="https://www.virtualbox.org/">Oracle VirtualBox</a>, <a href="https://cloud.google.com/compute/">Google Compute Engine</a> and <a href="https://www.vmware.com/">VMWare</a> Virtual Machine Disk.</p>
 
+<p>Note that we explicitly disable the build of <a href="http://www.vmware.com/products/esxi-and-esx/overview">VMware ESXi</a> images since <code class="highlighter-rouge">ovftool</code> is not available.</p>
 
-<p>If everything goes well, the images should be available in <code>${HOST_BUILD_DIR}</code>. This will contain appliance images for <a href="http://wiki.qemu.org/KVM">QEMU/KVM</a>, <a href="https://www.virtualbox.org/">Oracle VirtualBox</a>, <a href="https://cloud.google.com/compute/">Google Compute Engine</a> and <a href="https://www.vmware.com/">VMWare</a> Virtual Machine Disk.</p>
+<h2 id="building-locally">Building locally</h2>
 
-<p>Note that we explicitly disable the build of <a href="http://www.vmware.com/products/esxi-and-esx/overview">VMware ESXi</a> images since <code>ovftool</code> is not available.</p>
+<p>As an alternative, you can build locally with a <code class="highlighter-rouge">docker build</code> command, using the <a href="https://registry.hub.docker.com/u/cloudrouter/osv-builder/dockerfile/">Dockerfile</a> for osv-builder.</p>
 
-<h2>Building locally</h2>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker build <span class="nt">-t</span> osv-builder <span class="nb">.</span>
+</code></pre></div></div>
 
-<p>As an alternative, you can build locally with a <code>docker build</code> command, using the <a href="https://registry.hub.docker.com/u/cloudrouter/osv-builder/dockerfile/">Dockerfile</a> for osv-builder.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'>docker build -t osv-builder .
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Then you can use a plain <code>osv-builder</code> image name instead of <code>cloudrouter/osv-builder</code>.</p>
+<p>Then you can use a plain <code class="highlighter-rouge">osv-builder</code> image name instead of <code class="highlighter-rouge">cloudrouter/osv-builder</code>.</p>
 
 <p>For more information regarding OSv Appliances and pre-built ones, check the <a href="http://osv.io/virtual-appliances/">OSv virtual appliances page</a>.</p>
 
-<h2>Volume Mapping</h2>
+<h2 id="volume-mapping">Volume Mapping</h2>
 
 <table>
-<thead>
-<tr>
-<th></th>
-<th align="left"> Volume      </th>
-<th align="left"> Description                                                               </th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td></td>
-<td align="left"> /osv        </td>
-<td align="left"> This directory contains the OSv repository.</td>
-</tr>
-<tr>
-<td></td>
-<td align="left"> /osv/apps   </td>
-<td align="left"> The OSv apps directory. Mount this if you are testing local applications.</td>
-</tr>
-<tr>
-<td></td>
-<td align="left"> /osv/build  </td>
-<td align="left"> The OSv build directory containing release and standalone directories.</td>
-</tr>
-<tr>
-<td></td>
-<td align="left"> /osv/images </td>
-<td align="left"> The OSv image build configurations.</td>
-</tr>
-</tbody>
+  <thead>
+    <tr>
+      <th style="text-align: left">Volume</th>
+      <th style="text-align: left">Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">/osv</td>
+      <td style="text-align: left">This directory contains the OSv repository.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">/osv/apps</td>
+      <td style="text-align: left">The OSv apps directory. Mount this if you are testing local applications.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">/osv/build</td>
+      <td style="text-align: left">The OSv build directory containing release and standalone directories.</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">/osv/images</td>
+      <td style="text-align: left">The OSv image build configurations.</td>
+    </tr>
+  </tbody>
 </table>
 
+<h2 id="sending-osv-patches">Sending OSv patches</h2>
+<p>If you’re following the <a href="https://github.com/cloudius-systems/osv/wiki/Formatting-and-sending-patches">Formatting and sending patches</a> guide on the OSv web site, just copy your patches into the <code class="highlighter-rouge">builder</code> directory in the container, and they’ll show up under your <code class="highlighter-rouge">$HOST_BUILD_DIR</code>, ready to be sent to the mailing list.</p>
 
-<h2>Sending OSv patches</h2>
-
-<p>If you’re following the <a href="https://github.com/cloudius-systems/osv/wiki/Formatting-and-sending-patches">Formatting and sending patches</a> guide on the OSv web site, just copy your patches into the <code>builder</code> directory in the container, and they’ll show up under your <code>$HOST_BUILD_DIR</code>, ready to be sent to the mailing list.</p>
-
-<h2>Conclusion</h2>
+<h2 id="conclusion">Conclusion</h2>
 
 <p>With the osv-builder docker image, building your own OSv images is now easier than ever before. If you are looking for a high-performance operating system to run your applications, go ahead and give it a try!</p>
 
 <p>Questions and comments welcome on the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.</p>
 
-<h2>About the authors</h2>
+<h2 id="about-the-authors">About the authors</h2>
 
 <p><strong>David</strong> is a product security engineer based in Brisbane, Australia. He currently leads product security efforts for IIX, a software-defined interconnection company. David has been involved in the security industry for the last 15 years. During this time he has found high-impact and novel flaws in dozens of major Java components. He has worked for Red Hat’s security team, led a Chinese startup that failed miserably, and wrote the core aviation meteorology system for the southern hemisphere. In his spare time he tries to stop his two Dachshunds from taking over the house.</p>
 
 <p><strong>Don</strong> is a technical marketing manager for Cloudius Systems, the OSv company. He has written for Linux Weekly News, Linux Journal, and other publications. He co-founded the Linux consulting firm Electric Lichen, which was acquired by VA Linux Systems. Don has served as president and vice president of the Silicon Valley Linux Users Group and on the program committees for Uselinux, Codecon, and LinuxWorld Conference and Expo.</p>
+
 </div>
   
   
@@ -709,7 +886,7 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/04/08/makefile/">Re-&#8220;make&#8221;-ing OSv</a></h1>
+      <h1 class="entry-title"><a href="/blog/2015/04/08/makefile/">Re-"make"-ing OSv</a></h1>
     
     
       <p class="meta">
@@ -722,10 +899,9 @@
 
 
 
-  
 
 
-<time datetime="2015-04-08T00:00:00+03:00" pubdate data-updated="true">Apr 8<span>th</span>, 2015</time>
+<time datetime="2015-04-08T00:00:00-04:00" pubdate data-updated="true">Apr 8, 2015</time>
         
       </p>
     
@@ -734,25 +910,25 @@
 
   <div class="entry-content"><p><a href="https://groups.google.com/forum/#!topic/osv-dev/x-E9YfzDz20">OSv 0.19</a> is out, with a rewrite of the build system. The old OSv build system was fairly complex, but the rewrite makes it simpler and faster.</p>
 
-<h2>Simpler Makefile</h2>
+<h2 id="simpler-makefile">Simpler Makefile</h2>
 
-<p>The old OSv build system had several makefiles including each other, playing tricks with the current directory and <code>VPATH</code>, dynamically rewriting makefiles, and running submakes.</p>
+<p>The old OSv build system had several makefiles including each other, playing tricks with the current directory and <code class="highlighter-rouge">VPATH</code>, dynamically rewriting makefiles, and running submakes.</p>
 
-<p>The old <code>Makefile</code> was responsible not only for building the kernel, it also built tests, called various Python scripts to build modules for different applications, and carried out other tasks.</p>
+<p>The old <code class="highlighter-rouge">Makefile</code> was responsible not only for building the kernel, it also built tests, called various Python scripts to build modules for different applications, and carried out other tasks.</p>
 
-<p>In the new build system, there is just one &ldquo;Makefile&rdquo; for building the entire OSv kernel. Everything is in one file, and also better commented.</p>
+<p>In the new build system, there is just one “Makefile” for building the entire OSv kernel. Everything is in one file, and also better commented.</p>
 
-<h2>Separate kernel building from application building</h2>
+<h2 id="separate-kernel-building-from-application-building">Separate kernel building from application building</h2>
 
-<p>In the old build system, we used &ldquo;make&rdquo; to do everything from building the OSv kernel, building various applications, and building images containing OSv and a collection of applications. This complicated the <code>Makefile</code>, and resulted in unexpected build requirements. For example, building OSv always built some Java tests and thus required Maven and a working Internet connection).</p>
+<p>In the old build system, we used “make” to do everything from building the OSv kernel, building various applications, and building images containing OSv and a collection of applications. This complicated the <code class="highlighter-rouge">Makefile</code>, and resulted in unexpected build requirements. For example, building OSv always built some Java tests and thus required Maven and a working Internet connection).</p>
 
-<p>In the new system, <code>make</code> only builds the OSv kernel, and <code>scripts/build</code>
-build applications and images. In the future, you could use <a href="http://osv.io/capstan/">Capstan</a> instead of <code>scripts/build</code> to make an image that you would like to manage with Capstan.</p>
+<p>In the new system, <code class="highlighter-rouge">make</code> only builds the OSv kernel, and <code class="highlighter-rouge">scripts/build</code>
+build applications and images. In the future, you could use <a href="http://osv.io/capstan/">Capstan</a> instead of <code class="highlighter-rouge">scripts/build</code> to make an image that you would like to manage with Capstan.</p>
 
-<p>Most <code>make</code> command lines that worked in the previous build system will
-continue to work unchanged with <code>scripts/build</code>. For example:</p>
+<p>Most <code class="highlighter-rouge">make</code> command lines that worked in the previous build system will
+continue to work unchanged with <code class="highlighter-rouge">scripts/build</code>. For example:</p>
 
-<pre><code># build image with default OSv application
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># build image with default OSv application
 scripts/build
 
 # build the rogue image
@@ -768,34 +944,40 @@ scripts/build mode=debug
 
 # build image with tests, and run them
 scripts/build check
-</code></pre>
+</code></pre></div></div>
 
-<p>&nbsp;</p>
+<p> </p>
 
 <p>Additional benefits of this rewrite include:</p>
 
 <ol>
-<li><p>Faster rebuilds. For example &ldquo;touch loader.cc; scripts/build image=rogue&rdquo;
-takes just 6 seconds (14 seconds previously). make after &ldquo;make clean&rdquo;
-(with ccache) is just 10 seconds (30 seconds previously).</p></li>
-<li><p>It should be fairly easy to add additional
+  <li>
+    <p>Faster rebuilds. For example “touch loader.cc; scripts/build image=rogue”
+takes just 6 seconds (14 seconds previously). make after “make clean”
+(with ccache) is just 10 seconds (30 seconds previously).</p>
+  </li>
+  <li>
+    <p>It should be fairly easy to add additional
 build scripts which will build different types of images using the same
 OSv kernel. One popularly requested option is to have the ability to
-create a bootfs-only image, without ZFS.</p></li>
-<li><p>Some smaller improvements, like more accurate setting of the desired image size <a href="https://github.com/cloudius-systems/osv/issues/595">(covered in issue #595)</a>, and supporting setting CROSS_PREFIX without also needing to specify ARCH.</p></li>
+create a bootfs-only image, without ZFS.</p>
+  </li>
+  <li>
+    <p>Some smaller improvements, like more accurate setting of the desired image size <a href="https://github.com/cloudius-systems/osv/issues/595">(covered in issue #595)</a>, and supporting setting CROSS_PREFIX without also needing to specify ARCH.</p>
+  </li>
 </ol>
 
+<h2 id="what-happened-to-make-test">What happened to <code class="highlighter-rouge">make test</code>?</h2>
 
-<h2>What happened to <code>make test</code>?</h2>
+<p>The OSv test are a module like other modules - they won’t be compiled unless someone builds the <code class="highlighter-rouge">tests</code> module. They will have a separate Makefile in <code class="highlighter-rouge">tests/</code>. The <code class="highlighter-rouge">ant</code> and <code class="highlighter-rouge">mvn</code> tools, both currently used in our makefile just for building tests, will no longer be run every time the kernel is compiled, but just when the “tests” module is being built. To build and run the tests:</p>
 
-<p>The OSv test are a module like other modules &ndash; they won&rsquo;t be compiled unless someone builds the <code>tests</code> module. They will have a separate Makefile in <code>tests/</code>. The <code>ant</code> and <code>mvn</code> tools, both currently used in our makefile just for building tests, will no longer be run every time the kernel is compiled, but just when the &ldquo;tests&rdquo; module is being built. To build and run the tests:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scripts/build check
+</code></pre></div></div>
 
-<pre><code>scripts/build check
-</code></pre>
+<h2 id="try-it-out">Try it out</h2>
 
-<h2>Try it out</h2>
+<p>The good news is that now, running <code class="highlighter-rouge">make</code> is faster, and the image build process is simpler and easier to extend. Check it out – questions and comments welcome on the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.</p>
 
-<p>The good news is that now, running <code>make</code> is faster, and the image build process is simpler and easier to extend. Check it out &mdash; questions and comments welcome on the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.</p>
 </div>
   
   
@@ -821,10 +1003,9 @@ create a bootfs-only image, without ZFS.</p></li>
 
 
 
-  
 
 
-<time datetime="2015-04-03T00:00:00+03:00" pubdate data-updated="true">Apr 3<span>rd</span>, 2015</time>
+<time datetime="2015-04-03T00:00:00-04:00" pubdate data-updated="true">Apr 3, 2015</time>
         
       </p>
     
@@ -861,10 +1042,9 @@ create a bootfs-only image, without ZFS.</p></li>
 
 
 
-  
 
 
-<time datetime="2015-03-31T00:00:00+03:00" pubdate data-updated="true">Mar 31<span>st</span>, 2015</time>
+<time datetime="2015-03-31T00:00:00-04:00" pubdate data-updated="true">Mar 31, 2015</time>
         
       </p>
     
@@ -873,20 +1053,19 @@ create a bootfs-only image, without ZFS.</p></li>
 
   <div class="entry-content"><p><strong>By David Jorm and Don Marti</strong></p>
 
-<p>Most users are aware of cloud computing as a general term behind such trends as &ldquo;Software as a Service,&rdquo; where sites such as Salesforce.com can replace software run by a company IT department, or &ldquo;Infrastructure as a Service&rdquo; where virtual machines rented by the hour can replace conventional servers. But today, the technologies behind the cloud are changing the way that we connect the Internet at the most fundamental level, through Software Defined Interconnection (SDI).</p>
+<p>Most users are aware of cloud computing as a general term behind such trends as “Software as a Service,” where sites such as Salesforce.com can replace software run by a company IT department, or “Infrastructure as a Service” where virtual machines rented by the hour can replace conventional servers. But today, the technologies behind the cloud are changing the way that we connect the Internet at the most fundamental level, through Software Defined Interconnection (SDI).</p>
 
-<p><strong>What is SDI?</strong> A lot of manual work goes into hooking up the Internet between providers. The routers that send Internet traffic from one place to another can be configured to use &ldquo;paid transit&rdquo;, where a single provider will route packets to any destination. But the more Internet traffic you’re responsible for, the more you can benefit from another arrangement, called &ldquo;direct interconnection&rdquo; where you set up your company’s routers to directly connect to another company’s. Most networks will always need to buy transit from somebody; the best you can hope for is that a portion of your traffic bypasses the transit provider and is directly delivered to the destination. Maximizing the amount of traffic that is directly peered leads to better performance, lower latency, lower packet loss, and greater security.</p>
+<p><strong>What is SDI?</strong> A lot of manual work goes into hooking up the Internet between providers. The routers that send Internet traffic from one place to another can be configured to use “paid transit”, where a single provider will route packets to any destination. But the more Internet traffic you’re responsible for, the more you can benefit from another arrangement, called “direct interconnection” where you set up your company’s routers to directly connect to another company’s. Most networks will always need to buy transit from somebody; the best you can hope for is that a portion of your traffic bypasses the transit provider and is directly delivered to the destination. Maximizing the amount of traffic that is directly peered leads to better performance, lower latency, lower packet loss, and greater security.</p>
 
 <p>Today, most direct interconnection is typically set up manually, with a physical fiber cable connecting one organization’s network to another. Agreements to interconnect and peer are also reached manually, typically via email or face-to-face at peering conferences. When agreement is reached, network admins must ssh in to routers in order to manually configure such peering. It’s not efficient or scalable, and depends on individuals or select groups.</p>
 
-<p>Once an organization has agreed that they want to directly connect with another organization, how do you handle changes to router and switch configuration? Probably the same way you used to manage your httpd.conf back in the 1990s! Network managers ssh in, and update config manually. Some networks have sophisticated management tools, but for many, &ldquo;the state of the router is the canonical state.&rdquo;</p>
+<p>Once an organization has agreed that they want to directly connect with another organization, how do you handle changes to router and switch configuration? Probably the same way you used to manage your httpd.conf back in the 1990s! Network managers ssh in, and update config manually. Some networks have sophisticated management tools, but for many, “the state of the router is the canonical state.”</p>
 
-<p><img src="http://www.cloudius-systems.com/images/iix_rack.png"
- alt="Software-defined interconnection"></p>
+<p><img src="http://www.cloudius-systems.com/images/iix_rack.png" alt="Software-defined interconnection" /></p>
 
 <p><em>Software-defined interconnection, under test in the IIX lab</em></p>
 
-<p>SDI aims to improve all that. The OpenDaylight project is a common platform for network management that facilitates breaking traditional network devices such as switches and routers into separate &ldquo;data plane&rdquo; devices that handle high traffic volume and &ldquo;control plane&rdquo; devices that do management. Because the control plane device, or software-defined networking (SDN) controller, does not have the extreme throughput requirements of the data plane, it’s easy to virtualize.</p>
+<p>SDI aims to improve all that. The OpenDaylight project is a common platform for network management that facilitates breaking traditional network devices such as switches and routers into separate “data plane” devices that handle high traffic volume and “control plane” devices that do management. Because the control plane device, or software-defined networking (SDN) controller, does not have the extreme throughput requirements of the data plane, it’s easy to virtualize.</p>
 
 <p><strong>In the lab today</strong> IIX is currently prototyping this next generation of devices in the lab, while more traditional network gear runs in production. The prototype system uses an <a href="http://en.wikipedia.org/wiki/OpenFlow">OpenFlow switch</a> for data plane, and a separate OpenDaylight server for control plane. Switches rely on the SDN controller. In the event of an unknown packet, they forward it to the controller.</p>
 
@@ -898,9 +1077,9 @@ create a bootfs-only image, without ZFS.</p></li>
 
 <p><strong>Conclusion</strong> While Internet applications have gained from cloud technologies, the fundamental lower layers are still coming up to speed. OpenDaylight and OSv are bringing cloud economics to the lower levels of the stack.</p>
 
-<h2>About the authors</h2>
+<h2 id="about-the-authors">About the authors</h2>
 
-<p><strong>David</strong> is a product security engineer based in Brisbane, Australia. He currently leads product security efforts for IIX, a software-defined interconnection company. David has been involved in the security industry for the last 15 years. During this time he has found high-impact and novel flaws in dozens of major Java components. He has worked for Red Hat&rsquo;s security team, led a Chinese startup that failed miserably, and wrote the core aviation meteorology system for the southern hemisphere. In his spare time he tries to stop his two Dachshunds from taking over the house.</p>
+<p><strong>David</strong> is a product security engineer based in Brisbane, Australia. He currently leads product security efforts for IIX, a software-defined interconnection company. David has been involved in the security industry for the last 15 years. During this time he has found high-impact and novel flaws in dozens of major Java components. He has worked for Red Hat’s security team, led a Chinese startup that failed miserably, and wrote the core aviation meteorology system for the southern hemisphere. In his spare time he tries to stop his two Dachshunds from taking over the house.</p>
 
 <p><strong>Don</strong> is a technical marketing manager for Cloudius Systems, the OSv company. He has written for Linux Weekly News, Linux Journal, and other publications. He co-founded the Linux consulting firm Electric Lichen, which was acquired by VA Linux Systems. Don has served as president and vice president of the Silicon Valley Linux Users Group and on the program committees for Uselinux, Codecon, and LinuxWorld Conference and Expo.</p>
 </div>
@@ -928,10 +1107,9 @@ create a bootfs-only image, without ZFS.</p></li>
 
 
 
-  
 
 
-<time datetime="2015-02-20T16:54:23+02:00" pubdate data-updated="true">Feb 20<span>th</span>, 2015</time>
+<time datetime="2015-02-20T09:54:23-05:00" pubdate data-updated="true">Feb 20, 2015</time>
         
       </p>
     
@@ -989,15 +1167,21 @@ serving. Seastar is available today, under the Apache
 license version 2.0.</p>
 
 <ul>
-<li><p><a href="http://www.seastar-project.org/">Seastar project site</a></p></li>
-<li><p><a href="https://github.com/cloudius-systems/seastar">Seastar repository on GitHub</a></p></li>
-<li><p><a href="https://groups.google.com/forum/?hl=en#!forum/seastar-dev">seastar-dev mailing list</a></p></li>
+  <li>
+    <p><a href="http://www.seastar-project.org/">Seastar project site</a></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/cloudius-systems/seastar">Seastar repository on GitHub</a></p>
+  </li>
+  <li>
+    <p><a href="https://groups.google.com/forum/?hl=en#!forum/seastar-dev">seastar-dev mailing list</a></p>
+  </li>
 </ul>
-
 
 <p><strong>Please follow
 <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a>
 on Twitter for updates.</strong></p>
+
 </div>
   
   
@@ -1023,17 +1207,16 @@ on Twitter for updates.</strong></p>
 
 
 
-  
 
 
-<time datetime="2015-02-02T20:54:23+02:00" pubdate data-updated="true">Feb 2<span>nd</span>, 2015</time>
+<time datetime="2015-02-02T13:54:23-05:00" pubdate data-updated="true">Feb 2, 2015</time>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><p><strong>By Nadav Har&#8217;El</strong></p>
+  <div class="entry-content"><p><strong>By Nadav Har’El</strong></p>
 
 <p>What will the IaaS cloud of the future look like? How can we improve the
 hypervisor to reduce the overhead it adds to virtual machines? How can we
@@ -1047,7 +1230,7 @@ which traditionally required specialized hardware, such as supercomputers?</p>
 <p>Cloudius Systems, together with eight leading industry and university
 partners, announced this month the <a href="http://mikelangelo-project.eu/">Mikelangelo</a> research project, which
 sets out to answer exactly these questions. Mikelangelo is funded by the
-European Union&rsquo;s flagship research program, <a href="http://ec.europa.eu/programmes/horizon2020/">&ldquo;Horizon 2020&rdquo;</a>.</p>
+European Union’s flagship research program, <a href="http://ec.europa.eu/programmes/horizon2020/">“Horizon 2020”</a>.</p>
 
 <p>Cloudius Systems brings to this project two significant technologies:</p>
 
@@ -1069,26 +1252,26 @@ and linear scalability of performance on machines with up to 32 cores.</p>
 an exciting bunch, and include some ground-breaking European (and global)
 cloud researchers and practicioners:</p>
 
-<p>&nbsp;&bull; <a href="http://www.mikelangelo-project.eu/consortium/huawei/">Huawei</a></p>
+<p> • <a href="http://www.mikelangelo-project.eu/consortium/huawei/">Huawei</a></p>
 
-<p>&nbsp;&bull; <a href="http://www.mikelangelo-project.eu/consortium/ibm/">IBM</a></p>
+<p> • <a href="http://www.mikelangelo-project.eu/consortium/ibm/">IBM</a></p>
 
-<p>&nbsp;&bull; <a href="http://www.mikelangelo-project.eu/consortium/intel/">Intel</a></p>
+<p> • <a href="http://www.mikelangelo-project.eu/consortium/intel/">Intel</a></p>
 
-<p>&nbsp;&bull; <a href="http://www.mikelangelo-project.eu/consortium/hlrs/">The University of Stuttgart&rsquo;s supercomputing center (HLRS)</a></p>
+<p> • <a href="http://www.mikelangelo-project.eu/consortium/hlrs/">The University of Stuttgart’s supercomputing center (HLRS)</a></p>
 
-<p>&nbsp;&bull; <a href="http://www.mikelangelo-project.eu/consortium/gwdg/">The University of Goettingen&rsquo;s computing center (GWDG)</a></p>
+<p> • <a href="http://www.mikelangelo-project.eu/consortium/gwdg/">The University of Goettingen’s computing center (GWDG)</a></p>
 
-<p>&nbsp;&bull; <a href="http://www.mikelangelo-project.eu/consortium/ben-gurion-university/">Ben-Gurion University</a></p>
+<p> • <a href="http://www.mikelangelo-project.eu/consortium/ben-gurion-university/">Ben-Gurion University</a></p>
 
-<p>&nbsp;&bull; <a href="http://www.mikelangelo-project.eu/consortium/xlab/">XLAB</a>, the coordinator of the project</p>
+<p> • <a href="http://www.mikelangelo-project.eu/consortium/xlab/">XLAB</a>, the coordinator of the project</p>
 
-<p>&nbsp;&bull; <a href="http://www.mikelangelo-project.eu/consortium/pipistrel/">Pipistrel</a>, a light aircraft manufacturer</p>
+<p> • <a href="http://www.mikelangelo-project.eu/consortium/pipistrel/">Pipistrel</a>, a light aircraft manufacturer</p>
 
-<p>Pipistrel&rsquo;s intended use case, of moving HPC jobs to the cloud, is
+<p>Pipistrel’s intended use case, of moving HPC jobs to the cloud, is
 particularly interesting. Pipistrel is an innovative manufacturer of
-light aircraft that holds <a href="http://www.pipistrel.si/media/achievements-and-awards">several cool world records</a>, and won NASA&rsquo;s
-2011 &ldquo;Green Flight Challenge&rdquo; by building an all-electric airplane
+light aircraft that holds <a href="http://www.pipistrel.si/media/achievements-and-awards">several cool world records</a>, and won NASA’s
+2011 “Green Flight Challenge” by building an all-electric airplane
 achieving the equivalent of 400 miles per gallon per passenger.
 The aircraft design process involves numerous heavy numerical
 simulations. If a typical run requires 100 machines for two hours,
@@ -1100,77 +1283,15 @@ job in half the time, for exactly the same price!</p>
 <p>Last week, researchers from all these partners met to kick off the
 project, and also enjoyed a visit to Ljubljana which, as its name implies,
 is a lovely city. The project will span 3 years, but we expect to see some
-encouraging results from the project&mdash;and from the individual partners
-comprising it&mdash;very soon. The future of the cloud looks very bright!</p>
+encouraging results from the project—and from the individual partners
+comprising it—very soon. The future of the cloud looks very bright!</p>
 
-<p><em>Visit <a href="http://mikelangelo-project.eu/">The Mikelangelo Project&rsquo;s official site</a> for updates.</em></p>
+<p><em>Visit <a href="http://mikelangelo-project.eu/">The Mikelangelo Project’s official site</a> for updates.</em></p>
 
 <p><strong>Watch this space (<a href="http://localhost:4000/blog/atom.xml">feed</a>), or follow
 <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a>
 on Twitter, for more links to research in progress.</strong></p>
-</div>
-  
-  
 
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/01/15/performance-evaluation/">Unikernel Research at the University of Utah</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2015-01-15T01:54:23+02:00" pubdate data-updated="true">Jan 15<span>th</span>, 2015</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p>Ian Briggs, Matt Day, Eric Eide, Yuankai Guo, and
-Peter Marheine are conducting performance research
-on unikernels, and have thoughtfully posted some
-preliminary work on OSv performance.</p>
-
-<p>The team tested OSv for DNS and HTTP, and got some
-encouraging results.</p>
-
-<p><a href="/images/http-server-benchmark.png"><img src="/images/http-server-benchmark.png" alt="HTTP server comparison" /></a></p>
-
-<p>The lighttpd web server on OSv performs consistently
-well up through 5000 requests/second.  And on DNS
-tests, Linux can sustain a response rate of about
-19000 per second, while OSv can handle approximately 28000 requests per second, with slightly
-lower latency.</p>
-
-<p>The preliminary paper is
-<a href="http://www.cs.utah.edu/~peterm/prelim-osv-performance.pdf">Performance Evaluation of OSv for Server
-Applications</a>
-(<a href="/images/prelim-osv-performance.pdf">local copy</a>).</p>
-
-<p>The researchers did run into a bug running OSv
-on Xen, so we&rsquo;re all looking forward to helping
-them track that down on the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing
-list</a>.
-In the meantime, watch this space, or follow
-<a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a>
-on Twitter, for more links to OS research in progress.</p>
 </div>
   
   
@@ -1180,7 +1301,7 @@ on Twitter, for more links to OS research in progress.</p>
   
   <div class="pagination">
     
-      <a class="prev" href="/blog/page/2/">&larr; Older</a>
+      <a class="prev" href="/blog/page2/">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -1191,6 +1312,10 @@ on Twitter, for more links to OS research in progress.</p>
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2019/04/19/making-OSv-run-on-firecraker/">Making OSv Run on Firecracker</a>
+      </li>
     
       <li class="post">
         <a href="/blog/2017/06/12/serverless-computing-with-OSv/">Serverless Computing With OSv</a>
@@ -1206,10 +1331,6 @@ on Twitter, for more links to OS research in progress.</p>
     
       <li class="post">
         <a href="/blog/2015/04/27/docker/">Building OSv Images Using Docker</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/04/08/makefile/">Re-&#8220;make&#8221;-ing OSv</a>
       </li>
     
   </ul>
@@ -1274,14 +1395,6 @@ on Twitter, for more links to OS research in progress.</p>
 }(document, 'script', 'facebook-jssdk'));</script>
 
 
-
-  <script type="text/javascript">
-    (function() {
-      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
-      script.src = 'https://apis.google.com/js/plusone.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
-    })();
-  </script>
 
 
 

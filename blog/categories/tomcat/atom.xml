@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Tomcat | OSv Blog]]></title>
-  <link href="http://blog.osv.io//github/blog/categories/tomcat/atom.xml" rel="self"/>
-  <link href="http://blog.osv.io//github/"/>
-  <updated>2017-06-12T21:20:41+03:00</updated>
-  <id>http://blog.osv.io//github/</id>
+  <link href="http://osv-io.github.io//github/blog/categories/tomcat/atom.xml" rel="self"/>
+  <link href="http://osv-io.github.io//github/"/>
+  <updated>2019-04-20T01:01:48-04:00</updated>
+  <id>http://osv-io.github.io//github/</id>
   <author>
     <name><![CDATA[Cloudius Systems]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Adding a NewRelic Agent to Your OSv Appliance]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/09/25/java-newrelic-agent/"/>
-    <updated>2014-09-25T02:22:22+03:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/09/25/java-newrelic-agent</id>
+    <link href="http://osv-io.github.io//github/blog/2014/09/24/java-newrelic-agent/"/>
+    <updated>2014-09-24T19:22:22-04:00</updated>
+    <id>http://osv-io.github.io//github/blog/2014/09/24/java-newrelic-agent</id>
     <content type="html"><![CDATA[<p><strong>By Tzach Livyatan</strong></p>
 
 <p><a href="http://newrelic.com/">New Relic</a> is a popular real-time monitoring
@@ -29,14 +29,12 @@ example.</p>
 
 <!-- more -->
 
-
 <p>As first step, go to the <a href="http://newrelic.com/">New Relic web site</a> and log in  or open an account.  Following the instructions on the site, you should be prompted to download two files:</p>
 
 <ul>
-<li>newrelic.yml</li>
-<li>newrelic.jar</li>
+  <li>newrelic.yml</li>
+  <li>newrelic.jar</li>
 </ul>
-
 
 <p>newrelic.yml should already have the your license key in it.
 If you downloaded the file
@@ -48,33 +46,31 @@ will be used in the New Relic GUI.</p>
 <p>There are two ways to build an OSv appliance:</p>
 
 <ol>
-<li>Using an OSv build from source</li>
-<li>Using <a href="https://github.com/cloudius-systems/capstan">Capstan</a></li>
+  <li>Using an OSv build from source</li>
+  <li>Using <a href="https://github.com/cloudius-systems/capstan">Capstan</a></li>
 </ol>
-
 
 <p>The first requires cloning OSv source code with Git, as described
 <a href="https://github.com/cloudius-systems/osv-apps/tree/master/java-newrelic">here</a>.
 The second assumes you are familiar with <a href="https://github.com/cloudius-systems/capstan">Capstan</a> and is described below.</p>
 
-<h3>Using Capstan to add a NewRelic Agent</h3>
+<h3 id="using-capstan-to-add-a-newrelic-agent">Using Capstan to add a NewRelic Agent</h3>
 
 <ul>
-<li>Create a new project directory</li>
+  <li>Create a new project directory</li>
 </ul>
 
-
-<p><code>
-mkdir my-tomcat-with-newrelic
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir my-tomcat-with-newrelic
 cd my-tomcat-with-newrelic
-</code>
-* Copy newrelic.jar and newrelic.yml to this location
-* Create a new <a href="https://github.com/cloudius-systems/capstan/blob/master/Documentation/Capstanfile.md">Capstanfile</a> with the following contents:</p>
+</code></pre></div></div>
+<ul>
+  <li>Copy newrelic.jar and newrelic.yml to this location</li>
+  <li>Create a new <a href="https://github.com/cloudius-systems/capstan/blob/master/Documentation/Capstanfile.md">Capstanfile</a> with the following contents:</li>
+</ul>
 
-<p>```
-base: cloudius/osv-tomcat</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>base: cloudius/osv-tomcat
 
-<p>cmdline: >
+cmdline: &gt;
   /java.so
   -javaagent:/tools/newrelic.jar
   -cp /usr/tomcat/bin/bootstrap.jar:/usr/tomcat/bin/tomcat-juli.jar
@@ -84,71 +80,66 @@ base: cloudius/osv-tomcat</p>
   -Dcatalina.home=/usr/tomcat
   -Djava.io.tmpdir=/usr/tomcat/temp
   org.apache.catalina.startup.Bootstrap
-  start</p>
+  start
 
-<p>files:
+files:
   /tools/newrelic.jar: newrelic.jar
   /tools/newrelic.yml: newrelic.yml
-```</p>
+</code></pre></div></div>
 
-<p>The base OSv image is <code>tomcat</code>, the cmdline include both Tomcat and
+<p>The base OSv image is <code class="highlighter-rouge">tomcat</code>, the cmdline include both Tomcat and
   New Relic options, and the files are the two New Relic files: the JAR and the configuration file.</p>
 
 <ul>
-<li>build the image</li>
+  <li>build the image</li>
 </ul>
 
-
-<p><code>
-capstan build
-</code>
-You are done! you now have a ready VM with Tomcat and a New Relic agent.
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>capstan build
+</code></pre></div></div>
+<p>You are done! you now have a ready VM with Tomcat and a New Relic agent.
 To run the image locally:</p>
 
-<p><code>
-capstan run -n bridge
-</code>
-* Go to the New Relic web app, monitor your application, and give yourself a
-  pat on the shoulder :)</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>capstan run -n bridge
+</code></pre></div></div>
+<ul>
+  <li>Go to the New Relic web app, monitor your application, and give yourself a
+pat on the shoulder :)</li>
+</ul>
 
-<p>You can keep up with the latest OSv news from this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or by following <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.  Questions always welcome on the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev</a> mailing list.</p>
+<p>You can keep up with the latest OSv news from this blog’s <a href="http://osv.io/blog/atom.xml">feed</a>, or by following <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.  Questions always welcome on the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev</a> mailing list.</p>
+
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[Speed Run: Running 4 Virtual Appliances on Your Laptop in 5 Seconds Overall]]></title>
-    <link href="http://blog.osv.io//github/blog/2014/09/14/how-fast-can-you-run-4-vm/"/>
-    <updated>2014-09-14T09:30:00+03:00</updated>
-    <id>http://blog.osv.io//github/blog/2014/09/14/how-fast-can-you-run-4-vm</id>
+    <link href="http://osv-io.github.io//github/blog/2014/09/14/how-fast-can-you-run-4-vm/"/>
+    <updated>2014-09-14T02:30:00-04:00</updated>
+    <id>http://osv-io.github.io//github/blog/2014/09/14/how-fast-can-you-run-4-vm</id>
     <content type="html"><![CDATA[<p><strong>By Dor Laor, Tzach Livyatan</strong></p>
 
 <p>In the following demo, Dor is running 4 different OSv base virtual appliances
 on his laptop:</p>
 
 <ul>
-<li>Redis</li>
-<li>Tomcat</li>
-<li>MySQL</li>
-<li>Cassandra</li>
+  <li>Redis</li>
+  <li>Tomcat</li>
+  <li>MySQL</li>
+  <li>Cassandra</li>
 </ul>
-
 
 <p>Each virtual appliance is a full–blown VM, each with a pre-integrated
 cloud application, and each launched without terminating the others.</p>
 
 <!-- more -->
 
-
-
-
-<script type="text/javascript" src="https://asciinema.org/a/11914.js" id="asciicast-11914" async></script>
-
+<script type="text/javascript" src="https://asciinema.org/a/11914.js" id="asciicast-11914" async=""></script>
 
 <p>As you can see, application startup time takes between sub-second
 (Redis) to a few seconds (Cassandra) depending on the application.
 The hypervisor plus OS part of the boot time is less than a second for all cases.</p>
 
-<p>Want more info on Capstan and related topics?  Join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get regular OSv updates by subscribing to this blog&rsquo;s feed, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+<p>Want more info on Capstan and related topics?  Join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get regular OSv updates by subscribing to this blog’s feed, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
 ]]></content>
   </entry>
   

@@ -9,7 +9,35 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="By Don Marti Yesterday we found out about a remotely exploitable hole in bash from our favorite Linux news sites. For some of us, our schedules on &hellip;">
+  <meta name="description" content="
+
+  
+  
+    
+      Waking Up Late, After Bash Fixing Night
+    
+    
+      
+        
+
+
+
+
+
+
+
+
+
+
+Sep 25, 2014
+        
+      
+    
+  
+
+
+By Don Marti
+...">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,14 +46,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.osv.io//github/blog/2014/09/25/security-is-a-journey-not-a-destination">
+  <link rel="canonical" href="http://osv-io.github.io//github/blog/2014/09/25/security-is-a-journey-not-a-destination/">
   <link href="/favicon.ico" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/monokai.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/customized.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <script src="/javascripts/run_prettify.js" type="text/javascript"></script>
+  <script src="/javascripts/lang-gas.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
 <!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -62,7 +94,7 @@
         
         <form action="https://www.google.com/search" method="get">
             <fieldset role="search">
-                <input type="hidden" name="q" value="site:blog.osv.io//github" />
+                <input type="hidden" name="q" value="site:http://osv-io.github.io//github" />
                 <input class="search" type="text" name="q" results="0" placeholder="Search"/>
             </fieldset>
         </form>
@@ -130,10 +162,9 @@
 
 
 
-  
 
 
-<time datetime="2014-09-25T23:54:23+03:00" pubdate data-updated="true">Sep 25<span>th</span>, 2014</time>
+<time datetime="2014-09-25T16:54:23-04:00" pubdate data-updated="true">Sep 25, 2014</time>
         
       </p>
     
@@ -144,20 +175,19 @@
 
 <p>Yesterday we found out about <a href="https://lwn.net/Articles/613032/">a remotely exploitable hole in bash</a> from our favorite Linux news sites.  For some of us, our schedules on the night of September 24th were disrupted, and not in a good way.</p>
 
-<p>It&rsquo;s true that my own Internet-facing code, while not perfect, isn&rsquo;t vulnerable.  But for one older web-based application I have to deal with, it&rsquo;s faster to install a new version of Bash than to trace through the code to make sure it isn&rsquo;t doing something bad, somewhere.</p>
+<p>It’s true that my own Internet-facing code, while not perfect, isn’t vulnerable.  But for one older web-based application I have to deal with, it’s faster to install a new version of Bash than to trace through the code to make sure it isn’t doing something bad, somewhere.</p>
 
-<p>Clearly this particular bug isn&rsquo;t a problem on OSv, because OSv doesn&rsquo;t run Bash.  The whole point of Bash is to <code>fork()</code> and <code>exec()</code> other processes, and OSv doesn&rsquo;t do all that.  Everything runs in one process, with no shell available or needed.</p>
+<p>Clearly this particular bug isn’t a problem on OSv, because OSv doesn’t run Bash.  The whole point of Bash is to <code class="highlighter-rouge">fork()</code> and <code class="highlighter-rouge">exec()</code> other processes, and OSv doesn’t do all that.  Everything runs in one process, with no shell available or needed.</p>
 
-<p>As <a href="http://osv.io/blog/blog/2014/09/25/shellshock/">Tzach Livyatan points out</a>, managing OSv doesn&rsquo;t require a shell either.  There&rsquo;s one REST API for everything, from VM basics such as CPU and memory usage, up to <a href="http://osv.io/blog/blog/2014/08/26/jolokia-jmx-connectivity-in-osv/">JMX data from the application</a>.</p>
+<p>As <a href="http://osv.io/blog/blog/2014/09/25/shellshock/">Tzach Livyatan points out</a>, managing OSv doesn’t require a shell either.  There’s one REST API for everything, from VM basics such as CPU and memory usage, up to <a href="http://osv.io/blog/blog/2014/08/26/jolokia-jmx-connectivity-in-osv/">JMX data from the application</a>.</p>
 
 <p>But it looks like Tzach is missing the main point.</p>
 
 <!-- more -->
 
+<p>The problem isn’t so much that someone discovered a bug in Bash.  The problem is <em>what happened to the evening of September 24, 2014</em>?  A software bug should be something that you fix, test, check in the fix, and go home, not a full <a href="http://www.tor.com/stories/2009/12/overtime">night on duty</a>.</p>
 
-<p>The problem isn&rsquo;t so much that someone discovered a bug in Bash.  The problem is <em>what happened to the evening of September 24, 2014</em>?  A software bug should be something that you fix, test, check in the fix, and go home, not a full <a href="http://www.tor.com/stories/2009/12/overtime">night on duty</a>.</p>
-
-<p>I&rsquo;m starting to think that what&rsquo;s more important than any design advantages of OSv is the flow that it enables.   The size and, more important, simplicity of an OSv VM means that regenerating one is a matter of, let me time it&hellip; 9 seconds.  An OSv VM is a build artifact that I can crank out of my regular build system.</p>
+<p>I’m starting to think that what’s more important than any design advantages of OSv is the flow that it enables.   The size and, more important, simplicity of an OSv VM means that regenerating one is a matter of, let me time it… 9 seconds.  An OSv VM is a build artifact that I can crank out of my regular build system.</p>
 
 <p>It would be full of security hubris to say that OSv will never have to issue a security fix.  Yes, there are many fewer lines of code, and yes, the C++ experts on the development team will point to shorter, clearer programming constructs in which fewer old-school bugs can hide.  But every software project has to issue a fix sometimes.</p>
 
@@ -171,15 +201,14 @@
 
 <p><strong>More info</strong></p>
 
-<p>For general questions on OSv, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get general updates by subscribing to this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+<p>For general questions on OSv, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get general updates by subscribing to this blog’s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+
 </div>
 
 
   <footer>
     <p class="meta">
       
-  
-
 <span class="byline author vcard">Posted by <span class="fn">Cloudius Systems</span></span>
 
       
@@ -191,10 +220,9 @@
 
 
 
-  
 
 
-<time datetime="2014-09-25T23:54:23+03:00" pubdate data-updated="true">Sep 25<span>th</span>, 2014</time>
+<time datetime="2014-09-25T16:54:23-04:00" pubdate data-updated="true">Sep 25, 2014</time>
       
 
 
@@ -209,8 +237,6 @@
         <a class="addthis_button_tweet"></a>
         
         
-        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
-        
         
         <a class="addthis_counter addthis_pill_style"></a>
         
@@ -223,10 +249,10 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2014/09/25/java-newrelic-agent/" title="Previous Post: Adding a NewRelic agent to your OSv appliance">&laquo; Adding a NewRelic agent to your OSv appliance</a>
+        <a class="basic-alignment left" href="/blog/2014/09/24/java-newrelic-agent/" title="Previous Post: Adding a NewRelic agent to your OSv appliance">&laquo; Adding a NewRelic agent to your OSv appliance</a>
       
       
-        <a class="basic-alignment right" href="/blog/2014/09/26/shellshock/" title="Next Post: Shellshock">Shellshock &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2014/09/25/shellshock/" title="Next Post: Shellshock">Shellshock &raquo;</a>
       
     </p>
   </footer>
@@ -247,6 +273,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2019/04/19/making-OSv-run-on-firecraker/">Making OSv Run on Firecracker</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/06/12/serverless-computing-with-OSv/">Serverless Computing With OSv</a>
       </li>
     
@@ -260,10 +290,6 @@
     
       <li class="post">
         <a href="/blog/2015/04/27/docker/">Building OSv Images Using Docker</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/04/08/makefile/">Re-"make"-ing OSv</a>
       </li>
     
   </ul>
@@ -332,14 +358,6 @@
 }(document, 'script', 'facebook-jssdk'));</script>
 
 
-
-  <script type="text/javascript">
-    (function() {
-      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
-      script.src = 'https://apis.google.com/js/plusone.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
-    })();
-  </script>
 
 
 

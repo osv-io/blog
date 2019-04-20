@@ -1,0 +1,390 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Containers, Containers, Containers! More Options for the Cloud - OSv Blog</title>
+  <meta name="author" content="Cloudius Systems">
+
+  
+  <meta name="description" content="
+
+  
+  
+    
+      Containers, Containers, Containers! More Options for the Cloud
+    
+    
+      
+        
+
+
+
+
+
+
+
+
+
+
+Dec 2, 2014
+        
+      
+ ...">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://osv-io.github.io//github/blog/2014/12/02/docker-rocket/">
+  <link href="/favicon.ico" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/monokai.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/customized.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <script src="/javascripts/run_prettify.js" type="text/javascript"></script>
+  <script src="/javascripts/lang-gas.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+<!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="http://osv.io/js/cycle.js"></script>
+<script src="http://osv.io/js/js.js" language="javascript"></script-->
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-43975320-1', 'osv.io');
+  ga('send', 'pageview');
+</script>
+
+  
+
+</head>
+
+<body   >
+  <div class="wrap">
+  <div class="header"> <a class="logo" href="http://osv.io"><img src="http://osv.io/images/logo.jpg" /> </a>
+    <div class="topMenu">
+        <ul class="nav menu">
+            <li><a href="http://osv.io">Home</a></li>
+            <li class=""><a href="/">Blog</a></li>
+            <li class=""><a href="/blog/archives">Archives</a></li>
+        </ul>
+        <ul class="subscription" data-subscription="rss">
+            <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+            
+        </ul>
+        
+        <form action="https://www.google.com/search" method="get">
+            <fieldset role="search">
+                <input type="hidden" name="q" value="site:http://osv-io.github.io//github" />
+                <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+            </fieldset>
+        </form>
+        
+    </div>
+</div>
+<div class="mobile header">
+    <a class="logo" href="http://osv.io/">
+        <img src="http://osv.io/images/mobileLogo.jpg"/>
+    </a>
+
+    <div class="mobile-topMenu">
+        <a href="javascript:void(0)" class="mobileMenuLink">&nbsp;</a>
+        <div class="theMobileMenu">
+            <ul class="nav menu">
+                <li class=""><a href="" >Home</a></li>
+                <li class="deeper parent"><a href="/users" >Users</a>
+                    <ul class="nav-child unstyled small">
+                        
+                    </ul>
+                </li>
+                <li class="deeper parent"><a href="/dev" >Development</a>
+                    <ul class="nav-child unstyled small">
+                        
+                    </ul>
+                </li>
+                <li class="deeper parent"><a href="/community" >Community</a>
+                    <ul class="nav-child unstyled small">
+                        
+                    </ul>
+                </li>
+                <li><a href="/contact/" >Contact</a></li>
+            </ul>
+        </div>
+        <script>
+            jQuery(document).ready(function(e) {
+                $('.mobileMenuLink').click(function(e) {
+                    $(this).toggleClass('active');
+                    $('.theMobileMenu').slideToggle();
+                });
+            });
+        </script>
+    </div>
+</div>
+<div class="mobile mobilePageTitle">Containers, containers, containers! More options for the cloud</div>
+
+
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Containers, Containers, Containers! More Options for the Cloud</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+
+
+<time datetime="2014-12-02T17:10:31-05:00" pubdate data-updated="true">Dec 2, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><strong>By <a href="https://twitter.com/DorLaor/">Dor Laor</a></strong></p>
+
+<p>Everybody who uses containers has probably heard about <a href="https://coreos.com/blog/rocket">Rocket</a> by now. What does this <strike>fork</strike> re-implementation mean to the Docker community? Let’s dive in.</p>
+
+<p>The Docker technology has disrupted the cloud and datacenter field for the past year. The speed of penetration was amazing and unmatched in the industry. I can’t think of a similar case for such fast-paced adoption of the concept. Neither AWS, OpenStack, nor virtualization were adopted that fast. What made it that attractive for our community to adopt?</p>
+
+<p>Container technology was there for a lot of years. Even before containers, there has always been similar functionality, like Unix’s <code class="highlighter-rouge">chroot</code>. However, Docker really changed the game with straightforward simplicity and usability. Docker contributed the following:</p>
+
+<ol>
+  <li>
+    <p>A basic one-liner command line: <code class="highlighter-rouge">docker run</code>. It masked out all of the LXC complexities and even downloaded the image if needed.</p>
+  </li>
+  <li>
+    <p>Straightforward image structure: It’s as simple as a directory.</p>
+  </li>
+  <li>
+    <p>A public image repository, <a href="https://hub.docker.com/">Docker Hub</a>, where you can stash your images for future download, and employ an application-market concept.</p>
+  </li>
+</ol>
+
+<p>Docker had become the hottest thing in tech, sometimes way too hot for reality (otherwise, why would one deploy Docker in a VM, incurring two tiers of management pain?). Beyond Google and AWS, even mighty Microsoft wanted a piece of the pie. We couldn’t believe our eyes, what an amazing meritocracy (no sarcasm). All the vendors of the world unite around one simple format.</p>
+
+<p><img src="/images/meritocracy.png" alt="" /></p>
+
+<p>Yesterday CoreOS released a fork-like bomb in the form of Rocket. The reason 
+is the very thing that makes Docker attractive, its simplicity, is also a disadvantage since it’s too complex to harness for security, SLA and diverse workloads.  Apparently CoreOS didn’t manage to get the Docker team to change the mainline code for it.  I guess it’s more than a NIH thing (Not Invented Here) but some limitation of its structure.</p>
+
+<p><img src="/images/fight-time.png" alt="" /></p>
+
+<p>This container diversity was expected although it saddens me to see it become an ugly fight:</p>
+
+<p><img src="/images/docker-thread.png" alt="Twitter thread" /></p>
+
+<p>We believe that CoreOS has the upper hand when it comes to technology. Managing containers is straightforward, but these folks have the vehicle for deploying them. In addition they wrote cool distributed tools such as <code class="highlighter-rouge">etcd</code> and <code class="highlighter-rouge">fleet</code>. So while Docker controls the hub and the format, CoreOS leverages it to gain actual users (PR aside…)</p>
+
+<p>There is nothing to fear about Docker momentum, but it has finally met a reality factor and such competition is positive for innovation and speed as well. With all the fuss around Docker, lots of good features like LXC SLA, and buildpacks (the way Heroku and Cloud Foundry handle them) were dropped in the race for Docker compatibility. It was a nice surprise to see that great minds think alike, and just as Rocket uses <a href="https://github.com/coreos/rocket">several phases</a> in container creation, we do the same for OSv. We create an image by spinning up an empty VM (on any given hypervisor) that formats our ZFS filesystem and afterwards listens on ‘nc’ (netcat) to receive a stream of files from the host.</p>
+
+<p>One of the best things about OSv is that we enjoy the best of all worlds. On one hand, we are a library OS, as small as a single container, usually just a kernel, a runtime and an app. An OSv VM can weigh only 20MB, smaller than most containers. On the other hand, we leverage all of the hypervisor features, including live migration, multiple guest kernels on the same host, resource hotplug, isolation, SLA and more.</p>
+
+<p>Let the battle continue as we collect the best of breed features and embrace them as we’ve done with <a href="http://osv.io/capstan/">Capstan</a>, with our <a href="http://osv.io/blog/blog/2014/08/28/wiki-watch-cloud-init/">cloud-init integration</a>, with our <a href="http://osv.io/manageability/">RESTful APIs</a> and more.</p>
+
+<p><em>For the latest cloud and OSv news, subscript to this blog’s <a href="http://osv.io/blog/atom.xml">feed</a>, or follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</em></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+<span class="byline author vcard">Posted by <span class="fn">Cloudius Systems</span></span>
+
+      
+
+
+
+
+
+
+
+
+
+
+<time datetime="2014-12-02T17:10:31-05:00" pubdate data-updated="true">Dec 2, 2014</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/release/'>release</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+    <div class="addthis_toolbox addthis_default_style ">
+        
+        <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+        
+        
+        <a class="addthis_button_tweet"></a>
+        
+        
+        
+        <a class="addthis_counter addthis_pill_style"></a>
+        
+    </div>
+    
+    <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-5343e81a2e0c9bfa"></script>
+    
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/11/17/eblug/" title="Previous Post: OSv Meetup at EBLUG: intro talk and demo">&laquo; OSv Meetup at EBLUG: intro talk and demo</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2014/12/04/spamsink/" title="Next Post: Making spam vanish&hellip;in the CLOUD">Making spam vanish&hellip;in the CLOUD &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2019/04/19/making-OSv-run-on-firecraker/">Making OSv Run on Firecracker</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/06/12/serverless-computing-with-OSv/">Serverless Computing With OSv</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/04/21/nfs-on-osv/">NFS on OSv or “How I Learned to Stop Worrying About Memory Allocations and Love the Unikernel”</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/03/08/project-mikelangelo/">Project Mikelangelo Update</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/27/docker/">Building OSv Images Using Docker</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  </div>
+  <div class="footer">
+    <div class="wrapf">
+
+
+        <div class="custom"  >
+            <p><a href="http://www.cloudius-systems.com"><img style="margin-top: 30px;" src="http://osv.io/images/footerLogo.jpg" alt="" width="380" height="38" /></a></p></div>
+
+
+
+        <div class="custom social"  >
+            <p><a href="https://plus.google.com/107787008629542080430" rel="publisher">Google+</a></p></div>
+
+
+
+        <div class="custom CloudIcon"  >
+            <p><a href="/index.php"><img src="http://osv.io/images/footerCloudIcon.jpg" width="57" height="33" alt="footerCloudIcon" /></a></p></div>
+
+        <div class="clr"></div>
+    </div>
+</div>
+
+
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'osvblog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.osv.io//github/blog/2014/12/02/docker-rocket/';
+        var disqus_url = 'http://blog.osv.io//github/blog/2014/12/02/docker-rocket/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

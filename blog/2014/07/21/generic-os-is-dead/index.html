@@ -9,9 +9,27 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="By Tzach Livyatan
-This post is a response to the excellent presentation &ldquo;Java Application Servers Are Dead!&rdquo; by Eberhard Wolff.
-Go read &hellip;">
+  <meta name="description" content="
+
+  
+  
+    
+      If Java Application Servers Are Dead, So Is the Operating System (in the Cloud)
+    
+    
+      
+        
+
+
+
+
+
+
+
+
+
+
+Jul 21, 2014...">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -20,14 +38,18 @@ Go read &hellip;">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.osv.io//github/blog/2014/07/21/generic-os-is-dead">
+  <link rel="canonical" href="http://osv-io.github.io//github/blog/2014/07/21/generic-os-is-dead/">
   <link href="/favicon.ico" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/monokai.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/customized.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <script src="/javascripts/run_prettify.js" type="text/javascript"></script>
+  <script src="/javascripts/lang-gas.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
 <!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -64,7 +86,7 @@ Go read &hellip;">
         
         <form action="https://www.google.com/search" method="get">
             <fieldset role="search">
-                <input type="hidden" name="q" value="site:blog.osv.io//github" />
+                <input type="hidden" name="q" value="site:http://osv-io.github.io//github" />
                 <input class="search" type="text" name="q" results="0" placeholder="Search"/>
             </fieldset>
         </form>
@@ -132,10 +154,9 @@ Go read &hellip;">
 
 
 
-  
 
 
-<time datetime="2014-07-21T00:00:00+03:00" pubdate data-updated="true">Jul 21<span>st</span>, 2014</time>
+<time datetime="2014-07-21T00:00:00-04:00" pubdate data-updated="true">Jul 21, 2014</time>
         
       </p>
     
@@ -143,16 +164,14 @@ Go read &hellip;">
 
 
 <div class="entry-content"><p><strong>By Tzach Livyatan</strong>
-This post is a response to the excellent presentation <a href="http://www.slideshare.net/ewolff/java-application-servers-are-dead"><strong>&ldquo;Java Application Servers Are Dead!&rdquo;</strong></a> by <a href="https://twitter.com/ewolff">Eberhard Wolff</a>.
+This post is a response to the excellent presentation <a href="http://www.slideshare.net/ewolff/java-application-servers-are-dead"><strong>“Java Application Servers Are Dead!”</strong></a> by <a href="https://twitter.com/ewolff">Eberhard Wolff</a>.
 Go read his slides and come back here.</p>
 
 <p>Back already?
 Assuming you agree with Eberhard’s  claims,  let me demonstrate how
 most of his points on Java Application Servers can be applied to a
-generic OS (one designed for hardware servers) in the cloud as well.</p>
-
-<!-- more -->
-
+generic OS (one designed for hardware servers) in the cloud as well.
+<!-- more --></p>
 
 <p>First let me scope the discussion.
 An operating system can run on your mobile, desktop, back office, or as a VM on the cloud.
@@ -160,19 +179,17 @@ For this post, I’m referring specifically to the cloud use case, which can be 
 Cloud deployments are the important case to concentrate on, as new Java application servers are mostly deployed on VMs these days.</p>
 
 <p><img src="/images/turtles.png" alt="turtles all the way down" />
-Illustration: Omarcito for Wikimedia Commons (<a href="http://commons.wikimedia.org/wiki/File:Omarcito.gif">http://commons.wikimedia.org/wiki/File:Omarcito.gif</a>)</p>
+Illustration: Omarcito for Wikimedia Commons (http://commons.wikimedia.org/wiki/File:Omarcito.gif)</p>
 
-<p>Eberhard present different properties of the Java Application Server, and for each, demonstrates why it is no longer relevant.
+<p>Eberhard present different properties of the Java Application Server, and for each, demonstrates why it is no longer relevant. 
 I will follow his footsteps, applying the same methodology to generic
 OS, for two of the properties: <em>Container for multiple applications</em> and <em>Deployment</em>.</p>
 
-<h2>Container for multiple applications</h2>
-
+<h2 id="container-for-multiple-applications">Container for multiple applications</h2>
 <p>Both the Java application server and the OS are supposed to isolate applications from each other. Both do a good job at it, and OS isolation is definitely somewhat stronger.  However, it is still not good enough for multitenancy, <a href="http://osv.io/blog/blog/2014/06/19/containers-hypervisors-part-2/">even with OS-level containers</a>.
 This is why we have hypervisors, and this is why most deployment in the clouds include one application per VM.</p>
 
-<h2>Deployment</h2>
-
+<h2 id="deployment">Deployment</h2>
 <p>I agree with Eberhard’s claim that Java deployments (JAR, WAR, EAR) are problematic.
 Linux-style packaging, using RPM or deb packages, is not a full solution either.</p>
 
@@ -182,16 +199,15 @@ Linux-style packaging, using RPM or deb packages, is not a full solution either.
 
 <p>To summarize, both the  Java application server and the generic OS were created to provide a set of services which is no longer required.</p>
 
-<h2>With Java AS and generic OS dead, what&rsquo;s next?</h2>
+<h2 id="with-java-as-and-generic-os-dead-whats-next">With Java AS and generic OS dead, what’s next?</h2>
+<p>** Micro Services **</p>
 
-<p><strong> Micro Services </strong></p>
-
-<p><em>&ldquo;an approach to developing a single application as a suite of small
+<p><em>“an approach to developing a single application as a suite of small
  services, each running in its own process and communicating with
- lightweight mechanisms, often an HTTP resource API&rdquo;</em>
+ lightweight mechanisms, often an HTTP resource API”</em>
 <a href="http://martinfowler.com/articles/microservices.html">Martin Fowler</a>
 <img src="/images/PreferFunctionalStaffOrganization.png" alt="&quot;From micro services" />
-Illustration: Martin Fowler (<a href="http://martinfowler.com/articles/microservices.html">http://martinfowler.com/articles/microservices.html</a>)</p>
+Illustration: Martin Fowler (http://martinfowler.com/articles/microservices.html)</p>
 
 <p>Each micro service can can have its own end to end stack, from the OS up to the application.
 As explained above, an ideal scenario would be to deploy the micro service logic directly on a hypervisor, cutting two middle layers: the application server and the generic OS.</p>
@@ -203,14 +219,14 @@ Run my application on EC2 with no OS at all to support it? Not quite.</p>
 
 <p>For every micro service, one can use a tool like
 <a href="http://osv.io/capstan">Capstan</a> to cook a new VM, pre integrating the
-application, JVM and the OS &ndash; to a ready to be deployed VM. Just take
+application, JVM and the OS - to a ready to be deployed VM. Just take
 it and deploy it on your favorite cloud provider.</p>
 
 <p>Take Capstan for a <a href="http://osv.io/run-locally/">spin</a></p>
 
 <p>For more info on Capstan and other OSv subjects, please join
 the
-<a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.<br/>
+<a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.<br />
 You can get updates on by subscribing to the <a href="http://osv.io/blog/atom.xml">OSv blog RSS feed</a> or following <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
 </div>
 
@@ -218,8 +234,6 @@ You can get updates on by subscribing to the <a href="http://osv.io/blog/atom.xm
   <footer>
     <p class="meta">
       
-  
-
 <span class="byline author vcard">Posted by <span class="fn">Cloudius Systems</span></span>
 
       
@@ -231,10 +245,9 @@ You can get updates on by subscribing to the <a href="http://osv.io/blog/atom.xm
 
 
 
-  
 
 
-<time datetime="2014-07-21T00:00:00+03:00" pubdate data-updated="true">Jul 21<span>st</span>, 2014</time>
+<time datetime="2014-07-21T00:00:00-04:00" pubdate data-updated="true">Jul 21, 2014</time>
       
 
 <span class="categories">
@@ -254,8 +267,6 @@ You can get updates on by subscribing to the <a href="http://osv.io/blog/atom.xm
         
         <a class="addthis_button_tweet"></a>
         
-        
-        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
         
         
         <a class="addthis_counter addthis_pill_style"></a>
@@ -293,6 +304,10 @@ You can get updates on by subscribing to the <a href="http://osv.io/blog/atom.xm
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2019/04/19/making-OSv-run-on-firecraker/">Making OSv Run on Firecracker</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/06/12/serverless-computing-with-OSv/">Serverless Computing With OSv</a>
       </li>
     
@@ -306,10 +321,6 @@ You can get updates on by subscribing to the <a href="http://osv.io/blog/atom.xm
     
       <li class="post">
         <a href="/blog/2015/04/27/docker/">Building OSv Images Using Docker</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/04/08/makefile/">Re-"make"-ing OSv</a>
       </li>
     
   </ul>
@@ -378,14 +389,6 @@ You can get updates on by subscribing to the <a href="http://osv.io/blog/atom.xm
 }(document, 'script', 'facebook-jssdk'));</script>
 
 
-
-  <script type="text/javascript">
-    (function() {
-      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
-      script.src = 'https://apis.google.com/js/plusone.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
-    })();
-  </script>
 
 
 

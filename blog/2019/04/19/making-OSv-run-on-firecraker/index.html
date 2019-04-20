@@ -1,0 +1,550 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Making OSv Run on Firecracker - OSv Blog</title>
+  <meta name="author" content="Cloudius Systems">
+
+  
+  <meta name="description" content="
+
+  
+  
+    
+      Making OSv Run on Firecracker
+    
+    
+      
+        
+
+
+
+
+
+
+
+
+
+
+Apr 19, 2019
+        
+      
+    
+  
+
+
+By: Waldek Kozaczuk
+
+Fi...">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://osv-io.github.io//github/blog/2019/04/19/making-OSv-run-on-firecraker/">
+  <link href="/favicon.ico" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/monokai.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/customized.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <script src="/javascripts/run_prettify.js" type="text/javascript"></script>
+  <script src="/javascripts/lang-gas.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+<!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="http://osv.io/js/cycle.js"></script>
+<script src="http://osv.io/js/js.js" language="javascript"></script-->
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-43975320-1', 'osv.io');
+  ga('send', 'pageview');
+</script>
+
+  
+
+</head>
+
+<body   >
+  <div class="wrap">
+  <div class="header"> <a class="logo" href="http://osv.io"><img src="http://osv.io/images/logo.jpg" /> </a>
+    <div class="topMenu">
+        <ul class="nav menu">
+            <li><a href="http://osv.io">Home</a></li>
+            <li class=""><a href="/">Blog</a></li>
+            <li class=""><a href="/blog/archives">Archives</a></li>
+        </ul>
+        <ul class="subscription" data-subscription="rss">
+            <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+            
+        </ul>
+        
+        <form action="https://www.google.com/search" method="get">
+            <fieldset role="search">
+                <input type="hidden" name="q" value="site:http://osv-io.github.io//github" />
+                <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+            </fieldset>
+        </form>
+        
+    </div>
+</div>
+<div class="mobile header">
+    <a class="logo" href="http://osv.io/">
+        <img src="http://osv.io/images/mobileLogo.jpg"/>
+    </a>
+
+    <div class="mobile-topMenu">
+        <a href="javascript:void(0)" class="mobileMenuLink">&nbsp;</a>
+        <div class="theMobileMenu">
+            <ul class="nav menu">
+                <li class=""><a href="" >Home</a></li>
+                <li class="deeper parent"><a href="/users" >Users</a>
+                    <ul class="nav-child unstyled small">
+                        
+                    </ul>
+                </li>
+                <li class="deeper parent"><a href="/dev" >Development</a>
+                    <ul class="nav-child unstyled small">
+                        
+                    </ul>
+                </li>
+                <li class="deeper parent"><a href="/community" >Community</a>
+                    <ul class="nav-child unstyled small">
+                        
+                    </ul>
+                </li>
+                <li><a href="/contact/" >Contact</a></li>
+            </ul>
+        </div>
+        <script>
+            jQuery(document).ready(function(e) {
+                $('.mobileMenuLink').click(function(e) {
+                    $(this).toggleClass('active');
+                    $('.theMobileMenu').slideToggle();
+                });
+            });
+        </script>
+    </div>
+</div>
+<div class="mobile mobilePageTitle">Making OSv Run on Firecracker</div>
+
+
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Making OSv Run on Firecracker</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+
+
+<time datetime="2019-04-19T10:00:00-04:00" pubdate data-updated="true">Apr 19, 2019</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><strong>By: Waldek Kozaczuk</strong></p>
+
+<h2 id="firecracker">Firecracker</h2>
+
+<p><a href="https://firecracker-microvm.github.io/">Firecracker</a> is a new light KVM-based hypervisor written in Rust and announced during last AWS re:Invent in 2018. But unlike QEMU, Firecracker is specialized to host Linux guests only and is able to boot micro VMs in ~ 125 ms. Firecracker itself can only run on Linux on bare-metal machines with Intel 64-bit CPUs or i3.metal or other <a href="http://www.brendangregg.com/blog/2017-11-29/aws-ec2-virtualization-2017.html">Nitro-based</a> EC2 instances.</p>
+
+<p>Firecracker implements a device model with the following I/O devices:</p>
+<ul>
+  <li>paravirtual VirtIO block and network devices over MMIO transport</li>
+  <li>serial console</li>
+  <li>partial keyboard controller</li>
+  <li>PICs (Programmable Interrupt Controllers)</li>
+  <li>IOAPIC (Advanced Programmable Interrupt Controller)</li>
+  <li>PIT (Programmable Interval Timer)</li>
+  <li>KVM clock</li>
+</ul>
+
+<p>Firecracker also exposes REST API over UNIX domain socket and can be confined to improve security through so called <em>jailer</em>. For more details look at <a href="https://github.com/firecracker-microvm/firecracker/blob/master/docs/design.md">the design doc</a> and <a href="https://github.com/firecracker-microvm/firecracker/blob/master/SPECIFICATION.md">the specification</a>.</p>
+
+<p>If you want to hear more about what it took to enhance OSv to make it <strong>boot in 5 ms</strong> on Firecracker (total of <strong>10 ms</strong> including the host side) which is <strong>~20 times faster than Linux</strong> on the same hardware (5 years old MacBook Pro with Ubuntu 18.10), please read remaining part of this article. In the next paragraph I will describe the implementation strategy I arrived at. In the following three paragraphs I will focus on what I had to change in relevant areas - booting process, VirtIO and ACPI. Finally in the epilogue I will describe the outcome of this exercise and possible improvements we can make and benefit from in future.</p>
+
+<p>If you want to try OSv on Firecracker before reading this article follow <a href="https://github.com/cloudius-systems/osv/wiki/Running-OSv-on-Firecracker">this wiki</a>.</p>
+
+<h2 id="implementation-strategy">Implementation Strategy</h2>
+
+<p>OSv implements VirtIO drivers and is very well supported on QEMU/KVM. Given Firecracker is based on <a href="https://www.kernel.org/doc/ols/2007/ols2007v1-pages-225-230.pdf">KVM</a> and exposes VirtIO devices, at first it seemed OSv might boot and run on it out of the box with some small modifications. As first experiments and more research showed, the task in reality was not as trivial. The initial attempts to boot OSv on Firecracker caused KVM exit and OSv did not even print its first boot message.</p>
+
+<p>For starters I had to identify which OSv artifact to use as an argument to Firecracker <strong>/boot-source</strong> API call. It could not be plain <strong>usr.img</strong> or its derivative used with QEMU as Firecracker expects 64-bit ELF (Executable and Linking Format) vmlinux kernel. The closest to it in OSv-land is <strong>loader.elf</strong> (enclosed inside of usr.img) - 64-bit ELF file with 32-bit entry point <strong>start32</strong>. Finally given it is not possible to connect to OSv running on Firecracker with gdb (like it is possible with QEMU), I could not use this technique to figure out where stuff breaks.</p>
+
+<p>It became clear to me I should first focus on making OSv boot on Firecracker without block and network devices. Luckily OSv can be built with Ram-FS where application code is placed in <strong>bootfs</strong> part of loader.elf.</p>
+
+<p>Then I should enhance VirtIO layer to make it support block and network devices with MMIO transport. Initially these changes seemed very reasonable to implement but they turned way more involved in the end.</p>
+
+<p>Finally I had to tweak some parts of OSv to make it work without <a href="https://wiki.osdev.org/ACPI">ACPI</a> (Advanced Configuration and Power Interface) if unavailable.</p>
+
+<p>Next three paragraphs describe each step of this plan in detail.</p>
+
+<h2 id="booting">Booting</h2>
+
+<p>In order to make OSv boot on Firecracker, first I had to understand how current OSv booting process works.</p>
+
+<p>Originally OSv had been designed to boot in 16-bit mode (aka <strong>real mode</strong>) when it expects hypervisor to load MBR (Master Boot Record), which is first 512 bytes of OSv image, at address 0x7c00 and execute it by jumping to that address. A this point OSv bootloader (<a href="https://github.com/cloudius-systems/osv/blob/master/arch/x64/boot16.S">code</a> in these 512 bytes) loads command line found in next 63.5 KB of the image using <a href="https://wiki.osdev.org/ATA_in_x86_RealMode_(BIOS)#LBA_in_Extended_Mode">interrupt 0x13</a>. Then it loads remaining part of the image which is <strong>lzloader.elf</strong> (loader.elf + <em>fastlz</em> decompression logic) at address 0x100000 in 32KB chunks using the interrupt 0x13 and switching back and forth between real and protected mode. Next it reads the size of available RAM using <a href="http://www.uruk.org/orig-grub/mem64mb.html">the 0x15 interrupt</a> and jumps to <a href="https://github.com/cloudius-systems/osv/blob/c8395118cb580f2395cac6c53999feb217fd2c2f/fastlz/lzloader.cc#L30-L79">the code in the beginning of 1st MB that de-compresses</a> <em>lzloader.elf</em> in 1MB chunks starting from the tail and going backwards. Eventually after <em>loader.elf</em> is placed in memory at the address 0x200000 (2nd MB), logic in <code class="highlighter-rouge">boot16.S</code> switches to <strong>protected mode</strong> and jumps to <strong>start32</strong> to prepare to switch to <strong>long mode</strong> (64-bit). Please note that <em>start32</em> is a 32-bit entry point of otherwise 64-bit loader.elf. For more details please read <a href="https://github.com/cloudius-systems/osv/wiki/OSv-early-boot-(MBR)">this Wiki</a>.</p>
+
+<p>Firecracker on other hand expects image to be a vmlinux 64-bit ELF file and loads its LOAD segments into RAM at addresses specified by ELF program headers. Firecracker also sets VM to long mode (aka 64-bit mode), state of relevant registers and paging tables to map virtual memory to physical one as expected by Linux. Finally it passes memory information and boot command line in the <em>boot_params</em> structure and jumps to vmlinux entry of <em>startup_64</em> to let Linux kernel continue its <a href="https://www.kernel.org/doc/Documentation/x86/boot.txt">booting process</a>.</p>
+
+<p>So the challenge is: how do we modify booting logic to support booting OSv as 64-bit vmlinux format ELF and at the same time retain ability to boot in real mode using traditional <em>usr.img</em> image file? For sure we need to replace current 32-bit entry point <strong>start32</strong> of loader.elf with a 64-bit one - <strong>vmlinux_entry64</strong> - that will be called by Firecracker (which will also load loader.elf in memory at <em>0x200000</em> as ELF header demands). At the same time we also need to change memory placement of <em>start32</em> to be at some fixed offset so that boot16.S knows where to jump to.</p>
+
+<p>So what exactly new <em>vmlinux_entry64</em> should do? Firecracker sets up VMs to 64-bit state but OSv already provided 64-bit <a href="https://github.com/cloudius-systems/osv/blob/c8395118cb580f2395cac6c53999feb217fd2c2f/arch/x64/boot.S#L100-L119">start64</a> function so one could ask - why not simply jump to it and be done with it?. Unfortunately this would not work (as I tested) because of slightly different memory paging tables and CPU setup between what Linux and OSv expects (and Firecracker sets up for Linux). So possibly <em>vmlinux_entry64</em> needs to reset paging tables and CPU the OSv way? Alternatively <em>vmlinux_entry64</em> could switch back to protected mode and jump to <em>start32</em> and let it setup VM OSv way. I tried that as well but it did not work for some reason either.</p>
+
+<p>Luckily we do not need to worry about the segmentation which is setup by Firecracker to <em>flat memory model</em> which is typical in long mode and what OSv expects.</p>
+
+<p>At the end based on many trial-and-error attempts I came to conclusion that <em>vmlinux_entry64</em> should do following:</p>
+<ol>
+  <li>Extract command line and memory information from Linux <em>boot_params</em> structure whose address is passed in by Firecracker in RSI register and copy to another place structured same way as if OSv booted through boot16.S (please see <a href="https://github.com/cloudius-systems/osv/blob/c8395118cb580f2395cac6c53999feb217fd2c2f/arch/x64/vmlinux.cc#L41-L93">extract_linux_boot_params</a> for details).</li>
+  <li>Reset CR0 and CR4 <a href="https://wiki.osdev.org/CPU_Registers_x86-64#Control_Registers">control registers</a> to reset global CPU features OSv way.</li>
+  <li>Reset CR3 register to point to OSv PML4 table mapping first 1GB of memory with 2BM medium size pages one-to-one (for more information about memory paging please read <a href="http://www.renyujie.net/articles/article_ca_x86_5.php">this article</a>).</li>
+  <li>Finally jump to <em>start64</em> to complete boot process and start OSv.</li>
+</ol>
+
+<p>The code below is slightly modified version of <a href="https://github.com/cloudius-systems/osv/blob/master/arch/x64/vmlinux-boot64.S">vmlinux_entry64 in vmlinux-boot64.S</a> that implements the steps described above in GAS (GNU Assembler) language.</p>
+
+<pre class="prettyprint lang-gas my-gas">
+# Call extract_linux_boot_params with the address of
+# boot_params struct passed in RSI register to 
+# extract cmdline and memory information
+mov %rsi, %rdi
+call extract_linux_boot_params
+
+# Reset paging tables and other CPU settings the way 
+# OSv expects it
+mov $BOOT_CR4, %rax
+mov %rax, %cr4
+
+lea ident_pt_l4, %rax
+mov %rax, %cr3
+
+# Enable long mode by writing to EFER register by setting
+# LME (Long Mode Enable) and NXE (No-Execute Enable) bits
+mov $0xc0000080, %ecx
+mov $0x00000900, %eax
+xor %edx, %edx
+wrmsr
+
+mov $BOOT_CR0, %rax
+mov %rax, %cr0
+
+# Continue 64-bit boot logic by jumping to start64 label
+mov $OSV_KERNEL_BASE, %rbp
+mov $0x1000, %rbx
+jmp start64
+</pre>
+<p><br />
+As you can see making OSv boot on Firecracker was the most tricky part of whole exercise.</p>
+
+<h2 id="virtio">Virtio</h2>
+<p>Unlike booting process, enhancing virtio layer in OSv was not as tricky and hard to debug, but it was the most labor intensive and required a lot of research that included reading the spec and Linux code for comparison.</p>
+
+<p>Before diving in, let us first get a glimpse of VirtIO and its purpose. <a href="http://docs.oasis-open.org/virtio/virtio/v1.0/virtio-v1.0.html">VirtIO specification</a> defines standard virtual (sometimes called paravirtual) devices including network, block, scsi, etc ones. It effectively dictates how hypervisor (host) should expose those devices as well as how guest should detect, configure and interact with them in runtime in form of a driver. The objective is to define devices that can operate in most efficient way and minimize number of costly performance-wise exits from guest to host.</p>
+
+<p>Firecracker implements virtio MMIO block and net devices. The MMIO (Memory-Mapped IO) is one of three VirtIO transport layers (MMIO, PCI, CCW) and was modeled after PCI and differs mainly in how MMIO devices are configured and initialized. Unfortunately to my despair OSv only implemented PCI transport and was missing mmio implementation. On top of that to make things worse it implemented the legacy (pre 1.0) version of virtio before it was finalized in 2016. So two things had to be done - refactor OSv virtio layer to support both legacy and modern PCI devices and implement virtio mmio.</p>
+
+<p>In order to design and implement correct changes first I had to understand existing implementation of virtio layer. OSv has two orthogonal but related abstraction layers in this matter - driver and device classes. The <a href="https://github.com/cloudius-systems/osv/blob/25209d81f7b872111beb02ab9758f0d86898ec6b/drivers/virtio.hh">virtio::virtio_driver</a> serves as a base class with common driver logic and is extended by <a href="https://github.com/cloudius-systems/osv/blob/25209d81f7b872111beb02ab9758f0d86898ec6b/drivers/virtio-blk.hh">virtio::blk</a>, <a href="https://github.com/cloudius-systems/osv/blob/25209d81f7b872111beb02ab9758f0d86898ec6b/drivers/virtio-net.hh">virtio::net</a>, <a href="https://github.com/cloudius-systems/osv/blob/25209d81f7b872111beb02ab9758f0d86898ec6b/drivers/virtio-scsi.hh">virtio::scsi</a> and <a href="https://github.com/cloudius-systems/osv/blob/25209d81f7b872111beb02ab9758f0d86898ec6b/drivers/virtio-rng.hh">virtio::rng</a> classes to provide implementations for relevant type. For better illustration please look at this ascii art:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+ hw_device &lt;|---
+               | 
+       pci::function &lt;|--- 
+                         |
+                  pci::device
+                         ^                 |-- virtio::net
+                  (uses) |                 |
+                         |                 |-- virtio::blk
+ hw_driver &lt;|--- virtio::virtio_driver &lt;|--|
+                                           |-- virtio::scsi
+                                           |
+                                           |-- virtio::rng
+
+</code></pre></div></div>
+<p><br />
+As you can tell from the graphics above, <em>virtio_driver</em> interacts directly with <a href="https://github.com/cloudius-systems/osv/blob/25209d81f7b872111beb02ab9758f0d86898ec6b/drivers/pci-device.hh">pci::device</a> so in order to add support of MMIO devices I had to refactor it to make it transport agnostic. From all the options I took into consideration, the least invasive and most flexible one involved creating new abstraction to model virtio device. To that end I ended up heavily refactoring <em>virtio_driver</em> class and defining following new virtual device classes:</p>
+
+<ul>
+  <li><a href="https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio-device.hh">virtio::virtio_device</a> - abstract class to model interface of virtio device intended to be used by refactored <a href="https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio.hh">virtio::virtio_driver</a></li>
+  <li><a href="https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio-pci-device.hh#L65-L93">virtio::virtio_pci_device</a> - base class extending <em>virtio_device</em> and implementing common virtio PCI logic that delegates to <em>pci_device</em></li>
+  <li><a href="https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio-pci-device.hh#L95-L135">virtio::virtio_legacy_pci_device</a> - class extending <em>virtio_pci_device</em> and implementing legacy PCI device</li>
+  <li><a href="https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio-pci-device.hh#L198-L288">virtio::virtio_modern_pci_device</a> - class extending <em>virtio_pci_device</em> implementing modern PCI device; most differences between modern and legacy PCI devices lie in the initialization and configuration phase with special configuration register</li>
+  <li><a href="https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio-mmio.hh">virtio::mmio_device</a> - class extending <em>virtio_device</em> and implementing mmio device</li>
+</ul>
+
+<p>The method <strong>is_modern()</strong> declared in <strong>virtio_device</strong> class and overridden in its subclasses is used in few places in <strong>virtio_driver</strong> and its subclasses to mostly drive slightly different initialization logic of legacy and modern virtio devices.</p>
+
+<p>For better illustration of the changes and relationship between new and old classes please see the ascii-art UML-like class diagram below:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+               |-- pci::function &lt;|--- pci::device
+               |                              ^
+               |               (delegates to) |
+               |                              |        |-- virtio_legacy_pci_device
+ hw_device &lt;|--|             --- virtio_pci_device &lt;|--|
+               |             |                         |-- virtio_modern_pci_device
+               |             _ 
+               |             v
+               |-- virtio::virtio_device &lt;|--- virtio::mmio_device
+                   ---------------------
+                   | bool is_modern()  |
+                   ---------------------
+                             ^             |-- virtio::net
+                      (uses) |             |
+                             |             |-- virtio::blk
+ hw_driver &lt;|--- virtio::virtio_driver &lt;|--|
+                                           |-- virtio::scsi
+                                           |
+                                           |-- virtio::rng
+
+</code></pre></div></div>
+<p><br />
+To recap most of the coding went into major refactoring of <em>virtio_driver</em> class to make it transport agnostic and delegate to <em>virtio_device</em>, extracting out PCI logic from <em>virtio_driver</em> into <strong>virtio_pci_device</strong> and <strong>virtio_legacy_pci_device</strong> and finally implementing new <strong>virtio_modern_pci_device</strong> and <strong>virtio::mmio_device</strong> classes. Thanks to this approach changes to the subclasses of <em>virtio_driver</em> (<em>virtio::net</em>, <em>virtio::block</em>, etc) were pretty minimal and one of the critical classes - <a href="https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio-vring.hh">virtio::vring</a> - stayed pretty much intact.</p>
+
+<p>Big motivation for implementing modern virtio PCI device (as opposed to implementing legacy one only) was to have a way to exercise and test modern virtio device with QEMU. That way I could have extra confidence that most heavy refactoring in <em>virtio_driver</em> was correct even before testing it with Firecracker which exposes modern MMIO device. Also there is great chance it will make easier enhancing virtio layer to support new <a href="https://docs.oasis-open.org/virtio/virtio/v1.1/csprd01/virtio-v1.1-csprd01.html">VirtIO 1.1 spec</a> once finalized (for good overview see <a href="https://archive.fosdem.org/2018/schedule/event/virtio/attachments/slides/2167/export/events/attachments/virtio/slides/2167/fosdem_virtio1_1.pdf">here</a>).</p>
+
+<p>Lastly given that MMIO devices cannot be detected in similar fashion as PCI ones and instead are passed by Firecracker as part of command line in format Linux kernel expects, I also had to enhance OSv command line parsing logic <a href="https://github.com/cloudius-systems/osv/blob/12b39c686a18813f3ee9760732ade41be94c2aa2/drivers/virtio-mmio.cc#L140-L214">to extract relevant configuration bits</a>. On top of that I added boot parameter to skip PCI enumeration and that way save extra 4-5 ms of boot time.</p>
+
+<h2 id="acpi">ACPI</h2>
+
+<p>The last and simplest part of the exercise was to fill in the gaps in OSv to make it deal with situation when <a href="http://www.acpi.info/">ACPI</a> is unavailable.</p>
+
+<p>Firecracker does not implement ACPI which is used by OSv to implement power handling and to discover CPUs. Instead OSv had to be changed to boot without ACPI and <a href="https://github.com/cloudius-systems/osv/commit/47ae2b65e0428336a841d07d9add01359f523377">read CPU info from MP table</a>. For more information about MP table read <a href="https://wiki.osdev.org/Symmetric_Multiprocessing#Finding_information_using_MP_Table">here</a> or <a href="http://www.osdever.net/tutorials/view/multiprocessing-support-for-hobby-oses-explained">there</a>.
+All in all I had to enhance OSv in following ways:</p>
+<ul>
+  <li>modify ACPI related logic to detect if it is present</li>
+  <li>modify relevant places (CPU detection, power off) that rely on ACPI to continue and use alternative mechanism if ACPI not present instead of aborting</li>
+  <li>modify pvpanic probing logic to skip if ACPI not available</li>
+</ul>
+
+<h2 id="epilogue">Epilogue</h2>
+
+<p>With all changes implemented as described above OSv can boot on Firecracker.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>OSv v0.53.0-6-gc8395118
+2019-04-17T22:28:29.467736397 [anonymous-instance:WARN:vmm/src/lib.rs:1080] Guest-boot-time =   9556 us 9 ms,  10161 CPU us 10 CPU ms
+	disk read (real mode): 0.00ms, (+0.00ms)
+	uncompress lzloader.elf: 0.00ms, (+0.00ms)
+	TLS initialization: 1.13ms, (+1.13ms)
+	.init functions: 2.08ms, (+0.94ms)
+	SMP launched: 3.43ms, (+1.35ms)
+	VFS initialized: 4.12ms, (+0.69ms)
+	Network initialized: 4.45ms, (+0.33ms)
+	pvpanic done: 5.07ms, (+0.62ms)
+	drivers probe: 5.11ms, (+0.03ms)
+	drivers loaded: 5.46ms, (+0.35ms)
+	ROFS mounted: 5.62ms, (+0.17ms)
+	Total time: 5.62ms, (+0.00ms)
+Hello from C code
+</code></pre></div></div>
+<p><br />
+The console log with bootchart information above from an example run of OSv with Read-Only-FS on Firecracker, shows it took slightly less than 6 ms to boot. As you can notice OSv spent no time loading its image in real mode and decompressing it which is expected because OSv gets booted as ELF and these two phases completely bypassed.</p>
+
+<p>Even though 5 ms is already very low number, one can see that possibly TLS initialization and ‘SMP lauched’ phases need to be looked at to see if we can optimize it further. 
+Other areas of interest to improve are memory utilization - OSv needs minimum of 18MB to run on Firecracker and network performance which <a href="https://github.com/firecracker-microvm/firecracker/issues/1034#issue-424659555">suffers a little comparing to QEMU/KVM</a> which might need to be optimized on Firecracker itself.</p>
+
+<p>On other hand it is worth noting that block device seems to work much faster - for example mounting ZFS filesystem is at least 5 times faster on Firecracker - on average 60ms on firecracker vs 260 ms on QEMU.</p>
+
+<p>Looking toward future, Firecracker team is working on ARM support and given OSv already <a href="https://github.com/cloudius-systems/osv/wiki/AArch64">unofficially supports this platform</a> and used to boot on XEN/ARM at some point, it might not be that difficult to make OSV boot on future Firecracker ARM version.</p>
+
+<p>Finally this work might make it easier to boot OSv on <a href="https://github.com/intel/nemu">NEMU</a> and QEMU 4.0 in <a href="https://patchwork.kernel.org/patch/10741013/">Linux direct kernel mode</a>. It might also make it easier to implement support of new Virtio 1.1 spec.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+<span class="byline author vcard">Posted by <span class="fn">Cloudius Systems</span></span>
+
+      
+
+
+
+
+
+
+
+
+
+
+<time datetime="2019-04-19T10:00:00-04:00" pubdate data-updated="true">Apr 19, 2019</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+    <div class="addthis_toolbox addthis_default_style ">
+        
+        <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+        
+        
+        <a class="addthis_button_tweet"></a>
+        
+        
+        
+        <a class="addthis_counter addthis_pill_style"></a>
+        
+    </div>
+    
+    <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-5343e81a2e0c9bfa"></script>
+    
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2017/06/12/serverless-computing-with-OSv/" title="Previous Post: Serverless computing with OSv">&laquo; Serverless computing with OSv</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2019/04/19/making-OSv-run-on-firecraker/">Making OSv Run on Firecracker</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/06/12/serverless-computing-with-OSv/">Serverless Computing With OSv</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/04/21/nfs-on-osv/">NFS on OSv or “How I Learned to Stop Worrying About Memory Allocations and Love the Unikernel”</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/03/08/project-mikelangelo/">Project Mikelangelo Update</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/27/docker/">Building OSv Images Using Docker</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  </div>
+  <div class="footer">
+    <div class="wrapf">
+
+
+        <div class="custom"  >
+            <p><a href="http://www.cloudius-systems.com"><img style="margin-top: 30px;" src="http://osv.io/images/footerLogo.jpg" alt="" width="380" height="38" /></a></p></div>
+
+
+
+        <div class="custom social"  >
+            <p><a href="https://plus.google.com/107787008629542080430" rel="publisher">Google+</a></p></div>
+
+
+
+        <div class="custom CloudIcon"  >
+            <p><a href="/index.php"><img src="http://osv.io/images/footerCloudIcon.jpg" width="57" height="33" alt="footerCloudIcon" /></a></p></div>
+
+        <div class="clr"></div>
+    </div>
+</div>
+
+
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'osvblog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://blog.osv.io//github/blog/2019/04/19/making-OSv-run-on-firecraker/';
+        var disqus_url = 'http://blog.osv.io//github/blog/2019/04/19/making-OSv-run-on-firecraker/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

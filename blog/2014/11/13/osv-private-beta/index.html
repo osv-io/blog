@@ -9,7 +9,34 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="Cloudius Systems is introducing an early access version of OSv, the lightweight open-source OS optimized for large cloud workloads, on November 13. &hellip;">
+  <meta name="description" content="
+
+  
+  
+    
+      OSv Early Access Private Beta
+    
+    
+      
+        
+
+
+
+
+
+
+
+
+
+
+Nov 13, 2014
+        
+      
+    
+  
+
+
+Cloudius Systems is int...">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,14 +45,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.osv.io//github/blog/2014/11/13/osv-private-beta">
+  <link rel="canonical" href="http://osv-io.github.io//github/blog/2014/11/13/osv-private-beta/">
   <link href="/favicon.ico" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/monokai.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/customized.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <script src="/javascripts/run_prettify.js" type="text/javascript"></script>
+  <script src="/javascripts/lang-gas.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
 <!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -62,7 +93,7 @@
         
         <form action="https://www.google.com/search" method="get">
             <fieldset role="search">
-                <input type="hidden" name="q" value="site:blog.osv.io//github" />
+                <input type="hidden" name="q" value="site:http://osv-io.github.io//github" />
                 <input class="search" type="text" name="q" results="0" placeholder="Search"/>
             </fieldset>
         </form>
@@ -130,10 +161,9 @@
 
 
 
-  
 
 
-<time datetime="2014-11-13T18:10:31+02:00" pubdate data-updated="true">Nov 13<span>th</span>, 2014</time>
+<time datetime="2014-11-13T11:10:31-05:00" pubdate data-updated="true">Nov 13, 2014</time>
         
       </p>
     
@@ -150,11 +180,11 @@
 
 <p>Cloudius Systems’ early access release features an expanded Web API for management, along with performance improvements that increase efficiency, with an up to a 3.9x throughput gain. Unlike conventional operating systems with their diverse configuration files and complex user and memory management, OSv is designed to provide the minimum OS needed to run a single application at maximum performance in the cloud.</p>
 
-<p>&ldquo;OSv was designed with virtualization in mind,” said Cloudius Systems CTO, Avi Kivity.  “The OS overhead is minimized by a reduction of context switches, data copies, and inefficient constructs such as spinlocks.&rdquo; OSv virtual machines can be as small as 20MB, far smaller than Docker containers, and boot in less than one second.</p>
+<p>“OSv was designed with virtualization in mind,” said Cloudius Systems CTO, Avi Kivity.  “The OS overhead is minimized by a reduction of context switches, data copies, and inefficient constructs such as spinlocks.” OSv virtual machines can be as small as 20MB, far smaller than Docker containers, and boot in less than one second.</p>
 
-<h2><a href="http://www.cloudius-systems.com/images/mouse.jpeg">Sign up for the OSv beta</a></h2>
+<h2 id="sign-up-for-the-osv-beta"><a href="http://www.cloudius-systems.com/images/mouse.jpeg">Sign up for the OSv beta</a></h2>
 
-<p>You can keep up with the latest OSv news from this blog&rsquo;s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.  Hope to see you at the show.</p>
+<p>You can keep up with the latest OSv news from this blog’s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.  Hope to see you at the show.</p>
 
 <p>Photo: <a href="http://commons.wikimedia.org/wiki/File:Lab_mouse_mg_3216.jpg">Rama for Wikimedia Commons</a></p>
 </div>
@@ -163,8 +193,6 @@
   <footer>
     <p class="meta">
       
-  
-
 <span class="byline author vcard">Posted by <span class="fn">Cloudius Systems</span></span>
 
       
@@ -176,10 +204,9 @@
 
 
 
-  
 
 
-<time datetime="2014-11-13T18:10:31+02:00" pubdate data-updated="true">Nov 13<span>th</span>, 2014</time>
+<time datetime="2014-11-13T11:10:31-05:00" pubdate data-updated="true">Nov 13, 2014</time>
       
 
 <span class="categories">
@@ -200,8 +227,6 @@
         <a class="addthis_button_tweet"></a>
         
         
-        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
-        
         
         <a class="addthis_counter addthis_pill_style"></a>
         
@@ -217,7 +242,7 @@
         <a class="basic-alignment left" href="/blog/2014/11/12/amazon/" title="Previous Post: On stage Thursday at Amazon re:Invent">&laquo; On stage Thursday at Amazon re:Invent</a>
       
       
-        <a class="basic-alignment right" href="/blog/2014/11/18/ssh-without-trusting-bastion-host/" title="Next Post: SSH tip: connecting to a private network without trusting the bastion host">SSH tip: connecting to a private network without trusting the bastion host &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2014/11/17/ssh-without-trusting-bastion-host/" title="Next Post: SSH tip: connecting to a private network without trusting the bastion host">SSH tip: connecting to a private network without trusting the bastion host &raquo;</a>
       
     </p>
   </footer>
@@ -238,6 +263,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2019/04/19/making-OSv-run-on-firecraker/">Making OSv Run on Firecracker</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/06/12/serverless-computing-with-OSv/">Serverless Computing With OSv</a>
       </li>
     
@@ -251,10 +280,6 @@
     
       <li class="post">
         <a href="/blog/2015/04/27/docker/">Building OSv Images Using Docker</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/04/08/makefile/">Re-"make"-ing OSv</a>
       </li>
     
   </ul>
@@ -323,14 +348,6 @@
 }(document, 'script', 'facebook-jssdk'));</script>
 
 
-
-  <script type="text/javascript">
-    (function() {
-      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
-      script.src = 'https://apis.google.com/js/plusone.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
-    })();
-  </script>
 
 
 

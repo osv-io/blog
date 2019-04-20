@@ -1,0 +1,899 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>OSv Blog</title>
+  <meta name="author" content="Cloudius Systems">
+
+  
+  <meta name="description" content="
+  
+  
+  
+    
+      
+  
+    
+      Unikernel Research at the University of Utah
+    
+    
+      
+        
+
+
+
+
+
+
+
+
+
+
+Jan 14, 2015
+        
+      
+ ...">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://osv-io.github.io//github/blog/page2/">
+  <link href="/favicon.ico" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/monokai.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/customized.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <script src="/javascripts/run_prettify.js" type="text/javascript"></script>
+  <script src="/javascripts/lang-gas.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+<!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="http://osv.io/js/cycle.js"></script>
+<script src="http://osv.io/js/js.js" language="javascript"></script-->
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-43975320-1', 'osv.io');
+  ga('send', 'pageview');
+</script>
+
+  
+
+</head>
+
+<body   >
+  <div class="wrap">
+  <div class="header"> <a class="logo" href="http://osv.io"><img src="http://osv.io/images/logo.jpg" /> </a>
+    <div class="topMenu">
+        <ul class="nav menu">
+            <li><a href="http://osv.io">Home</a></li>
+            <li class=""><a href="/">Blog</a></li>
+            <li class=""><a href="/blog/archives">Archives</a></li>
+        </ul>
+        <ul class="subscription" data-subscription="rss">
+            <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+            
+        </ul>
+        
+        <form action="https://www.google.com/search" method="get">
+            <fieldset role="search">
+                <input type="hidden" name="q" value="site:http://osv-io.github.io//github" />
+                <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+            </fieldset>
+        </form>
+        
+    </div>
+</div>
+<div class="mobile header">
+    <a class="logo" href="http://osv.io/">
+        <img src="http://osv.io/images/mobileLogo.jpg"/>
+    </a>
+
+    <div class="mobile-topMenu">
+        <a href="javascript:void(0)" class="mobileMenuLink">&nbsp;</a>
+        <div class="theMobileMenu">
+            <ul class="nav menu">
+                <li class=""><a href="" >Home</a></li>
+                <li class="deeper parent"><a href="/users" >Users</a>
+                    <ul class="nav-child unstyled small">
+                        
+                    </ul>
+                </li>
+                <li class="deeper parent"><a href="/dev" >Development</a>
+                    <ul class="nav-child unstyled small">
+                        
+                    </ul>
+                </li>
+                <li class="deeper parent"><a href="/community" >Community</a>
+                    <ul class="nav-child unstyled small">
+                        
+                    </ul>
+                </li>
+                <li><a href="/contact/" >Contact</a></li>
+            </ul>
+        </div>
+        <script>
+            jQuery(document).ready(function(e) {
+                $('.mobileMenuLink').click(function(e) {
+                    $(this).toggleClass('active');
+                    $('.theMobileMenu').slideToggle();
+                });
+            });
+        </script>
+    </div>
+</div>
+<div class="mobile mobilePageTitle"></div>
+
+
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/01/14/performance-evaluation/">Unikernel Research at the University of Utah</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+
+
+<time datetime="2015-01-14T18:54:23-05:00" pubdate data-updated="true">Jan 14, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Ian Briggs, Matt Day, Eric Eide, Yuankai Guo, and
+Peter Marheine are conducting performance research
+on unikernels, and have thoughtfully posted some
+preliminary work on OSv performance.</p>
+
+<p>The team tested OSv for DNS and HTTP, and got some
+encouraging results.</p>
+
+<p><a href="/images/http-server-benchmark.png"><img src="/images/http-server-benchmark.png" alt="HTTP server comparison" /></a></p>
+
+<p>The lighttpd web server on OSv performs consistently
+well up through 5000 requests/second.  And on DNS
+tests, Linux can sustain a response rate of about
+19000 per second, while OSv can handle approximately 28000 requests per second, with slightly
+lower latency.</p>
+
+<p>The preliminary paper is
+<a href="http://www.cs.utah.edu/~peterm/prelim-osv-performance.pdf">Performance Evaluation of OSv for Server
+Applications</a>
+(<a href="/images/prelim-osv-performance.pdf">local copy</a>).</p>
+
+<p>The researchers did run into a bug running OSv
+on Xen, so we’re all looking forward to helping
+them track that down on the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing
+list</a>.
+In the meantime, watch this space, or follow
+<a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a>
+on Twitter, for more links to OS research in progress.</p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/01/07/meetup/">OSv Meetup Group in Bangalore, India</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+
+
+<time datetime="2015-01-07T10:54:23-05:00" pubdate data-updated="true">Jan 7, 2015</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>So far, OSv <a href="http://www.meetup.com/OSv-Developer-Meetup/">Meetups</a> have happened in Fremont and San Francisco, California, and Hertzeliya, Israel.  Next week, the Bangalore, India OSv Meetup is happening—details on the <a href="http://www.meetup.com/OSv-Developer-Meetup-Bangalore/">Bangalore Meetup page</a>.</p>
+
+<p><img src="/images/meetup.jpg" alt="attendees" />
+<em>Attendees focus on building their applications on OSv in a California meetup last summer</em></p>
+
+<p>The topic for the first meeting, on Sunday January 11, is an OSv code walkthrough.</p>
+
+<p>To get advance notice of future events please join the (California-based) <a href="http://www.meetup.com/OSv-Developer-Meetup/">Meetup group</a> or the new
+<a href="http://www.meetup.com/OSv-Developer-Meetup-Bangalore/">OSv Developer Meetup, Bangalore</a>.   For general info, you can follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/12/17/make-clean-dont-repeat-yourself/">Image Building Tip: Make Clean Without Repeating Yourself</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+
+
+<time datetime="2014-12-17T00:10:31-05:00" pubdate data-updated="true">Dec 17, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>By Don Marti</strong></p>
+
+<p>What do we have to do in <code class="highlighter-rouge">make clean</code>?  Delete all the files that can be regenerated that we don’t need to keep around.</p>
+
+<p>What’s listed in <code class="highlighter-rouge">.gitignore</code>?  All the files that can be regenerated that we don’t need to keep around.</p>
+
+<p>Hey, wait a minute. It’s not a good idea to repeat yourself, especially for me, since I have to “start a project” often for demo code.  So here’s a way to keep track of all those extre files in one place, with a few lines in Makefile and one handy git command.</p>
+
+<!--more-->
+
+<p>Here’s the new <code class="highlighter-rouge">clean</code> target:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Remove anything listed in the .gitignore file.
+# Remove empty directories because they cannot be versioned.
+clean :
+        find . -path ./.git -prune -o -print0 | \
+        git check-ignore -z --stdin | xargs -0 rm -f
+        find . -depth -mindepth 1 -type d -print0 | \
+        xargs -0 rmdir --ignore-fail-on-non-empty
+</code></pre></div></div>
+
+<p>In this case, we’re just running a <code class="highlighter-rouge">find</code> on everything except the <code class="highlighter-rouge">.git</code> directory, and using the <a href="http://git-scm.com/docs/git-check-ignore">git check-ignore</a> command to see if they’re ignorable by git.  If the answer is yes, then they’re fine to remove—so no more keeping track of them in two places.</p>
+
+<p>The second <code class="highlighter-rouge">find</code> is just to get rid of empty directories, which Git won’t track anyway.  And the <code class="highlighter-rouge">-print0</code>, <code class="highlighter-rouge">-z</code>, and <code class="highlighter-rouge">-0</code> options in both lines are to use null characters between filenames, just to prevent weirdness if you end up with a file with a space in its name.</p>
+
+<p>(To hook your regular Makefile up to build complete VMs, just use <a href="http://osv.io/capstan/">Capstan</a>. Get a complete VM, ready to run on any cloud, in only 7.5 to 9 seconds.)</p>
+
+<h2 id="what-is-that-it">What, is that it?</h2>
+
+<p>Fine, have a bonus tip.  If you’re a fan of <a href="http://whatcolourisit.scn9a.org/">What colour is it</a>, the site that changes background color to match the current time, here’s how to do the same thing on a GNOME desktop:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gsettings set org.gnome.desktop.background primary-color "#$(date +%H%M%S)"
+</code></pre></div></div>
+
+<p>(Those of you on something other than Linux+GNOME, developer desktop tips for your setup are welcome.)</p>
+
+<p><em>For more tips and OSv news, subscribe to this blog’s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</em></p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/12/11/advent/">OSv on the QEMU Advent Calendar</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+
+
+<time datetime="2014-12-11T17:10:31-05:00" pubdate data-updated="true">Dec 11, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>OSv is on the <a href="http://www.qemu-advent-calendar.org/#day-11">QEMU Advent Calendar</a> with a ready-to-download VM image.</p>
+
+<p><a href="http://www.qemu-advent-calendar.org/#day-11"><img src="/images/day11.png" alt="day 11" /></a></p>
+
+<p>Not just a demo, it’s a fully functional Redis data store with a web management console that you can try with a real Redis application.   There are more fun projects on the QEMU Advent Calendar site, too.</p>
+
+<!--more-->
+
+<p>Can someone make a VM that’s even smaller than an OSv one?  Looks like the answer is yes.</p>
+
+<p><a href="http://www.qemu-advent-calendar.org/#day-10"><img src="/images/day10.png" alt="day 10" /></a></p>
+
+<p>Poor <a href="http://www.nyan.cat/original">Nyan Cat</a>, squashed to just 512 bytes (including a PC speaker version of the music) in the <a href="http://www.qemu-advent-calendar.org/#day-10">Day 10 download</a> from Max Reitz.  There’s also vintage retrocomputing, some near-future 64-bit ARM action, and more.  Check it out: <a href="http://www.qemu-advent-calendar.org/">QEMU Advent Calendar</a>.</p>
+
+<p>For the latest cloud and OSv news, subscript to this blog’s <a href="http://osv.io/blog/atom.xml">feed</a>, or follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/12/04/spamsink/">Making Spam Vanish&hellip;in the CLOUD</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+
+
+<time datetime="2014-12-04T17:10:31-05:00" pubdate data-updated="true">Dec 4, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>By Don Marti</strong></p>
+
+<p>We knew that spammers control a lot of bandwidth, because botnets.  So, for a long time, people thought that fighting spam by just accepting and discarding huge amounts of it would be counterproductive. The spammers get bandwidth for free, and servers are expensive.</p>
+
+<p>There have been some interesting
+projects to 
+try to waste the spammer’s bandwidth by fooling the sender into wasting precious bandwidth and CPU by forcing it to retransmit packets, reorder, and retransmit them.</p>
+
+<p>For example, see <a href="http://www.spamcannibal.org/cannibal.cgi">Spam Cannibal</a>. Other spam tarpits focused on a different part of the spam problem: trapping the address-harvesting part of the spam operation.  Address generators would build a dynamic site which has an infinite hierarchy of random pages, each containing a few bogus email addresses and links to more of these fake pages.  An example is <a href="http://www.devin.com/sugarplum/">Sugarplum</a> by Devin Carraway.</p>
+
+<p>Sugarplum created pages such as <a href="this randomly generated page">http://www.devin.com/peaches/lemons</a> and this <a href="http://www.devin.com/peaches/lemons/disentangles/fingerboard">directory of people who want to buy herbal weight loss products</a> (psst. humans. Not really, just more spamtrap addresses. Don’t tell the address-harvesting bots.)</p>
+
+<p>But in most cases, for a long time, our only hope for fighting spam was to batten down the hatches.  Assume that the spammers control more computing power and bandwidth than we do, and just do the best we can to filter it.</p>
+
+<p><img src="/images/vortex.jpeg" alt="vortex image" /></p>
+
+<p>Is that the best we can do?</p>
+
+<!--more-->
+
+<h2 id="that-was-then-this-is-cloud">That was then, this is Cloud</h2>
+
+<p>Is that still true?  Except in high-end “fiberhoods,” the bandwidth available to end-user machines is stagnant.  Especially upstream bandwidth.  And, much as we like to complain about the security situation on commodity operating systems, it is getting somewhat better.</p>
+
+<p>And cloud computing continues to be built out everywhere.  Now, lots of people have access to cheap or even free cloud VMs.  If you have extra unused cloud capacity, you can use part of it as a spam sink.</p>
+
+<h2 id="do-spammers-still-outnumber-us--lets-find-out">Do spammers still outnumber us?  Let’s find out.</h2>
+
+<p>This project is a simple way to build a stand-alone VM that accepts and drops all spam.</p>
+
+<p>Got a free account on a cloud provider, or extra capacity on your hypervisor?   Run a spam sink.  (If you’re a cloud provider, you can stick spam sinks on all your spare IP addresses.)</p>
+
+<p>##How to use:</p>
+
+<ol>
+  <li>
+    <p>Build a spamsink VM with “capstan build” (You can get the Capstan VM-building tool from the <a href="Capstan project on GitHub">https://github.com/cloudius-systems/capstan</a>.</p>
+  </li>
+  <li>
+    <p>Deploy to your favorite private or public cloud.</p>
+  </li>
+  <li>
+    <p>Point some MX records and spamtrap addresses at it.  You can run Sugarplum (above) to generate as many random addresses as you want.</p>
+  </li>
+</ol>
+
+<h2 id="to-try-it-out-locally">To try it out locally:</h2>
+
+<p>Build and run: <code class="highlighter-rouge">capstan build &amp;&amp; capstan run -n bridge</code></p>
+
+<p>OSv will print the IP address.  In another terminal, point the smtpsend client at it:</p>
+
+<p><code class="highlighter-rouge">./smtpsend -n 100</code></p>
+
+<h2 id="on-github">On GitHub</h2>
+
+<p>A spamsink <a href="https://github.com/dmarti/spamsink">GitHub repository</a> is up.  Pull requests welcome.</p>
+
+<p>For the latest cloud and OSv news, subscript to this blog’s <a href="http://osv.io/blog/atom.xml">feed</a>, or follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+
+<p><em>Vortex image: <a href="https://commons.wikimedia.org/wiki/File:Vortex_in_draining_bottle_of_water.jpg">Robert D Anderson for Wikimedia Commons</a></em></p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/12/02/docker-rocket/">Containers, Containers, Containers! More Options for the Cloud</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+
+
+<time datetime="2014-12-02T17:10:31-05:00" pubdate data-updated="true">Dec 2, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>By <a href="https://twitter.com/DorLaor/">Dor Laor</a></strong></p>
+
+<p>Everybody who uses containers has probably heard about <a href="https://coreos.com/blog/rocket">Rocket</a> by now. What does this <strike>fork</strike> re-implementation mean to the Docker community? Let’s dive in.</p>
+
+<p>The Docker technology has disrupted the cloud and datacenter field for the past year. The speed of penetration was amazing and unmatched in the industry. I can’t think of a similar case for such fast-paced adoption of the concept. Neither AWS, OpenStack, nor virtualization were adopted that fast. What made it that attractive for our community to adopt?</p>
+
+<p>Container technology was there for a lot of years. Even before containers, there has always been similar functionality, like Unix’s <code class="highlighter-rouge">chroot</code>. However, Docker really changed the game with straightforward simplicity and usability. Docker contributed the following:</p>
+
+<ol>
+  <li>
+    <p>A basic one-liner command line: <code class="highlighter-rouge">docker run</code>. It masked out all of the LXC complexities and even downloaded the image if needed.</p>
+  </li>
+  <li>
+    <p>Straightforward image structure: It’s as simple as a directory.</p>
+  </li>
+  <li>
+    <p>A public image repository, <a href="https://hub.docker.com/">Docker Hub</a>, where you can stash your images for future download, and employ an application-market concept.</p>
+  </li>
+</ol>
+
+<p>Docker had become the hottest thing in tech, sometimes way too hot for reality (otherwise, why would one deploy Docker in a VM, incurring two tiers of management pain?). Beyond Google and AWS, even mighty Microsoft wanted a piece of the pie. We couldn’t believe our eyes, what an amazing meritocracy (no sarcasm). All the vendors of the world unite around one simple format.</p>
+
+<p><img src="/images/meritocracy.png" alt="" /></p>
+
+<p>Yesterday CoreOS released a fork-like bomb in the form of Rocket. The reason 
+is the very thing that makes Docker attractive, its simplicity, is also a disadvantage since it’s too complex to harness for security, SLA and diverse workloads.  Apparently CoreOS didn’t manage to get the Docker team to change the mainline code for it.  I guess it’s more than a NIH thing (Not Invented Here) but some limitation of its structure.</p>
+
+<p><img src="/images/fight-time.png" alt="" /></p>
+
+<p>This container diversity was expected although it saddens me to see it become an ugly fight:</p>
+
+<p><img src="/images/docker-thread.png" alt="Twitter thread" /></p>
+
+<p>We believe that CoreOS has the upper hand when it comes to technology. Managing containers is straightforward, but these folks have the vehicle for deploying them. In addition they wrote cool distributed tools such as <code class="highlighter-rouge">etcd</code> and <code class="highlighter-rouge">fleet</code>. So while Docker controls the hub and the format, CoreOS leverages it to gain actual users (PR aside…)</p>
+
+<p>There is nothing to fear about Docker momentum, but it has finally met a reality factor and such competition is positive for innovation and speed as well. With all the fuss around Docker, lots of good features like LXC SLA, and buildpacks (the way Heroku and Cloud Foundry handle them) were dropped in the race for Docker compatibility. It was a nice surprise to see that great minds think alike, and just as Rocket uses <a href="https://github.com/coreos/rocket">several phases</a> in container creation, we do the same for OSv. We create an image by spinning up an empty VM (on any given hypervisor) that formats our ZFS filesystem and afterwards listens on ‘nc’ (netcat) to receive a stream of files from the host.</p>
+
+<p>One of the best things about OSv is that we enjoy the best of all worlds. On one hand, we are a library OS, as small as a single container, usually just a kernel, a runtime and an app. An OSv VM can weigh only 20MB, smaller than most containers. On the other hand, we leverage all of the hypervisor features, including live migration, multiple guest kernels on the same host, resource hotplug, isolation, SLA and more.</p>
+
+<p>Let the battle continue as we collect the best of breed features and embrace them as we’ve done with <a href="http://osv.io/capstan/">Capstan</a>, with our <a href="http://osv.io/blog/blog/2014/08/28/wiki-watch-cloud-init/">cloud-init integration</a>, with our <a href="http://osv.io/manageability/">RESTful APIs</a> and more.</p>
+
+<p><em>For the latest cloud and OSv news, subscript to this blog’s <a href="http://osv.io/blog/atom.xml">feed</a>, or follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</em></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/11/17/eblug/">OSv Meetup at EBLUG: Intro Talk and Demo</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+
+
+<time datetime="2014-11-17T19:54:23-05:00" pubdate data-updated="true">Nov 17, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>By Don Marti</strong></p>
+
+<p><a href="http://osv.io/">OSv</a> is the simple, fast OS platform designed to run one application in the cloud, without the complexity of old-school OSs with their local users, permissions, and sevices.  Come see what it’s all about, and enjoy free food and drink from East Bay LUG sponsor, Hurricane Electric.</p>
+
+<p><a href="http://www.eblug.org/"><img src="http://www.eblug.org/images/eblugdev-logo-transparent-75px.png" alt="EBLUG logo" /></a></p>
+
+<p><strong>Who:</strong> Don Marti, OSv demo monkey</p>
+
+<p><strong>What:</strong> Introduction to OSv (with live 9-second build demo!)</p>
+
+<p><strong>Where:</strong> <a href="http://www.eblug.org/index.html">East Bay LUG, Fremont, California, USA</a></p>
+
+<p><strong>When:</strong> 7pm Wednesday, November 19, 2014</p>
+
+<p><strong>Why:</strong>  See the new dedicated cloud OS, without the big travel budget</p>
+
+<p>Please join us for the next <a href="http://www.eblug.org/index.html">EBLUG meeting</a>, co-located with the OSv <a href="http://www.meetup.com/OSv-Developer-Meetup/">Meetup group</a>, and get a rapid introduction to OSv, how it works, and where it’s going.</p>
+
+<p>If you’re not already a member of the OSv <a href="http://www.meetup.com/OSv-Developer-Meetup/">Meetup group</a>, please join.  For general questions on OSv, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get general updates by subscribing to this blog’s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/11/17/ssh-without-trusting-bastion-host/">SSH Tip: Connecting to a Private Network Without Trusting the Bastion Host</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+
+
+<time datetime="2014-11-17T17:10:31-05:00" pubdate data-updated="true">Nov 17, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>By Nadav Har’El</strong></p>
+
+<p>In a typical lab network configuration, one cannot just <code class="highlighter-rouge">ssh</code> or <code class="highlighter-rouge">scp</code> to the hosts behind the firewall (our company calls them after characters from Norse mythology: Loki, Muninn and friends).  Instead, you need to ssh to a bastion host, and from there connect to the internal systems.</p>
+
+<p><img src="/images/ssh-user.jpeg" alt="ssh user" /><br /><em>an ssh user connecting using a bastion host</em></p>
+
+<p>One can automate these two steps, with a command like</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    ssh -t bastion.example.com ssh loki.lab.example.com
+</code></pre></div></div>
+
+<p>And I guess some of you are already doing that. But this only works for ssh, not scp. One can do scp through an “ssh tunnel”, but this is really ugly to set up every time and to use.</p>
+
+<p>There is also a securty hole in this approach, because anyone who breaks into <code class="highlighter-rouge">bastion</code> (which is an external machine and thus exposed to the Internet) can then ssh from there to all the internal machines, or even hijack already-running ssh sessions.</p>
+
+<p>I finally found a much better solution, much easier to use and much more secure.</p>
+
+<!--more-->
+
+<p>Just add to your <code class="highlighter-rouge">~/.ssh/config</code> the following incantation:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Host *.lab
+        ProxyCommand ssh -q bastion.example.com nc `basename %h .lab` 22
+</code></pre></div></div>
+
+<p>And now, you can <code class="highlighter-rouge">ssh</code> or <code class="highlighter-rouge">scp</code> directly to <code class="highlighter-rouge">loki.lab</code>, or <code class="highlighter-rouge">muninn.lab</code> or whatever, without any hassles, as if Loki and Muninn are actual machines on your LAN.</p>
+
+<p>This trick works like this: To connect to the remote host, ssh normally just connects a socket to port 22 of the remote host. When the “ProxyCommand” is set, this command is used instead. The command above will ssh to <code class="highlighter-rouge">bastion.example.com</code> and from there connect (using <code class="highlighter-rouge">nc</code>) to loki’s port 22. Your own ssh will do the ssh protocol with Loki over this connection.</p>
+
+<p>This solution, beyond being extremely convenient, also has an interesting security feature:  we’ll no longer need to trust <code class="highlighter-rouge">bastion.example.com</code>. The classic “ssh from your laptop to <code class="highlighter-rouge">bastion</code> to <code class="highlighter-rouge">loki</code>” solution suffered from a problem that if someone broke into <code class="highlighter-rouge">bastion</code>, they could also break into <code class="highlighter-rouge">loki</code> - by using the private keys stored on <code class="highlighter-rouge">bastion</code>, or by hijacking the second leg of the ssh chain (and possibly injecting whatever commands it wanted into this session!). With this new solution, <code class="highlighter-rouge">bastion</code> is just acting as a stupid pipe for encypted data between my laptop and Loki - it cannot hijack the connection, and it doesn’t have any private keys needed to initiate a connection to Loki on its own.</p>
+
+<p>For more tips and OSv news, subscript to this blog’s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+
+<p><strong>Photo:</strong> <a href="http://www.flickr.com/photos/dfectuoso17/7013054091/">Security Hacker</a> by Santiago Zavala</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/11/13/osv-private-beta/">OSv Early Access Private Beta</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+
+
+<time datetime="2014-11-13T11:10:31-05:00" pubdate data-updated="true">Nov 13, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Cloudius Systems is introducing an early access version of OSv, the lightweight open-source OS optimized for large cloud workloads, on November 13.  <a href="http://osv.io/beta-release/">Beta program information</a> is now available.</p>
+
+<p><img src="http://www.cloudius-systems.com/images/mouse.jpeg" alt="lab mouse" /></p>
+
+<p>OSv can be used to minimize latency and reduce TCO for many workloads, especially horizontally scaled ones. The software is available as ready-to-run virtual machine images pre-configured to run popular NoSQL data stores such as Redis and Apache Cassandra, as well as in source code form.</p>
+
+<p>“OSv lets you take a project from a developer’s IDE to a flexible, multi-server deployment much faster,” said Dor Laor, CEO of Cloudius Systems.  “As customers require more and more throughput at lower and lower operating cost, we enable developers to use the agility of containers along with the proven security and management features known for in virtual machines.”</p>
+
+<p>Cloudius Systems’ early access release features an expanded Web API for management, along with performance improvements that increase efficiency, with an up to a 3.9x throughput gain. Unlike conventional operating systems with their diverse configuration files and complex user and memory management, OSv is designed to provide the minimum OS needed to run a single application at maximum performance in the cloud.</p>
+
+<p>“OSv was designed with virtualization in mind,” said Cloudius Systems CTO, Avi Kivity.  “The OS overhead is minimized by a reduction of context switches, data copies, and inefficient constructs such as spinlocks.” OSv virtual machines can be as small as 20MB, far smaller than Docker containers, and boot in less than one second.</p>
+
+<h2 id="sign-up-for-the-osv-beta"><a href="http://www.cloudius-systems.com/images/mouse.jpeg">Sign up for the OSv beta</a></h2>
+
+<p>You can keep up with the latest OSv news from this blog’s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.  Hope to see you at the show.</p>
+
+<p>Photo: <a href="http://commons.wikimedia.org/wiki/File:Lab_mouse_mg_3216.jpg">Rama for Wikimedia Commons</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/11/12/amazon/">On Stage Thursday at Amazon re:Invent</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+
+
+<time datetime="2014-11-12T11:10:31-05:00" pubdate data-updated="true">Nov 12, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>If you’re at the Amazon re:Invent show, don’t miss <a href="https://www.portal.reinvent.awsevents.com/connect/sessionDetail.ww?SESSION_ID=9806">3rd Annual Startup Launches moderated by Werner Vogels</a>. Cloudius Systems CEO Dor Laor will be there, to talk about….but we can’t tell you that yet.</p>
+
+<ul>
+  <li>
+    <p><strong>Who:</strong> Amazon.com CTO, Dr. Werner Vogels. and five guests</p>
+  </li>
+  <li>
+    <p><strong>What:</strong> Learn how innovative new startups use the AWS cloud.</p>
+  </li>
+  <li>
+    <p><strong>Where:</strong> Level 2 - Titian 2306</p>
+  </li>
+  <li>
+    <p><strong>When:</strong> Thursday, Nov 13, 4:30 PM - 5:15 PM</p>
+  </li>
+  <li>
+    <p><strong>Why:</strong> Knowledge, plus special discounts on new products and services.</p>
+  </li>
+</ul>
+
+<p>If you can’t wait, come over to K14 in the exhibit hall for an OSv demo.
+We’ve got some <a href="http://www.mcmelectronics.com/product/83-16333RK">Raspberry Pi media kits</a> to give away (to especially intense cloud users who need some real hardware to restore balance to their lives.)</p>
+
+<p><img src="/images/kiosk.png" alt="demo pod" /><br /><em>Unikernels don’t need big heavyweight booths.</em></p>
+
+<p>You can keep up with the latest OSv news from this blog’s <a href="http://osv.io/blog/atom.xml">feed</a>, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.  Hope to see you at the show.</p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page3/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2019/04/19/making-OSv-run-on-firecraker/">Making OSv Run on Firecracker</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/06/12/serverless-computing-with-OSv/">Serverless Computing With OSv</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/04/21/nfs-on-osv/">NFS on OSv or “How I Learned to Stop Worrying About Memory Allocations and Love the Unikernel”</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/03/08/project-mikelangelo/">Project Mikelangelo Update</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/27/docker/">Building OSv Images Using Docker</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  </div>
+  <div class="footer">
+    <div class="wrapf">
+
+
+        <div class="custom"  >
+            <p><a href="http://www.cloudius-systems.com"><img style="margin-top: 30px;" src="http://osv.io/images/footerLogo.jpg" alt="" width="380" height="38" /></a></p></div>
+
+
+
+        <div class="custom social"  >
+            <p><a href="https://plus.google.com/107787008629542080430" rel="publisher">Google+</a></p></div>
+
+
+
+        <div class="custom CloudIcon"  >
+            <p><a href="/index.php"><img src="http://osv.io/images/footerCloudIcon.jpg" width="57" height="33" alt="footerCloudIcon" /></a></p></div>
+
+        <div class="clr"></div>
+    </div>
+</div>
+
+
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'osvblog';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

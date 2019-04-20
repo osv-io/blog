@@ -9,7 +9,24 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="By Benoît Canet and Don Marti A new type of OSv workload The MIKELANGELO project aims to bring High Performance Computing (HPC) to the cloud. HPC &hellip;">
+  <meta name="description" content="
+
+  
+  
+    
+      NFS on OSv or “How I Learned to Stop Worrying About Memory Allocations and Love the Unikernel”
+    
+    
+      
+        
+
+
+
+
+
+
+
+...">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,14 +35,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.osv.io//github/blog/2016/04/21/nfs-on-osv">
+  <link rel="canonical" href="http://osv-io.github.io//github/blog/2016/04/21/nfs-on-osv/">
   <link href="/favicon.ico" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/monokai.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/customized.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <script src="/javascripts/run_prettify.js" type="text/javascript"></script>
+  <script src="/javascripts/lang-gas.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
 <!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -62,7 +83,7 @@
         
         <form action="https://www.google.com/search" method="get">
             <fieldset role="search">
-                <input type="hidden" name="q" value="site:blog.osv.io//github" />
+                <input type="hidden" name="q" value="site:http://osv-io.github.io//github" />
                 <input class="search" type="text" name="q" results="0" placeholder="Search"/>
             </fieldset>
         </form>
@@ -130,10 +151,9 @@
 
 
 
-  
 
 
-<time datetime="2016-04-21T17:00:00+03:00" pubdate data-updated="true">Apr 21<span>st</span>, 2016</time>
+<time datetime="2016-04-21T10:00:00-04:00" pubdate data-updated="true">Apr 21, 2016</time>
         
       </p>
     
@@ -142,49 +162,46 @@
 
 <div class="entry-content"><p><strong>By Benoît Canet and Don Marti</strong></p>
 
-<h2>A new type of OSv workload</h2>
+<h2 id="a-new-type-of-osv-workload">A new type of OSv workload</h2>
 
-<p>The MIKELANGELO project aims to bring High Performance Computing (HPC) to the cloud. HPC traditionally involves bleeding edge technologies, including lots of CPU cores, <a href="http://www.infinibandta.org/">Infiniband</a> interconnects between nodes, <a href="https://en.wikipedia.org/wiki/Message_Passing_Interface">MPI</a> libraries for message passing, and, surprise&mdash;NFS, a very old timer of the UNIX universe.</p>
+<p>The MIKELANGELO project aims to bring High Performance Computing (HPC) to the cloud. HPC traditionally involves bleeding edge technologies, including lots of CPU cores, <a href="http://www.infinibandta.org/">Infiniband</a> interconnects between nodes, <a href="https://en.wikipedia.org/wiki/Message_Passing_Interface">MPI</a> libraries for message passing, and, surprise—NFS, a very old timer of the UNIX universe.</p>
 
 <p>In an HPC context this networked filesystem is used to get the data inside the compute node before doing the raw computation, and then to extract the data from the compute node.</p>
 
-<h2>Some OSv NFS requirements</h2>
+<h2 id="some-osv-nfs-requirements">Some OSv NFS requirements</h2>
 
 <p>For HPC NFS is a must,  so we worked to make it happen. We had some key requirements:</p>
 
 <ul>
-<li>The NFS driver must go reasonably fast</li>
-<li>The implementation of the NFS driver must be done very quickly to meet the schedule of the rest of the MIKELANGELO project</li>
-<li>There is no FUSE (Filesystem in User Space) implementation in OSv</li>
-<li>OSv is a C++ unikernel, so the implementation must make full usage of its power</li>
-<li>The implementation must use the OSv VFS (Virtual File System) layer, and so be transparent for the application</li>
+  <li>The NFS driver must go reasonably fast</li>
+  <li>The implementation of the NFS driver must be done very quickly to meet the schedule of the rest of the MIKELANGELO project</li>
+  <li>There is no FUSE (Filesystem in User Space) implementation in OSv</li>
+  <li>OSv is a C++ unikernel, so the implementation must make full usage of its power</li>
+  <li>The implementation must use the OSv VFS (Virtual File System) layer, and so be transparent for the application</li>
 </ul>
 
-
-<h2>Considering alternatives</h2>
+<h2 id="considering-alternatives">Considering alternatives</h2>
 
 <p>The first possibility that we can exclude right away is doing an NFS implementation from scratch. This subproject is simply too short on time.</p>
 
 <p>The second possibility is to leverage an implementation from an existing mainstream kernel and simply port it to OSv. The pro would be code reuse, but this comes with a lot of cons.</p>
 
 <ul>
-<li>Some implementation licenses do not match well with the unikernel concept where everything can be considered a derived work of the core kernel</li>
-<li>Every operating system has its own flavor of VFS. The NFS subproject would be at risk of writing wrappers around another operating system’s VFS idiosyncrasies</li>
-<li>Most mainstream kernel memory allocators are very specific and complex, which would leads to more insane wrappers.</li>
+  <li>Some implementation licenses do not match well with the unikernel concept where everything can be considered a derived work of the core kernel</li>
+  <li>Every operating system has its own flavor of VFS. The NFS subproject would be at risk of writing wrappers around another operating system’s VFS idiosyncrasies</li>
+  <li>Most mainstream kernel memory allocators are very specific and complex, which would leads to more insane wrappers.</li>
 </ul>
-
 
 <p>The third possibility would be to use some userspace NFS implementation, as their code is usually straightforward POSIX and they provide a nice API designed to be embedded easily in another application. But wait! Didn’t we just say the implementation must be in the VFS, right in the middle of the OSv kernel? There is no FUSE on OSv.</p>
 
-<h2>Enter the Unikernel</h2>
+<h2 id="enter-the-unikernel">Enter the Unikernel</h2>
 
 <p>Traditional UNIX-like operating system implementations are split in two:</p>
 
 <ul>
-<li><strong>Kernel space:</strong> a kernel doing the low level plumbing everyone else will use</li>
-<li><strong>User space:</strong> a bunch of applications using the facilities provided by the kernel in order to accomplish some tasks for the user</li>
+  <li><strong>Kernel space:</strong> a kernel doing the low level plumbing everyone else will use</li>
+  <li><strong>User space:</strong> a bunch of applications using the facilities provided by the kernel in order to accomplish some tasks for the user</li>
 </ul>
-
 
 <p>One twist of this split is that kernel space and user space memory addresses are totally separated by using the MMU (Memory Management Unit) hardware of the processor. It also usually implies two totally different sets of programing APIs, one for kernel space and one for user space, and needless to say a lot of memory copies each time some data must cross the frontier from kernel space to userspace.</p>
 
@@ -192,7 +209,7 @@
 
 <p>Another straightforward consequence of this is that standard memory management functions including malloc(), posix_memalign(), free() and friends, will just work inside an OSv driver. There are no separate kernel-level functions for managing memory, so no memory allocator wrappers needed.</p>
 
-<h2>Meet libnfs</h2>
+<h2 id="meet-libnfs">Meet libnfs</h2>
 
 <p><a href="https://github.com/sahlberg/libnfs">libnfs</a>, by Ronnie Sahlberg, is a user space NFS implementation for Linux, designed to be embedded easilly in an application.</p>
 
@@ -200,7 +217,7 @@
 
 <p>Last by not last, the libnfs license is LGPL. So far so good.</p>
 
-<h2>The implementation phase</h2>
+<h2 id="the-implementation-phase">The implementation phase</h2>
 
 <p>The implementation phase went fast for a networked filesystem. Reviewing went smoothly thanks to Nadav Har’El’s help, and the final post on the osv-devel mailing list was the following:</p>
 
@@ -208,91 +225,67 @@
 
 <p>Some extra days were spent to fix the occasional bugs and polish the result and now the MIKELANGELO HPC developers have a working NFS client.</p>
 
-<h2>Some code highlights</h2>
+<h2 id="some-code-highlights">Some code highlights</h2>
 
-<h3>Almost 1:1 mapping</h3>
+<h3 id="almost-11-mapping">Almost 1:1 mapping</h3>
 
 <p>Given the unikernel nature of OSv, an useful system call like truncate(), used to adjust the size of a file, boils down to</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">static</span> <span class="kt">int</span> <span class="n">nfs_op_truncate</span><span class="p">(</span><span class="k">struct</span> <span class="n">vnode</span> <span class="o">*</span><span class="n">vp</span><span class="p">,</span> <span class="n">off_t</span> <span class="n">length</span><span class="p">)</span>
-</span><span class='line'><span class="p">{</span>
-</span><span class='line'>   <span class="kt">int</span> <span class="n">err_no</span><span class="p">;</span>
-</span><span class='line'>   <span class="k">auto</span> <span class="n">nfs</span> <span class="o">=</span> <span class="n">get_nfs_context</span><span class="p">(</span><span class="n">vp</span><span class="p">,</span> <span class="n">err_no</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="k">if</span> <span class="p">(</span><span class="n">err_no</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>       <span class="k">return</span> <span class="n">err_no</span><span class="p">;</span>
-</span><span class='line'>   <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="n">nfs_truncate</span><span class="p">(</span><span class="n">nfs</span><span class="p">,</span> <span class="n">get_node_name</span><span class="p">(</span><span class="n">vp</span><span class="p">),</span> <span class="n">length</span><span class="p">);</span>
-</span><span class='line'>   <span class="k">if</span> <span class="p">(</span><span class="n">ret</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>       <span class="k">return</span> <span class="o">-</span><span class="n">ret</span><span class="p">;</span>
-</span><span class='line'>   <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="n">vp</span><span class="o">-&gt;</span><span class="n">v_size</span> <span class="o">=</span> <span class="n">length</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">static</span> <span class="kt">int</span> <span class="nf">nfs_op_truncate</span><span class="p">(</span><span class="k">struct</span> <span class="n">vnode</span> <span class="o">*</span><span class="n">vp</span><span class="p">,</span> <span class="kt">off_t</span> <span class="n">length</span><span class="p">)</span>
+<span class="p">{</span>
+   <span class="kt">int</span> <span class="n">err_no</span><span class="p">;</span>
+   <span class="k">auto</span> <span class="n">nfs</span> <span class="o">=</span> <span class="n">get_nfs_context</span><span class="p">(</span><span class="n">vp</span><span class="p">,</span> <span class="n">err_no</span><span class="p">);</span>
 
+   <span class="k">if</span> <span class="p">(</span><span class="n">err_no</span><span class="p">)</span> <span class="p">{</span>
+       <span class="k">return</span> <span class="n">err_no</span><span class="p">;</span>
+   <span class="p">}</span>
+
+   <span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="n">nfs_truncate</span><span class="p">(</span><span class="n">nfs</span><span class="p">,</span> <span class="n">get_node_name</span><span class="p">(</span><span class="n">vp</span><span class="p">),</span> <span class="n">length</span><span class="p">);</span>
+   <span class="k">if</span> <span class="p">(</span><span class="n">ret</span><span class="p">)</span> <span class="p">{</span>
+       <span class="k">return</span> <span class="o">-</span><span class="n">ret</span><span class="p">;</span>
+   <span class="p">}</span>
+
+   <span class="n">vp</span><span class="o">-&gt;</span><span class="n">v_size</span> <span class="o">=</span> <span class="n">length</span><span class="p">;</span>
+
+   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
 <p>OSv allowed us to implement this syscall with a very thin shim without involving any additional memory allocation wrapper.</p>
 
-<h3>C++ empowers you to do powerful things in kernel code</h3>
+<h3 id="c-empowers-you-to-do-powerful-things-in-kernel-code">C++ empowers you to do powerful things in kernel code</h3>
 
-<p>One of the known limitation of libnfs is that it’s not thread-safe. See this <a href="https://groups.google.com/forum/#!msg/libnfs/3Oct9Zvv7D8/vkN9wBp6V0YJ">mailing list posting on multithreading and preformance</a>.  OSv is threaded&mdash;so heavily threaded that there is no concept of a process in OSv, just threads. Clearly this is a problem, but OSv is written in modern C++, which provides us with modern tools.</p>
+<p>One of the known limitation of libnfs is that it’s not thread-safe. See this <a href="https://groups.google.com/forum/#!msg/libnfs/3Oct9Zvv7D8/vkN9wBp6V0YJ">mailing list posting on multithreading and preformance</a>.  OSv is threaded—so heavily threaded that there is no concept of a process in OSv, just threads. Clearly this is a problem, but OSv is written in modern C++, which provides us with modern tools.</p>
 
 <p>This single line allows us to work around the libnfs single threaded limitation.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="n">thread_local</span> <span class="n">std</span><span class="o">::</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span>
-</span><span class='line'>                               <span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="n">mount_context</span><span class="o">&gt;&gt;</span> <span class="n">_map</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">thread_local</span> <span class="n">std</span><span class="o">::</span><span class="n">unordered_map</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span>
+                               <span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="n">mount_context</span><span class="o">&gt;&gt;</span> <span class="n">_map</span><span class="p">;</span>
+</code></pre></div></div>
 
+<p>Here the code makes an associative map between the mount point (the place in the filesystem hierarchy where the remote filesystem appears) and the libnfs <code class="highlighter-rouge">mount_context</code>.</p>
 
-<p>Here the code makes an associative map between the mount point (the place in the filesystem hierarchy where the remote filesystem appears) and the libnfs <code>mount_context</code>.</p>
+<p>The one twist to notice here is <code class="highlighter-rouge">thread_local</code>: this single C++ keyword automatically makes a separate instance of this map per thread. The consequence is that every thread/mount point pair can have its own separate <code class="highlighter-rouge">mount_context</code>. Although an individual <code class="highlighter-rouge">mount_context</code> is not thread-safe, that is no longer an issue.</p>
 
-<p>The one twist to notice here is <code>thread_local</code>: this single C++ keyword automatically makes a separate instance of this map per thread. The consequence is that every thread/mount point pair can have its own separate <code>mount_context</code>. Although an individual <code>mount_context</code> is not thread-safe, that is no longer an issue.</p>
-
-<h2>Conclusion</h2>
+<h2 id="conclusion">Conclusion</h2>
 
 <p>As we have seen here, the OSv unikernel is different in a lot of good ways, and allows you to write kernel code fast.</p>
 
 <ul>
-<li>Standard POSIX functions just work in the kernel.</li>
-<li>C++, which is not used in other kernels, comes with blessings.</li>
+  <li>Standard POSIX functions just work in the kernel.</li>
+  <li>C++, which is not used in other kernels, comes with blessings.</li>
 </ul>
-
 
 <p>Scylla will keep improving OSv with the various MIKELANGELO partners, and we should see exciting new hot technologies like vRDMA on OSv in the not so distant future.</p>
 
-<p>The <a href="https://www.mikelangelo-project.eu/">MIKELANGELO</a> research project is a three-year research project sponsored by the European Commission&rsquo;s <a href="http://ec.europa.eu/programmes/horizon2020/">Horizon 2020</a> program. The goal of MIKELANGELO is to make the cloud more useful for a wider range of applications, and in particular make it easier and faster to run high-performance computing (HPC) and I/O-intensive applications in the cloud. For project updates, visit the <a href="https://www.mikelangelo-project.eu/">MIKELANGELO site</a>, or subscribe to this blog’s <a href="http://www.scylladb.com/feed.xml">RSS feed</a>.</p>
+<p>The <a href="https://www.mikelangelo-project.eu/">MIKELANGELO</a> research project is a three-year research project sponsored by the European Commission’s <a href="http://ec.europa.eu/programmes/horizon2020/">Horizon 2020</a> program. The goal of MIKELANGELO is to make the cloud more useful for a wider range of applications, and in particular make it easier and faster to run high-performance computing (HPC) and I/O-intensive applications in the cloud. For project updates, visit the <a href="https://www.mikelangelo-project.eu/">MIKELANGELO site</a>, or subscribe to this blog’s <a href="http://www.scylladb.com/feed.xml">RSS feed</a>.</p>
+
 </div>
 
 
   <footer>
     <p class="meta">
       
-  
-
 <span class="byline author vcard">Posted by <span class="fn">Cloudius Systems</span></span>
 
       
@@ -304,10 +297,9 @@
 
 
 
-  
 
 
-<time datetime="2016-04-21T17:00:00+03:00" pubdate data-updated="true">Apr 21<span>st</span>, 2016</time>
+<time datetime="2016-04-21T10:00:00-04:00" pubdate data-updated="true">Apr 21, 2016</time>
       
 
 
@@ -321,8 +313,6 @@
         
         <a class="addthis_button_tweet"></a>
         
-        
-        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
         
         
         <a class="addthis_counter addthis_pill_style"></a>
@@ -360,6 +350,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2019/04/19/making-OSv-run-on-firecraker/">Making OSv Run on Firecracker</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/06/12/serverless-computing-with-OSv/">Serverless Computing With OSv</a>
       </li>
     
@@ -373,10 +367,6 @@
     
       <li class="post">
         <a href="/blog/2015/04/27/docker/">Building OSv Images Using Docker</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/04/08/makefile/">Re-"make"-ing OSv</a>
       </li>
     
   </ul>
@@ -445,14 +435,6 @@
 }(document, 'script', 'facebook-jssdk'));</script>
 
 
-
-  <script type="text/javascript">
-    (function() {
-      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
-      script.src = 'https://apis.google.com/js/plusone.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
-    })();
-  </script>
 
 
 

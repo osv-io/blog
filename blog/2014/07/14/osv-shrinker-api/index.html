@@ -9,7 +9,34 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="By Don Marti If you&rsquo;re writing a program that keeps a cache in memory, you&rsquo;re probably expecting users to have to set the cache size, &hellip;">
+  <meta name="description" content="
+
+  
+  
+    
+      Getting Started With the OSv Shrinker API
+    
+    
+      
+        
+
+
+
+
+
+
+
+
+
+
+Jul 14, 2014
+        
+      
+    
+  
+
+
+By Don Mart...">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,14 +45,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.osv.io//github/blog/2014/07/14/osv-shrinker-api">
+  <link rel="canonical" href="http://osv-io.github.io//github/blog/2014/07/14/osv-shrinker-api/">
   <link href="/favicon.ico" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/monokai.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/customized.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <script src="/javascripts/run_prettify.js" type="text/javascript"></script>
+  <script src="/javascripts/lang-gas.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
 <!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -62,7 +93,7 @@
         
         <form action="https://www.google.com/search" method="get">
             <fieldset role="search">
-                <input type="hidden" name="q" value="site:blog.osv.io//github" />
+                <input type="hidden" name="q" value="site:http://osv-io.github.io//github" />
                 <input class="search" type="text" name="q" results="0" placeholder="Search"/>
             </fieldset>
         </form>
@@ -130,10 +161,9 @@
 
 
 
-  
 
 
-<time datetime="2014-07-14T18:37:05+03:00" pubdate data-updated="true">Jul 14<span>th</span>, 2014</time>
+<time datetime="2014-07-14T11:37:05-04:00" pubdate data-updated="true">Jul 14, 2014</time>
         
       </p>
     
@@ -142,16 +172,15 @@
 
 <div class="entry-content"><p><strong>By Don Marti</strong></p>
 
-<p>If you&rsquo;re writing a program that keeps a cache in memory, you&rsquo;re probably expecting users to have to set the cache size, which means a configuration setting or command-line argument.  And every configuration setting or command-line argument is something that you have to document, or explain to users when they get it wrong.</p>
+<p>If you’re writing a program that keeps a cache in memory, you’re probably expecting users to have to set the cache size, which means a configuration setting or command-line argument.  And every configuration setting or command-line argument is something that you have to document, or explain to users when they get it wrong.</p>
 
-<p>Thankfully, there&rsquo;s an easier way.</p>
+<p>Thankfully, there’s an easier way.</p>
 
 <!-- more -->
 
+<p>With OSv, you can ask the OS to let your program know when memory is tight, so that you can manage the cache size on the fly.  Less time spent tweaking settings, more items kept in cache, what’s not to like?  Just set up a shrinker callback and register it.  (There is a <a href="https://www.kernel.org/doc/Documentation/cgroups/memory.txt">mechanism for memory pressure notifications</a> on Linux, but it’s somewhat complex. With OSv it’s just one function to write.)</p>
 
-<p>With OSv, you can ask the OS to let your program know when memory is tight, so that you can manage the cache size on the fly.  Less time spent tweaking settings, more items kept in cache, what&rsquo;s not to like?  Just set up a shrinker callback and register it.  (There is a <a href="https://www.kernel.org/doc/Documentation/cgroups/memory.txt">mechanism for memory pressure notifications</a> on Linux, but it&rsquo;s somewhat complex. With OSv it&rsquo;s just one function to write.)</p>
-
-<h2>Defining a shrinker function</h2>
+<h2 id="defining-a-shrinker-function">Defining a shrinker function</h2>
 
 <p>OSv notifies your program of a low memory situation by
 calling a shrinker callback.</p>
@@ -159,150 +188,103 @@ calling a shrinker callback.</p>
 <p>A shrinker function takes two arguments:</p>
 
 <ul>
-<li><p>target amount of memory to free (size_t)</p></li>
-<li><p>A boolean &ldquo;hard&rdquo; argument.  This is false if the function is being called for preemptive freeing of memory, and true if the system is under severe pressure.</p></li>
+  <li>
+    <p>target amount of memory to free (size_t)</p>
+  </li>
+  <li>
+    <p>A boolean “hard” argument.  This is false if the function is being called for preemptive freeing of memory, and true if the system is under severe pressure.</p>
+  </li>
 </ul>
 
+<p>In most invocations, the argument <code class="highlighter-rouge">hard</code> will be set by OSv to false. This indicates that the system is acting preemptively, and memory pressure is starting to build up. The application is free to defer the freeing of objects to a later stage. Having your shrinker callback called with <code class="highlighter-rouge">hard</code> set to true, however, means that OSv is under severe memory pressure, and may be unable to serve allocations. If not enough memory is freed, the system may be forced to abort.</p>
 
-<p>In most invocations, the argument <code>hard</code> will be set by OSv to false. This indicates that the system is acting preemptively, and memory pressure is starting to build up. The application is free to defer the freeing of objects to a later stage. Having your shrinker callback called with <code>hard</code> set to true, however, means that OSv is under severe memory pressure, and may be unable to serve allocations. If not enough memory is freed, the system may be forced to abort.</p>
-
-<h2>Registering</h2>
+<h2 id="registering">Registering</h2>
 
 <p>Now that the shrinker function is defined, you need to register it.</p>
 
-<p>To register a shrinker function involves calling <code>osv_register_shrinker</code>:</p>
+<p>To register a shrinker function involves calling <code class="highlighter-rouge">osv_register_shrinker</code>:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>void *osv_register_shrinker(const char *name,
-</span><span class='line'>                            size_t (*func)(size_t target, bool hard));</span></code></pre></td></tr></table></div></figure>
-
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void *osv_register_shrinker(const char *name,
+                            size_t (*func)(size_t target, bool hard));
+</code></pre></div></div>
 
 <p>For example, an application in C can just do:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>extern void *osv_register_shrinker(const char *name,
-</span><span class='line'>                            size_t (*func)(size_t target, bool hard));
-</span><span class='line'>
-</span><span class='line'>int main () {
-</span><span class='line'>  ...
-</span><span class='line'>  osv_register_shrinker("Example Shrinker", shrinker_function);
-</span><span class='line'>  ...
-</span><span class='line'>  return 0;
-</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>extern void *osv_register_shrinker(const char *name,
+                            size_t (*func)(size_t target, bool hard));
 
+int main () {
+  ...
+  osv_register_shrinker("Example Shrinker", shrinker_function);
+  ...
+  return 0;
+}
+</code></pre></div></div>
 
 <p>An extremely basic example of a program that uses the OSv shrinker API is <a href="https://github.com/dmarti/memory-hog">memory-hog</a>.  To try it, install <a href="https://github.com/cloudius-systems/capstan">Capstan</a>, clone the Git repository, and build an OSv image to run it.  Currently memory-hog requires at least 2GB of memory.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>$ git clone git@github.com:dmarti/memory-hog.git
-</span><span class='line'>Cloning into 'memory-hog'...
-</span><span class='line'>remote: Reusing existing pack: 76, done.
-</span><span class='line'>remote: Total 76 (delta 0), reused 0 (delta 0)
-</span><span class='line'>Receiving objects: 100% (76/76), 12.84 KiB | 0 bytes/s, done.
-</span><span class='line'>Resolving deltas: 100% (39/39), done.
-</span><span class='line'>Checking connectivity... done.
-</span><span class='line'>$ cd memory-hog
-</span><span class='line'>$ capstan run -m 2G
-</span><span class='line'>Building memory-hog...
-</span><span class='line'>Created instance: memory-hog
-</span><span class='line'>OSv v0.09
-</span><span class='line'>eth0: 192.168.122.15
-</span><span class='line'>I'm a memory hog!
-</span><span class='line'>program:  Oink!
-</span><span class='line'>program:  Oink!
-</span><span class='line'>program:  Oink!
-</span><span class='line'>
-</span><span class='line'>...many "Oink!"s later...
-</span><span class='line'>
-</span><span class='line'>program:  Oink!
-</span><span class='line'>shrinker: Soft pressure, all done.
-</span><span class='line'>program:  Oink!
-</span><span class='line'>shrinker: Soft pressure, all done.
-</span><span class='line'>program:  Oink!
-</span><span class='line'>shrinker: Soft pressure, all done.
-</span><span class='line'>program:  Oink!
-</span><span class='line'>shrinker: Soft pressure, all done.
-</span><span class='line'>program:  Oink!
-</span><span class='line'>shrinker: Soft pressure, all done.
-</span><span class='line'>program:  Oink!
-</span><span class='line'>shrinker: Soft pressure, all done.
-</span><span class='line'>shrinker: processing request to free 166062080 bytes.
-</span><span class='line'>shrinker: starting with 64 things.
-</span><span class='line'>shrinker: finishing with 58 things.
-</span><span class='line'>      192534576 bytes of memory were freed!
-</span><span class='line'>program:  Oink!
-</span><span class='line'>shrinker: Soft pressure, all done.</span></code></pre></td></tr></table></div></figure>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ git clone git@github.com:dmarti/memory-hog.git
+Cloning into 'memory-hog'...
+remote: Reusing existing pack: 76, done.
+remote: Total 76 (delta 0), reused 0 (delta 0)
+Receiving objects: 100% (76/76), 12.84 KiB | 0 bytes/s, done.
+Resolving deltas: 100% (39/39), done.
+Checking connectivity... done.
+$ cd memory-hog
+$ capstan run -m 2G
+Building memory-hog...
+Created instance: memory-hog
+OSv v0.09
+eth0: 192.168.122.15
+I'm a memory hog!
+program: 	Oink!
+program: 	Oink!
+program: 	Oink!
 
+...many "Oink!"s later...
 
-<h2>Concurrency</h2>
+program: 	Oink!
+shrinker:	Soft pressure, all done.
+program: 	Oink!
+shrinker:	Soft pressure, all done.
+program: 	Oink!
+shrinker:	Soft pressure, all done.
+program: 	Oink!
+shrinker:	Soft pressure, all done.
+program: 	Oink!
+shrinker:	Soft pressure, all done.
+program: 	Oink!
+shrinker:	Soft pressure, all done.
+shrinker:	processing request to free 166062080 bytes.
+shrinker:	starting with 64 things.
+shrinker:	finishing with 58 things.
+		192534576 bytes of memory were freed!
+program: 	Oink!
+shrinker:	Soft pressure, all done.
+</code></pre></div></div>
+
+<h2 id="concurrency">Concurrency</h2>
 
 <p>Shrinker callbacks conceptually work like asynchronous signal handlers,
-They handle specific events and may be called at any time, from your program&rsquo;s point of view.</p>
+They handle specific events and may be called at any time, from your program’s point of view.</p>
 
 <p>Each cache in your program that the shrinker can release data from,
 must have its own lock to prevent concurrency issues.</p>
 
-<p>The memory-hog sample program uses a mutex to handle concurrency.  To handle soft memory pressure, where your shrinker is called with <code>hard</code> set to false, you can keep a global <code>free_memory_please</code> global variable, and set it in the shrinker callback.  Then check it in the main loop, and free memory if necessary.  However, hard memory pressure must be handled immediately, or the system may hang.</p>
+<p>The memory-hog sample program uses a mutex to handle concurrency.  To handle soft memory pressure, where your shrinker is called with <code class="highlighter-rouge">hard</code> set to false, you can keep a global <code class="highlighter-rouge">free_memory_please</code> global variable, and set it in the shrinker callback.  Then check it in the main loop, and free memory if necessary.  However, hard memory pressure must be handled immediately, or the system may hang.</p>
 
-<h2>Handling soft pressure</h2>
+<h2 id="handling-soft-pressure">Handling soft pressure</h2>
 
-<p>If possible, you should have your shrinker try to release some memory when called with <code>hard</code> set to false.  This will reduce the number of times you have to handle shrinking, and improve performance by making more free memory available to OSv for system tasks.  The memory-hog example currently ignores soft pressure.</p>
+<p>If possible, you should have your shrinker try to release some memory when called with <code class="highlighter-rouge">hard</code> set to false.  This will reduce the number of times you have to handle shrinking, and improve performance by making more free memory available to OSv for system tasks.  The memory-hog example currently ignores soft pressure.</p>
 
 <p>For more info on memory management and other OSv subjects, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.  You can get updates on by subscribing to the <a href="http://osv.io/blog/atom.xml">OSv blog RSS feed</a> or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+
 </div>
 
 
   <footer>
     <p class="meta">
       
-  
-
 <span class="byline author vcard">Posted by <span class="fn">Cloudius Systems</span></span>
 
       
@@ -314,10 +296,9 @@ must have its own lock to prevent concurrency issues.</p>
 
 
 
-  
 
 
-<time datetime="2014-07-14T18:37:05+03:00" pubdate data-updated="true">Jul 14<span>th</span>, 2014</time>
+<time datetime="2014-07-14T11:37:05-04:00" pubdate data-updated="true">Jul 14, 2014</time>
       
 
 <span class="categories">
@@ -337,8 +318,6 @@ must have its own lock to prevent concurrency issues.</p>
         
         <a class="addthis_button_tweet"></a>
         
-        
-        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
         
         
         <a class="addthis_counter addthis_pill_style"></a>
@@ -376,6 +355,10 @@ must have its own lock to prevent concurrency issues.</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2019/04/19/making-OSv-run-on-firecraker/">Making OSv Run on Firecracker</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/06/12/serverless-computing-with-OSv/">Serverless Computing With OSv</a>
       </li>
     
@@ -389,10 +372,6 @@ must have its own lock to prevent concurrency issues.</p>
     
       <li class="post">
         <a href="/blog/2015/04/27/docker/">Building OSv Images Using Docker</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/04/08/makefile/">Re-"make"-ing OSv</a>
       </li>
     
   </ul>
@@ -461,14 +440,6 @@ must have its own lock to prevent concurrency issues.</p>
 }(document, 'script', 'facebook-jssdk'));</script>
 
 
-
-  <script type="text/javascript">
-    (function() {
-      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
-      script.src = 'https://apis.google.com/js/plusone.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
-    })();
-  </script>
 
 
 

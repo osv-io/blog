@@ -9,7 +9,36 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="By Nadav Har’El A year ago, we reported (see Researching the Future of the Cloud) that ScyllaDB and eight other industrial and academic partners &hellip;">
+  <meta name="description" content="
+
+  
+  
+    
+      Project Mikelangelo Update
+    
+    
+      
+        
+
+
+
+
+
+
+
+
+
+
+Mar 8, 2016
+        
+      
+    
+  
+
+
+By Nadav Har’El
+
+A year ago...">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,14 +47,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.osv.io//github/blog/2016/03/08/project-mikelangelo">
+  <link rel="canonical" href="http://osv-io.github.io//github/blog/2016/03/08/project-mikelangelo/">
   <link href="/favicon.ico" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/monokai.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/customized.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <script src="/javascripts/run_prettify.js" type="text/javascript"></script>
+  <script src="/javascripts/lang-gas.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
 <!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -62,7 +95,7 @@
         
         <form action="https://www.google.com/search" method="get">
             <fieldset role="search">
-                <input type="hidden" name="q" value="site:blog.osv.io//github" />
+                <input type="hidden" name="q" value="site:http://osv-io.github.io//github" />
                 <input class="search" type="text" name="q" results="0" placeholder="Search"/>
             </fieldset>
         </form>
@@ -130,10 +163,9 @@
 
 
 
-  
 
 
-<time datetime="2016-03-08T16:00:00+02:00" pubdate data-updated="true">Mar 8<span>th</span>, 2016</time>
+<time datetime="2016-03-08T09:00:00-05:00" pubdate data-updated="true">Mar 8, 2016</time>
         
       </p>
     
@@ -142,7 +174,7 @@
 
 <div class="entry-content"><p><strong>By Nadav Har’El</strong></p>
 
-<p>A year ago, we reported (see <a href="http://osv.io/blog/blog/2015/02/02/mikelangelo/">Researching the Future of the Cloud</a>) that ScyllaDB and eight other industrial and academic partners started the <a href="https://www.mikelangelo-project.eu/">MIKELANGELO</a> research project. MIKELANGELO is a three-year research project sponsored by the European Commission&rsquo;s <a href="http://ec.europa.eu/programmes/horizon2020/">Horizon 2020</a> program. The goal of MIKELANGELO is to make the cloud more useful for a wider range of applications, and in particular make it easier and faster to run high-performance computing (HPC) and I/O-intensive applications in the cloud.</p>
+<p>A year ago, we reported (see <a href="http://osv.io/blog/blog/2015/02/02/mikelangelo/">Researching the Future of the Cloud</a>) that ScyllaDB and eight other industrial and academic partners started the <a href="https://www.mikelangelo-project.eu/">MIKELANGELO</a> research project. MIKELANGELO is a three-year research project sponsored by the European Commission’s <a href="http://ec.europa.eu/programmes/horizon2020/">Horizon 2020</a> program. The goal of MIKELANGELO is to make the cloud more useful for a wider range of applications, and in particular make it easier and faster to run high-performance computing (HPC) and I/O-intensive applications in the cloud.</p>
 
 <p><img src="http://www.scylladb.com/img/project-mikelangelo-logos.png" alt="company logos" /></p>
 
@@ -150,25 +182,24 @@
 
 <p><img src="http://www.scylladb.com/img/project-mikelangelo-people.jpeg" alt="project participants group photo" /></p>
 
-<p>Represented by Benoît Canet and yours truly, ScyllaDB presented <a href="http://www.seastar-project.org/">Seastar</a>, our new C++ framework for efficient yet complex server applications. We demonstrated the sort of amazing performance improvements which Seastar can bring, with ScyllaDB &ndash; our implementation of the familiar NoSQL database <a href="http://cassandra.apache.org">Apache Cassandra</a> with the Seastar framework. In the specific use case we demonstrated, an equal mixture of reads and writes, ScyllaDB was 7 times faster (!) than Cassandra. And we didn’t even pick ScyllaDB’s best benchmark to demonstrate  (we’d seen even better speedups in several other use cases). Seastar-based middleware applications such as ScyllaDB hold the promise of making it significantly easier and cheaper to deploy large-scale Web or Mobile applications in the cloud.</p>
+<p>Represented by Benoît Canet and yours truly, ScyllaDB presented <a href="http://www.seastar-project.org/">Seastar</a>, our new C++ framework for efficient yet complex server applications. We demonstrated the sort of amazing performance improvements which Seastar can bring, with ScyllaDB - our implementation of the familiar NoSQL database <a href="http://cassandra.apache.org">Apache Cassandra</a> with the Seastar framework. In the specific use case we demonstrated, an equal mixture of reads and writes, ScyllaDB was 7 times faster (!) than Cassandra. And we didn’t even pick ScyllaDB’s best benchmark to demonstrate  (we’d seen even better speedups in several other use cases). Seastar-based middleware applications such as ScyllaDB hold the promise of making it significantly easier and cheaper to deploy large-scale Web or Mobile applications in the cloud.</p>
 
 <p>Another innovation that ScyllaDB brought to the MIKELANGELO project is <a href="http://osv.io/">OSv</a>, our Linux-compatible kernel specially designed and optimized for running on cloud VMs. Several partners demonstrated running their applications on OSv. One of the cool use cases was aerodynamic simulations done by <a href="http://www.xlab.si/">XLAB</a> and Pipistrel. <a href="http://www.pipistrel.si/">Pipistrel</a> is a designer and manufacturer of innovative and award-winning light aircraft (like the one in the picture below), and running their CFD simulations on the cloud, using OSv VMs and various automation tools developed by XLAB, will significantly simplify their simulation workflow and make it easier for them to experiment with new aircraft designs.</p>
 
 <p><img src="http://www.scylladb.com/img/aircraft.jpeg" alt="Pipistrel aircraft photo" /></p>
 
-<p>Other partners presented their own exciting developments: Huawei implemented RDMA virtualization for KVM, which allows an application spread across multiple VMs on multiple hosts to communicate using RDMA (remote direct-memory-access) hardware in the host. In a network-intensive benchmark, virtualized RDMA improved performance 5-fold. IBM presented improvements to their earlier <a href="http://www.harel.org.il/nadav/homepage/papers/11760-atc13-harel.pdf">ELVIS</a> research, which allow varying the number of cores dedicated to servicing I/O, and achieve incredible amounts of I/O bandwidth in VMs. Ben-Gurion University security researchers implemented a scary “cache side-channel attack” where one VM can steal secret keys from another VM sharing the same host. Obviously their next research step will be stopping such attacks! Intel developed a telemetry framework called “snap” to collect and to analyse all sorts of measurements by all the different cloud components &ndash; VM operating systems, hypervisors, and individual applications. HLRS and GWDG, the super-computer centers of the universities of Stuttgart and Göttingen, respectively, built the clouds on which the other partners’ developments will be run, and brought in use cases of their own.</p>
+<p>Other partners presented their own exciting developments: Huawei implemented RDMA virtualization for KVM, which allows an application spread across multiple VMs on multiple hosts to communicate using RDMA (remote direct-memory-access) hardware in the host. In a network-intensive benchmark, virtualized RDMA improved performance 5-fold. IBM presented improvements to their earlier <a href="http://www.harel.org.il/nadav/homepage/papers/11760-atc13-harel.pdf">ELVIS</a> research, which allow varying the number of cores dedicated to servicing I/O, and achieve incredible amounts of I/O bandwidth in VMs. Ben-Gurion University security researchers implemented a scary “cache side-channel attack” where one VM can steal secret keys from another VM sharing the same host. Obviously their next research step will be stopping such attacks! Intel developed a telemetry framework called “snap” to collect and to analyse all sorts of measurements by all the different cloud components - VM operating systems, hypervisors, and individual applications. HLRS and GWDG, the super-computer centers of the universities of Stuttgart and Göttingen, respectively, built the clouds on which the other partners’ developments will be run, and brought in use cases of their own.</p>
 
 <p>Like ScyllaDB, all partners in the MIKELANGELO project believe in openness, so all technologies mentioned above have already been released as open-source. We’re looking forward to the next year of the MIKELANGELO project, when all these exciting technologies will continue to improve separately, as well as be integrated together to form the better, faster, and more secure cloud of the future.</p>
 
 <p><strong>For more updates, follow the <a href="http://www.scylladb.com/blog/">ScyllaDB blog</a>.</strong></p>
+
 </div>
 
 
   <footer>
     <p class="meta">
       
-  
-
 <span class="byline author vcard">Posted by <span class="fn">Cloudius Systems</span></span>
 
       
@@ -180,10 +211,9 @@
 
 
 
-  
 
 
-<time datetime="2016-03-08T16:00:00+02:00" pubdate data-updated="true">Mar 8<span>th</span>, 2016</time>
+<time datetime="2016-03-08T09:00:00-05:00" pubdate data-updated="true">Mar 8, 2016</time>
       
 
 
@@ -197,8 +227,6 @@
         
         <a class="addthis_button_tweet"></a>
         
-        
-        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
         
         
         <a class="addthis_counter addthis_pill_style"></a>
@@ -236,6 +264,10 @@
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2019/04/19/making-OSv-run-on-firecraker/">Making OSv Run on Firecracker</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/06/12/serverless-computing-with-OSv/">Serverless Computing With OSv</a>
       </li>
     
@@ -249,10 +281,6 @@
     
       <li class="post">
         <a href="/blog/2015/04/27/docker/">Building OSv Images Using Docker</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/04/08/makefile/">Re-"make"-ing OSv</a>
       </li>
     
   </ul>
@@ -321,14 +349,6 @@
 }(document, 'script', 'facebook-jssdk'));</script>
 
 
-
-  <script type="text/javascript">
-    (function() {
-      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
-      script.src = 'https://apis.google.com/js/plusone.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
-    })();
-  </script>
 
 
 

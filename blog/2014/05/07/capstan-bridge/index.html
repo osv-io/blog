@@ -9,7 +9,36 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="By Don Marti New versions of Capstan are making it simpler to run OSv virtual machines in a production configuration, by adding more control of &hellip;">
+  <meta name="description" content="
+
+  
+  
+    
+      Bridged Networking With Capstan
+    
+    
+      
+        
+
+
+
+
+
+
+
+
+
+
+May 7, 2014
+        
+      
+    
+  
+
+
+By Don Marti
+
+New vers...">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,14 +47,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.osv.io//github/blog/2014/05/07/capstan-bridge">
+  <link rel="canonical" href="http://osv-io.github.io//github/blog/2014/05/07/capstan-bridge/">
   <link href="/favicon.ico" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/monokai.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/customized.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <script src="/javascripts/run_prettify.js" type="text/javascript"></script>
+  <script src="/javascripts/lang-gas.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
 <!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -62,7 +95,7 @@
         
         <form action="https://www.google.com/search" method="get">
             <fieldset role="search">
-                <input type="hidden" name="q" value="site:blog.osv.io//github" />
+                <input type="hidden" name="q" value="site:http://osv-io.github.io//github" />
                 <input class="search" type="text" name="q" results="0" placeholder="Search"/>
             </fieldset>
         </form>
@@ -130,10 +163,9 @@
 
 
 
-  
 
 
-<time datetime="2014-05-07T18:37:05+03:00" pubdate data-updated="true">May 7<span>th</span>, 2014</time>
+<time datetime="2014-05-07T11:37:05-04:00" pubdate data-updated="true">May 7, 2014</time>
         
       </p>
     
@@ -142,41 +174,38 @@
 
 <div class="entry-content"><p><strong>By Don Marti</strong></p>
 
-<p>New versions of <a href="https://github.com/cloudius-systems/capstan">Capstan</a> are making it simpler to run OSv virtual machines in a production configuration, by adding more control of network options.  A useful new feature, which helps deal with the <a href="https://github.com/cloudius-systems/osv/wiki/Running-OSv-image-under-KVM-QEMU">details of bringing up networking</a>, is the <code>-n</code> option.</p>
+<p>New versions of <a href="https://github.com/cloudius-systems/capstan">Capstan</a> are making it simpler to run OSv virtual machines in a production configuration, by adding more control of network options.  A useful new feature, which helps deal with the <a href="https://github.com/cloudius-systems/osv/wiki/Running-OSv-image-under-KVM-QEMU">details of bringing up networking</a>, is the <code class="highlighter-rouge">-n</code> option.</p>
 
 <p>By default, Capstan starts up KVM/QEMU with user networking:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'> -netdev user,id=un0,net=192.168.122.0/24,host=192.168.122.1</span></code></pre></td></tr></table></div></figure>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> -netdev user,id=un0,net=192.168.122.0/24,host=192.168.122.1
+</code></pre></div></div>
 
-
-<p>(That&rsquo;s from <code>ps ax | grep qemu</code>, which you can run
+<p>(That’s from <code class="highlighter-rouge">ps ax | grep qemu</code>, which you can run
 to see the qemu-system-x86_64 command that Capstan
 is executing for you.)</p>
 
-<p>But there are many more <a href="http://www.linux-kvm.org/page/Networking">networking options</a> for QEMU/KVM.  The basic user networking, which does not require root access to start up, is good for development and simple tasks.  But for production use, where you need to get your VM on a network where it&rsquo;s available from other VMs or from the outside, you&rsquo;ll need bridged networking.  (See your Linux distribution or hypervisor documentation for the details of creating a virtual or public bridge device.)</p>
+<p>But there are many more <a href="http://www.linux-kvm.org/page/Networking">networking options</a> for QEMU/KVM.  The basic user networking, which does not require root access to start up, is good for development and simple tasks.  But for production use, where you need to get your VM on a network where it’s available from other VMs or from the outside, you’ll need bridged networking.  (See your Linux distribution or hypervisor documentation for the details of creating a virtual or public bridge device.)</p>
 
-<p>If you invoke <code>capstan run</code> with the <code>-n bridge</code> option, you&rsquo;ll get QEMU running with:</p>
+<p>If you invoke <code class="highlighter-rouge">capstan run</code> with the <code class="highlighter-rouge">-n bridge</code> option, you’ll get QEMU running with:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>-netdev bridge,id=hn0,br=virbr0,helper=/usr/libexec/qemu-bridge-helper</span></code></pre></td></tr></table></div></figure>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-netdev bridge,id=hn0,br=virbr0,helper=/usr/libexec/qemu-bridge-helper
+</code></pre></div></div>
 
+<p>If you have a specific bridge device to connect to, you can use the <code class="highlighter-rouge">-b</code> option with the name of the bridge device.  The default is <code class="highlighter-rouge">virbr0</code>, but you can also set up a public bridge, usually <code class="highlighter-rouge">br0</code>, that’s bridged to a physical network interface on the host.</p>
 
-<p>If you have a specific bridge device to connect to, you can use the <code>-b</code> option with the name of the bridge device.  The default is <code>virbr0</code>, but you can also set up a public bridge, usually <code>br0</code>, that&rsquo;s bridged to a physical network interface on the host.</p>
+<h1 id="other-hypervisors">Other hypervisors</h1>
 
-<h1>Other hypervisors</h1>
+<p>Don’t feel left out if you have a different hypervisor.  Capstan also handles bridged networking on VirtualBox, with the rest of the supported hypervisors coming soon.   The fact that the syntax is the same is going to be a big time-saver for those of us who have to do testing and demos on multiple systems—no more dealing with arcane commands that are different from system to system.</p>
 
-<p>Don&rsquo;t feel left out if you have a different hypervisor.  Capstan also handles bridged networking on VirtualBox, with the rest of the supported hypervisors coming soon.   The fact that the syntax is the same is going to be a big time-saver for those of us who have to do testing and demos on multiple systems&mdash;no more dealing with arcane commands that are different from system to system.</p>
+<p>For more on Capstan and networking, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list on Google Groups</a>.  You can get updates by subscribing to this blog’s feed, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
 
-<p>For more on Capstan and networking, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list on Google Groups</a>.  You can get updates by subscribing to this blog&rsquo;s feed, or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
 </div>
 
 
   <footer>
     <p class="meta">
       
-  
-
 <span class="byline author vcard">Posted by <span class="fn">Cloudius Systems</span></span>
 
       
@@ -188,10 +217,9 @@ is executing for you.)</p>
 
 
 
-  
 
 
-<time datetime="2014-05-07T18:37:05+03:00" pubdate data-updated="true">May 7<span>th</span>, 2014</time>
+<time datetime="2014-05-07T11:37:05-04:00" pubdate data-updated="true">May 7, 2014</time>
       
 
 <span class="categories">
@@ -212,8 +240,6 @@ is executing for you.)</p>
         <a class="addthis_button_tweet"></a>
         
         
-        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
-        
         
         <a class="addthis_counter addthis_pill_style"></a>
         
@@ -229,7 +255,7 @@ is executing for you.)</p>
         <a class="basic-alignment left" href="/blog/2014/04/25/meetup/" title="Previous Post: New OSv Meetup group">&laquo; New OSv Meetup group</a>
       
       
-        <a class="basic-alignment right" href="/blog/2014/05/13/osv-on-64-bit-arm/" title="Next Post: Interview: OSv on 64-bit ARM systems">Interview: OSv on 64-bit ARM systems &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2014/05/12/osv-on-64-bit-arm/" title="Next Post: Interview: OSv on 64-bit ARM systems">Interview: OSv on 64-bit ARM systems &raquo;</a>
       
     </p>
   </footer>
@@ -250,6 +276,10 @@ is executing for you.)</p>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2019/04/19/making-OSv-run-on-firecraker/">Making OSv Run on Firecracker</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/06/12/serverless-computing-with-OSv/">Serverless Computing With OSv</a>
       </li>
     
@@ -263,10 +293,6 @@ is executing for you.)</p>
     
       <li class="post">
         <a href="/blog/2015/04/27/docker/">Building OSv Images Using Docker</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/04/08/makefile/">Re-"make"-ing OSv</a>
       </li>
     
   </ul>
@@ -335,14 +361,6 @@ is executing for you.)</p>
 }(document, 'script', 'facebook-jssdk'));</script>
 
 
-
-  <script type="text/javascript">
-    (function() {
-      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
-      script.src = 'https://apis.google.com/js/plusone.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
-    })();
-  </script>
 
 
 

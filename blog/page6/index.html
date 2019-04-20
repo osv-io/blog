@@ -1,0 +1,590 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>OSv Blog</title>
+  <meta name="author" content="Cloudius Systems">
+
+  
+  <meta name="description" content="
+  
+  
+  
+    
+      
+  
+    
+      Riemann - a Clojure Application on OSv
+    
+    
+      
+        
+
+
+
+
+
+
+
+
+
+
+Apr 22, 2014
+        
+      
+    
+  ...">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://osv-io.github.io//github/blog/page6/">
+  <link href="/favicon.ico" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/monokai.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/customized.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <script src="/javascripts/run_prettify.js" type="text/javascript"></script>
+  <script src="/javascripts/lang-gas.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
+<!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="http://osv.io/js/cycle.js"></script>
+<script src="http://osv.io/js/js.js" language="javascript"></script-->
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-43975320-1', 'osv.io');
+  ga('send', 'pageview');
+</script>
+
+  
+
+</head>
+
+<body   >
+  <div class="wrap">
+  <div class="header"> <a class="logo" href="http://osv.io"><img src="http://osv.io/images/logo.jpg" /> </a>
+    <div class="topMenu">
+        <ul class="nav menu">
+            <li><a href="http://osv.io">Home</a></li>
+            <li class=""><a href="/">Blog</a></li>
+            <li class=""><a href="/blog/archives">Archives</a></li>
+        </ul>
+        <ul class="subscription" data-subscription="rss">
+            <li><a href="/blog/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+            
+        </ul>
+        
+        <form action="https://www.google.com/search" method="get">
+            <fieldset role="search">
+                <input type="hidden" name="q" value="site:http://osv-io.github.io//github" />
+                <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+            </fieldset>
+        </form>
+        
+    </div>
+</div>
+<div class="mobile header">
+    <a class="logo" href="http://osv.io/">
+        <img src="http://osv.io/images/mobileLogo.jpg"/>
+    </a>
+
+    <div class="mobile-topMenu">
+        <a href="javascript:void(0)" class="mobileMenuLink">&nbsp;</a>
+        <div class="theMobileMenu">
+            <ul class="nav menu">
+                <li class=""><a href="" >Home</a></li>
+                <li class="deeper parent"><a href="/users" >Users</a>
+                    <ul class="nav-child unstyled small">
+                        
+                    </ul>
+                </li>
+                <li class="deeper parent"><a href="/dev" >Development</a>
+                    <ul class="nav-child unstyled small">
+                        
+                    </ul>
+                </li>
+                <li class="deeper parent"><a href="/community" >Community</a>
+                    <ul class="nav-child unstyled small">
+                        
+                    </ul>
+                </li>
+                <li><a href="/contact/" >Contact</a></li>
+            </ul>
+        </div>
+        <script>
+            jQuery(document).ready(function(e) {
+                $('.mobileMenuLink').click(function(e) {
+                    $(this).toggleClass('active');
+                    $('.theMobileMenu').slideToggle();
+                });
+            });
+        </script>
+    </div>
+</div>
+<div class="mobile mobilePageTitle"></div>
+
+
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/04/22/riemann-on-osv/">Riemann - a Clojure Application on OSv</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+
+
+<time datetime="2014-04-22T12:00:00-04:00" pubdate data-updated="true">Apr 22, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>By Tzach Livyatan</strong></p>
+
+<p>Clojure applications run on the JVM, so they’re usually simple to run on OSv.  We have <a href="https://github.com/tzach/capstan-example-clojure">hello world in Clojure</a> running, but this time I wanted to port a real, non-toy, Clojure application. I chose <a href="http://riemann.io">Riemann</a>, a widely-used application for aggregating system events (and more).</p>
+
+<p>I used <a href="http://osv.io/capstan/">Capstan</a>, a tool for building and running applications on OSv.  Jump to the end <a href="https://github.com/tzach/riemann">result</a>, or follow the steps I took:</p>
+
+<!-- more -->
+
+<p>Following the Capstan guideline, I added a <a href="https://github.com/tzach/riemann/blob/master/Capstanfile">Capstanfile</a> to the project.  Here are the parts of Capstanfile you need to know about:</p>
+
+<ul>
+  <li>Set the base image. In this case I chose a base image with Java (open-jdk)
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>base: cloudius/osv-openjdk
+</code></pre></div>    </div>
+  </li>
+  <li>Build the jar file, taking advantage of the <code class="highlighter-rouge">lein uberjar</code> command, which packages the application with all dependencies into one jar file.</li>
+</ul>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    build: lein uberjar
+</code></pre></div></div>
+<ul>
+  <li>Copy the build artifacts to the base image, producing a new image:
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>files:
+  /riemann.jar: ./target/riemann-0.2.5-SNAPSHOT-standalone.jar
+  /riemann.config: ./riemann.config
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p>I also copy the config file, which Riemann will look for.</p>
+
+<ul>
+  <li>The run command for the VM is executed when the VM starts.
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmdline: /java.so -jar /riemann.jar
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<p>That’s it. Done with the Capstanfile.</p>
+
+<p><strong>Let’s test it!</strong></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt;capstan run
+WARN [2014-04-13 14:11:22,029] Thread-9 - riemann.core - instrumentation service caught
+java.io.IOException: Cannot run program "hostname": error=0, vfork failed
+	at java.lang.ProcessBuilder.start(ProcessBuilder.java:1041)
+	at java.lang.Runtime.exec(Runtime.java:617)
+	at clojure.java.shell$sh.doInvoke(shell.clj:116)
+	at clojure.lang.RestFn.invoke(RestFn.java:408)
+</code></pre></div></div>
+<p>No luck.  It turns out that Riemann is using</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(sh "hostname")
+</code></pre></div></div>
+
+<p>which uses vfork to run a child process. On any OS its not very efficient to fork just to get the hostname, and on current OSv it simply won’t work. To bypass the problem, I replace this call with:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(.getHostName (java.net.InetAddress/getLocalHost))
+</code></pre></div></div>
+<p>which uses a Java <code class="highlighter-rouge">getHostName</code>.</p>
+
+<p><strong>Let’s try again</strong></p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span>capstan run
+</code></pre></div></div>
+<p>This time it works, but how do I test it and connect to it?</p>
+
+<p><strong>Let’s use Capstan port forwarding</strong></p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>capstan run <span class="nt">-f</span> 5555:5555 <span class="nt">-f</span> 5556:5556
+</code></pre></div></div>
+<p>This will  forward host ports 5555 and 5556 to the corresponding ports on the OSv VM.</p>
+
+<p><strong>Success :)</strong></p>
+
+<p>Now we can switch to another terminal and run:</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>riemann-health
+</code></pre></div></div>
+<p>to generate traffic for Riemann
+and</p>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>riemann-dash
+</code></pre></div></div>
+<p>to launch a Riemann web GUI.  Here is how it looks:</p>
+
+<p><img src="/images/riemann_on_osv.png" alt="&quot;Riemann GUI" /> <i>riemann-dash</i></p>
+
+<p>Now we’re ready to do further stress testing.  If you do find any problem, or have any question, you’re invited to join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev list</a> and ask, or post an issue to the <a href="https://github.com/tzach/riemann">GitHub repository</a>.</p>
+
+<p>— <a href="https://twitter.com/TzachL">Tzach Livyatan</a></p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/04/19/spinlock-free/">Spinlock-free OS Design for Virtualization</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+
+
+<time datetime="2014-04-19T12:00:00-04:00" pubdate data-updated="true">Apr 19, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Designing an OS to run specifically as a cloud guest doesn’t just mean stripping out features. There are some other important problems with running virtualized that a conventional guest OS doesn’t address.  In this post we’ll cover one of them.</p>
+
+<h2 id="little-spinlocks-big-problem">Little spinlocks, big problem</h2>
+
+<p>In any situation where code running on multiple CPUs might read or write the  same data, typical SMP operating systems use spinlocks. One CPU acquires the lock using an atomic test-and-set operation, and other CPUs that need the data must execute a busy-loop until they can acquire the lock themselves. Can I have the data? No. Can I have the data? No. Can I have the data? No. When an OS runs on bare hardware, a spinlock might just waste a little electricity. OS developers often use other more sophisticated locking techniques where they can, and try to reserve spinlocks for short-term locking of critical items.</p>
+
+<p><img src="/images/apachecon.jpg" alt="OSv hacking at Apachecon 2014" /> <i>Getting some high-performance web applications running on OSv at ApacheCON 2014</i></p>
+
+<p>The problem comes in when you add virtualization. A physical CPU that holds a spinlock is actually working. The other CPUs in the system, “spinning” away waiting for the lock, are at least waiting for something that’s actually in progress. On a well-designed OS, the lock holder will be done quickly. When the OS is running under virtualization, though, it’s another story. The hypervisor might pause a virtual CPU at times when the guest OS can’t predict. As <a href="http://www.betriebssysteme.org/Aktivitaeten/Treffen/2008-Garching/Programm/docs/Abstract_Friebel.pdf">Thomas Friebel and Sebastian Biemueller described</a> (PDF) in “How to Deal with Lock Holder Preemption”,</p>
+
+<blockquote>
+  <p>Lock holder preemption describes the situation when a VCPU is preempted inside the guest kernel while holding a spinlock. As this lock stays acquired during the preemption any other VCPUs of the same guest trying to acquire this lock will have to wait until the VCPU is executed again and releases the lock. Lock holder preemption is possible if two or more VCPUs run on a single CPU concurrently. And the more VCPUs of a guest are running in parallel the more VCPUs have to wait if trying to acquire a preempted lock. And as spinlocks imply active waiting the CPU time of waiting VCPUs is simply wasted.</p>
+</blockquote>
+
+<p>If the hypervisor pauses a virtual CPU while that VCPU holds a spinlock, you get into the bad situation where other virtual CPUs on your guest are just spinning, and it’s possible that no useful work is getting done in that guest–just electricity wasting. Friebel and Biemueller describe a solution to the problem involving a hypercall to complain about the wait. But the OSv solution to the problem is to remove spinlocks from the guest OS entirely.</p>
+
+<h2 id="why-going-spinlock-free-matters">Why going spinlock-free matters</h2>
+
+<p>As a first step, OSv does almost all of its kernel-level work in threads. Threads, which are allowed to sleep, can use lock-based algorithms. They use mutexes, not spinlocks, to protect shared data. The <a href="https://github.com/cloudius-systems/osv/blob/master/include/lockfree/mutex.hh">mutex implementation itself</a>, however, has to use a lock-free algorithm. OSv’s <a href="https://github.com/cloudius-systems/osv/blob/master/include/lockfree/mutex.hh">mutex implementation</a> is based on a lock-free design by Gidenstam &amp; Papatriantafilou, covered in <a href="http://domino.mpi-inf.mpg.de/internet/reports.nsf/c125634c000710d0c12560400034f45a/77c097efde9fa63fc125736800444203/$FILE/MPI-I-2007-1-003.pdf">LFTHREADS: A lock-free thread library.</a> (PDF).</p>
+
+<p>One other place that can’t run as a thread, because it has to handle the low-level switching among threads, is the scheduler. The scheduler uses per-cpu run queues, so that almost all scheduling operations do not require coordination among CPUs, and lock-free algorithms when a thread must be moved from one CPU to another.</p>
+
+<p>Lock-free design is just one example of the kind of thing that we mean when talking about how OSv is “designed for the cloud”.  Because we can’t assume that a CPU is always running or available to run, the low-level design of the OS needs to be cloud-aware to prevent performance degradation and resource waste.</p>
+
+<p>We’ve been posting benchmarks that show sizeable performance increases running memcached and other programs. If you’re curious about whether OSv can make your application faster, please try it out from the <a href="http://osv.io/">OSv home page</a> or join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.</p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/04/03/capstan/">A Simple Capstan Example</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+
+
+<time datetime="2014-04-03T11:37:05-04:00" pubdate data-updated="true">Apr 3, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>(Updated 14 April 2014: Add new URL for osv-base image.)</p>
+
+<p><a href="https://github.com/cloudius-systems/capstan">Capstan</a> is a new tool for building <a href="http://osv.io/">OSv</a> virtual machine images.  If you have worked with other tools for making VMs, you’ll find that Capstan is really simple.  It’s a lot like <a href="http://www.docker.io/">Docker</a> actually—only you get a complete VM out of it and not just a container.</p>
+
+<p>You’re probably used to blogs from sneaky tech evangelists who claim that something is simple and then post some <a href="http://drusepth.net/how-to-speed-up-your-computer-using-google-drive-as-extra-ram/">complicated set of instructions</a>.  So just to keep your finger off the close button, here’s all you need to do.</p>
+
+<ul>
+  <li>
+    <p>Add a Make target to build your application as a shared object.</p>
+  </li>
+  <li>
+    <p>Write a short Capstanfile.  (8 lines not counting comments).</p>
+  </li>
+  <li>
+    <p>Run Capstan.</p>
+  </li>
+</ul>
+
+<p>That’s all there is to it.  Finger off the close button now?  Good.  Ready?</p>
+
+<!-- more -->
+
+<p>Let’s make a VM that does something useful, say, serve this article to the entire Internet.  Go ahead and <code class="highlighter-rouge">git clone</code> <a href="https://github.com/cloudius-systems/capstan">Capstan</a> and follow along.</p>
+
+<h2 id="an-easy-example-plus-makefile-work">An easy example, plus Makefile work</h2>
+
+<p>Just to keep it simple, let’s borrow the short HTTP server example from <a href="http://libevent.org/">libevent</a>.  The libevent project is a wrapper for convenient event-driven programming, and the library is used in high-profile projects such as <a href="https://www.torproject.org/">Tor</a>, the anonymous communications system, and <a href="http://www.chromium.org/Home">Chromium</a>, the basis for the Google Chrome web browser.</p>
+
+<p>Best of all, libevent includes an easy-to-use HTTP implementation and sample code for using it.  So I’ll copy their web server sample code, tweak it a little to make the web server I need, and set up a simple Makefile.</p>
+
+<p>Those steps are all done in the code for this article, which is at <a href="https://github.com/dmarti/http-server">dmarti/http-server</a>.</p>
+
+<p>You’ll need the development package for libevent installed.  On my system, it’s called <code class="highlighter-rouge">libevent-devel</code>.</p>
+
+<p>Here’s the target to pay attention to:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http-server.so : http-server.c
+        $(CC) -o $@ -std=gnu99 -fPIC -shared -levent $``
+</code></pre></div></div>
+
+<p>Yes, that’s right, we’re using <code class="highlighter-rouge">-fPIC</code> (position independent code) and <code class="highlighter-rouge">-shared</code> (passed to the linker, make it build a shared library).  And <code class="highlighter-rouge">http-server.c</code> has a function called <code class="highlighter-rouge">main</code>.  What’s going on?  This is because of the way OSv works.  Your application on OSv isn’t a conventional ELF executable, but a .so file.</p>
+
+<p>Besides building the actual HTTP server, I’ll also put in a Make target to create the HTML version of this article from the README, <a href="https://lwn.net/Articles/589196/">because I can</a>.  So I type <code class="highlighter-rouge">make</code> to build the web content and the web server.</p>
+
+<p>Of course you can expand on this to build as complicated of an application and data set as you want.  This is just an example to show you Capstan for now.</p>
+
+<h2 id="step-two-add-a-capstanfile">Step two: Add a Capstanfile</h2>
+
+<p>Now it’s time to tell Capstan how to create the virtual machine image.  Building it is easy–just run <code class="highlighter-rouge">make</code>–so there’s the <code class="highlighter-rouge">build</code> section right there.  Now we need to tell Capstan what files go into the image, so we populate the <code class="highlighter-rouge">files</code> section with the name of our web server (http-server.so) the libevent shared library, and some web content–just the HTML version of this article, plus a favicon.ico file.  (For now I’m just copying my development systems’s copy of libevent into the image.  For real use, I’ll come up with a more consistent way to keep track of build artifacts like this, probably borrowing them from some helpful Linux distribution.  Yes, OSv can use libraries built on and for your 64-bit Linux box.)</p>
+
+<p>Easy so far.  Now for the <code class="highlighter-rouge">cmdline</code> option, which is like <a href="http://docs.docker.io/en/v0.6.3/use/builder/#cmd">Docker’s CMD</a>: the command that gets run when the image starts.  The HTTP server just takes its DocumentRoot entry from the command line, so the command comes out as:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmdline: /tools/http-server.so /www
+</code></pre></div></div>
+
+<p>There’s one more section in the Capstanfile: <code class="highlighter-rouge">base</code>.  That’s a pre-built OSv image, which is available from Amazon S3.  Capstan will automatically download this for you.  It lives under <code class="highlighter-rouge">.capstan</code> in your home directory.</p>
+
+<h2 id="putting-it-all-together">Putting it all together</h2>
+
+<p>Now, when we type <code class="highlighter-rouge">capstan build</code>, Capstan invokes <code class="highlighter-rouge">make</code>, then creates the VM image.  It lives under <code class="highlighter-rouge">.capstan</code> in your home directory, at:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>.capstan/repository/http-server/http-server.qemu
+</code></pre></div></div>
+
+<p>This is a QCOW2 image, ready to run under KVM or convert to your favorite format.  That’s it.  Told you it was simple.  You can just do <code class="highlighter-rouge">capstan run</code> and point your browser to <a href="http://localhost:8080/">http://localhost:8080/</a> to see the site.</p>
+
+<p>In an upcoming blog post, I’ll cover the recently added VirtualBox support in Capstan (hint: try <code class="highlighter-rouge">-p vbox</code>) and some other fun things you can do.</p>
+
+<p>If you have any Capstan questions, please join the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list on Google Groups</a>.  You can get updates on new OSv and Capstan progress by subscribing to this blog or folllowing <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> on Twitter.</p>
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2014/03/30/welcome/">New OSv Blog</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+
+
+<time datetime="2014-03-30T23:54:23-04:00" pubdate data-updated="true">Mar 30, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Welcome to the OSv blog.</p>
+
+<p>A <a href="/atom.xml">feed</a> is available, so please subscribe in your RSS reader for updates, or, if you prefer to use Twitter, you can follow <a href="https://twitter.com/CloudiusSystems">@CloudiusSystems</a> there.</p>
+
+<p>We’re running <a href="http://octopress.org/docs/blogging/">Octopress</a> on <a href="http://pages.github.com/">GitHub Pages</a>, so that we can use the same easy Git contribution process for the blog as for our code.</p>
+
+<p>Watch for a simple introduction to the <a href="https://github.com/cloudius-systems/capstan">Capstan</a> devops tool, coming this week.</p>
+
+<p>If you have any questions about the blog, you can post a comment here, or mail <a href="mailto:dmarti@cloudius-systems.com">Don Marti</a>.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page5/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2019/04/19/making-OSv-run-on-firecraker/">Making OSv Run on Firecracker</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2017/06/12/serverless-computing-with-OSv/">Serverless Computing With OSv</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/04/21/nfs-on-osv/">NFS on OSv or “How I Learned to Stop Worrying About Memory Allocations and Love the Unikernel”</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2016/03/08/project-mikelangelo/">Project Mikelangelo Update</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2015/04/27/docker/">Building OSv Images Using Docker</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  </div>
+  <div class="footer">
+    <div class="wrapf">
+
+
+        <div class="custom"  >
+            <p><a href="http://www.cloudius-systems.com"><img style="margin-top: 30px;" src="http://osv.io/images/footerLogo.jpg" alt="" width="380" height="38" /></a></p></div>
+
+
+
+        <div class="custom social"  >
+            <p><a href="https://plus.google.com/107787008629542080430" rel="publisher">Google+</a></p></div>
+
+
+
+        <div class="custom CloudIcon"  >
+            <p><a href="/index.php"><img src="http://osv.io/images/footerCloudIcon.jpg" width="57" height="33" alt="footerCloudIcon" /></a></p></div>
+
+        <div class="clr"></div>
+    </div>
+</div>
+
+
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'osvblog';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id; js.async = true;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

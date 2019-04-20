@@ -9,7 +9,34 @@
   <meta name="author" content="Cloudius Systems">
 
   
-  <meta name="description" content="OSv 0.19 is out, with a rewrite of the build system. The old OSv build system was fairly complex, but the rewrite makes it simpler and faster. &hellip;">
+  <meta name="description" content="
+
+  
+  
+    
+      Re-"make"-ing OSv
+    
+    
+      
+        
+
+
+
+
+
+
+
+
+
+
+Apr 8, 2015
+        
+      
+    
+  
+
+
+OSv 0.19 is out, with a rewrite of t...">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,14 +45,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://blog.osv.io//github/blog/2015/04/08/makefile">
+  <link rel="canonical" href="http://osv-io.github.io//github/blog/2015/04/08/makefile/">
   <link href="/favicon.ico" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/monokai.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/customized.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/blog/atom.xml" rel="alternate" title="OSv Blog" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <script src="/javascripts/run_prettify.js" type="text/javascript"></script>
+  <script src="/javascripts/lang-gas.js" type="text/javascript"></script>
   <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700' rel='stylesheet' type='text/css'>
 <!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -62,7 +93,7 @@
         
         <form action="https://www.google.com/search" method="get">
             <fieldset role="search">
-                <input type="hidden" name="q" value="site:blog.osv.io//github" />
+                <input type="hidden" name="q" value="site:http://osv-io.github.io//github" />
                 <input class="search" type="text" name="q" results="0" placeholder="Search"/>
             </fieldset>
         </form>
@@ -130,10 +161,9 @@
 
 
 
-  
 
 
-<time datetime="2015-04-08T00:00:00+03:00" pubdate data-updated="true">Apr 8<span>th</span>, 2015</time>
+<time datetime="2015-04-08T00:00:00-04:00" pubdate data-updated="true">Apr 8, 2015</time>
         
       </p>
     
@@ -142,25 +172,25 @@
 
 <div class="entry-content"><p><a href="https://groups.google.com/forum/#!topic/osv-dev/x-E9YfzDz20">OSv 0.19</a> is out, with a rewrite of the build system. The old OSv build system was fairly complex, but the rewrite makes it simpler and faster.</p>
 
-<h2>Simpler Makefile</h2>
+<h2 id="simpler-makefile">Simpler Makefile</h2>
 
-<p>The old OSv build system had several makefiles including each other, playing tricks with the current directory and <code>VPATH</code>, dynamically rewriting makefiles, and running submakes.</p>
+<p>The old OSv build system had several makefiles including each other, playing tricks with the current directory and <code class="highlighter-rouge">VPATH</code>, dynamically rewriting makefiles, and running submakes.</p>
 
-<p>The old <code>Makefile</code> was responsible not only for building the kernel, it also built tests, called various Python scripts to build modules for different applications, and carried out other tasks.</p>
+<p>The old <code class="highlighter-rouge">Makefile</code> was responsible not only for building the kernel, it also built tests, called various Python scripts to build modules for different applications, and carried out other tasks.</p>
 
-<p>In the new build system, there is just one &ldquo;Makefile&rdquo; for building the entire OSv kernel. Everything is in one file, and also better commented.</p>
+<p>In the new build system, there is just one “Makefile” for building the entire OSv kernel. Everything is in one file, and also better commented.</p>
 
-<h2>Separate kernel building from application building</h2>
+<h2 id="separate-kernel-building-from-application-building">Separate kernel building from application building</h2>
 
-<p>In the old build system, we used &ldquo;make&rdquo; to do everything from building the OSv kernel, building various applications, and building images containing OSv and a collection of applications. This complicated the <code>Makefile</code>, and resulted in unexpected build requirements. For example, building OSv always built some Java tests and thus required Maven and a working Internet connection).</p>
+<p>In the old build system, we used “make” to do everything from building the OSv kernel, building various applications, and building images containing OSv and a collection of applications. This complicated the <code class="highlighter-rouge">Makefile</code>, and resulted in unexpected build requirements. For example, building OSv always built some Java tests and thus required Maven and a working Internet connection).</p>
 
-<p>In the new system, <code>make</code> only builds the OSv kernel, and <code>scripts/build</code>
-build applications and images. In the future, you could use <a href="http://osv.io/capstan/">Capstan</a> instead of <code>scripts/build</code> to make an image that you would like to manage with Capstan.</p>
+<p>In the new system, <code class="highlighter-rouge">make</code> only builds the OSv kernel, and <code class="highlighter-rouge">scripts/build</code>
+build applications and images. In the future, you could use <a href="http://osv.io/capstan/">Capstan</a> instead of <code class="highlighter-rouge">scripts/build</code> to make an image that you would like to manage with Capstan.</p>
 
-<p>Most <code>make</code> command lines that worked in the previous build system will
-continue to work unchanged with <code>scripts/build</code>. For example:</p>
+<p>Most <code class="highlighter-rouge">make</code> command lines that worked in the previous build system will
+continue to work unchanged with <code class="highlighter-rouge">scripts/build</code>. For example:</p>
 
-<pre><code># build image with default OSv application
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># build image with default OSv application
 scripts/build
 
 # build the rogue image
@@ -176,42 +206,46 @@ scripts/build mode=debug
 
 # build image with tests, and run them
 scripts/build check
-</code></pre>
+</code></pre></div></div>
 
-<p>&nbsp;</p>
+<p> </p>
 
 <p>Additional benefits of this rewrite include:</p>
 
 <ol>
-<li><p>Faster rebuilds. For example &ldquo;touch loader.cc; scripts/build image=rogue&rdquo;
-takes just 6 seconds (14 seconds previously). make after &ldquo;make clean&rdquo;
-(with ccache) is just 10 seconds (30 seconds previously).</p></li>
-<li><p>It should be fairly easy to add additional
+  <li>
+    <p>Faster rebuilds. For example “touch loader.cc; scripts/build image=rogue”
+takes just 6 seconds (14 seconds previously). make after “make clean”
+(with ccache) is just 10 seconds (30 seconds previously).</p>
+  </li>
+  <li>
+    <p>It should be fairly easy to add additional
 build scripts which will build different types of images using the same
 OSv kernel. One popularly requested option is to have the ability to
-create a bootfs-only image, without ZFS.</p></li>
-<li><p>Some smaller improvements, like more accurate setting of the desired image size <a href="https://github.com/cloudius-systems/osv/issues/595">(covered in issue #595)</a>, and supporting setting CROSS_PREFIX without also needing to specify ARCH.</p></li>
+create a bootfs-only image, without ZFS.</p>
+  </li>
+  <li>
+    <p>Some smaller improvements, like more accurate setting of the desired image size <a href="https://github.com/cloudius-systems/osv/issues/595">(covered in issue #595)</a>, and supporting setting CROSS_PREFIX without also needing to specify ARCH.</p>
+  </li>
 </ol>
 
+<h2 id="what-happened-to-make-test">What happened to <code class="highlighter-rouge">make test</code>?</h2>
 
-<h2>What happened to <code>make test</code>?</h2>
+<p>The OSv test are a module like other modules - they won’t be compiled unless someone builds the <code class="highlighter-rouge">tests</code> module. They will have a separate Makefile in <code class="highlighter-rouge">tests/</code>. The <code class="highlighter-rouge">ant</code> and <code class="highlighter-rouge">mvn</code> tools, both currently used in our makefile just for building tests, will no longer be run every time the kernel is compiled, but just when the “tests” module is being built. To build and run the tests:</p>
 
-<p>The OSv test are a module like other modules &ndash; they won&rsquo;t be compiled unless someone builds the <code>tests</code> module. They will have a separate Makefile in <code>tests/</code>. The <code>ant</code> and <code>mvn</code> tools, both currently used in our makefile just for building tests, will no longer be run every time the kernel is compiled, but just when the &ldquo;tests&rdquo; module is being built. To build and run the tests:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scripts/build check
+</code></pre></div></div>
 
-<pre><code>scripts/build check
-</code></pre>
+<h2 id="try-it-out">Try it out</h2>
 
-<h2>Try it out</h2>
+<p>The good news is that now, running <code class="highlighter-rouge">make</code> is faster, and the image build process is simpler and easier to extend. Check it out – questions and comments welcome on the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.</p>
 
-<p>The good news is that now, running <code>make</code> is faster, and the image build process is simpler and easier to extend. Check it out &mdash; questions and comments welcome on the <a href="https://groups.google.com/forum/#!forum/osv-dev">osv-dev mailing list</a>.</p>
 </div>
 
 
   <footer>
     <p class="meta">
       
-  
-
 <span class="byline author vcard">Posted by <span class="fn">Cloudius Systems</span></span>
 
       
@@ -223,10 +257,9 @@ create a bootfs-only image, without ZFS.</p></li>
 
 
 
-  
 
 
-<time datetime="2015-04-08T00:00:00+03:00" pubdate data-updated="true">Apr 8<span>th</span>, 2015</time>
+<time datetime="2015-04-08T00:00:00-04:00" pubdate data-updated="true">Apr 8, 2015</time>
       
 
 
@@ -240,8 +273,6 @@ create a bootfs-only image, without ZFS.</p></li>
         
         <a class="addthis_button_tweet"></a>
         
-        
-        <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
         
         
         <a class="addthis_counter addthis_pill_style"></a>
@@ -273,6 +304,10 @@ create a bootfs-only image, without ZFS.</p></li>
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2019/04/19/making-OSv-run-on-firecraker/">Making OSv Run on Firecracker</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2017/06/12/serverless-computing-with-OSv/">Serverless Computing With OSv</a>
       </li>
     
@@ -286,10 +321,6 @@ create a bootfs-only image, without ZFS.</p></li>
     
       <li class="post">
         <a href="/blog/2015/04/27/docker/">Building OSv Images Using Docker</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2015/04/08/makefile/">Re-"make"-ing OSv</a>
       </li>
     
   </ul>
@@ -355,14 +386,6 @@ create a bootfs-only image, without ZFS.</p></li>
 }(document, 'script', 'facebook-jssdk'));</script>
 
 
-
-  <script type="text/javascript">
-    (function() {
-      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
-      script.src = 'https://apis.google.com/js/plusone.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
-    })();
-  </script>
 
 
 
