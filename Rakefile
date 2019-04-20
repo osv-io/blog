@@ -81,7 +81,7 @@ task :setup_github_pages, :repo do |t, args|
   rm_rf deploy_dir
   mkdir deploy_dir
   cd "#{deploy_dir}" do
-    system "git clone #{repo_url} ."
+    system "git clone #{repo_url} -b #{deploy_branch} --single-branch ."
     system "git checkout #{deploy_branch}"
   end
   puts "\n---\n## Now you can deploy to #{repo_url} with `rake deploy` ##"
@@ -93,6 +93,7 @@ def push(publish_task,dir,branch)
   cd "#{dir}" do 
     system "git pull"
   end
+  Rake::Task["generate"].execute
   Rake::Task["#{publish_task}"].execute
   cd "#{dir}" do
     system "git add -A"
