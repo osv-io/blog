@@ -63,7 +63,7 @@ At the end based on many trial-and-error attempts I came to conclusion that *vml
  
 The code below is slightly modified version of [vmlinux_entry64 in vmlinux-boot64.S](https://github.com/cloudius-systems/osv/blob/master/arch/x64/vmlinux-boot64.S) that implements the steps described above in GAS (GNU Assembler) language.
 
-<pre class='prettyprint lang-gas'>
+<pre class='prettyprint lang-gas my-gas'>
 # Call extract_linux_boot_params with the address of
 # boot_params struct passed in RSI register to 
 # extract cmdline and memory information
