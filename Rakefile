@@ -23,6 +23,12 @@ task :generate do
   system "JEKYLL_ENV=production jekyll build"
 end
 
+desc "Preview jekyll site"
+task :preview do
+  puts "## Preview Site with Jekyll"
+  system "jekyll serve --host 0.0.0.0 -w --config _config.yml,preview_config.yml"
+end
+
 ##############
 # Deploying  #
 ##############
