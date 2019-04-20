@@ -2,13 +2,9 @@ require "rubygems"
 require "bundler/setup"
 require "stringex"
 
-deploy_default = "push"
+generate_dir   = "_site"    # generate site directory
+deploy_dir     = "_deploy"  # deploy directory (for Github pages deployment)
 deploy_branch  = "gh-pages"
-
-## -- Misc Configs -- ##
-
-generate_dir    = "_site"    # generate site directory
-deploy_dir      = "_deploy"  # deploy directory (for Github pages deployment)
 
 if (/cygwin|mswin|mingw|bccwin|wince|emx/ =~ RUBY_PLATFORM) != nil
   puts '## Set the codepage to 65001 for Windows machines'
@@ -31,37 +27,30 @@ end
 # Deploying  #
 ##############
 
-desc "Publish locally to deploy directory task"
-task :publish_locally do
-  (Dir["#{deploy_dir}/*"]).each { |f| rm_rf(f) }
-  puts "\n## Copying #{generate_dir} to #{deploy_dir}"
-  cp_r "#{generate_dir}/.", deploy_dir
+desc "Publish to deploy directory task"
+task :publish do
+  copy_directory(generate_dir,deploy_dir)
+end
+
+desc "Publish private to deploy directory task"
+task :publish_private do
+  copy_directory(generate_dir,deploy_dir)
+  cd "#{deploy_dir}" do 
+    system "mv blog/* . && rmdir blog"
+    system "rm CNAME"
+    system 'find . -type f | xargs sed -i "s/\/javascripts\//\/blog\/javascripts\//g"'
+    system 'find . -type f | xargs sed -i "s/\/stylesheets\//\/blog\/stylesheets\//g"'
+  end
 end
 
 desc "Default deploy task"
 task :deploy do
-  Rake::Task["#{deploy_default}"].execute
+  push("publish",deploy_dir,deploy_branch)
 end
 
-desc "deploy public directory to github pages"
-multitask :push do
-  puts "## Deploying branch to Github Pages "
-  puts "## Pulling any updates from Github Pages "
-  cd "#{deploy_dir}" do 
-    system "git pull"
-  end
-  (Dir["#{deploy_dir}/*"]).each { |f| rm_rf(f) }
-  puts "\n## Copying #{generate_dir} to #{deploy_dir}"
-  cp_r "#{generate_dir}/.", deploy_dir
-  cd "#{deploy_dir}" do
-    system "git add -A"
-    puts "\n## Committing: Site updated at #{Time.now.utc}"
-    message = "Site updated at #{Time.now.utc}"
-    system "git commit -m \"#{message}\""
-    puts "\n## Pushing generated #{deploy_dir} website"
-    system "git push origin #{deploy_branch}"
-    puts "\n## Github Pages deploy complete"
-  end
+desc "Deploy private task"
+task :deploy_private do
+  push("publish_private",deploy_dir,deploy_branch)
 end
 
 desc "Set up _deploy folder and deploy branch for Github Pages deployment"
@@ -98,6 +87,24 @@ task :setup_github_pages, :repo do |t, args|
   puts "\n---\n## Now you can deploy to #{repo_url} with `rake deploy` ##"
 end
 
+def push(publish_task,dir,branch)
+  puts "## Deploying branch to Github Pages "
+  puts "## Pulling any updates from Github Pages "
+  cd "#{dir}" do 
+    system "git pull"
+  end
+  Rake::Task["#{publish_task}"].execute
+  cd "#{dir}" do
+    system "git add -A"
+    puts "\n## Committing: Site updated at #{Time.now.utc}"
+    message = "Site updated at #{Time.now.utc}"
+    system "git commit -m \"#{message}\""
+    puts "\n## Pushing generated #{dir} website"
+    system "git push origin #{branch}"
+    puts "\n## Github Pages deploy complete"
+  end
+end
+
 def ok_failed(condition)
   if (condition)
     puts "OK"
@@ -128,6 +135,12 @@ def blog_url(user, project)
   end
   url += "/#{project}" unless project == ''
   url
+end
+
+def copy_directory(source,target)
+  (Dir["#{target}/*"]).each { |f| rm_rf(f) }
+  puts "\n## Copying #{source} to #{target}"
+  cp_r "#{source}/.", target
 end
 
 desc "list tasks"
