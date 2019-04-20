@@ -4,6 +4,7 @@
 .gist-cache
 .pygments-cache
 _deploy
+_site
 public
 sass.old
 source.old
@@ -13,3 +14,4 @@ vendor
 node_modules
 .preview-mode
 build/
+.rake*
